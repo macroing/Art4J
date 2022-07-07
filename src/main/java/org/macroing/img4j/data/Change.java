@@ -18,13 +18,30 @@
  */
 package org.macroing.img4j.data;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
-
-//TODO: Add Javadocs!
+/**
+ * A {@code Change} represents a change that can be undone and redone.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public interface Change {
-//	TODO: Add Javadocs!
+	/**
+	 * Executes the redo operation that is associated with this {@code Change} instance for {@code data}.
+	 * <p>
+	 * If {@code data} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param data the {@link Data} instance for which the redo operation is executed
+	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
+	 */
 	void redo(final Data data);
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Executes the undo operation that is associated with this {@code Change} instance for {@code data}.
+	 * <p>
+	 * If {@code data} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param data the {@link Data} instance for which the undo operation is executed
+	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
+	 */
 	void undo(final Data data);
 }

@@ -25,7 +25,14 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code ChangeHistory} represents a history of changes.
+ * <p>
+ * All changes in this {@code ChangeHistory} class are represented by {@link Change} instances.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class ChangeHistory {
 	private final Deque<Change> changesToRedo;
 	private final Deque<Change> changesToUndo;
@@ -33,14 +40,23 @@ public final class ChangeHistory {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code ChangeHistory} instance.
+	 */
 	public ChangeHistory() {
 		this.changesToRedo = new ArrayDeque<>();
 		this.changesToUndo = new ArrayDeque<>();
 		this.changes = new ArrayList<>();
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code ChangeHistory} instance from {@code changeHistory}.
+	 * <p>
+	 * If {@code changeHistory} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param changeHistory the {@code ChangeHistory} instance to copy
+	 * @throws NullPointerException thrown if, and only if, {@code changeHistory} is {@code null}
+	 */
 	public ChangeHistory(final ChangeHistory changeHistory) {
 		this.changesToRedo = new ArrayDeque<>(changeHistory.changesToRedo);
 		this.changesToUndo = new ArrayDeque<>(changeHistory.changesToUndo);

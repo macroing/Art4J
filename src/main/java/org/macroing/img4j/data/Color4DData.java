@@ -203,6 +203,16 @@ public final class Color4DData extends Data {
 	}
 	
 	/**
+	 * Returns a {@link DataFactory} instance that is associated with this {@code Color4DData} instance.
+	 * 
+	 * @return a {@code DataFactory} instance that is associated with this {@code Color4DData} instance
+	 */
+	@Override
+	public DataFactory getDataFactory() {
+		return new Color4DDataFactory();
+	}
+	
+	/**
 	 * Compares {@code object} to this {@code Color4DData} instance for equality.
 	 * <p>
 	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Color4DData}, and they are equal, {@code false} otherwise.
@@ -293,20 +303,24 @@ public final class Color4DData extends Data {
 	 * 
 	 * @param color the {@link Color4D} instance to set
 	 * @param index the index of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	@Override
-	public boolean setColor4D(final Color4D color, final int index) {
+	public boolean setColor4D(final Color4D color, final int index, final boolean hasChangeBegun) {
 		Objects.requireNonNull(color, "color == null");
 		
 		if(index >= 0 && index < this.colors.length) {
 			final Color4D newColor = color;
 			final Color4D oldColor = this.colors[index];
 			
-			if(changeBegin()) {
+			if(hasChangeBegun || changeBegin()) {
 				changeAdd(new PixelChange(newColor, oldColor, index));
-				changeEnd();
+				
+				if(!hasChangeBegun) {
+					changeEnd();
+				}
 			}
 			
 			this.colors[index] = newColor;
@@ -331,11 +345,12 @@ public final class Color4DData extends Data {
 	 * @param color the {@link Color4D} instance to set
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	@Override
-	public boolean setColor4D(final Color4D color, final int x, final int y) {
+	public boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun) {
 		Objects.requireNonNull(color, "color == null");
 		
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
@@ -344,9 +359,12 @@ public final class Color4DData extends Data {
 			final Color4D newColor = color;
 			final Color4D oldColor = this.colors[index];
 			
-			if(changeBegin()) {
+			if(hasChangeBegun || changeBegin()) {
 				changeAdd(new PixelChange(newColor, oldColor, index));
-				changeEnd();
+				
+				if(!hasChangeBegun) {
+					changeEnd();
+				}
 			}
 			
 			this.colors[index] = newColor;

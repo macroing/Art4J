@@ -177,6 +177,13 @@ public abstract class Data {
 	public abstract Data copy(final boolean isIgnoringChangeHistory);
 	
 	/**
+	 * Returns a {@link DataFactory} instance that is associated with this {@code Data} instance.
+	 * 
+	 * @return a {@code DataFactory} instance that is associated with this {@code Data} instance
+	 */
+	public abstract DataFactory getDataFactory();
+	
+	/**
 	 * Returns the optional {@link ChangeHistory} instance.
 	 * 
 	 * @return the optional {@code ChangeHistory} instance
@@ -339,13 +346,67 @@ public abstract class Data {
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.setColor4D(color, index, false);
+	 * }
+	 * </pre>
 	 * 
 	 * @param color the {@link Color4D} instance to set
 	 * @param index the index of the pixel
 	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public abstract boolean setColor4D(final Color4D color, final int index);
+	public final boolean setColor4D(final Color4D color, final int index) {
+		return setColor4D(color, index, false);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * 
+	 * @param color the {@link Color4D} instance to set
+	 * @param index the index of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
+	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public abstract boolean setColor4D(final Color4D color, final int index, final boolean hasChangeBegun);
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.setColor4D(color, x, y, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color the {@link Color4D} instance to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public final boolean setColor4D(final Color4D color, final int x, final int y) {
+		return setColor4D(color, x, y, false);
+	}
 	
 	/**
 	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
@@ -361,10 +422,11 @@ public abstract class Data {
 	 * @param color the {@link Color4D} instance to set
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public abstract boolean setColor4D(final Color4D color, final int x, final int y);
+	public abstract boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun);
 	
 	/**
 	 * Sets the content of this {@code Data} instance to a copy of the content in {@code data}.

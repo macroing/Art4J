@@ -242,6 +242,16 @@ public final class Color4D {
 	}
 	
 //	TODO: Add Javadocs!
+	public static Color4D sepia(final Color4D color) {
+		final double r = color.r * 0.393D + color.g * 0.769D + color.b * 0.189D;
+		final double g = color.r * 0.349D + color.g * 0.686D + color.b * 0.168D;
+		final double b = color.r * 0.272D + color.g * 0.534D + color.b * 0.131D;
+		final double a = color.a;
+		
+		return new Color4D(r, g, b, a);
+	}
+	
+//	TODO: Add Javadocs!
 	public static int getCacheSize() {
 		return CACHE.size();
 	}

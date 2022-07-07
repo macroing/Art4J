@@ -18,12 +18,16 @@
  */
 package org.macroing.img4j.image;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
@@ -31,8 +35,18 @@ import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.data.Color4DDataFactory;
 import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
+import org.macroing.img4j.geometry.Point2I;
 
-//TODO: Add Javadocs!
+/**
+ * An {@code Image} represents an image that can be drawn to and saved to disk.
+ * <p>
+ * This class is mutable and not thread-safe.
+ * <p>
+ * Many operations are supported by default. But there are limitations, such as drawing text. In order to circumvent these limitations, the method {@link #draw(Consumer)} was added. It allows for interoperability between this API and the Java2D API.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Image {
 	private static final DataFactory DATA_FACTORY = new Color4DDataFactory();
 	
@@ -68,9 +82,16 @@ public final class Image {
 		this.data = DATA_FACTORY.create(bufferedImage);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Image} instance from {@code data}.
+	 * <p>
+	 * If {@code data} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param data the {@link Data} instance to copy
+	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
+	 */
 	public Image(final Data data) {
-		this.data = Objects.requireNonNull(data, "data == null");
+		this.data = data.copy();
 	}
 	
 	/**
@@ -82,7 +103,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code image} is {@code null}
 	 */
 	public Image(final Image image) {
-		this.data = image.data.copy();
+		this(image.data);
 	}
 	
 	/**
@@ -192,6 +213,69 @@ public final class Image {
 	 */
 	public Color4D getColor4D(final int x, final int y) {
 		return this.data.getColor4D(x, y);
+	}
+	
+	/**
+	 * Draws the contents drawn to the supplied {@code Graphics2D} instance into this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code graphics2DConsumer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param graphics2DConsumer a {@code Consumer} that accepts a {@code Graphics2D} instance
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code graphics2DConsumer} is {@code null}
+	 */
+	public Image draw(final Consumer<Graphics2D> graphics2DConsumer) {
+		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
+		
+		final BufferedImage bufferedImage = toBufferedImage();
+		
+		final Graphics2D graphics2D = bufferedImage.createGraphics();
+		
+		graphics2DConsumer.accept(graphics2D);
+		
+		final Data data = this.data.getDataFactory().create(bufferedImage);
+		
+		this.data.setContent(data);
+		
+		return this;
+	}
+	
+//	TODO: Add Javadocs!
+	public Image fill(final BiFunction<Color4D, Point2I, Color4D> operator) {
+		return fill(operator, (color, point) -> true);
+	}
+	
+//	TODO: Add Javadocs!
+	public Image fill(final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
+		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(filter, "filter == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final boolean hasChangeBegun = this.data.changeBegin();
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final Point2I point = new Point2I(x, y);
+				
+				final Color4D oldColor = getColor4D(x, y);
+				
+				if(filter.test(oldColor, point)) {
+					final Color4D newColor = Objects.requireNonNull(operator.apply(oldColor, point));
+					
+					this.data.setColor4D(newColor, x, y, hasChangeBegun);
+				}
+			}
+		}
+		
+		if(hasChangeBegun) {
+			this.data.changeEnd();
+		}
+		
+		return this;
 	}
 	
 	/**
