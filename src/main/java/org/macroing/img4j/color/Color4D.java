@@ -156,7 +156,14 @@ public final class Color4D {
 		}
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Compares {@code object} to this {@code Color4D} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Color4D}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code Color4D} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Color4D}, and they are equal, {@code false} otherwise
+	 */
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
