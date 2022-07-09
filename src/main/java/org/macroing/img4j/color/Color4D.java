@@ -98,21 +98,38 @@ public final class Color4D {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * The value of the alpha component.
+	 */
 	public final double a;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * The value of the blue component.
+	 */
 	public final double b;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * The value of the green component.
+	 */
 	public final double g;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * The value of the red component.
+	 */
 	public final double r;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance that represents black.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(0.0D);
+	 * }
+	 * </pre>
+	 */
 	public Color4D() {
 		this(0.0D);
 	}
@@ -157,13 +174,24 @@ public final class Color4D {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code String} representation of this {@code Color4D} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code Color4D} instance
+	 */
 	@Override
 	public String toString() {
 		return String.format("new Color4D(%s, %s, %s, %s)", Utilities.toNonScientificNotationJava(this.r), Utilities.toNonScientificNotationJava(this.g), Utilities.toNonScientificNotationJava(this.b), Utilities.toNonScientificNotationJava(this.a));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Compares {@code color} to this {@code Color4D} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code color} is equal to this {@code Color4D} instance, {@code false} otherwise.
+	 * 
+	 * @param color the {@code Color4D} to compare to this {@code Color4D} instance for equality
+	 * @return {@code true} if, and only if, {@code color} is equal to this {@code Color4D} instance, {@code false} otherwise
+	 */
 	public boolean equals(final Color4D color) {
 		if(color == this) {
 			return true;
@@ -201,92 +229,173 @@ public final class Color4D {
 		}
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is black, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is black, {@code false} otherwise
+	 */
 	public boolean isBlack() {
 		return Utilities.isZero(this.r) && Utilities.isZero(this.g) && Utilities.isZero(this.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is blue, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * color.isBlue(1.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is blue, {@code false} otherwise
+	 */
 	public boolean isBlue() {
 		return isBlue(1.0D, 1.0D);
 	}
 	
 //	TODO: Add Javadocs!
-	public boolean isBlue(final double thresholdR, final double thresholdG) {
-		return this.b - thresholdR >= this.r && this.b - thresholdG >= this.g;
+	public boolean isBlue(final double deltaR, final double deltaG) {
+		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is cyan, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is cyan, {@code false} otherwise
+	 */
 	public boolean isCyan() {
 		return Utilities.equals(this.g, this.b) && this.r < this.g;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is grayscale, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is grayscale, {@code false} otherwise
+	 */
 	public boolean isGrayscale() {
 		return Utilities.equals(this.r, this.g) && Utilities.equals(this.g, this.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is green, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * color.isGreen(1.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is green, {@code false} otherwise
+	 */
 	public boolean isGreen() {
 		return isGreen(1.0D, 1.0D);
 	}
 	
 //	TODO: Add Javadocs!
-	public boolean isGreen(final double thresholdR, final double thresholdB) {
-		return this.g - thresholdR >= this.r && this.g - thresholdB >= this.b;
+	public boolean isGreen(final double deltaR, final double deltaB) {
+		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is magenta, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is magenta, {@code false} otherwise
+	 */
 	public boolean isMagenta() {
 		return Utilities.equals(this.r, this.b) && this.g < this.b;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is red, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * color.isRed(1.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is red, {@code false} otherwise
+	 */
 	public boolean isRed() {
 		return isRed(1.0D, 1.0D);
 	}
 	
 //	TODO: Add Javadocs!
-	public boolean isRed(final double thresholdG, final double thresholdB) {
-		return this.r - thresholdG >= this.g && this.r - thresholdB >= this.b;
+	public boolean isRed(final double deltaG, final double deltaB) {
+		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is white, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is white, {@code false} otherwise
+	 */
 	public boolean isWhite() {
 		return Utilities.equals(this.r, 1.0D) && Utilities.equals(this.g, 1.0D) && Utilities.equals(this.b, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is yellow, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is yellow, {@code false} otherwise
+	 */
 	public boolean isYellow() {
 		return Utilities.equals(this.r, this.g) && this.b < this.r;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the average component value of {@link #r}, {@link #g} and {@link #b}.
+	 * 
+	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
+	 */
 	public double average() {
 		return (this.r + this.g + this.b) / 3.0D; 
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the lightness for this {@code Color4D} instance.
+	 * 
+	 * @return the lightness for this {@code Color4D} instance
+	 */
 	public double lightness() {
 		return (max() + min()) / 2.0D;
 	}
 	
-//	TODO: Add Javadocs!
-	public double luminance() {
-		return this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D;
-	}
-	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the largest component value of {@link #r}, {@link #g} and {@link #b}.
+	 * 
+	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
+	 */
 	public double max() {
 		return Utilities.max(this.r, this.g, this.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the smallest component value of {@link #r}, {@link #g} and {@link #b}.
+	 * 
+	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
+	 */
 	public double min() {
 		return Utilities.min(this.r, this.g, this.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the relative luminance for this {@code Color4D} instance.
+	 * 
+	 * @return the relative luminance for this {@code Color4D} instance
+	 */
+	public double relativeLuminance() {
+		return this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D;
+	}
+	
+	/**
+	 * Returns a hash code for this {@code Color4D} instance.
+	 * 
+	 * @return a hash code for this {@code Color4D} instance
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(Double.valueOf(this.a), Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
@@ -323,6 +432,26 @@ public final class Color4D {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	TODO: Add Javadocs!
+	public static Color4D addRGB(final Color4D colorLHS, final Color4D colorRHS) {
+		final double r = colorLHS.r + colorRHS.r;
+		final double g = colorLHS.g + colorRHS.g;
+		final double b = colorLHS.b + colorRHS.b;
+		final double a = colorLHS.a;
+		
+		return new Color4D(r, g, b, a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D addRGB(final Color4D color, final double s) {
+		final double r = color.r + s;
+		final double g = color.g + s;
+		final double b = color.b + s;
+		final double a = color.a;
+		
+		return new Color4D(r, g, b, a);
+	}
 	
 //	TODO: Add Javadocs!
 	public static Color4D blend(final Color4D colorLHS, final Color4D colorRHS) {
@@ -369,7 +498,15 @@ public final class Color4D {
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a cached {@code Color4D} instance that is equal to {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a cached {@code Color4D} instance that is equal to {@code color}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D getCached(final Color4D color) {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(color, "color == null"), key -> color);
 	}
@@ -395,11 +532,6 @@ public final class Color4D {
 	}
 	
 //	TODO: Add Javadocs!
-	public static Color4D grayscaleLuminance(final Color4D color) {
-		return new Color4D(color.luminance(), color.a);
-	}
-	
-//	TODO: Add Javadocs!
 	public static Color4D grayscaleMax(final Color4D color) {
 		return new Color4D(color.max(), color.a);
 	}
@@ -415,8 +547,23 @@ public final class Color4D {
 	}
 	
 //	TODO: Add Javadocs!
+	public static Color4D grayscaleRelativeLuminance(final Color4D color) {
+		return new Color4D(color.relativeLuminance(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
 	public static Color4D invert(final Color4D color) {
 		return new Color4D(1.0D - color.r, 1.0D - color.g, 1.0D - color.b, color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D multiplyRGB(final Color4D color, final double s) {
+		final double r = color.r * s;
+		final double g = color.g * s;
+		final double b = color.b * s;
+		final double a = color.a;
+		
+		return new Color4D(r, g, b, a);
 	}
 	
 //	TODO: Add Javadocs!

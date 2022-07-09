@@ -35,6 +35,7 @@ import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
 
 /**
  * An {@code Image} represents an image that can be drawn to and saved to disk.
@@ -257,6 +258,89 @@ public final class Image {
 	 */
 	public Color4D getColor4D(final int x, final int y) {
 		return this.data.getColor4D(x, y);
+	}
+	
+	/**
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code convolutionKernel} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.convolve(convolutionKernel, (color, point) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param convolutionKernel the {@link ConvolutionKernelND} instance to apply
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code convolutionKernel} is {@code null}
+	 */
+	public Image convolve(final ConvolutionKernelND convolutionKernel) {
+		return convolve(convolutionKernel, (color, point) -> true);
+	}
+	
+	/**
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code convolutionKernel} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be convolved, {@code false} otherwise.
+	 * 
+	 * @param convolutionKernel the {@link ConvolutionKernelND} instance to apply
+	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code filter} are {@code null}
+	 */
+	public Image convolve(final ConvolutionKernelND convolutionKernel, final BiPredicate<Color4D, Point2I> filter) {
+		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
+		
+		final double bias = convolutionKernel.getBias();
+		final double factor = convolutionKernel.getFactor();
+		
+		final double[] elements = convolutionKernel.getElements();
+		
+		final int kR = convolutionKernel.getResolution();
+		final int kO = (kR - 1) / 2;
+		
+		final int rX = getResolutionX();
+		final int rY = getResolutionY();
+		
+		final Data data = this.data.copy(true);
+		
+		final boolean hasChangeBegun = this.data.changeBegin();
+		
+		for(int y = 0; y < rY; y++) {
+			for(int x = 0; x < rX; x++) {
+				final Point2I point = new Point2I(x, y);
+				
+				final Color4D oldColor = data.getColor4D(x, y);
+				
+				if(filter.test(oldColor, point)) {
+					Color4D color = new Color4D(0.0D, oldColor.a);
+					
+					for(int kY = 0, iY = y + kY - kO; kY < kR; kY++, iY = y + kY - kO) {
+						for(int kX = 0, iX = x + kX - kO, kI = kY * kR + kX, iI = iY * rX + iX; kX < kR; kX++, iX = x + kX - kO, kI = kY * kR + kX, iI = iY * rX + iX) {
+							if(iX >= 0 && iX < rX && iY >= 0 && iY < rY) {
+								color = Color4D.addRGB(color, Color4D.multiplyRGB(data.getColor4D(iI), elements[kI]));
+							}
+						}
+					}
+					
+					this.data.setColor4D(Color4D.addRGB(Color4D.multiplyRGB(color, factor), bias), y * rX + x, hasChangeBegun);
+				}
+			}
+		}
+		
+		if(hasChangeBegun) {
+			this.data.changeEnd();
+		}
+		
+		return this;
 	}
 	
 	/**
