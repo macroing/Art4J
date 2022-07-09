@@ -19,34 +19,26 @@
 package org.macroing.img4j.data;
 
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 
 import org.macroing.img4j.color.Color4D;
 
-//TODO: Add Javadocs!
-public final class Color4DDataFactory extends DataFactory {
-	/**
-	 * Constructs a new {@code Color4DDataFactory} instance.
-	 */
+final class Color4DDataFactory extends DataFactory {
 	public Color4DDataFactory() {
 		
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
 	@Override
 	public Data create(final BufferedImage bufferedImage) {
 		return new Color4DData(bufferedImage);
 	}
 	
-//	TODO: Add Javadocs!
 	@Override
 	public Data create(final int resolutionX, final int resolutionY) {
 		return new Color4DData(resolutionX, resolutionY);
 	}
 	
-//	TODO: Add Javadocs!
 	@Override
 	public Data create(final int resolutionX, final int resolutionY, final Color4D color) {
 		return new Color4DData(resolutionX, resolutionY, color);

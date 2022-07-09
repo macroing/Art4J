@@ -25,57 +25,23 @@ import java.util.Objects;
 
 import org.macroing.img4j.color.Color4D;
 
-/**
- * A {@code Color4DData} is a {@link Data} implementation that contains data for an image in the form of an array of {@link Color4D} instances.
- * <p>
- * This class is mutable and not thread-safe.
- * 
- * @since 1.0.0
- * @author J&#246;rgen Lundgren
- */
-public final class Color4DData extends Data {
+final class Color4DData extends Data {
 	private Color4D[] colors;
 	private int resolutionX;
 	private int resolutionY;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance with a resolution of {@code 1024} and {@code 768} that is filled with {@code Color4D.WHITE}.
-	 * <p>
-	 * Calling this constructor is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * new Color4DData(1024, 768);
-	 * }
-	 * </pre>
-	 */
 	public Color4DData() {
 		this(1024, 768);
 	}
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance from {@code bufferedImage}.
-	 * <p>
-	 * If {@code bufferedImage} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param bufferedImage a {@code BufferedImage} instance
-	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
-	 */
 	public Color4DData(final BufferedImage bufferedImage) {
 		this.colors = Arrays.stream(DataBufferInt.class.cast(Utilities.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4D.getCached(Color4D.fromIntARGB(colorARGB))).toArray(Color4D[]::new);
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 	}
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance from {@code color4DData}.
-	 * <p>
-	 * If {@code color4DData} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param color4DData the {@code Color4DData} instance to copy
-	 * @throws NullPointerException thrown if, and only if, {@code color4DData} is {@code null}
-	 */
 	public Color4DData(final Color4DData color4DData) {
 		super(color4DData);
 		
@@ -84,15 +50,6 @@ public final class Color4DData extends Data {
 		this.resolutionY = color4DData.resolutionY;
 	}
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance from {@code color4DData}.
-	 * <p>
-	 * If {@code color4DData} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param color4DData the {@code Color4DData} instance to copy
-	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code color4DData} is {@code null}
-	 */
 	public Color4DData(final Color4DData color4DData, final boolean isIgnoringChangeHistory) {
 		super(color4DData, isIgnoringChangeHistory);
 		
@@ -101,39 +58,10 @@ public final class Color4DData extends Data {
 		this.resolutionY = color4DData.resolutionY;
 	}
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance with a resolution of {@code resolutionX} and {@code resolutionY} that is filled with {@code Color4D.WHITE}.
-	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
-	 * <p>
-	 * Calling this constructor is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * new Color4DData(resolutionX, resolutionY, Color4D.WHITE);
-	 * }
-	 * </pre>
-	 * 
-	 * @param resolutionX the resolution along the X-axis
-	 * @param resolutionY the resolution along the Y-axis
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
-	 */
 	public Color4DData(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
 	}
 	
-	/**
-	 * Constructs a new {@code Color4DData} instance with a resolution of {@code resolutionX} and {@code resolutionY} that is filled with {@code color}.
-	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param resolutionX the resolution along the X-axis
-	 * @param resolutionY the resolution along the Y-axis
-	 * @param color the {@link Color4D} instance to fill with
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
 	public Color4DData(final int resolutionX, final int resolutionY, final Color4D color) {
 		this.resolutionX = Utilities.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = Utilities.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
@@ -144,12 +72,6 @@ public final class Color4DData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	/**
-	 * Returns a {@code BufferedImage} representation of this {@code Color4DData} instance.
-	 * 
-	 * @param isRGB {@code true} if, and only if, {@code BufferedImage.TYPE_INT_RGB} should be used instead of {@code BufferedImage.TYPE_INT_ARGB}, {@code false} otherwise
-	 * @return a {@code BufferedImage} representation of this {@code Color4DData} instance
-	 */
 	@Override
 	public BufferedImage toBufferedImage(final boolean isRGB) {
 		final BufferedImage bufferedImage = new BufferedImage(this.resolutionX, this.resolutionY, isRGB ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
@@ -162,71 +84,31 @@ public final class Color4DData extends Data {
 		return bufferedImage;
 	}
 	
-	/**
-	 * Returns the {@link Color4D} at {@code index} in this {@code Color4DData} instance.
-	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code color4DData.getResolution()}, {@code Color4D.TRANSPARENT} will be returned.
-	 * 
-	 * @param index the index of the pixel
-	 * @return the {@code Color4D} at {@code index} in this {@code Color4DData} instance
-	 */
 	@Override
 	public Color4D getColor4D(final int index) {
 		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4D.TRANSPARENT;
 	}
 	
-	/**
-	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Color4DData} instance.
-	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
-	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
-	 * 
-	 * @param x the X-component of the pixel
-	 * @param y the Y-component of the pixel
-	 * @return the {@code Color4D} at {@code x} and {@code y} in this {@code Color4DData} instance
-	 */
 	@Override
 	public Color4D getColor4D(final int x, final int y) {
 		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4D.TRANSPARENT;
 	}
 	
-	/**
-	 * Returns a copy of this {@code Color4DData} instance.
-	 * 
-	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
-	 * @return a copy of this {@code Color4DData} instance
-	 */
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new Color4DData(this, isIgnoringChangeHistory);
 	}
 	
-	/**
-	 * Returns a {@link DataFactory} instance that is associated with this {@code Color4DData} instance.
-	 * 
-	 * @return a {@code DataFactory} instance that is associated with this {@code Color4DData} instance
-	 */
 	@Override
 	public DataFactory getDataFactory() {
 		return new Color4DDataFactory();
 	}
 	
-	/**
-	 * Compares {@code object} to this {@code Color4DData} instance for equality.
-	 * <p>
-	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Color4DData}, and they are equal, {@code false} otherwise.
-	 * 
-	 * @param object the {@code Object} to compare to this {@code Color4DData} instance for equality
-	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Color4DData}, and they are equal, {@code false} otherwise
-	 */
 	@Override
 	public boolean equals(final Object object) {
-		if(object == this) {
-			return true;
-		} else if(!(object instanceof Color4DData)) {
+		if(!super.equals(object)) {
 			return false;
-		} else if(!Objects.equals(getChangeHistory(), Color4DData.class.cast(object).getChangeHistory())) {
+		} else if(!(object instanceof Color4DData)) {
 			return false;
 		} else if(!Arrays.equals(this.colors, Color4DData.class.cast(object).colors)) {
 			return false;
@@ -239,15 +121,6 @@ public final class Color4DData extends Data {
 		}
 	}
 	
-	/**
-	 * Rotates this {@code Color4DData} instance by {@code angle} degrees or radians.
-	 * <p>
-	 * Returns {@code true} if, and only if, the rotation was performed, {@code false} otherwise.
-	 * 
-	 * @param angle an angle in degrees or radians
-	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
-	 * @return {@code true} if, and only if, the rotation was performed, {@code false} otherwise
-	 */
 	@Override
 	public boolean rotate(final double angle, final boolean isAngleInRadians) {
 		if(Utilities.isZero(angle)) {
@@ -329,19 +202,6 @@ public final class Color4DData extends Data {
 		return true;
 	}
 	
-	/**
-	 * Scales this {@code Color4DData} instance to {@code resolutionX} and {@code resolutionY}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
-	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
-	 * <p>
-	 * If {@code resolutionX == color4DData.getResolutionX()} and {@code resolutionY == color4DData.getResolutionY()}, the resolution will not be changed.
-	 * 
-	 * @param resolutionX the new resolution along the X-axis
-	 * @param resolutionY the new resolution along the Y-axis
-	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
-	 */
 	@Override
 	public boolean scale(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
@@ -382,21 +242,6 @@ public final class Color4DData extends Data {
 		return true;
 	}
 	
-	/**
-	 * Sets the color of the pixel at {@code index} in this {@code Color4DData} instance to {@code color}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code color4DData.getResolution()}, the color of the pixel at {@code index} will not be set.
-	 * 
-	 * @param color the {@link Color4D} instance to set
-	 * @param index the index of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
-	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
 	@Override
 	public boolean setColor4D(final Color4D color, final int index, final boolean hasChangeBegun) {
 		Objects.requireNonNull(color, "color == null");
@@ -421,24 +266,6 @@ public final class Color4DData extends Data {
 		return false;
 	}
 	
-	/**
-	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Color4DData} instance to {@code color}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * 
-	 * @param color the {@link Color4D} instance to set
-	 * @param x the X-component of the pixel
-	 * @param y the Y-component of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
-	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
 	@Override
 	public boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun) {
 		Objects.requireNonNull(color, "color == null");
@@ -465,21 +292,6 @@ public final class Color4DData extends Data {
 		return false;
 	}
 	
-	/**
-	 * Sets the content of this {@code Color4DData} instance to a copy of the content in {@code data}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the content of this {@code Color4DData} instance is changed as a result of this operation, {@code false} otherwise.
-	 * <p>
-	 * If {@code data} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If this {@code Color4DData} instance and {@code data} are incompatible, the content of this {@code Color4DData} instance will not be changed.
-	 * <p>
-	 * A {@code Color4DData} instance is only compatible with other {@code Color4DData} instances.
-	 * 
-	 * @param data the {@code Data} instance to copy content from
-	 * @return {@code true} if, and only if, the content of this {@code Color4DData} instance is changed as a result of this operation, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
-	 */
 	@Override
 	public boolean setContent(final Data data) {
 		Objects.requireNonNull(data, "data == null");
@@ -511,19 +323,6 @@ public final class Color4DData extends Data {
 		return false;
 	}
 	
-	/**
-	 * Sets the resolution of this {@code Color4DData} instance to {@code resolutionX} and {@code resolutionY}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
-	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
-	 * <p>
-	 * If {@code resolutionX == color4DData.getResolutionX()} and {@code resolutionY == color4DData.getResolutionY()}, the resolution will not be changed.
-	 * 
-	 * @param resolutionX the new resolution along the X-axis
-	 * @param resolutionY the new resolution along the Y-axis
-	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
-	 */
 	@Override
 	public boolean setResolution(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
@@ -569,18 +368,6 @@ public final class Color4DData extends Data {
 		return true;
 	}
 	
-	/**
-	 * Swaps the pixel at index {@code indexA} with the pixel at index {@code indexB}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the swap occurred, {@code false} otherwise.
-	 * <p>
-	 * If either {@code indexA} or {@code indexB} are less than {@code 0} or greater than or equal to {@code data.getResolution()}, the swap will not occur.
-	 * 
-	 * @param indexA the index of one of the pixels to swap
-	 * @param indexB the index of one of the pixels to swap
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
-	 * @return {@code true} if, and only if, the swap occurred, {@code false} otherwise
-	 */
 	@Override
 	public boolean swap(final int indexA, final int indexB, final boolean hasChangeBegun) {
 		if(indexA < 0 || indexA >= this.colors.length) {
@@ -609,44 +396,24 @@ public final class Color4DData extends Data {
 		return true;
 	}
 	
-	/**
-	 * Returns the resolution of this {@code Color4DData} instance.
-	 * 
-	 * @return the resolution of this {@code Color4DData} instance
-	 */
 	@Override
 	public int getResolution() {
 		return this.colors.length;
 	}
 	
-	/**
-	 * Returns the resolution along the X-axis of this {@code Color4DData} instance.
-	 * 
-	 * @return the resolution along the X-axis of this {@code Color4DData} instance
-	 */
 	@Override
 	public int getResolutionX() {
 		return this.resolutionX;
 	}
 	
-	/**
-	 * Returns the resolution along the Y-axis of this {@code Color4DData} instance.
-	 * 
-	 * @return the resolution along the Y-axis of this {@code Color4DData} instance
-	 */
 	@Override
 	public int getResolutionY() {
 		return this.resolutionY;
 	}
 	
-	/**
-	 * Returns a hash code for this {@code Color4DData} instance.
-	 * 
-	 * @return a hash code for this {@code Color4DData} instance
-	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(getChangeHistory(), Integer.valueOf(Arrays.hashCode(this.colors)), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY));
+		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(Arrays.hashCode(this.colors)), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

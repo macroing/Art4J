@@ -134,4 +134,15 @@ public abstract class DataFactory {
 	
 //	TODO: Add Javadocs!
 	public abstract Data create(final int resolutionX, final int resolutionY, final Color4D color);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a {@code DataFactory} instance that creates {@link Data} instances that stores pixels as {@link Color4D} instances.
+	 * 
+	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as {@code Color4D} instances
+	 */
+	public static DataFactory forColor4D() {
+		return new Color4DDataFactory();
+	}
 }

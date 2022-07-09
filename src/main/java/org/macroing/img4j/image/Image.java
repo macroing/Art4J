@@ -32,7 +32,6 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import org.macroing.img4j.color.Color4D;
-import org.macroing.img4j.data.Color4DDataFactory;
 import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
@@ -48,7 +47,7 @@ import org.macroing.img4j.geometry.Point2I;
  * @author J&#246;rgen Lundgren
  */
 public final class Image {
-	private static final DataFactory DATA_FACTORY = new Color4DDataFactory();
+	private static final DataFactory DATA_FACTORY = DataFactory.forColor4D();
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

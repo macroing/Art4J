@@ -18,45 +18,25 @@
  */
 package org.macroing.img4j.data;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * A {@code ChangeHistory} represents a history of changes.
- * <p>
- * All changes in this {@code ChangeHistory} class are represented by {@link Change} instances.
- * 
- * @since 1.0.0
- * @author J&#246;rgen Lundgren
- */
-public final class ChangeHistory {
+final class ChangeHistory {
 	private final Deque<Change> changesToRedo;
 	private final Deque<Change> changesToUndo;
 	private final List<Change> changes;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	/**
-	 * Constructs a new {@code ChangeHistory} instance.
-	 */
 	public ChangeHistory() {
 		this.changesToRedo = new ArrayDeque<>();
 		this.changesToUndo = new ArrayDeque<>();
 		this.changes = new ArrayList<>();
 	}
 	
-	/**
-	 * Constructs a new {@code ChangeHistory} instance from {@code changeHistory}.
-	 * <p>
-	 * If {@code changeHistory} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param changeHistory the {@code ChangeHistory} instance to copy
-	 * @throws NullPointerException thrown if, and only if, {@code changeHistory} is {@code null}
-	 */
 	public ChangeHistory(final ChangeHistory changeHistory) {
 		this.changesToRedo = new ArrayDeque<>(changeHistory.changesToRedo);
 		this.changesToUndo = new ArrayDeque<>(changeHistory.changesToUndo);
@@ -65,17 +45,14 @@ public final class ChangeHistory {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
 	public Change toChange() {
 		return this.changes.size() == 1 ? this.changes.get(0) : new CombinedChange(getChanges());
 	}
 	
-//	TODO: Add Javadocs!
 	public List<Change> getChanges() {
 		return new ArrayList<>(this.changes);
 	}
 	
-//	TODO: Add Javadocs!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -93,7 +70,6 @@ public final class ChangeHistory {
 		}
 	}
 	
-//	TODO: Add Javadocs!
 	public boolean redo(final Data data) {
 		if(!this.changesToRedo.isEmpty()) {
 			final
@@ -108,7 +84,6 @@ public final class ChangeHistory {
 		return false;
 	}
 	
-//	TODO: Add Javadocs!
 	public boolean undo(final Data data) {
 		if(!this.changesToUndo.isEmpty()) {
 			final
@@ -123,28 +98,23 @@ public final class ChangeHistory {
 		return false;
 	}
 	
-//	TODO: Add Javadocs!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.changesToRedo, this.changesToUndo, this.changes);
 	}
 	
-//	TODO: Add Javadocs!
 	public void add(final Change change) {
 		this.changes.add(Objects.requireNonNull(change, "change == null"));
 	}
 	
-//	TODO: Add Javadocs!
 	public void clear() {
 		this.changes.clear();
 	}
 	
-//	TODO: Add Javadocs!
 	public void push() {
 		push(toChange());
 	}
 	
-//	TODO: Add Javadocs!
 	public void push(final Change change) {
 		Objects.requireNonNull(change, "change == null");
 		

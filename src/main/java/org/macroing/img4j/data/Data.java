@@ -20,7 +20,6 @@ package org.macroing.img4j.data;
 
 import java.awt.image.BufferedImage;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.macroing.img4j.color.Color4D;
 
@@ -172,15 +171,6 @@ public abstract class Data {
 	public abstract DataFactory getDataFactory();
 	
 	/**
-	 * Returns the optional {@link ChangeHistory} instance.
-	 * 
-	 * @return the optional {@code ChangeHistory} instance
-	 */
-	public final Optional<ChangeHistory> getChangeHistory() {
-		return Optional.ofNullable(this.changeHistory);
-	}
-	
-	/**
 	 * Performs a change add operation.
 	 * <p>
 	 * Returns {@code true} if, and only if, the change history is enabled, {@code false} otherwise.
@@ -242,6 +232,27 @@ public abstract class Data {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code Data} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Data}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code Data} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Data}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof Data)) {
+			return false;
+		} else if(!Objects.equals(this.changeHistory, Data.class.cast(object).changeHistory)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	/**
@@ -556,4 +567,14 @@ public abstract class Data {
 	 * @return the resolution along the Y-axis of this {@code Data} instance
 	 */
 	public abstract int getResolutionY();
+	
+	/**
+	 * Returns a hash code for this {@code Data} instance.
+	 * 
+	 * @return a hash code for this {@code Data} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.changeHistory);
+	}
 }
