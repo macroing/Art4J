@@ -47,6 +47,9 @@ public final class Color4D {
 	public static final Color4D RED;
 	
 //	TODO: Add Javadocs!
+	public static final Color4D TRANSPARENT;
+	
+//	TODO: Add Javadocs!
 	public static final Color4D WHITE;
 	
 //	TODO: Add Javadocs!
@@ -55,6 +58,11 @@ public final class Color4D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final Map<Color4D, Color4D> CACHE;
+	private static final double COLOR_SPACE_BREAK_POINT;
+	private static final double COLOR_SPACE_GAMMA;
+	private static final double COLOR_SPACE_SEGMENT_OFFSET;
+	private static final double COLOR_SPACE_SLOPE;
+	private static final double COLOR_SPACE_SLOPE_MATCH;
 	private static final int COLOR_A_R_G_B_SHIFT_A;
 	private static final int COLOR_A_R_G_B_SHIFT_B;
 	private static final int COLOR_A_R_G_B_SHIFT_G;
@@ -64,6 +72,12 @@ public final class Color4D {
 	
 	static {
 		CACHE = new HashMap<>();
+		
+		COLOR_SPACE_BREAK_POINT = 0.00304D;
+		COLOR_SPACE_GAMMA = 2.4D;
+		COLOR_SPACE_SLOPE = 1.0D / (COLOR_SPACE_GAMMA / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D) - COLOR_SPACE_GAMMA * COLOR_SPACE_BREAK_POINT + COLOR_SPACE_BREAK_POINT);
+		COLOR_SPACE_SLOPE_MATCH = COLOR_SPACE_GAMMA * COLOR_SPACE_SLOPE / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D);
+		COLOR_SPACE_SEGMENT_OFFSET = COLOR_SPACE_SLOPE_MATCH * Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SLOPE * COLOR_SPACE_BREAK_POINT;
 		
 		COLOR_A_R_G_B_SHIFT_A = 24;
 		COLOR_A_R_G_B_SHIFT_B =  0;
@@ -77,6 +91,7 @@ public final class Color4D {
 		GREEN = getCached(new Color4D(0.0D, 1.0D, 0.0D));
 		MAGENTA = getCached(new Color4D(1.0D, 0.0D, 1.0D));
 		RED = getCached(new Color4D(1.0D, 0.0D, 0.0D));
+		TRANSPARENT = getCached(new Color4D(0.0D, 0.0D, 0.0D, 0.0D));
 		WHITE = getCached(new Color4D(1.0D, 1.0D, 1.0D));
 		YELLOW = getCached(new Color4D(1.0D, 1.0D, 0.0D));
 	}
@@ -104,7 +119,12 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public Color4D(final double grayscale) {
-		this(grayscale, grayscale, grayscale);
+		this(grayscale, 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public Color4D(final double grayscale, final double a) {
+		this(grayscale, grayscale, grayscale, a);
 	}
 	
 //	TODO: Add Javadocs!
@@ -136,6 +156,12 @@ public final class Color4D {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	TODO: Add Javadocs!
+	@Override
+	public String toString() {
+		return String.format("new Color4D(%s, %s, %s, %s)", Utilities.toNonScientificNotationJava(this.r), Utilities.toNonScientificNotationJava(this.g), Utilities.toNonScientificNotationJava(this.b), Utilities.toNonScientificNotationJava(this.a));
+	}
 	
 //	TODO: Add Javadocs!
 	public boolean equals(final Color4D color) {
@@ -173,6 +199,91 @@ public final class Color4D {
 		} else {
 			return equals(Color4D.class.cast(object));
 		}
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isBlack() {
+		return Utilities.isZero(this.r) && Utilities.isZero(this.g) && Utilities.isZero(this.b);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isBlue() {
+		return isBlue(1.0D, 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isBlue(final double thresholdR, final double thresholdG) {
+		return this.b - thresholdR >= this.r && this.b - thresholdG >= this.g;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isCyan() {
+		return Utilities.equals(this.g, this.b) && this.r < this.g;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isGrayscale() {
+		return Utilities.equals(this.r, this.g) && Utilities.equals(this.g, this.b);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isGreen() {
+		return isGreen(1.0D, 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isGreen(final double thresholdR, final double thresholdB) {
+		return this.g - thresholdR >= this.r && this.g - thresholdB >= this.b;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isMagenta() {
+		return Utilities.equals(this.r, this.b) && this.g < this.b;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isRed() {
+		return isRed(1.0D, 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isRed(final double thresholdG, final double thresholdB) {
+		return this.r - thresholdG >= this.g && this.r - thresholdB >= this.b;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isWhite() {
+		return Utilities.equals(this.r, 1.0D) && Utilities.equals(this.g, 1.0D) && Utilities.equals(this.b, 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isYellow() {
+		return Utilities.equals(this.r, this.g) && this.b < this.r;
+	}
+	
+//	TODO: Add Javadocs!
+	public double average() {
+		return (this.r + this.g + this.b) / 3.0D; 
+	}
+	
+//	TODO: Add Javadocs!
+	public double lightness() {
+		return (max() + min()) / 2.0D;
+	}
+	
+//	TODO: Add Javadocs!
+	public double luminance() {
+		return this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D;
+	}
+	
+//	TODO: Add Javadocs!
+	public double max() {
+		return Utilities.max(this.r, this.g, this.b);
+	}
+	
+//	TODO: Add Javadocs!
+	public double min() {
+		return Utilities.min(this.r, this.g, this.b);
 	}
 	
 //	TODO: Add Javadocs!
@@ -219,6 +330,11 @@ public final class Color4D {
 	}
 	
 //	TODO: Add Javadocs!
+	public static Color4D blend(final Color4D color11, final Color4D color12, final Color4D color21, final Color4D color22, final double tX, final double tY) {
+		return blend(blend(color11, color12, tX), blend(color21, color22, tX), tY);
+	}
+	
+//	TODO: Add Javadocs!
 	public static Color4D blend(final Color4D colorLHS, final Color4D colorRHS, final double t) {
 		return blend(colorLHS, colorRHS, t, t, t, t);
 	}
@@ -229,6 +345,16 @@ public final class Color4D {
 		final double g = Utilities.lerp(colorLHS.g, colorRHS.g, tG);
 		final double b = Utilities.lerp(colorLHS.b, colorRHS.b, tB);
 		final double a = Utilities.lerp(colorLHS.a, colorRHS.a, tA);
+		
+		return new Color4D(r, g, b, a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D blendOver(final Color4D colorLHS, final Color4D colorRHS) {
+		final double a = colorLHS.a + colorRHS.a * (1.0D - colorLHS.a);
+		final double r = (colorLHS.r * colorLHS.a + colorRHS.r * colorRHS.a * (1.0D - colorLHS.a)) / a;
+		final double g = (colorLHS.g * colorLHS.a + colorRHS.g * colorRHS.a * (1.0D - colorLHS.a)) / a;
+		final double b = (colorLHS.b * colorLHS.a + colorRHS.b * colorRHS.a * (1.0D - colorLHS.a)) / a;
 		
 		return new Color4D(r, g, b, a);
 	}
@@ -249,6 +375,147 @@ public final class Color4D {
 	}
 	
 //	TODO: Add Javadocs!
+	public static Color4D grayscaleAverage(final Color4D color) {
+		return new Color4D(color.average(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleB(final Color4D color) {
+		return new Color4D(color.b, color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleG(final Color4D color) {
+		return new Color4D(color.g, color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleLightness(final Color4D color) {
+		return new Color4D(color.lightness(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleLuminance(final Color4D color) {
+		return new Color4D(color.luminance(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleMax(final Color4D color) {
+		return new Color4D(color.max(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleMin(final Color4D color) {
+		return new Color4D(color.min(), color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D grayscaleR(final Color4D color) {
+		return new Color4D(color.r, color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D invert(final Color4D color) {
+		return new Color4D(1.0D - color.r, 1.0D - color.g, 1.0D - color.b, color.a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D random() {
+		return new Color4D(Utilities.nextDouble(), Utilities.nextDouble(), Utilities.nextDouble());
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomBlue() {
+		return randomBlue(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomBlue(final double maxR, final double maxG) {
+		final double b = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
+		final double r = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.nextDown(b))));
+		final double g = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.nextDown(b))));
+		
+		return new Color4D(r, g, b);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomCyan() {
+		return randomCyan(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomCyan(final double minGB, final double maxR) {
+		final double x = Utilities.nextDouble(Utilities.saturate(minGB), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.max(Math.nextDown(x), 0.0D))));
+		
+		return new Color4D(y, x, x);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomGrayscale() {
+		return new Color4D(Utilities.nextDouble(0.0D, Math.nextUp(1.0D)), 1.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomGreen() {
+		return randomGreen(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomGreen(final double maxR, final double maxB) {
+		final double g = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
+		final double r = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.nextDown(g))));
+		final double b = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.nextDown(g))));
+		
+		return new Color4D(r, g, b);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomMagenta() {
+		return randomMagenta(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomMagenta(final double minRB, final double maxG) {
+		final double x = Utilities.nextDouble(Utilities.saturate(minRB), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.max(Math.nextDown(x), 0.0D))));
+		
+		return new Color4D(x, y, x);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomRed() {
+		return randomRed(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomRed(final double maxG, final double maxB) {
+		final double r = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
+		final double g = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.nextDown(r))));
+		final double b = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.nextDown(r))));
+		
+		return new Color4D(r, g, b);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomYellow() {
+		return randomYellow(0.0D, 0.0D);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D randomYellow(final double minRG, final double maxB) {
+		final double x = Utilities.nextDouble(Utilities.saturate(minRG), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.max(Math.nextDown(x), 0.0D))));
+		
+		return new Color4D(x, x, y);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D redoGammaCorrection(final Color4D color) {
+		return new Color4D(doRedoGammaCorrection(color.r), doRedoGammaCorrection(color.g), doRedoGammaCorrection(color.b), color.a);
+	}
+	
+//	TODO: Add Javadocs!
 	public static Color4D sepia(final Color4D color) {
 		final double r = color.r * 0.393D + color.g * 0.769D + color.b * 0.189D;
 		final double g = color.r * 0.349D + color.g * 0.686D + color.b * 0.168D;
@@ -256,6 +523,11 @@ public final class Color4D {
 		final double a = color.a;
 		
 		return new Color4D(r, g, b, a);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Color4D undoGammaCorrection(final Color4D color) {
+		return new Color4D(doUndoGammaCorrection(color.r), doUndoGammaCorrection(color.g), doUndoGammaCorrection(color.b), color.a);
 	}
 	
 //	TODO: Add Javadocs!
@@ -269,6 +541,14 @@ public final class Color4D {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static double doRedoGammaCorrection(final double value) {
+		return value <= COLOR_SPACE_BREAK_POINT ? value * COLOR_SPACE_SLOPE : COLOR_SPACE_SLOPE_MATCH * Math.pow(value, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SEGMENT_OFFSET;
+	}
+	
+	private static double doUndoGammaCorrection(final double value) {
+		return value <= COLOR_SPACE_BREAK_POINT * COLOR_SPACE_SLOPE ? value / COLOR_SPACE_SLOPE : Math.pow((value + COLOR_SPACE_SEGMENT_OFFSET) / COLOR_SPACE_SLOPE_MATCH, COLOR_SPACE_GAMMA);
+	}
 	
 	private static int doConvertComponentFromDoubleToInt(final double component) {
 		return (int)(Utilities.saturate(component) * 255.0D + 0.5D);

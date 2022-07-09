@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.net.URL;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -95,6 +95,21 @@ public final class Image {
 	}
 	
 	/**
+	 * Constructs a new {@code Image} instance by reading the content of the file represented by {@code file}.
+	 * <p>
+	 * If {@code file} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param file a {@code File} that represents the file to read from
+	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final File file) {
+		this.data = DATA_FACTORY.create(file);
+	}
+	
+	/**
 	 * Constructs a new {@code Image} instance from {@code image}.
 	 * <p>
 	 * If {@code image} is {@code null}, a {@code NullPointerException} will be thrown.
@@ -104,6 +119,36 @@ public final class Image {
 	 */
 	public Image(final Image image) {
 		this(image.data);
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance by reading the content of the file represented by the pathname {@code pathname}.
+	 * <p>
+	 * If {@code pathname} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param pathname a {@code String} that represents the pathname of the file to read from
+	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final String pathname) {
+		this.data = DATA_FACTORY.create(pathname);
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance by reading the content of the URL represented by {@code uRL}.
+	 * <p>
+	 * If {@code uRL} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param uRL a {@code URL} that represents the URL to read from
+	 * @throws NullPointerException thrown if, and only if, {@code uRL} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final URL uRL) {
+		this.data = DATA_FACTORY.create(uRL);
 	}
 	
 	/**
@@ -174,9 +219,9 @@ public final class Image {
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
 	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4D(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
 	 * 
@@ -191,7 +236,7 @@ public final class Image {
 	/**
 	 * Returns the {@link Color4D} at {@code index} in this {@code Image} instance.
 	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param index the index of the pixel
 	 * @return the {@code Color4D} at {@code index} in this {@code Image} instance
@@ -203,9 +248,9 @@ public final class Image {
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
@@ -242,12 +287,46 @@ public final class Image {
 		return this;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Fills all pixels in this {@code Image} instance in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code operator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fill(operator, (color, point) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
+	 */
 	public Image fill(final BiFunction<Color4D, Point2I, Color4D> operator) {
 		return fill(operator, (color, point) -> true);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code filter} in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * 
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 */
 	public Image fill(final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
 		Objects.requireNonNull(operator, "operator == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -350,6 +429,40 @@ public final class Image {
 		if(hasChangeBegun) {
 			this.data.changeEnd();
 		}
+		
+		return this;
+	}
+	
+	/**
+	 * Rotates this {@code Image} instance by {@code angle} degrees.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.rotate(angle, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param angle an angle in degrees
+	 * @return this {@code Image} instance
+	 */
+	public Image rotate(final double angle) {
+		return rotate(angle, false);
+	}
+	
+	/**
+	 * Rotates this {@code Image} instance by {@code angle} degrees or radians.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * 
+	 * @param angle an angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
+	 * @return this {@code Image} instance
+	 */
+	public Image rotate(final double angle, final boolean isAngleInRadians) {
+		this.data.rotate(angle, isAngleInRadians);
 		
 		return this;
 	}

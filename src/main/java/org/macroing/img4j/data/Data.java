@@ -82,9 +82,9 @@ public abstract class Data {
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Data} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
 	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4D(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
 	 * 
@@ -97,11 +97,11 @@ public abstract class Data {
 		final int resolutionY = getResolutionY();
 		
 		if(x < 0.0D || x >= resolutionX) {
-			return Color4D.BLACK;
+			return Color4D.TRANSPARENT;
 		}
 		
 		if(y < 0.0D || y >= resolutionY) {
-			return Color4D.BLACK;
+			return Color4D.TRANSPARENT;
 		}
 		
 		final int minimumX = (int)(Math.floor(x));
@@ -114,25 +114,13 @@ public abstract class Data {
 			return getColor4D(minimumX, minimumY);
 		}
 		
-		final double tX = x - minimumX;
-		final double tY = y - minimumY;
-		
-		final Color4D color11 = getColor4D(minimumX, minimumY);
-		final Color4D color12 = getColor4D(maximumX, minimumY);
-		final Color4D color21 = getColor4D(minimumX, maximumY);
-		final Color4D color22 = getColor4D(maximumX, maximumY);
-		
-		final Color4D colorX1 = Color4D.blend(color11, color12, tX);
-		final Color4D colorX2 = Color4D.blend(color21, color22, tX);
-		final Color4D colorY1 = Color4D.blend(colorX1, colorX2, tY);
-		
-		return colorY1;
+		return Color4D.blend(getColor4D(minimumX, minimumY), getColor4D(maximumX, minimumY), getColor4D(minimumX, maximumY), getColor4D(maximumX, maximumY), x - minimumX, y - minimumY);
 	}
 	
 	/**
 	 * Returns the {@link Color4D} at {@code index} in this {@code Data} instance.
 	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param index the index of the pixel
 	 * @return the {@code Color4D} at {@code index} in this {@code Data} instance
@@ -142,9 +130,9 @@ public abstract class Data {
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Data} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
@@ -281,6 +269,17 @@ public abstract class Data {
 		
 		return false;
 	}
+	
+	/**
+	 * Rotates this {@code Data} instance by {@code angle} degrees or radians.
+	 * <p>
+	 * Returns {@code true} if, and only if, the rotation was performed, {@code false} otherwise.
+	 * 
+	 * @param angle an angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
+	 * @return {@code true} if, and only if, the rotation was performed, {@code false} otherwise
+	 */
+	public abstract boolean rotate(final double angle, final boolean isAngleInRadians);
 	
 	/**
 	 * Scales this {@code Data} instance to a new resolution given the scale factors {@code scaleX} and {@code scaleY}.

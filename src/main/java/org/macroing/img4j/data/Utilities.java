@@ -61,6 +61,22 @@ final class Utilities {
 		return list;
 	}
 	
+	public static boolean equals(final double a, final double b) {
+		return Double.compare(a, b) == 0;
+	}
+	
+	public static boolean isZero(final double value) {
+		return Double.compare(value, +0.0D) == 0 || Double.compare(value, -0.0D) == 0;
+	}
+	
+	public static double max(final double a, final double b, final double c, final double d) {
+		return Math.max(Math.max(a, b), Math.max(c, d));
+	}
+	
+	public static double min(final double a, final double b, final double c, final double d) {
+		return Math.min(Math.min(a, b), Math.min(c, d));
+	}
+	
 	public static int requireRange(final int value, final int rangeEndA, final int rangeEndB, final String name) {
 		Objects.requireNonNull(name, "name == null");
 		

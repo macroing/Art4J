@@ -165,22 +165,22 @@ public final class Color4DData extends Data {
 	/**
 	 * Returns the {@link Color4D} at {@code index} in this {@code Color4DData} instance.
 	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code color4DData.getResolution()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code color4DData.getResolution()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param index the index of the pixel
 	 * @return the {@code Color4D} at {@code index} in this {@code Color4DData} instance
 	 */
 	@Override
 	public Color4D getColor4D(final int index) {
-		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4D.BLACK;
+		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4D.TRANSPARENT;
 	}
 	
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Color4DData} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionX()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionY()}, {@code Color4D.BLACK} will be returned.
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code color4DData.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
@@ -188,7 +188,7 @@ public final class Color4DData extends Data {
 	 */
 	@Override
 	public Color4D getColor4D(final int x, final int y) {
-		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4D.BLACK;
+		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4D.TRANSPARENT;
 	}
 	
 	/**
@@ -237,6 +237,96 @@ public final class Color4DData extends Data {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * Rotates this {@code Color4DData} instance by {@code angle} degrees or radians.
+	 * <p>
+	 * Returns {@code true} if, and only if, the rotation was performed, {@code false} otherwise.
+	 * 
+	 * @param angle an angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
+	 * @return {@code true} if, and only if, the rotation was performed, {@code false} otherwise
+	 */
+	@Override
+	public boolean rotate(final double angle, final boolean isAngleInRadians) {
+		if(Utilities.isZero(angle)) {
+			return false;
+		}
+		
+		final double angleDegrees = isAngleInRadians ? Math.toDegrees(angle) : angle;
+		
+		if(Utilities.equals(angleDegrees, +360.0D) || Utilities.equals(angleDegrees, -360.0D)) {
+			return false;
+		}
+		
+		final double angleRadians = isAngleInRadians ? angle : Math.toRadians(angle);
+		final double angleRadiansCos = Math.cos(angleRadians);
+		final double angleRadiansSin = Math.sin(angleRadians);
+		
+		final double directionAX = -this.resolutionX * 0.5D;
+		final double directionAY = -this.resolutionY * 0.5D;
+		
+		final double rectangleAAX = directionAX;
+		final double rectangleAAY = directionAY;
+		final double rectangleABX = directionAX;
+		final double rectangleABY = directionAY + this.resolutionY;
+		final double rectangleACX = directionAX + this.resolutionX;
+		final double rectangleACY = directionAY + this.resolutionY;
+		final double rectangleADX = directionAX + this.resolutionX;
+		final double rectangleADY = directionAY;
+		
+		final double rectangleBAX = rectangleAAX * angleRadiansCos - rectangleAAY * angleRadiansSin;
+		final double rectangleBAY = rectangleAAY * angleRadiansCos + rectangleAAX * angleRadiansSin;
+		final double rectangleBBX = rectangleABX * angleRadiansCos - rectangleABY * angleRadiansSin;
+		final double rectangleBBY = rectangleABY * angleRadiansCos + rectangleABX * angleRadiansSin;
+		final double rectangleBCX = rectangleACX * angleRadiansCos - rectangleACY * angleRadiansSin;
+		final double rectangleBCY = rectangleACY * angleRadiansCos + rectangleACX * angleRadiansSin;
+		final double rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
+		final double rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
+		
+		final double minimumX = Utilities.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final double minimumY = Utilities.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final double maximumX = Utilities.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final double maximumY = Utilities.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		
+		final int newResolutionX = (int)(maximumX - minimumX);
+		final int newResolutionY = (int)(maximumY - minimumY);
+		
+		final int oldResolutionX = this.resolutionX;
+		final int oldResolutionY = this.resolutionY;
+		
+		final Color4D[] newColors = new Color4D[newResolutionX * newResolutionY];
+		final Color4D[] oldColors = this.colors;
+		
+		final double directionBX = Math.abs(Math.min(minimumX, 0.0D));
+		final double directionBY = Math.abs(Math.min(minimumY, 0.0D));
+		
+		for(int y = 0; y < newResolutionY; y++) {
+			for(int x = 0; x < newResolutionX; x++) {
+				final double aX = x - directionBX;
+				final double aY = y - directionBY;
+				
+				final double bX = aX * angleRadiansCos - aY * -angleRadiansSin;
+				final double bY = aY * angleRadiansCos + aX * -angleRadiansSin;
+				
+				final double cX = bX - directionAX;
+				final double cY = bY - directionAY;
+				
+				newColors[y * newResolutionX + x] = getColor4D(cX, cY);
+			}
+		}
+		
+		if(changeBegin()) {
+			changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
+			changeEnd();
+		}
+		
+		this.colors = newColors;
+		this.resolutionX = newResolutionX;
+		this.resolutionY = newResolutionY;
+		
+		return true;
 	}
 	
 	/**
