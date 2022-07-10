@@ -37,7 +37,7 @@ final class Color4DData extends Data {
 	}
 	
 	public Color4DData(final BufferedImage bufferedImage) {
-		this.colors = Arrays.stream(DataBufferInt.class.cast(Utilities.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4D.getCached(Color4D.fromIntARGB(colorARGB))).toArray(Color4D[]::new);
+		this.colors = Arrays.stream(DataBufferInt.class.cast(Utilities.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4D.fromIntARGB(colorARGB)).toArray(Color4D[]::new);
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 	}
@@ -183,8 +183,8 @@ final class Color4DData extends Data {
 				final double bX = aX * angleRadiansCos - aY * -angleRadiansSin;
 				final double bY = aY * angleRadiansCos + aX * -angleRadiansSin;
 				
-				final double cX = bX - directionAX;
-				final double cY = bY - directionAY;
+				final int cX = (int)(bX - directionAX - 0.5D);
+				final int cY = (int)(bY - directionAY - 0.5D);
 				
 				newColors[y * newResolutionX + x] = getColor4D(cX, cY);
 			}
@@ -250,15 +250,17 @@ final class Color4DData extends Data {
 			final Color4D newColor = color;
 			final Color4D oldColor = this.colors[index];
 			
-			if(hasChangeBegun || changeBegin()) {
-				changeAdd(new PixelChange(newColor, oldColor, index));
-				
-				if(!hasChangeBegun) {
-					changeEnd();
+			if(!newColor.equals(oldColor)) {
+				if(hasChangeBegun || changeBegin()) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(!hasChangeBegun) {
+						changeEnd();
+					}
 				}
+				
+				this.colors[index] = newColor;
 			}
-			
-			this.colors[index] = newColor;
 			
 			return true;
 		}
@@ -276,15 +278,67 @@ final class Color4DData extends Data {
 			final Color4D newColor = color;
 			final Color4D oldColor = this.colors[index];
 			
-			if(hasChangeBegun || changeBegin()) {
-				changeAdd(new PixelChange(newColor, oldColor, index));
-				
-				if(!hasChangeBegun) {
-					changeEnd();
+			if(!newColor.equals(oldColor)) {
+				if(hasChangeBegun || changeBegin()) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(!hasChangeBegun) {
+						changeEnd();
+					}
 				}
+				
+				this.colors[index] = newColor;
 			}
 			
-			this.colors[index] = newColor;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColorARGB(final int colorARGB, final int index, final boolean hasChangeBegun) {
+		if(index >= 0 && index < this.colors.length) {
+			final Color4D newColor = Color4D.fromIntARGB(colorARGB);
+			final Color4D oldColor = this.colors[index];
+			
+			if(!newColor.equals(oldColor)) {
+				if(hasChangeBegun || changeBegin()) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(!hasChangeBegun) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColorARGB(final int colorARGB, final int x, final int y, final boolean hasChangeBegun) {
+		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
+			final int index = y * this.resolutionX + x;
+			
+			final Color4D newColor = Color4D.fromIntARGB(colorARGB);
+			final Color4D oldColor = this.colors[index];
+			
+			if(!newColor.equals(oldColor)) {
+				if(hasChangeBegun || changeBegin()) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(!hasChangeBegun) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
 			
 			return true;
 		}
@@ -394,6 +448,24 @@ final class Color4DData extends Data {
 		this.colors[indexB] = colorA;
 		
 		return true;
+	}
+	
+	@Override
+	public int cache() {
+		int cached = 0;
+		
+		for(int i = 0; i < this.colors.length; i++) {
+			final Color4D oldColor = this.colors[i];
+			final Color4D newColor = Color4D.getCached(oldColor);
+			
+			if(oldColor != newColor) {
+				cached++;
+				
+				this.colors[i] = newColor;
+			}
+		}
+		
+		return cached;
 	}
 	
 	@Override

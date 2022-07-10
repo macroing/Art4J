@@ -46,6 +46,7 @@ final class Utilities {
 		graphics2D.drawImage(bufferedImage, 0, 0, null);
 		
 		return compatibleBufferedImage;
+		
 	}
 	
 	public static <T> List<T> requireNonNullList(final List<T> list, final String name) {

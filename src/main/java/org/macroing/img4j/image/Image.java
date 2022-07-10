@@ -345,6 +345,15 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns a copy of this {@code Image} instance.
+	 * 
+	 * @return a copy of this {@code Image} instance
+	 */
+	public Image copy() {
+		return new Image(this);
+	}
+	
+	/**
 	 * Draws the contents drawn to the supplied {@code Graphics2D} instance into this {@code Image} instance.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -442,6 +451,68 @@ public final class Image {
 	}
 	
 	/**
+	 * Fills all pixels in this {@code Image} instance in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelOperator} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fill(pixelOperator, (colorARGB, x, y) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
+	 */
+	public Image fill(final PixelOperator pixelOperator) {
+		return fill(pixelOperator, (colorARGB, x, y) -> true);
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 */
+	public Image fill(final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
+		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final boolean hasChangeBegun = this.data.changeBegin();
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final int oldColorARGB = getColorARGB(x, y);
+				
+				if(pixelFilter.isAccepted(oldColorARGB, x, y)) {
+					final int newColorARGB = pixelOperator.apply(oldColorARGB, x, y);
+					
+					this.data.setColorARGB(newColorARGB, x, y, hasChangeBegun);
+				}
+			}
+		}
+		
+		if(hasChangeBegun) {
+			this.data.changeEnd();
+		}
+		
+		return this;
+	}
+	
+	/**
 	 * Flips this {@code Image} instance along the X- and Y-axes.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -472,8 +543,8 @@ public final class Image {
 		
 		final boolean hasChangeBegun = this.data.changeBegin();
 		
-		for(int xL = 0, xR = resolutionX - 1; xL < xR; xL++, xR--) {
-			for(int y = 0; y < resolutionY; y++) {
+		for(int y = 0; y < resolutionY; y++) {
+			for(int xL = 0, xR = resolutionX - 1; xL < xR; xL++, xR--) {
 				final int indexL = y * resolutionX + xL;
 				final int indexR = y * resolutionX + xR;
 				
@@ -753,6 +824,17 @@ public final class Image {
 	}
 	
 	/**
+	 * Performs a cache operation to this {@code Image} instance.
+	 * <p>
+	 * Returns the number of pixels that were cached as a result of this operation.
+	 * 
+	 * @return the number of pixels that were cached as a result of this operation
+	 */
+	public int cache() {
+		return this.data.cache();
+	}
+	
+	/**
 	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
 	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
@@ -831,6 +913,46 @@ public final class Image {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.data);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * This {@code PixelFilter} interface is used by the {@link Image} class to decide what pixels to operate on.
+	 * 
+	 * @since 1.0.0
+	 * @author J&#246;rgen Lundgren
+	 */
+	public static interface PixelFilter {
+		/**
+		 * Returns {@code true} if, and only if, the pixel represented by {@code x} and {@code y} is accepted, {@code false} otherwise.
+		 * 
+		 * @param colorARGB the current color of the pixel
+		 * @param x the X-component of the pixel
+		 * @param y the Y-component of the pixel
+		 * @return {@code true} if, and only if, the pixel represented by {@code x} and {@code y} is accepted, {@code false} otherwise
+		 */
+		boolean isAccepted(final int colorARGB, final int x, final int y);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * This {@code PixelOperator} interface is used by the {@link Image} class when operating on a given pixel.
+	 * 
+	 * @since 1.0.0
+	 * @author J&#246;rgen Lundgren
+	 */
+	public static interface PixelOperator {
+		/**
+		 * Returns a color for the pixel at {@code x} and {@code y}.
+		 * 
+		 * @param colorARGB the current color of the pixel
+		 * @param x the X-component of the pixel
+		 * @param y the Y-component of the pixel
+		 * @return a color, which may be {@code colorARGB} itself, or a transformed version of it
+		 */
+		int apply(final int colorARGB, final int x, final int y);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

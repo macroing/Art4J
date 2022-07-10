@@ -440,6 +440,84 @@ public abstract class Data {
 	public abstract boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun);
 	
 	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.setColorARGB(colorARGB, index, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGB the color to set
+	 * @param index the index of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
+	 */
+	public final boolean setColorARGB(final int colorARGB, final int index) {
+		return setColorARGB(colorARGB, index, false);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * 
+	 * @param colorARGB the color to set
+	 * @param index the index of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
+	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
+	 */
+	public abstract boolean setColorARGB(final int colorARGB, final int index, final boolean hasChangeBegun);
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.setColorARGB(colorARGB, x, y, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGB the color to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
+	 */
+	public final boolean setColorARGB(final int colorARGB, final int x, final int y) {
+		return setColorARGB(colorARGB, x, y, false);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * 
+	 * @param colorARGB the color to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
+	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
+	 */
+	public abstract boolean setColorARGB(final int colorARGB, final int x, final int y, final boolean hasChangeBegun);
+	
+	/**
 	 * Sets the content of this {@code Data} instance to a copy of the content in {@code data}.
 	 * <p>
 	 * Returns {@code true} if, and only if, the content of this {@code Data} instance is changed as a result of this operation, {@code false} otherwise.
@@ -547,6 +625,15 @@ public abstract class Data {
 		
 		return false;
 	}
+	
+	/**
+	 * Performs a cache operation to this {@code Data} instance.
+	 * <p>
+	 * Returns the number of pixels that were cached as a result of this operation.
+	 * 
+	 * @return the number of pixels that were cached as a result of this operation
+	 */
+	public abstract int cache();
 	
 	/**
 	 * Returns the color at {@code x} and {@code y} in this {@code Data} instance.
