@@ -48,7 +48,7 @@ import org.macroing.img4j.kernel.ConvolutionKernelND;
  * @author J&#246;rgen Lundgren
  */
 public final class Image {
-	private static final DataFactory DATA_FACTORY = DataFactory.forColor4D();
+	private static final DataFactory DATA_FACTORY = DataFactory.forColorARGB();
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -298,6 +298,7 @@ public final class Image {
 	 */
 	public Image convolve(final ConvolutionKernelND convolutionKernel, final BiPredicate<Color4D, Point2I> filter) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
+		Objects.requireNonNull(filter, "filter == null");
 		
 		final double bias = convolutionKernel.getBias();
 		final double factor = convolutionKernel.getFactor();
@@ -749,6 +750,50 @@ public final class Image {
 	 */
 	public boolean undo() {
 		return this.data.undo();
+	}
+	
+	/**
+	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColorARGB(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the color at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public int getColorARGB(final double x, final double y) {
+		return this.data.getColorARGB(x, y);
+	}
+	
+	/**
+	 * Returns the color at {@code index} in this {@code Image} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the color at {@code index} in this {@code Image} instance
+	 */
+	public int getColorARGB(final int index) {
+		return this.data.getColorARGB(index);
+	}
+	
+	/**
+	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the color at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public int getColorARGB(final int x, final int y) {
+		return this.data.getColorARGB(x, y);
 	}
 	
 	/**

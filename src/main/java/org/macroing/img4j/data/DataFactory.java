@@ -145,4 +145,13 @@ public abstract class DataFactory {
 	public static DataFactory forColor4D() {
 		return new Color4DDataFactory();
 	}
+	
+	/**
+	 * Returns a {@code DataFactory} instance that creates {@link Data} instances that stores pixels as packed {@code int} values with the format ARGB.
+	 * 
+	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as packed {@code int} values with the format ARGB
+	 */
+	public static DataFactory forColorARGB() {
+		return new ColorARGBDataFactory();
+	}
 }

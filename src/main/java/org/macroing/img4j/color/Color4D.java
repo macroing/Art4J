@@ -58,31 +58,11 @@ public final class Color4D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final Map<Color4D, Color4D> CACHE;
-	private static final double COLOR_SPACE_BREAK_POINT;
-	private static final double COLOR_SPACE_GAMMA;
-	private static final double COLOR_SPACE_SEGMENT_OFFSET;
-	private static final double COLOR_SPACE_SLOPE;
-	private static final double COLOR_SPACE_SLOPE_MATCH;
-	private static final int COLOR_A_R_G_B_SHIFT_A;
-	private static final int COLOR_A_R_G_B_SHIFT_B;
-	private static final int COLOR_A_R_G_B_SHIFT_G;
-	private static final int COLOR_A_R_G_B_SHIFT_R;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	static {
 		CACHE = new HashMap<>();
-		
-		COLOR_SPACE_BREAK_POINT = 0.00304D;
-		COLOR_SPACE_GAMMA = 2.4D;
-		COLOR_SPACE_SLOPE = 1.0D / (COLOR_SPACE_GAMMA / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D) - COLOR_SPACE_GAMMA * COLOR_SPACE_BREAK_POINT + COLOR_SPACE_BREAK_POINT);
-		COLOR_SPACE_SLOPE_MATCH = COLOR_SPACE_GAMMA * COLOR_SPACE_SLOPE / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D);
-		COLOR_SPACE_SEGMENT_OFFSET = COLOR_SPACE_SLOPE_MATCH * Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SLOPE * COLOR_SPACE_BREAK_POINT;
-		
-		COLOR_A_R_G_B_SHIFT_A = 24;
-		COLOR_A_R_G_B_SHIFT_B =  0;
-		COLOR_A_R_G_B_SHIFT_G =  8;
-		COLOR_A_R_G_B_SHIFT_R = 16;
 		
 		BLACK = getCached(new Color4D(0.0D, 0.0D, 0.0D));
 		BLUE = getCached(new Color4D(0.0D, 0.0D, 1.0D));
@@ -403,32 +383,32 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public int toIntA() {
-		return doConvertComponentFromDoubleToInt(this.a);
+		return Utilities.convertComponentFromDoubleToInt(this.a);
 	}
 	
 //	TODO: Add Javadocs!
 	public int toIntARGB() {
-		final int a = ((toIntA() & 0xFF) << COLOR_A_R_G_B_SHIFT_A);
-		final int r = ((toIntR() & 0xFF) << COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << COLOR_A_R_G_B_SHIFT_B);
+		final int a = ((toIntA() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
+		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
 		
 		return a | r | g | b;
 	}
 	
 //	TODO: Add Javadocs!
 	public int toIntB() {
-		return doConvertComponentFromDoubleToInt(this.b);
+		return Utilities.convertComponentFromDoubleToInt(this.b);
 	}
 	
 //	TODO: Add Javadocs!
 	public int toIntG() {
-		return doConvertComponentFromDoubleToInt(this.g);
+		return Utilities.convertComponentFromDoubleToInt(this.g);
 	}
 	
 //	TODO: Add Javadocs!
 	public int toIntR() {
-		return doConvertComponentFromDoubleToInt(this.r);
+		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -490,10 +470,10 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D fromIntARGB(final int colorARGB) {
-		final int a = (colorARGB >> COLOR_A_R_G_B_SHIFT_A) & 0xFF;
-		final int r = (colorARGB >> COLOR_A_R_G_B_SHIFT_R) & 0xFF;
-		final int g = (colorARGB >> COLOR_A_R_G_B_SHIFT_G) & 0xFF;
-		final int b = (colorARGB >> COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+		final int a = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_A) & 0xFF;
+		final int r = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
+		final int g = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
+		final int b = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
 		
 		return new Color4D(r, g, b, a);
 	}
@@ -578,9 +558,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomBlue(final double maxR, final double maxG) {
-		final double b = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
-		final double r = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.nextDown(b))));
-		final double g = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.nextDown(b))));
+		final double b = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double r = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), b));
+		final double g = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), b));
 		
 		return new Color4D(r, g, b);
 	}
@@ -592,8 +572,8 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomCyan(final double minGB, final double maxR) {
-		final double x = Utilities.nextDouble(Utilities.saturate(minGB), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.max(Math.nextDown(x), 0.0D))));
+		final double x = Utilities.nextDouble(Math.max(Math.min(minGB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), x));
 		
 		return new Color4D(y, x, x);
 	}
@@ -610,9 +590,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomGreen(final double maxR, final double maxB) {
-		final double g = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
-		final double r = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxR, Math.nextDown(g))));
-		final double b = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.nextDown(g))));
+		final double g = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double r = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), g));
+		final double b = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), g));
 		
 		return new Color4D(r, g, b);
 	}
@@ -624,8 +604,8 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomMagenta(final double minRB, final double maxG) {
-		final double x = Utilities.nextDouble(Utilities.saturate(minRB), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.max(Math.nextDown(x), 0.0D))));
+		final double x = Utilities.nextDouble(Math.max(Math.min(minRB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), x));
 		
 		return new Color4D(x, y, x);
 	}
@@ -637,9 +617,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomRed(final double maxG, final double maxB) {
-		final double r = Utilities.nextDouble(0.1D, Math.nextUp(1.0D));
-		final double g = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxG, Math.nextDown(r))));
-		final double b = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.nextDown(r))));
+		final double r = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double g = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), r));
+		final double b = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), r));
 		
 		return new Color4D(r, g, b);
 	}
@@ -651,15 +631,15 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomYellow(final double minRG, final double maxB) {
-		final double x = Utilities.nextDouble(Utilities.saturate(minRG), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.nextUp(Math.min(maxB, Math.max(Math.nextDown(x), 0.0D))));
+		final double x = Utilities.nextDouble(Math.max(Math.min(minRG, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), x));
 		
 		return new Color4D(x, x, y);
 	}
 	
 //	TODO: Add Javadocs!
 	public static Color4D redoGammaCorrection(final Color4D color) {
-		return new Color4D(doRedoGammaCorrection(color.r), doRedoGammaCorrection(color.g), doRedoGammaCorrection(color.b), color.a);
+		return new Color4D(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b), color.a);
 	}
 	
 //	TODO: Add Javadocs!
@@ -674,7 +654,7 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D undoGammaCorrection(final Color4D color) {
-		return new Color4D(doUndoGammaCorrection(color.r), doUndoGammaCorrection(color.g), doUndoGammaCorrection(color.b), color.a);
+		return new Color4D(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b), color.a);
 	}
 	
 //	TODO: Add Javadocs!
@@ -685,19 +665,5 @@ public final class Color4D {
 //	TODO: Add Javadocs!
 	public static void clearCache() {
 		CACHE.clear();
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private static double doRedoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_BREAK_POINT ? value * COLOR_SPACE_SLOPE : COLOR_SPACE_SLOPE_MATCH * Math.pow(value, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SEGMENT_OFFSET;
-	}
-	
-	private static double doUndoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_BREAK_POINT * COLOR_SPACE_SLOPE ? value / COLOR_SPACE_SLOPE : Math.pow((value + COLOR_SPACE_SEGMENT_OFFSET) / COLOR_SPACE_SLOPE_MATCH, COLOR_SPACE_GAMMA);
-	}
-	
-	private static int doConvertComponentFromDoubleToInt(final double component) {
-		return (int)(Utilities.saturate(component) * 255.0D + 0.5D);
 	}
 }

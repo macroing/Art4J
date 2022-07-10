@@ -21,6 +21,7 @@ package org.macroing.img4j.data;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
+import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
 
 /**
@@ -546,6 +547,67 @@ public abstract class Data {
 		
 		return false;
 	}
+	
+	/**
+	 * Returns the color at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColorARGB(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
+	 */
+	public final int getColorARGB(final double x, final double y) {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		if(x < 0.0D || x >= resolutionX) {
+			return 0;
+		}
+		
+		if(y < 0.0D || y >= resolutionY) {
+			return 0;
+		}
+		
+		final int minimumX = (int)(Math.floor(x));
+		final int maximumX = (int)(Math.ceil(x));
+		
+		final int minimumY = (int)(Math.floor(y));
+		final int maximumY = (int)(Math.ceil(y));
+		
+		if(minimumX == maximumX && minimumY == maximumY) {
+			return getColorARGB(minimumX, minimumY);
+		}
+		
+		return Color.blend(getColorARGB(minimumX, minimumY), getColorARGB(maximumX, minimumY), getColorARGB(minimumX, maximumY), getColorARGB(maximumX, maximumY), x - minimumX, y - minimumY);
+	}
+	
+	/**
+	 * Returns the color at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the color at {@code index} in this {@code Data} instance
+	 */
+	public abstract int getColorARGB(final int index);
+	
+	/**
+	 * Returns the color at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
+	 */
+	public abstract int getColorARGB(final int x, final int y);
 	
 	/**
 	 * Returns the resolution of this {@code Data} instance.
