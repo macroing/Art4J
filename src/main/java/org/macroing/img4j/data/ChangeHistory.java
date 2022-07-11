@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 final class ChangeHistory {
+	private final AtomicBoolean hasBegun;
 	private final Deque<Change> changesToRedo;
 	private final Deque<Change> changesToUndo;
 	private final List<Change> changes;
@@ -32,12 +34,14 @@ final class ChangeHistory {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public ChangeHistory() {
+		this.hasBegun = new AtomicBoolean();
 		this.changesToRedo = new ArrayDeque<>();
 		this.changesToUndo = new ArrayDeque<>();
 		this.changes = new ArrayList<>();
 	}
 	
 	public ChangeHistory(final ChangeHistory changeHistory) {
+		this.hasBegun = new AtomicBoolean(changeHistory.hasBegun.get());
 		this.changesToRedo = new ArrayDeque<>(changeHistory.changesToRedo);
 		this.changesToUndo = new ArrayDeque<>(changeHistory.changesToUndo);
 		this.changes = new ArrayList<>(changeHistory.changes);
@@ -45,12 +49,42 @@ final class ChangeHistory {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Change toChange() {
-		return this.changes.size() == 1 ? this.changes.get(0) : new CombinedChange(getChanges());
+	public boolean add(final Change change) {
+		Objects.requireNonNull(change, "change == null");
+		
+		if(hasBegun()) {
+			this.changes.add(change);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public List<Change> getChanges() {
-		return new ArrayList<>(this.changes);
+	public boolean begin() {
+		if(this.hasBegun.compareAndSet(false, true)) {
+			this.changes.clear();
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean end() {
+		if(this.hasBegun.compareAndSet(true, false)) {
+			if(this.changes.size() > 0) {
+				final Change change = this.changes.size() == 1 ? this.changes.get(0) : new CombinedChange(this.changes);
+				
+				this.changesToRedo.clear();
+				this.changesToUndo.push(change);
+				this.changes.clear();
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -58,6 +92,8 @@ final class ChangeHistory {
 		if(object == this) {
 			return true;
 		} else if(!(object instanceof ChangeHistory)) {
+			return false;
+		} else if(this.hasBegun.get() != ChangeHistory.class.cast(object).hasBegun.get()) {
 			return false;
 		} else if(!Objects.equals(this.changesToRedo, ChangeHistory.class.cast(object).changesToRedo)) {
 			return false;
@@ -68,6 +104,10 @@ final class ChangeHistory {
 		} else {
 			return true;
 		}
+	}
+	
+	public boolean hasBegun() {
+		return this.hasBegun.get();
 	}
 	
 	public boolean redo(final Data data) {
@@ -100,27 +140,6 @@ final class ChangeHistory {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.changesToRedo, this.changesToUndo, this.changes);
-	}
-	
-	public void add(final Change change) {
-		this.changes.add(Objects.requireNonNull(change, "change == null"));
-	}
-	
-	public void clear() {
-		this.changes.clear();
-	}
-	
-	public void push() {
-		if(this.changes.size() > 0) {
-			push(toChange());
-		}
-	}
-	
-	public void push(final Change change) {
-		Objects.requireNonNull(change, "change == null");
-		
-		this.changesToRedo.clear();
-		this.changesToUndo.push(change);
+		return Objects.hash(Boolean.valueOf(this.hasBegun.get()), this.changesToRedo, this.changesToUndo, this.changes);
 	}
 }

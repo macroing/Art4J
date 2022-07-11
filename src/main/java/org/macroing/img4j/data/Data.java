@@ -190,12 +190,12 @@ public abstract class Data {
 	/**
 	 * Performs a change add operation.
 	 * <p>
-	 * Returns {@code true} if, and only if, the change history is enabled, {@code false} otherwise.
+	 * Returns {@code true} if, and only if, the change history is enabled and {@code change} is added, {@code false} otherwise.
 	 * <p>
 	 * If {@code change} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param change the {@link Change} instance to add
-	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
+	 * @return {@code true} if, and only if, the change history is enabled and {@code change} is added, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code change} is {@code null}
 	 */
 	public final boolean changeAdd(final Change change) {
@@ -204,9 +204,7 @@ public abstract class Data {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
 		if(changeHistory != null) {
-			changeHistory.add(change);
-			
-			return true;
+			return changeHistory.add(change);
 		}
 		
 		return false;
@@ -215,17 +213,17 @@ public abstract class Data {
 	/**
 	 * Performs a change begin operation.
 	 * <p>
-	 * Returns {@code true} if, and only if, the change history is enabled, {@code false} otherwise.
+	 * Returns {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise.
+	 * <p>
+	 * If {@code changeBegin()} has already been called and {@code changeEnd()} has not, {@code false} will be returned.
 	 * 
-	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
+	 * @return {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise
 	 */
 	public final boolean changeBegin() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
 		if(changeHistory != null) {
-			changeHistory.clear();
-			
-			return true;
+			return changeHistory.begin();
 		}
 		
 		return false;
@@ -234,18 +232,17 @@ public abstract class Data {
 	/**
 	 * Performs a change end operation.
 	 * <p>
-	 * Returns {@code true} if, and only if, the change history is enabled, {@code false} otherwise.
+	 * Returns {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise.
+	 * <p>
+	 * If {@code changeBegin()} has not been called, {@code false} will be returned.
 	 * 
-	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
+	 * @return {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise
 	 */
 	public final boolean changeEnd() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
 		if(changeHistory != null) {
-			changeHistory.push();
-			changeHistory.clear();
-			
-			return true;
+			return changeHistory.end();
 		}
 		
 		return false;
@@ -284,6 +281,15 @@ public abstract class Data {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the change history is enabled and a change has begun, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, the change history is enabled and a change has begun, {@code false} otherwise
+	 */
+	public final boolean hasChangeBegun() {
+		return this.changeHistory != null && this.changeHistory.hasBegun();
 	}
 	
 	/**
@@ -387,67 +393,13 @@ public abstract class Data {
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * data.setColor4D(color, index, false);
-	 * }
-	 * </pre>
 	 * 
 	 * @param color the {@link Color4D} instance to set
 	 * @param index the index of the pixel
 	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public final boolean setColor4D(final Color4D color, final int index) {
-		return setColor4D(color, index, false);
-	}
-	
-	/**
-	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code color}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
-	 * 
-	 * @param color the {@link Color4D} instance to set
-	 * @param index the index of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
-	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
-	public abstract boolean setColor4D(final Color4D color, final int index, final boolean hasChangeBegun);
-	
-	/**
-	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * data.setColor4D(color, x, y, false);
-	 * }
-	 * </pre>
-	 * 
-	 * @param color the {@link Color4D} instance to set
-	 * @param x the X-component of the pixel
-	 * @param y the Y-component of the pixel
-	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
-	public final boolean setColor4D(final Color4D color, final int x, final int y) {
-		return setColor4D(color, x, y, false);
-	}
+	public abstract boolean setColor4D(final Color4D color, final int index);
 	
 	/**
 	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
@@ -463,33 +415,10 @@ public abstract class Data {
 	 * @param color the {@link Color4D} instance to set
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public abstract boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun);
-	
-	/**
-	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code colorARGB}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * data.setColorARGB(colorARGB, index, false);
-	 * }
-	 * </pre>
-	 * 
-	 * @param colorARGB the color to set
-	 * @param index the index of the pixel
-	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
-	 */
-	public final boolean setColorARGB(final int colorARGB, final int index) {
-		return setColorARGB(colorARGB, index, false);
-	}
+	public abstract boolean setColor4D(final Color4D color, final int x, final int y);
 	
 	/**
 	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code colorARGB}.
@@ -500,35 +429,9 @@ public abstract class Data {
 	 * 
 	 * @param colorARGB the color to set
 	 * @param index the index of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
 	 */
-	public abstract boolean setColorARGB(final int colorARGB, final int index, final boolean hasChangeBegun);
-	
-	/**
-	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code colorARGB}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
-	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * data.setColorARGB(colorARGB, x, y, false);
-	 * }
-	 * </pre>
-	 * 
-	 * @param colorARGB the color to set
-	 * @param x the X-component of the pixel
-	 * @param y the Y-component of the pixel
-	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
-	 */
-	public final boolean setColorARGB(final int colorARGB, final int x, final int y) {
-		return setColorARGB(colorARGB, x, y, false);
-	}
+	public abstract boolean setColorARGB(final int colorARGB, final int index);
 	
 	/**
 	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code colorARGB}.
@@ -542,10 +445,9 @@ public abstract class Data {
 	 * @param colorARGB the color to set
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
 	 */
-	public abstract boolean setColorARGB(final int colorARGB, final int x, final int y, final boolean hasChangeBegun);
+	public abstract boolean setColorARGB(final int colorARGB, final int x, final int y);
 	
 	/**
 	 * Sets the content of this {@code Data} instance to a copy of the content in {@code data}.
@@ -634,10 +536,9 @@ public abstract class Data {
 	 * 
 	 * @param indexA the index of one of the pixels to swap
 	 * @param indexB the index of one of the pixels to swap
-	 * @param hasChangeBegun {@code true} if, and only if, change has already begun, {@code false} otherwise
 	 * @return {@code true} if, and only if, the swap occurred, {@code false} otherwise
 	 */
-	public abstract boolean swap(final int indexA, final int indexB, final boolean hasChangeBegun);
+	public abstract boolean swap(final int indexA, final int indexB);
 	
 	/**
 	 * Performs the current undo operation.

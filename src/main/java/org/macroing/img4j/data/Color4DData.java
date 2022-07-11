@@ -355,7 +355,7 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
-	public boolean setColor4D(final Color4D color, final int index, final boolean hasChangeBegun) {
+	public boolean setColor4D(final Color4D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
 		
 		if(index >= 0 && index < this.colors.length) {
@@ -363,10 +363,13 @@ final class Color4DData extends Data {
 			final Color4D oldColor = this.colors[index];
 			
 			if(!newColor.equals(oldColor)) {
-				if(hasChangeBegun || changeBegin()) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
 					changeAdd(new PixelChange(newColor, oldColor, index));
 					
-					if(!hasChangeBegun) {
+					if(hasChangeBegunNow) {
 						changeEnd();
 					}
 				}
@@ -381,7 +384,7 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
-	public boolean setColor4D(final Color4D color, final int x, final int y, final boolean hasChangeBegun) {
+	public boolean setColor4D(final Color4D color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
 		
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
@@ -391,10 +394,13 @@ final class Color4DData extends Data {
 			final Color4D oldColor = this.colors[index];
 			
 			if(!newColor.equals(oldColor)) {
-				if(hasChangeBegun || changeBegin()) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
 					changeAdd(new PixelChange(newColor, oldColor, index));
 					
-					if(!hasChangeBegun) {
+					if(hasChangeBegunNow) {
 						changeEnd();
 					}
 				}
@@ -409,16 +415,19 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
-	public boolean setColorARGB(final int colorARGB, final int index, final boolean hasChangeBegun) {
+	public boolean setColorARGB(final int colorARGB, final int index) {
 		if(index >= 0 && index < this.colors.length) {
 			final Color4D newColor = Color4D.fromIntARGB(colorARGB);
 			final Color4D oldColor = this.colors[index];
 			
 			if(!newColor.equals(oldColor)) {
-				if(hasChangeBegun || changeBegin()) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
 					changeAdd(new PixelChange(newColor, oldColor, index));
 					
-					if(!hasChangeBegun) {
+					if(hasChangeBegunNow) {
 						changeEnd();
 					}
 				}
@@ -433,7 +442,7 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
-	public boolean setColorARGB(final int colorARGB, final int x, final int y, final boolean hasChangeBegun) {
+	public boolean setColorARGB(final int colorARGB, final int x, final int y) {
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
 			final int index = y * this.resolutionX + x;
 			
@@ -441,10 +450,13 @@ final class Color4DData extends Data {
 			final Color4D oldColor = this.colors[index];
 			
 			if(!newColor.equals(oldColor)) {
-				if(hasChangeBegun || changeBegin()) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
 					changeAdd(new PixelChange(newColor, oldColor, index));
 					
-					if(!hasChangeBegun) {
+					if(hasChangeBegunNow) {
 						changeEnd();
 					}
 				}
@@ -535,7 +547,7 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
-	public boolean swap(final int indexA, final int indexB, final boolean hasChangeBegun) {
+	public boolean swap(final int indexA, final int indexB) {
 		if(indexA < 0 || indexA >= this.colors.length) {
 			return false;
 		}
@@ -547,11 +559,14 @@ final class Color4DData extends Data {
 		final Color4D colorA = this.colors[indexA];
 		final Color4D colorB = this.colors[indexB];
 		
-		if(hasChangeBegun || changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new PixelChange(colorB, colorA, indexA));
 			changeAdd(new PixelChange(colorA, colorB, indexB));
 			
-			if(!hasChangeBegun) {
+			if(hasChangeBegunNow) {
 				changeEnd();
 			}
 		}

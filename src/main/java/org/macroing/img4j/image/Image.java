@@ -417,7 +417,7 @@ public final class Image {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
 		for(int y = 0; y < resolutionY; y++) {
 			for(int x = 0; x < resolutionX; x++) {
@@ -428,14 +428,12 @@ public final class Image {
 				if(filter.test(oldColor, point)) {
 					final Color4D newColor = Objects.requireNonNull(operator.apply(oldColor, point));
 					
-					this.data.setColor4D(newColor, x, y, hasChangeBegun);
+					this.data.setColor4D(newColor, x, y);
 				}
 			}
 		}
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -485,7 +483,7 @@ public final class Image {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
 		for(int y = 0; y < resolutionY; y++) {
 			for(int x = 0; x < resolutionX; x++) {
@@ -494,14 +492,12 @@ public final class Image {
 				if(pixelFilter.isAccepted(oldColorARGB, x, y)) {
 					final int newColorARGB = pixelOperator.apply(oldColorARGB, x, y);
 					
-					this.data.setColorARGB(newColorARGB, x, y, hasChangeBegun);
+					this.data.setColorARGB(newColorARGB, x, y);
 				}
 			}
 		}
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -675,13 +671,11 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
 	 */
 	public Image fillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
-		doFillRegion(x, y, operator, filter, getColorARGB(x, y), hasChangeBegun);
+		doFillRegion(x, y, operator, filter, getColorARGB(x, y));
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -733,13 +727,11 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 	public Image fillRegion(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
-		doFillRegion(x, y, pixelOperator, pixelFilter, getColorARGB(x, y), hasChangeBegun);
+		doFillRegion(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -777,20 +769,18 @@ public final class Image {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
 		for(int y = 0; y < resolutionY; y++) {
 			for(int xL = 0, xR = resolutionX - 1; xL < xR; xL++, xR--) {
 				final int indexL = y * resolutionX + xL;
 				final int indexR = y * resolutionX + xR;
 				
-				this.data.swap(indexL, indexR, hasChangeBegun);
+				this.data.swap(indexL, indexR);
 			}
 		}
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -808,20 +798,18 @@ public final class Image {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		final boolean hasChangeBegun = this.data.changeBegin();
+		this.data.changeBegin();
 		
 		for(int yT = 0, yB = resolutionY - 1; yT < yB; yT++, yB--) {
 			for(int x = 0; x < resolutionX; x++) {
 				final int indexT = yT * resolutionX + x;
 				final int indexB = yB * resolutionX + x;
 				
-				this.data.swap(indexT, indexB, hasChangeBegun);
+				this.data.swap(indexT, indexB);
 			}
 		}
 		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.changeEnd();
 		
 		return this;
 	}
@@ -1312,7 +1300,7 @@ public final class Image {
 		return Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-	private void doFillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter, final int oldColorARGB, final boolean hasChangeBegun) {
+	private void doFillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1344,7 +1332,7 @@ public final class Image {
 				final Point2I point = new Point2I(currentX, currentY);
 				
 				if(filter.test(color, point)) {
-					this.data.setColor4D(operator.apply(color, point), currentX, currentY, hasChangeBegun);
+					this.data.setColor4D(operator.apply(color, point), currentX, currentY);
 				}
 				
 				isFilled[currentY * resolutionX + currentX] = true;
@@ -1380,7 +1368,7 @@ public final class Image {
 		}
 	}
 	
-	private void doFillRegion(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter, final int oldColorARGB, final boolean hasChangeBegun) {
+	private void doFillRegion(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1410,7 +1398,7 @@ public final class Image {
 				final int colorARGB = getColorARGB(currentX, currentY);
 				
 				if(pixelFilter.isAccepted(colorARGB, currentX, currentY)) {
-					this.data.setColorARGB(pixelOperator.apply(colorARGB, currentX, currentY), currentX, currentY, hasChangeBegun);
+					this.data.setColorARGB(pixelOperator.apply(colorARGB, currentX, currentY), currentX, currentY);
 				}
 				
 				isFilled[currentY * resolutionX + currentX] = true;
