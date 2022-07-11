@@ -218,6 +218,30 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns the {@link Color4D} at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4D.TRANSPARENT} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor4D(point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @return the {@code Color4D} at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public Color4D getColor4D(final Point2I point) {
+		return getColor4D(point.x, point.y);
+	}
+	
+	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
 	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
@@ -268,6 +292,8 @@ public final class Image {
 	 * <p>
 	 * If {@code convolutionKernel} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
@@ -291,6 +317,8 @@ public final class Image {
 	 * If either {@code convolutionKernel} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be convolved, {@code false} otherwise.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
 	 * 
 	 * @param convolutionKernel the {@link ConvolutionKernelND} instance to apply
 	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
@@ -323,6 +351,8 @@ public final class Image {
 	 * Returns this {@code Image} instance.
 	 * <p>
 	 * If {@code graphics2DConsumer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
 	 * 
 	 * @param graphics2DConsumer a {@code Consumer} that accepts a {@code Graphics2D} instance
 	 * @return this {@code Image} instance
@@ -331,15 +361,7 @@ public final class Image {
 	public Image draw(final Consumer<Graphics2D> graphics2DConsumer) {
 		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
 		
-		final BufferedImage bufferedImage = toBufferedImage();
-		
-		final Graphics2D graphics2D = bufferedImage.createGraphics();
-		
-		graphics2DConsumer.accept(graphics2D);
-		
-		final Data data = this.data.getDataFactory().create(bufferedImage);
-		
-		this.data.setContent(data);
+		this.data.draw(graphics2DConsumer);
 		
 		return this;
 	}
@@ -352,6 +374,8 @@ public final class Image {
 	 * If {@code operator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
@@ -378,6 +402,8 @@ public final class Image {
 	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
 	 * <p>
 	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
 	 * 
 	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
 	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
@@ -421,6 +447,8 @@ public final class Image {
 	 * <p>
 	 * If {@code pixelOperator} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
@@ -442,6 +470,8 @@ public final class Image {
 	 * Returns this {@code Image} instance.
 	 * <p>
 	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
 	 * 
 	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
 	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
@@ -477,9 +507,249 @@ public final class Image {
 	}
 	
 	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(point, operator, (currentColor, currentPoint) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image fillRegion(final Point2I point, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		return fillRegion(point, operator, (currentColor, currentPoint) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(point.x, point.y, operator, filter);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image fillRegion(final Point2I point, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
+		return fillRegion(point.x, point.y, operator, filter);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code point} or {@code pixelOperator} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(point, pixelOperator, (colorARGB, x, y) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
+	 */
+	public Image fillRegion(final Point2I point, final PixelOperator pixelOperator) {
+		return fillRegion(point, pixelOperator, (colorARGB, x, y) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 */
+	public Image fillRegion(final Point2I point, final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code operator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(x, y, operator, (color, point) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
+	 */
+	public Image fillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		return fillRegion(x, y, operator, (color, point) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * <p>
+	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColor4D()} than {@link DataFactory#forColorARGB()}.
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image fillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
+		final boolean hasChangeBegun = this.data.changeBegin();
+		
+		doFillRegion(x, y, operator, filter, getColorARGB(x, y), hasChangeBegun);
+		
+		if(hasChangeBegun) {
+			this.data.changeEnd();
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelOperator} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegion(x, y, pixelOperator, (currentColorARGB, currentX, currentY) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
+	 */
+	public Image fillRegion(final int x, final int y, final PixelOperator pixelOperator) {
+		return fillRegion(x, y, pixelOperator, (currentColorARGB, currentX, currentY) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * This operation is faster for {@link Data} instances created by {@link DataFactory#forColorARGB()} than {@link DataFactory#forColor4D()}.
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 */
+	public Image fillRegion(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+		final boolean hasChangeBegun = this.data.changeBegin();
+		
+		doFillRegion(x, y, pixelOperator, pixelFilter, getColorARGB(x, y), hasChangeBegun);
+		
+		if(hasChangeBegun) {
+			this.data.changeEnd();
+		}
+		
+		return this;
+	}
+	
+	/**
 	 * Flips this {@code Image} instance along the X- and Y-axes.
 	 * <p>
 	 * Returns this {@code Image} instance.
+	 * <p>
+	 * This operation is roughly as fast for {@link Data} instances created by both {@link DataFactory#forColor4D()} and {@link DataFactory#forColorARGB()}.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
@@ -498,6 +768,8 @@ public final class Image {
 	 * Flips this {@code Image} instance along the X-axis.
 	 * <p>
 	 * Returns this {@code Image} instance.
+	 * <p>
+	 * This operation is roughly as fast for {@link Data} instances created by both {@link DataFactory#forColor4D()} and {@link DataFactory#forColorARGB()}.
 	 * 
 	 * @return this {@code Image} instance
 	 */
@@ -527,6 +799,8 @@ public final class Image {
 	 * Flips this {@code Image} instance along the Y-axis.
 	 * <p>
 	 * Returns this {@code Image} instance.
+	 * <p>
+	 * This operation is roughly as fast for {@link Data} instances created by both {@link DataFactory#forColor4D()} and {@link DataFactory#forColorARGB()}.
 	 * 
 	 * @return this {@code Image} instance
 	 */
@@ -561,6 +835,8 @@ public final class Image {
 	 * <p>
 	 * If you need to perform multiple rotations, consider using the {@link #copy()} method and apply the rotation to the copy.
 	 * <p>
+	 * This operation is roughly as fast for {@link Data} instances created by both {@link DataFactory#forColor4D()} and {@link DataFactory#forColorARGB()}.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
@@ -583,6 +859,8 @@ public final class Image {
 	 * A rotation is performed on the entire image. It scales the image so the content will fit. Therefore, it is not advised to perform multiple rotations on a given {@code Image} instance.
 	 * <p>
 	 * If you need to perform multiple rotations, consider using the {@link #copy()} method and apply the rotation to the copy.
+	 * <p>
+	 * This operation is roughly as fast for {@link Data} instances created by both {@link DataFactory#forColor4D()} and {@link DataFactory#forColorARGB()}.
 	 * 
 	 * @param angle an angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
@@ -705,6 +983,33 @@ public final class Image {
 	}
 	
 	/**
+	 * Sets the color of the pixel at {@code point} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code color} or {@code point} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.setColor4D(color, point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color the {@link Color4D} to set
+	 * @param point the {@link Point2I} that contains the X- and Y-components of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
+	 */
+	public Image setColor4D(final Color4D color, final Point2I point) {
+		return setColor4D(color, point.x, point.y);
+	}
+	
+	/**
 	 * Sets the color of the pixel at {@code index} in this {@code Image} instance to {@code color}.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -720,6 +1025,29 @@ public final class Image {
 	 */
 	public Image setColor4D(final Color4D color, final int index) {
 		this.data.setColor4D(Objects.requireNonNull(color, "color == null"), index);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * 
+	 * @param color the {@link Color4D} to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Image setColor4D(final Color4D color, final int x, final int y) {
+		this.data.setColor4D(Objects.requireNonNull(color, "color == null"), x, y);
 		
 		return this;
 	}
@@ -804,6 +1132,30 @@ public final class Image {
 	 */
 	public int cache() {
 		return this.data.cache();
+	}
+	
+	/**
+	 * Returns the color at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColorARGB(point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @return the color at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public int getColorARGB(final Point2I point) {
+		return getColorARGB(point.x, point.y);
 	}
 	
 	/**
@@ -958,6 +1310,140 @@ public final class Image {
 		}
 		
 		return Arrays.stream(indices).filter(index -> index != -1).toArray();
+	}
+	
+	private void doFillRegion(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter, final int oldColorARGB, final boolean hasChangeBegun) {
+		final int resolution = getResolution();
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int minimumX = 0;
+		final int maximumX = resolutionX - 1;
+		final int minimumY = 0;
+		final int maximumY = resolutionY - 1;
+		
+		if(x >= minimumX && x <= maximumX && y >= minimumY && y <= maximumY) {
+			final boolean[] isFilled = new boolean[resolution];
+			
+			final int[] stackX = new int[resolution];
+			final int[] stackY = new int[resolution];
+			
+			stackX[0] = x;
+			stackY[0] = y;
+			
+			int stackLength = 1;
+			
+			while(stackLength > 0) {
+				final int currentX = stackX[stackLength - 1];
+				final int currentY = stackY[stackLength - 1];
+				
+				stackLength--;
+				
+				final Color4D color = getColor4D(currentX, currentY);
+				
+				final Point2I point = new Point2I(currentX, currentY);
+				
+				if(filter.test(color, point)) {
+					this.data.setColor4D(operator.apply(color, point), currentX, currentY, hasChangeBegun);
+				}
+				
+				isFilled[currentY * resolutionX + currentX] = true;
+				
+				if(currentX + 1 <= maximumX && !isFilled[currentY * resolutionX + currentX + 1] && getColorARGB(currentX + 1, currentY) == oldColorARGB) {
+					stackX[stackLength] = currentX + 1;
+					stackY[stackLength] = currentY;
+					
+					stackLength++;
+				}
+				
+				if(currentX - 1 >= minimumX && !isFilled[currentY * resolutionX + currentX - 1] && getColorARGB(currentX - 1, currentY) == oldColorARGB) {
+					stackX[stackLength] = currentX - 1;
+					stackY[stackLength] = currentY;
+					
+					stackLength++;
+				}
+				
+				if(currentY + 1 <= maximumY && !isFilled[(currentY + 1) * resolutionX + currentX] && getColorARGB(currentX, currentY + 1) == oldColorARGB) {
+					stackX[stackLength] = currentX;
+					stackY[stackLength] = currentY + 1;
+					
+					stackLength++;
+				}
+				
+				if(currentY - 1 >= minimumY && !isFilled[(currentY - 1) * resolutionX + currentX] && getColorARGB(currentX, currentY - 1) == oldColorARGB) {
+					stackX[stackLength] = currentX;
+					stackY[stackLength] = currentY - 1;
+					
+					stackLength++;
+				}
+			}
+		}
+	}
+	
+	private void doFillRegion(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter, final int oldColorARGB, final boolean hasChangeBegun) {
+		final int resolution = getResolution();
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int minimumX = 0;
+		final int maximumX = resolutionX - 1;
+		final int minimumY = 0;
+		final int maximumY = resolutionY - 1;
+		
+		if(x >= minimumX && x <= maximumX && y >= minimumY && y <= maximumY) {
+			final boolean[] isFilled = new boolean[resolution];
+			
+			final int[] stackX = new int[resolution];
+			final int[] stackY = new int[resolution];
+			
+			stackX[0] = x;
+			stackY[0] = y;
+			
+			int stackLength = 1;
+			
+			while(stackLength > 0) {
+				final int currentX = stackX[stackLength - 1];
+				final int currentY = stackY[stackLength - 1];
+				
+				stackLength--;
+				
+				final int colorARGB = getColorARGB(currentX, currentY);
+				
+				if(pixelFilter.isAccepted(colorARGB, currentX, currentY)) {
+					this.data.setColorARGB(pixelOperator.apply(colorARGB, currentX, currentY), currentX, currentY, hasChangeBegun);
+				}
+				
+				isFilled[currentY * resolutionX + currentX] = true;
+				
+				if(currentX + 1 <= maximumX && !isFilled[currentY * resolutionX + currentX + 1] && getColorARGB(currentX + 1, currentY) == oldColorARGB) {
+					stackX[stackLength] = currentX + 1;
+					stackY[stackLength] = currentY;
+					
+					stackLength++;
+				}
+				
+				if(currentX - 1 >= minimumX && !isFilled[currentY * resolutionX + currentX - 1] && getColorARGB(currentX - 1, currentY) == oldColorARGB) {
+					stackX[stackLength] = currentX - 1;
+					stackY[stackLength] = currentY;
+					
+					stackLength++;
+				}
+				
+				if(currentY + 1 <= maximumY && !isFilled[(currentY + 1) * resolutionX + currentX] && getColorARGB(currentX, currentY + 1) == oldColorARGB) {
+					stackX[stackLength] = currentX;
+					stackY[stackLength] = currentY + 1;
+					
+					stackLength++;
+				}
+				
+				if(currentY - 1 >= minimumY && !isFilled[(currentY - 1) * resolutionX + currentX] && getColorARGB(currentX, currentY - 1) == oldColorARGB) {
+					stackX[stackLength] = currentX;
+					stackY[stackLength] = currentY - 1;
+					
+					stackLength++;
+				}
+			}
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

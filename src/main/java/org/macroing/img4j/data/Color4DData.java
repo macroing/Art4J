@@ -18,10 +18,12 @@
  */
 package org.macroing.img4j.data;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
@@ -98,6 +100,28 @@ final class Color4DData extends Data {
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new Color4DData(this, isIgnoringChangeHistory);
+	}
+	
+	@Override
+	public Data draw(final Consumer<Graphics2D> graphics2DConsumer) {
+		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
+		
+		final BufferedImage bufferedImage = toBufferedImage(false);
+		
+		final Graphics2D graphics2D = bufferedImage.createGraphics();
+		
+		graphics2DConsumer.accept(graphics2D);
+		
+		final Color4D[] colors = Arrays.stream(DataBufferInt.class.cast(bufferedImage.getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4D.fromIntARGB(colorARGB)).toArray(Color4D[]::new);
+		
+		if(changeBegin()) {
+			changeAdd(new StateChange(colors, this.colors, this.resolutionX, this.resolutionX, this.resolutionY, this.resolutionY));
+			changeEnd();
+		}
+		
+		this.colors = colors;
+		
+		return this;
 	}
 	
 	@Override
@@ -441,7 +465,7 @@ final class Color4DData extends Data {
 		if(data instanceof Color4DData) {
 			final Color4DData color4DData = Color4DData.class.cast(data);
 			
-			final Color4D[] newColors = color4DData.colors;
+			final Color4D[] newColors = color4DData.colors.clone();
 			final Color4D[] oldColors = this.colors;
 			
 			final int newResolutionX = color4DData.resolutionX;

@@ -18,10 +18,12 @@
  */
 package org.macroing.img4j.data;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
@@ -99,6 +101,28 @@ final class ColorARGBData extends Data {
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new ColorARGBData(this, isIgnoringChangeHistory);
+	}
+	
+	@Override
+	public Data draw(final Consumer<Graphics2D> graphics2DConsumer) {
+		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
+		
+		final BufferedImage bufferedImage = toBufferedImage(false);
+		
+		final Graphics2D graphics2D = bufferedImage.createGraphics();
+		
+		graphics2DConsumer.accept(graphics2D);
+		
+		final int[] colors = DataBufferInt.class.cast(bufferedImage.getRaster().getDataBuffer()).getData();
+		
+		if(changeBegin()) {
+			changeAdd(new StateChange(this.resolutionX, this.resolutionX, this.resolutionY, this.resolutionY, colors, this.colors));
+			changeEnd();
+		}
+		
+		this.colors = colors;
+		
+		return this;
 	}
 	
 	@Override
@@ -444,7 +468,7 @@ final class ColorARGBData extends Data {
 		if(data instanceof ColorARGBData) {
 			final ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
 			
-			final int[] newColors = colorARGBData.colors;
+			final int[] newColors = colorARGBData.colors.clone();
 			final int[] oldColors = this.colors;
 			
 			final int newResolutionX = colorARGBData.resolutionX;

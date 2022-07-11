@@ -18,8 +18,10 @@
  */
 package org.macroing.img4j.data;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
@@ -164,6 +166,19 @@ public abstract class Data {
 	 * @return a copy of this {@code Data} instance
 	 */
 	public abstract Data copy(final boolean isIgnoringChangeHistory);
+	
+	/**
+	 * Draws the contents drawn to the supplied {@code Graphics2D} instance into this {@code Data} instance.
+	 * <p>
+	 * Returns this {@code Data} instance.
+	 * <p>
+	 * If {@code graphics2DConsumer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param graphics2DConsumer a {@code Consumer} that accepts a {@code Graphics2D} instance
+	 * @return this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code graphics2DConsumer} is {@code null}
+	 */
+	public abstract Data draw(final Consumer<Graphics2D> graphics2DConsumer);
 	
 	/**
 	 * Returns a {@link DataFactory} instance that is associated with this {@code Data} instance.
