@@ -36,6 +36,8 @@ import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
+import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 
 /**
@@ -364,6 +366,152 @@ public final class Image {
 		this.data.draw(graphics2DConsumer);
 		
 		return this;
+	}
+	
+	/**
+	 * Draws {@code shape} to this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.drawShape(shape, Color4D.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} to draw
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	public Image drawShape(final Shape2I shape) {
+		return drawShape(shape, Color4D.BLACK);
+	}
+	
+	/**
+	 * Draws {@code shape} to this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} to draw
+	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image drawShape(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(operator, "operator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfIntersection(getBounds(), true).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Draws {@code shape} to this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.drawShape(shape, (currentColor, currentPoint) -> color);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} to draw
+	 * @param color the {@link Color4D} to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+	public Image drawShape(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return drawShape(shape, (currentColor, currentPoint) -> color);
+	}
+	
+	/**
+	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.drawShapeComplement(shape, Color4D.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to draw
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	public Image drawShapeComplement(final Shape2I shape) {
+		return drawShapeComplement(shape, Color4D.BLACK);
+	}
+	
+	/**
+	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} not to draw
+	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image drawShapeComplement(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(operator, "operator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.drawShapeComplement(shape, (currentColor, currentPoint) -> color);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to draw
+	 * @param color the {@link Color4D} to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+	public Image drawShapeComplement(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return drawShapeComplement(shape, (currentColor, currentPoint) -> color);
 	}
 	
 	/**
@@ -737,6 +885,152 @@ public final class Image {
 	}
 	
 	/**
+	 * Fills {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShape(shape, Color4D.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} to fill
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	public Image fillShape(final Shape2I shape) {
+		return fillShape(shape, Color4D.BLACK);
+	}
+	
+	/**
+	 * Fills {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} to fill
+	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image fillShape(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(operator, "operator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfIntersection(getBounds()).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Fills {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShape(shape, (currentColor, currentPoint) -> color);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} to fill
+	 * @param color the {@link Color4D} to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+	public Image fillShape(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return fillShape(shape, (currentColor, currentPoint) -> color);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, Color4D.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	public Image fillShapeComplement(final Shape2I shape) {
+		return fillShapeComplement(shape, Color4D.BLACK);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link ColorDF} instances returned by {@code operator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+	public Image fillShapeComplement(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(operator, "operator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, (currentColor, currentPoint) -> color);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param color the {@link Color4D} to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+	public Image fillShapeComplement(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return fillShapeComplement(shape, (currentColor, currentPoint) -> color);
+	}
+	
+	/**
 	 * Flips this {@code Image} instance along the X- and Y-axes.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -1038,6 +1332,15 @@ public final class Image {
 		this.data.setColor4D(Objects.requireNonNull(color, "color == null"), x, y);
 		
 		return this;
+	}
+	
+	/**
+	 * Returns a {@link Rectangle2I} with the bounds of this {@code Image} instance.
+	 * 
+	 * @return a {@code Rectangle2I} with the bounds of this {@code Image} instance
+	 */
+	public Rectangle2I getBounds() {
+		return new Rectangle2I(new Point2I(), new Point2I(getResolutionX() - 1, getResolutionY() - 1));
 	}
 	
 	/**

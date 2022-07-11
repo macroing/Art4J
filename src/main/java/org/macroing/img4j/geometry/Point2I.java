@@ -18,20 +18,61 @@
  */
 package org.macroing.img4j.geometry;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code Point2I} represents a point with two {@code int}-based components.
+ * <p>
+ * This class is immutable and therefore thread-safe.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Point2I {
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Point2I} instance with the largest component values.
+	 */
+	public static final Point2I MAX = max();
+	
+	/**
+	 * A {@code Point2I} instance with the smallest component values.
+	 */
+	public static final Point2I MIN = min();
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * The X-component of this {@code Point2I} instance.
+	 */
 	public final int x;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * The Y-component of this {@code Point2I} instance.
+	 */
 	public final int y;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Point2I} instance given the component values {@code 0} and {@code 0}.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Point2I(0, 0);
+	 * }
+	 * </pre>
+	 */
+	public Point2I() {
+		this(0, 0);
+	}
+	
+	/**
+	 * Constructs a new {@code Point2I} instance given the component values {@code x} and {@code y}.
+	 * 
+	 * @param x the value of the X-component
+	 * @param y the value of the Y-component
+	 */
 	public Point2I(final int x, final int y) {
 		this.x = x;
 		this.y = y;
@@ -80,5 +121,167 @@ public final class Point2I {
 	@Override
 	public int hashCode() {
 		return Objects.hash(Integer.valueOf(this.x), Integer.valueOf(this.y));
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the largest component values.
+	 * 
+	 * @return a new {@code Point2I} instance with the largest component values
+	 */
+	public static Point2I max() {
+		return new Point2I(Integer.MAX_VALUE, Integer.MAX_VALUE);
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the largest component values of {@code a} and {@code b}.
+	 * <p>
+	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the largest component values of {@code a} and {@code b}
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
+	 */
+	public static Point2I max(final Point2I a, final Point2I b) {
+		return new Point2I(Math.max(a.x, b.x), Math.max(a.y, b.y));
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @param c a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
+	public static Point2I max(final Point2I a, final Point2I b, final Point2I c) {
+		return new Point2I(Math.max(Math.max(a.x, b.x), c.x), Math.max(Math.max(a.y, b.y), c.y));
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}.
+	 * <p>
+	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @param c a {@code Point2I} instance
+	 * @param d a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
+	 */
+	public static Point2I max(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
+		return new Point2I(Math.max(Math.max(a.x, b.x), Math.max(c.x, d.x)), Math.max(Math.max(a.y, b.y), Math.max(c.y, d.y)));
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the smallest component values.
+	 * 
+	 * @return a new {@code Point2I} instance with the smallest component values
+	 */
+	public static Point2I min() {
+		return new Point2I(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a} and {@code b}.
+	 * <p>
+	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the smallest component values of {@code a} and {@code b}
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
+	 */
+	public static Point2I min(final Point2I a, final Point2I b) {
+		return new Point2I(Math.min(a.x, b.x), Math.min(a.y, b.y));
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @param c a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
+	public static Point2I min(final Point2I a, final Point2I b, final Point2I c) {
+		return new Point2I(Math.min(Math.min(a.x, b.x), c.x), Math.min(Math.min(a.y, b.y), c.y));
+	}
+	
+	/**
+	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}.
+	 * <p>
+	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @param c a {@code Point2I} instance
+	 * @param d a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
+	 */
+	public static Point2I min(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
+		return new Point2I(Math.min(Math.min(a.x, b.x), Math.min(c.x, d.x)), Math.min(Math.min(a.y, b.y), Math.min(c.y, d.y)));
+	}
+	
+	/**
+	 * Returns the distance from {@code eye} to {@code lookAt}.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@code Point2I} instance denoting the eye to look from
+	 * @param lookAt a {@code Point2I} instance denoting the target to look at
+	 * @return the distance from {@code eye} to {@code lookAt}
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
+	public static int distance(final Point2I eye, final Point2I lookAt) {
+		return Vector2I.direction(eye, lookAt).length();
+	}
+	
+	/**
+	 * Returns a {@code String} representation of {@code points}.
+	 * <p>
+	 * If either {@code points} or an element in {@code points} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param points a {@code Point2I[]} instance
+	 * @return a {@code String} representation of {@code points}
+	 * @throws NullPointerException thrown if, and only if, either {@code points} or an element in {@code points} are {@code null}
+	 */
+	public static String toString(final Point2I... points) {
+		final
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("new Point2I[] {");
+		
+		for(int i = 0; i < points.length; i++) {
+			stringBuilder.append(i > 0 ? ", " : "");
+			stringBuilder.append(Objects.requireNonNull(points[i]));
+		}
+		
+		stringBuilder.append("}");
+		
+		return stringBuilder.toString();
+	}
+	
+	/**
+	 * Returns the squared distance from {@code eye} to {@code lookAt}.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@code Point2I} instance denoting the eye to look from
+	 * @param lookAt a {@code Point2I} instance denoting the target to look at
+	 * @return the squared distance from {@code eye} to {@code lookAt}
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
+	public static int distanceSquared(final Point2I eye, final Point2I lookAt) {
+		return Vector2I.direction(eye, lookAt).lengthSquared();
 	}
 }
