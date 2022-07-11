@@ -112,7 +112,9 @@ final class ChangeHistory {
 	}
 	
 	public void push() {
-		push(toChange());
+		if(this.changes.size() > 0) {
+			push(toChange());
+		}
 	}
 	
 	public void push(final Change change) {

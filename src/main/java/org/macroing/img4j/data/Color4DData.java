@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import org.macroing.img4j.color.Color4D;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
 
 final class Color4DData extends Data {
 	private Color4D[] colors;
@@ -102,6 +103,93 @@ final class Color4DData extends Data {
 	@Override
 	public DataFactory getDataFactory() {
 		return new Color4DDataFactory();
+	}
+	
+	@Override
+	public boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices) {
+		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
+		Objects.requireNonNull(indices, "indices == null");
+		
+		if(indices.length == 0) {
+			return false;
+		}
+		
+		final double bias = convolutionKernel.getBias();
+		final double factor = convolutionKernel.getFactor();
+		
+		final double[] elements = convolutionKernel.getElements();
+		
+		final int kernelResolution = convolutionKernel.getResolution();
+		final int kernelOffset = (kernelResolution - 1) / 2;
+		
+		final int resolution = getResolution();
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final Color4D[] oldColors = this.colors;
+		final Color4D[] newColors = this.colors.clone();
+		
+		final boolean hasChangeBegun = changeBegin();
+		
+		int count = 0;
+		
+		for(final int index : indices) {
+			if(index >= 0 && index < resolution) {
+				final int x = index % resolutionX;
+				final int y = index / resolutionX;
+				
+				final int xOffset = x - kernelOffset;
+				final int yOffset = y - kernelOffset;
+				
+				double colorR = 0.0D;
+				double colorG = 0.0D;
+				double colorB = 0.0D;
+				double colorA = oldColors[index].a;
+				
+				for(int kernelY = 0; kernelY < kernelResolution; kernelY++) {
+					final int imageY = yOffset + kernelY;
+					final int imageRow = imageY * resolutionX;
+					
+					final int kernelRow = kernelY * kernelResolution;
+					
+					for(int kernelX = 0; kernelX < kernelResolution; kernelX++) {
+						final int imageX = xOffset + kernelX;
+						
+						if(imageX >= 0 && imageX < resolutionX && imageY >= 0 && imageY < resolutionY) {
+							final Color4D color = oldColors[imageRow + imageX];
+							
+							final double element = elements[kernelRow + kernelX];
+							
+							colorR += color.r * element;
+							colorG += color.g * element;
+							colorB += color.b * element;
+						}
+					}
+				}
+				
+				colorR = colorR * factor + bias;
+				colorG = colorG * factor + bias;
+				colorB = colorB * factor + bias;
+				
+				newColors[index] = new Color4D(colorR, colorG, colorB, colorA);
+				
+				count++;
+			}
+		}
+		
+		if(hasChangeBegun) {
+			if(count > 0) {
+				changeAdd(new StateChange(newColors, oldColors, resolutionX, resolutionX, resolutionY, resolutionY));
+			}
+			
+			changeEnd();
+		}
+		
+		if(count > 0) {
+			this.colors = newColors;
+		}
+		
+		return count > 0;
 	}
 	
 	@Override

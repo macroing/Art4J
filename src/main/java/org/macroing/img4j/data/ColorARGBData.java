@@ -25,6 +25,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
 
 final class ColorARGBData extends Data {
 	private int resolutionX;
@@ -103,6 +104,95 @@ final class ColorARGBData extends Data {
 	@Override
 	public DataFactory getDataFactory() {
 		return new ColorARGBDataFactory();
+	}
+	
+	@Override
+	public boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices) {
+		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
+		Objects.requireNonNull(indices, "indices == null");
+		
+		if(indices.length == 0) {
+			return false;
+		}
+		
+		final double bias = convolutionKernel.getBias();
+		final double factor = convolutionKernel.getFactor();
+		
+		final double[] elements = convolutionKernel.getElements();
+		
+		final int kernelResolution = convolutionKernel.getResolution();
+		final int kernelOffset = (kernelResolution - 1) / 2;
+		
+		final int resolution  = getResolution();
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int[] oldColors = this.colors;
+		final int[] newColors = this.colors.clone();
+		
+		final double[] colors = doUnpackColorsAsDoubleArrayRGB();
+		
+		final boolean hasChangeBegun = changeBegin();
+		
+		int count = 0;
+		
+		for(final int index : indices) {
+			if(index >= 0 && index < resolution) {
+				final int x = index % resolutionX;
+				final int y = index / resolutionX;
+				
+				final int xOffset = x - kernelOffset;
+				final int yOffset = y - kernelOffset;
+				
+				double colorR = 0.0D;
+				double colorG = 0.0D;
+				double colorB = 0.0D;
+				double colorA = Color.unpackAAsDouble(oldColors[index]);
+				
+				for(int kernelY = 0; kernelY < kernelResolution; kernelY++) {
+					final int imageY = yOffset + kernelY;
+					final int imageRow = imageY * resolutionX;
+					
+					final int kernelRow = kernelY * kernelResolution;
+					
+					for(int kernelX = 0; kernelX < kernelResolution; kernelX++) {
+						final int imageX = xOffset + kernelX;
+						
+						if(imageX >= 0 && imageX < resolutionX && imageY >= 0 && imageY < resolutionY) {
+							final int imageIndex = (imageRow + imageX) * 3;
+							
+							final double element = elements[kernelRow + kernelX];
+							
+							colorR += colors[imageIndex + 0] * element;
+							colorG += colors[imageIndex + 1] * element;
+							colorB += colors[imageIndex + 2] * element;
+						}
+					}
+				}
+				
+				colorR = colorR * factor + bias;
+				colorG = colorG * factor + bias;
+				colorB = colorB * factor + bias;
+				
+				newColors[index] = Color.packRGBA(colorR, colorG, colorB, colorA);
+				
+				count++;
+			}
+		}
+		
+		if(hasChangeBegun) {
+			if(count > 0) {
+				changeAdd(new StateChange(resolutionX, resolutionX, resolutionY, resolutionY, newColors, oldColors));
+			}
+			
+			changeEnd();
+		}
+		
+		if(count > 0) {
+			this.colors = newColors;
+		}
+		
+		return count > 0;
 	}
 	
 	@Override
@@ -624,5 +714,19 @@ final class ColorARGBData extends Data {
 				colorARGBData.updateState(this.resolutionXUndo, this.resolutionYUndo, this.colorsUndo);
 			}
 		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private double[] doUnpackColorsAsDoubleArrayRGB() {
+		final double[] colors = new double[this.colors.length * 3];
+		
+		for(int i = 0, j = 0; i < this.colors.length; i++, j = i * 3) {
+			colors[j + 0] = Color.unpackRAsDouble(this.colors[i]);
+			colors[j + 1] = Color.unpackGAsDouble(this.colors[i]);
+			colors[j + 2] = Color.unpackBAsDouble(this.colors[i]);
+		}
+		
+		return colors;
 	}
 }

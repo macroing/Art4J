@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
 
 /**
  * A {@code Data} contains data for an image.
@@ -234,6 +235,20 @@ public abstract class Data {
 		
 		return false;
 	}
+	
+	/**
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Data} instance that are provided by {@code indices}.
+	 * <p>
+	 * Returns {@code true} if, and only if, at least one pixel was convolved, {@code false} otherwise.
+	 * <p>
+	 * If either {@code convolutionKernel} or {@code indices} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param convolutionKernel the {@link ConvolutionKernelND} instance to apply
+	 * @param indices an {@code int[]} that provides the indices of the pixels to apply {@code convolutionKernel} to
+	 * @return {@code true} if, and only if, at least one pixel was convolved, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code indices} are {@code null}
+	 */
+	public abstract boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices);
 	
 	/**
 	 * Compares {@code object} to this {@code Data} instance for equality.

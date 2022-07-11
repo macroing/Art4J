@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -300,46 +301,9 @@ public final class Image {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
 		Objects.requireNonNull(filter, "filter == null");
 		
-		final double bias = convolutionKernel.getBias();
-		final double factor = convolutionKernel.getFactor();
+		final int[] indices = doFilter(filter);
 		
-		final double[] elements = convolutionKernel.getElements();
-		
-		final int kR = convolutionKernel.getResolution();
-		final int kO = (kR - 1) / 2;
-		
-		final int rX = getResolutionX();
-		final int rY = getResolutionY();
-		
-		final Data data = this.data.copy(true);
-		
-		final boolean hasChangeBegun = this.data.changeBegin();
-		
-		for(int y = 0; y < rY; y++) {
-			for(int x = 0; x < rX; x++) {
-				final Point2I point = new Point2I(x, y);
-				
-				final Color4D oldColor = data.getColor4D(x, y);
-				
-				if(filter.test(oldColor, point)) {
-					Color4D color = new Color4D(0.0D, oldColor.a);
-					
-					for(int kY = 0, iY = y + kY - kO; kY < kR; kY++, iY = y + kY - kO) {
-						for(int kX = 0, iX = x + kX - kO, kI = kY * kR + kX, iI = iY * rX + iX; kX < kR; kX++, iX = x + kX - kO, kI = kY * kR + kX, iI = iY * rX + iX) {
-							if(iX >= 0 && iX < rX && iY >= 0 && iY < rY) {
-								color = Color4D.addRGB(color, Color4D.multiplyRGB(data.getColor4D(iI), elements[kI]));
-							}
-						}
-					}
-					
-					this.data.setColor4D(Color4D.addRGB(Color4D.multiplyRGB(color, factor), bias), y * rX + x, hasChangeBegun);
-				}
-			}
-		}
-		
-		if(hasChangeBegun) {
-			this.data.changeEnd();
-		}
+		this.data.convolve(convolutionKernel, indices);
 		
 		return this;
 	}
@@ -593,6 +557,10 @@ public final class Image {
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
+	 * A rotation is performed on the entire image. It scales the image so the content will fit. Therefore, it is not advised to perform multiple rotations on a given {@code Image} instance.
+	 * <p>
+	 * If you need to perform multiple rotations, consider using the {@link #copy()} method and apply the rotation to the copy.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
@@ -611,6 +579,10 @@ public final class Image {
 	 * Rotates this {@code Image} instance by {@code angle} degrees or radians.
 	 * <p>
 	 * Returns this {@code Image} instance.
+	 * <p>
+	 * A rotation is performed on the entire image. It scales the image so the content will fit. Therefore, it is not advised to perform multiple rotations on a given {@code Image} instance.
+	 * <p>
+	 * If you need to perform multiple rotations, consider using the {@link #copy()} method and apply the rotation to the copy.
 	 * 
 	 * @param angle an angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
@@ -953,6 +925,39 @@ public final class Image {
 		 * @return a color, which may be {@code colorARGB} itself, or a transformed version of it
 		 */
 		int apply(final int colorARGB, final int x, final int y);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private int[] doFilter(final BiPredicate<Color4D, Point2I> filter) {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int[] indices = new int[resolutionX * resolutionY];
+		
+		boolean isFullyCovered = true;
+		
+		for(int y = 0, index = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++, index++) {
+				final Color4D color = getColor4D(x, y);
+				
+				final Point2I point = new Point2I(x, y);
+				
+				if(filter.test(color, point)) {
+					indices[index] = index;
+				} else {
+					indices[index] = -1;
+					
+					isFullyCovered = false;
+				}
+			}
+		}
+		
+		if(isFullyCovered) {
+			return indices;
+		}
+		
+		return Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
