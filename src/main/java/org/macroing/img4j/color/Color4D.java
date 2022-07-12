@@ -25,7 +25,9 @@ import java.util.Objects;
 
 //TODO: Add Javadocs!
 public final class Color4D {
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color black.
+	 */
 	public static final Color4D BLACK;
 	
 //	TODO: Add Javadocs!
