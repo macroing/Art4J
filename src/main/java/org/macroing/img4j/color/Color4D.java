@@ -50,7 +50,9 @@ public final class Color4D {
 	 */
 	public static final Color4D GREEN;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color magenta.
+	 */
 	public static final Color4D MAGENTA;
 	
 //	TODO: Add Javadocs!
