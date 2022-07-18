@@ -51,10 +51,6 @@ import org.macroing.img4j.kernel.ConvolutionKernelND;
  * @author J&#246;rgen Lundgren
  */
 public final class Image {
-	private static final DataFactory DATA_FACTORY = DataFactory.forColorARGB();
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	private final Data data;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,12 +73,32 @@ public final class Image {
 	 * Constructs a new {@code Image} instance from {@code bufferedImage}.
 	 * <p>
 	 * If {@code bufferedImage} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(bufferedImage, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
 	 * 
 	 * @param bufferedImage a {@code BufferedImage} instance
 	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
 	 */
 	public Image(final BufferedImage bufferedImage) {
-		this.data = DATA_FACTORY.create(bufferedImage);
+		this(bufferedImage, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance from {@code bufferedImage} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code bufferedImage} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param bufferedImage a {@code BufferedImage} instance
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code bufferedImage} or {@code dataFactory} are {@code null}
+	 */
+	public Image(final BufferedImage bufferedImage, final DataFactory dataFactory) {
+		this.data = dataFactory.create(bufferedImage);
 	}
 	
 	/**
@@ -103,13 +119,36 @@ public final class Image {
 	 * If {@code file} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(file, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
 	 * 
 	 * @param file a {@code File} that represents the file to read from
 	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final File file) {
-		this.data = DATA_FACTORY.create(file);
+		this(file, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance by reading the content of the file represented by {@code file} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code file} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param file a {@code File} that represents the file to read from
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code dataFactory} are {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final File file, final DataFactory dataFactory) {
+		this.data = dataFactory.create(file);
 	}
 	
 	/**
@@ -130,13 +169,36 @@ public final class Image {
 	 * If {@code pathname} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(pathname, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
 	 * 
 	 * @param pathname a {@code String} that represents the pathname of the file to read from
 	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final String pathname) {
-		this.data = DATA_FACTORY.create(pathname);
+		this(pathname, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance by reading the content of the file represented by the pathname {@code pathname} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code pathname} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param pathname a {@code String} that represents the pathname of the file to read from
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code pathname} or {@code dataFactory} are {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final String pathname, final DataFactory dataFactory) {
+		this.data = dataFactory.create(pathname);
 	}
 	
 	/**
@@ -145,13 +207,36 @@ public final class Image {
 	 * If {@code uRL} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(uRL, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
 	 * 
 	 * @param uRL a {@code URL} that represents the URL to read from
 	 * @throws NullPointerException thrown if, and only if, {@code uRL} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final URL uRL) {
-		this.data = DATA_FACTORY.create(uRL);
+		this(uRL, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance by reading the content of the URL represented by {@code uRL} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code uRL} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param uRL a {@code URL} that represents the URL to read from
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code uRL} or {@code dataFactory} are {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public Image(final URL uRL, final DataFactory dataFactory) {
+		this.data = dataFactory.create(uRL);
 	}
 	
 	/**
@@ -180,6 +265,13 @@ public final class Image {
 	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
 	 * 
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
@@ -188,7 +280,25 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4D color) {
-		this.data = DATA_FACTORY.create(resolutionX, resolutionY, color);
+		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance filled with {@code color} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If either {@code color} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the {@link Color4D} to fill with
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code dataFactory} are {@code null}
+	 */
+	public Image(final int resolutionX, final int resolutionY, final Color4D color, final DataFactory dataFactory) {
+		this.data = dataFactory.create(resolutionX, resolutionY, color);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

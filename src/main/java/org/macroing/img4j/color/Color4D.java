@@ -55,16 +55,24 @@ public final class Color4D {
 	 */
 	public static final Color4D MAGENTA;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color red.
+	 */
 	public static final Color4D RED;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color transparent.
+	 */
 	public static final Color4D TRANSPARENT;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color white.
+	 */
 	public static final Color4D WHITE;
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code Color4D} instance that represents the color yellow.
+	 */
 	public static final Color4D YELLOW;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,22 +134,65 @@ public final class Color4D {
 		this(0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance that represents gray.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(grayscale, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
 	public Color4D(final double grayscale) {
 		this(grayscale, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance that represents gray.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(grayscale, grayscale, grayscale, a);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 * @param a the value of the alpha component
+	 */
 	public Color4D(final double grayscale, final double a) {
 		this(grayscale, grayscale, grayscale, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(r, g, b, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
 	public Color4D(final double r, final double g, final double b) {
 		this(r, g, b, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 */
 	public Color4D(final double r, final double g, final double b, final double a) {
 		this.r = r;
 		this.g = g;
@@ -149,17 +200,65 @@ public final class Color4D {
 		this.a = a;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance that represents gray.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(grayscale, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
 	public Color4D(final int grayscale) {
-		this(grayscale, grayscale, grayscale);
+		this(grayscale, 255);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance that represents gray.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(grayscale, grayscale, grayscale, a);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 * @param a the value of the alpha component
+	 */
+	public Color4D(final int grayscale, final int a) {
+		this(grayscale, grayscale, grayscale, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4D} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(r, g, b, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
 	public Color4D(final int r, final int g, final int b) {
 		this(r, g, b, 255);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 */
 	public Color4D(final int r, final int g, final int b, final int a) {
 		this(r / 255.0D, g / 255.0D, b / 255.0D, a / 255.0D);
 	}
@@ -393,7 +492,11 @@ public final class Color4D {
 		return Objects.hash(Double.valueOf(this.a), Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the alpha component as an {@code int}.
+	 * 
+	 * @return the alpha component as an {@code int}
+	 */
 	public int toIntA() {
 		return Utilities.convertComponentFromDoubleToInt(this.a);
 	}
@@ -408,17 +511,29 @@ public final class Color4D {
 		return a | r | g | b;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the blue component as an {@code int}.
+	 * 
+	 * @return the blue component as an {@code int}
+	 */
 	public int toIntB() {
 		return Utilities.convertComponentFromDoubleToInt(this.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the green component as an {@code int}.
+	 * 
+	 * @return the green component as an {@code int}
+	 */
 	public int toIntG() {
 		return Utilities.convertComponentFromDoubleToInt(this.g);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the red component as an {@code int}.
+	 * 
+	 * @return the red component as an {@code int}
+	 */
 	public int toIntR() {
 		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}

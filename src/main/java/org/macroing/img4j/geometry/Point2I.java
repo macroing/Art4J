@@ -180,6 +180,20 @@ public final class Point2I {
 	}
 	
 	/**
+	 * Returns a new {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}.
+	 * <p>
+	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @return a new {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
+	 */
+	public static Point2I midpoint(final Point2I a, final Point2I b) {
+		return new Point2I((a.x + b.x) / 2, (a.y + b.y) / 2);
+	}
+	
+	/**
 	 * Returns a new {@code Point2I} instance with the smallest component values.
 	 * 
 	 * @return a new {@code Point2I} instance with the smallest component values
@@ -234,20 +248,6 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns the distance from {@code eye} to {@code lookAt}.
-	 * <p>
-	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param eye a {@code Point2I} instance denoting the eye to look from
-	 * @param lookAt a {@code Point2I} instance denoting the target to look at
-	 * @return the distance from {@code eye} to {@code lookAt}
-	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
-	 */
-	public static int distance(final Point2I eye, final Point2I lookAt) {
-		return Vector2I.direction(eye, lookAt).length();
-	}
-	
-	/**
 	 * Returns a {@code String} representation of {@code points}.
 	 * <p>
 	 * If either {@code points} or an element in {@code points} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -269,6 +269,20 @@ public final class Point2I {
 		stringBuilder.append("}");
 		
 		return stringBuilder.toString();
+	}
+	
+	/**
+	 * Returns the distance from {@code eye} to {@code lookAt}.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@code Point2I} instance denoting the eye to look from
+	 * @param lookAt a {@code Point2I} instance denoting the target to look at
+	 * @return the distance from {@code eye} to {@code lookAt}
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
+	public static int distance(final Point2I eye, final Point2I lookAt) {
+		return Vector2I.direction(eye, lookAt).length();
 	}
 	
 	/**
