@@ -22,6 +22,8 @@ import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Randoms;
+
 //TODO: Add Javadocs!
 public final class ConvolutionKernelNF {
 //	TODO: Add Javadocs!
@@ -147,7 +149,7 @@ public final class ConvolutionKernelNF {
 				if(x == middle && y == middle) {
 					elements[y * resolution + x] = 1.0F;
 				} else {
-					elements[y * resolution + x] = Utilities.nextFloat(-1.0F, 1.0F);
+					elements[y * resolution + x] = Randoms.nextFloat(-1.0F, 1.0F);
 				}
 			}
 		}
@@ -158,12 +160,12 @@ public final class ConvolutionKernelNF {
 			elementTotal += element;
 		}
 		
-		final boolean isBiasBasedOnRandomDouble = Utilities.nextBoolean();
-		final boolean isFactorBasedOnElementTotal = Utilities.nextBoolean();
-		final boolean isFactorBasedOnRandomDouble = Utilities.nextBoolean();
+		final boolean isBiasBasedOnRandomDouble = Randoms.nextBoolean();
+		final boolean isFactorBasedOnElementTotal = Randoms.nextBoolean();
+		final boolean isFactorBasedOnRandomDouble = Randoms.nextBoolean();
 		
-		final float bias = isBiasBasedOnRandomDouble ? Utilities.nextFloat() : 0.0F;
-		final float factor = isFactorBasedOnElementTotal ? Utilities.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Utilities.nextFloat() : 1.0F;
+		final float bias = isBiasBasedOnRandomDouble ? Randoms.nextFloat() : 0.0F;
+		final float factor = isFactorBasedOnElementTotal ? Utilities.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Randoms.nextFloat() : 1.0F;
 		
 		return new ConvolutionKernelNF(bias, factor, elements);
 	}

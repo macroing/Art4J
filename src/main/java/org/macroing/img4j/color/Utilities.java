@@ -18,9 +18,6 @@
  */
 package org.macroing.img4j.color;
 
-import java.text.DecimalFormat;
-import java.util.concurrent.ThreadLocalRandom;
-
 final class Utilities {
 	public static final int COLOR_A_R_G_B_SHIFT_A;
 	public static final int COLOR_A_R_G_B_SHIFT_B;
@@ -29,7 +26,6 @@ final class Utilities {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final DecimalFormat DECIMAL_FORMAT_DOUBLE;
 	private static final double COLOR_SPACE_D_BREAK_POINT;
 	private static final double COLOR_SPACE_D_GAMMA;
 	private static final double COLOR_SPACE_D_SEGMENT_OFFSET;
@@ -48,8 +44,6 @@ final class Utilities {
 		COLOR_A_R_G_B_SHIFT_B =  0;
 		COLOR_A_R_G_B_SHIFT_G =  8;
 		COLOR_A_R_G_B_SHIFT_R = 16;
-		
-		DECIMAL_FORMAT_DOUBLE = doCreateDecimalFormat(16);
 		
 		COLOR_SPACE_D_BREAK_POINT = 0.00304D;
 		COLOR_SPACE_D_GAMMA = 2.4D;
@@ -72,18 +66,6 @@ final class Utilities {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static String toNonScientificNotationJava(final double value) {
-		if(Double.isNaN(value)) {
-			return "Double.NaN";
-		} else if(value == Double.NEGATIVE_INFINITY) {
-			return "Double.NEGATIVE_INFINITY";
-		} else if(value == Double.POSITIVE_INFINITY) {
-			return "Double.POSITIVE_INFINITY";
-		} else {
-			return DECIMAL_FORMAT_DOUBLE.format(value).replace(',', '.') + "D";
-		}
-	}
-	
 	public static boolean equals(final double a, final double b) {
 		return Double.compare(a, b) == 0;
 	}
@@ -102,18 +84,6 @@ final class Utilities {
 	
 	public static double min(final double a, final double b, final double c) {
 		return Math.min(Math.min(a, b), c);
-	}
-	
-	public static double nextDouble() {
-		return ThreadLocalRandom.current().nextDouble();
-	}
-	
-	public static double nextDouble(final double bound) {
-		return ThreadLocalRandom.current().nextDouble(bound);
-	}
-	
-	public static double nextDouble(final double origin, final double bound) {
-		return ThreadLocalRandom.current().nextDouble(origin, bound);
 	}
 	
 	public static double redoGammaCorrection(final double value) {
@@ -144,38 +114,6 @@ final class Utilities {
 		return Math.min(Math.min(a, b), c);
 	}
 	
-	public static float nextFloat() {
-		return ThreadLocalRandom.current().nextFloat();
-	}
-	
-	public static float nextFloat(final float bound) {
-		if(bound <= 0.0F) {
-			throw new IllegalArgumentException("bound must be positive");
-		}
-		
-		final float result = ThreadLocalRandom.current().nextFloat() * bound;
-		
-		return (result < bound) ? result : Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
-	}
-	
-	public static float nextFloat(final float origin, final float bound) {
-		if(origin >= bound) {
-			throw new IllegalArgumentException("bound must be greater than origin");
-		}
-		
-		float result = (ThreadLocalRandom.current().nextInt() >>> 8) * 0x1.0p-24F;
-		
-		if(origin < bound) {
-			result = result * (bound - origin) + origin;
-			
-			if(result >= bound) {
-				result = Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
-			}
-		}
-		
-		return result;
-	}
-	
 	public static float redoGammaCorrection(final float value) {
 		return value <= COLOR_SPACE_F_BREAK_POINT ? value * COLOR_SPACE_F_SLOPE : COLOR_SPACE_F_SLOPE_MATCH * (float)(Math.pow(value, 1.0F / COLOR_SPACE_F_GAMMA)) - COLOR_SPACE_F_SEGMENT_OFFSET;
 	}
@@ -198,26 +136,5 @@ final class Utilities {
 	
 	public static int convertComponentFromFloatToInt(final float component) {
 		return (int)(saturate(component) * 255.0F + 0.5F);
-	}
-	
-	public static int nextInt() {
-		return nextInt(0, 256);
-	}
-	
-	public static int nextInt(final int origin, final int bound) {
-		return ThreadLocalRandom.current().nextInt(origin, bound);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private static DecimalFormat doCreateDecimalFormat(final int maximumFractionDigits) {
-		final
-		DecimalFormat decimalFormat = new DecimalFormat("#");
-		decimalFormat.setDecimalSeparatorAlwaysShown(true);
-		decimalFormat.setMaximumFractionDigits(maximumFractionDigits);
-		decimalFormat.setMinimumFractionDigits(1);
-		decimalFormat.setMinimumIntegerDigits(1);
-		
-		return decimalFormat;
 	}
 }

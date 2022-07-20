@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Randoms;
+import org.macroing.img4j.utility.Strings;
+
 //TODO: Add Javadocs!
 public final class Color4D {
 	/**
@@ -287,7 +290,7 @@ public final class Color4D {
 	 */
 	@Override
 	public String toString() {
-		return String.format("new Color4D(%s, %s, %s, %s)", Utilities.toNonScientificNotationJava(this.r), Utilities.toNonScientificNotationJava(this.g), Utilities.toNonScientificNotationJava(this.b), Utilities.toNonScientificNotationJava(this.a));
+		return String.format("new Color4D(%s, %s, %s, %s)", Strings.toNonScientificNotationJava(this.r), Strings.toNonScientificNotationJava(this.g), Strings.toNonScientificNotationJava(this.b), Strings.toNonScientificNotationJava(this.a));
 	}
 	
 	/**
@@ -690,7 +693,7 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D random() {
-		return new Color4D(Utilities.nextDouble(), Utilities.nextDouble(), Utilities.nextDouble());
+		return new Color4D(Randoms.nextDouble(), Randoms.nextDouble(), Randoms.nextDouble());
 	}
 	
 //	TODO: Add Javadocs!
@@ -700,9 +703,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomBlue(final double maxR, final double maxG) {
-		final double b = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
-		final double r = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), b));
-		final double g = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), b));
+		final double b = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double r = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), b));
+		final double g = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), b));
 		
 		return new Color4D(r, g, b);
 	}
@@ -714,15 +717,15 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomCyan(final double minGB, final double maxR) {
-		final double x = Utilities.nextDouble(Math.max(Math.min(minGB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), x));
+		final double x = Randoms.nextDouble(Math.max(Math.min(minGB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), x));
 		
 		return new Color4D(y, x, x);
 	}
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomGrayscale() {
-		return new Color4D(Utilities.nextDouble(0.0D, Math.nextUp(1.0D)), 1.0D);
+		return new Color4D(Randoms.nextDouble(0.0D, Math.nextUp(1.0D)), 1.0D);
 	}
 	
 //	TODO: Add Javadocs!
@@ -732,9 +735,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomGreen(final double maxR, final double maxB) {
-		final double g = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
-		final double r = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), g));
-		final double b = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), g));
+		final double g = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double r = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), g));
+		final double b = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), g));
 		
 		return new Color4D(r, g, b);
 	}
@@ -746,8 +749,8 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomMagenta(final double minRB, final double maxG) {
-		final double x = Utilities.nextDouble(Math.max(Math.min(minRB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), x));
+		final double x = Randoms.nextDouble(Math.max(Math.min(minRB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), x));
 		
 		return new Color4D(x, y, x);
 	}
@@ -759,9 +762,9 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomRed(final double maxG, final double maxB) {
-		final double r = Utilities.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
-		final double g = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), r));
-		final double b = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), r));
+		final double r = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
+		final double g = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), r));
+		final double b = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), r));
 		
 		return new Color4D(r, g, b);
 	}
@@ -773,8 +776,8 @@ public final class Color4D {
 	
 //	TODO: Add Javadocs!
 	public static Color4D randomYellow(final double minRG, final double maxB) {
-		final double x = Utilities.nextDouble(Math.max(Math.min(minRG, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
-		final double y = Utilities.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), x));
+		final double x = Randoms.nextDouble(Math.max(Math.min(minRG, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
+		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), x));
 		
 		return new Color4D(x, x, y);
 	}

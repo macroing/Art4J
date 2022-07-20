@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.kernel;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 final class Utilities {
 	private Utilities() {
 		
@@ -35,60 +33,12 @@ final class Utilities {
 		return Double.compare(value, +0.0D) == 0 || Double.compare(value, -0.0D) == 0;
 	}
 	
-	public static boolean nextBoolean() {
-		return ThreadLocalRandom.current().nextBoolean();
-	}
-	
-	public static double nextDouble() {
-		return ThreadLocalRandom.current().nextDouble();
-	}
-	
-	public static double nextDouble(final double bound) {
-		return ThreadLocalRandom.current().nextDouble(bound);
-	}
-	
-	public static double nextDouble(final double origin, final double bound) {
-		return ThreadLocalRandom.current().nextDouble(origin, bound);
-	}
-	
 	public static double rint(final double value) {
 		return Math.rint(value);
 	}
 	
 	public static double sqrt(final double value) {
 		return Math.sqrt(value);
-	}
-	
-	public static float nextFloat() {
-		return ThreadLocalRandom.current().nextFloat();
-	}
-	
-	public static float nextFloat(final float bound) {
-		if(bound <= 0.0F) {
-			throw new IllegalArgumentException("bound must be positive");
-		}
-		
-		final float result = ThreadLocalRandom.current().nextFloat() * bound;
-		
-		return (result < bound) ? result : Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
-	}
-	
-	public static float nextFloat(final float origin, final float bound) {
-		if(origin >= bound) {
-			throw new IllegalArgumentException("bound must be greater than origin");
-		}
-		
-		float result = (ThreadLocalRandom.current().nextInt() >>> 8) * 0x1.0p-24F;
-		
-		if(origin < bound) {
-			result = result * (bound - origin) + origin;
-			
-			if(result >= bound) {
-				result = Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
-			}
-		}
-		
-		return result;
 	}
 	
 	public static float rint(final float value) {

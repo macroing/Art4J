@@ -31,6 +31,7 @@ import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
+import org.macroing.img4j.utility.BufferedImages;
 
 final class Color4FData extends Data {
 	private Color4F[] colors;
@@ -44,7 +45,7 @@ final class Color4FData extends Data {
 	}
 	
 	public Color4FData(final BufferedImage bufferedImage) {
-		this.colors = Arrays.stream(DataBufferInt.class.cast(Utilities.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4F.fromIntARGB(colorARGB)).toArray(Color4F[]::new);
+		this.colors = Arrays.stream(DataBufferInt.class.cast(BufferedImages.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4F.fromIntARGB(colorARGB)).toArray(Color4F[]::new);
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 	}

@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Randoms;
+import org.macroing.img4j.utility.Strings;
+
 //TODO: Add Javadocs!
 public final class Color4F {
 	/**
@@ -287,7 +290,7 @@ public final class Color4F {
 	 */
 	@Override
 	public String toString() {
-		return String.format("new Color4F(%s, %s, %s, %s)", Utilities.toNonScientificNotationJava(this.r), Utilities.toNonScientificNotationJava(this.g), Utilities.toNonScientificNotationJava(this.b), Utilities.toNonScientificNotationJava(this.a));
+		return String.format("new Color4F(%s, %s, %s, %s)", Strings.toNonScientificNotationJava(this.r), Strings.toNonScientificNotationJava(this.g), Strings.toNonScientificNotationJava(this.b), Strings.toNonScientificNotationJava(this.a));
 	}
 	
 	/**
@@ -690,7 +693,7 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F random() {
-		return new Color4F(Utilities.nextFloat(), Utilities.nextFloat(), Utilities.nextFloat());
+		return new Color4F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
 	}
 	
 //	TODO: Add Javadocs!
@@ -700,9 +703,9 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomBlue(final float maxR, final float maxG) {
-		final float b = Utilities.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float r = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), b));
-		final float g = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), b));
+		final float b = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
+		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), b));
+		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), b));
 		
 		return new Color4F(r, g, b);
 	}
@@ -714,15 +717,15 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomCyan(final float minGB, final float maxR) {
-		final float x = Utilities.nextFloat(Math.max(Math.min(minGB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), x));
+		final float x = Randoms.nextFloat(Math.max(Math.min(minGB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), x));
 		
 		return new Color4F(y, x, x);
 	}
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomGrayscale() {
-		return new Color4F(Utilities.nextFloat(0.0F, Math.nextUp(1.0F)), 1.0F);
+		return new Color4F(Randoms.nextFloat(0.0F, Math.nextUp(1.0F)), 1.0F);
 	}
 	
 //	TODO: Add Javadocs!
@@ -732,9 +735,9 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomGreen(final float maxR, final float maxB) {
-		final float g = Utilities.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float r = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), g));
-		final float b = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), g));
+		final float g = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
+		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), g));
+		final float b = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), g));
 		
 		return new Color4F(r, g, b);
 	}
@@ -746,8 +749,8 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomMagenta(final float minRB, final float maxG) {
-		final float x = Utilities.nextFloat(Math.max(Math.min(minRB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), x));
+		final float x = Randoms.nextFloat(Math.max(Math.min(minRB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), x));
 		
 		return new Color4F(x, y, x);
 	}
@@ -759,9 +762,9 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomRed(final float maxG, final float maxB) {
-		final float r = Utilities.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float g = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), r));
-		final float b = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), r));
+		final float r = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
+		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), r));
+		final float b = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), r));
 		
 		return new Color4F(r, g, b);
 	}
@@ -773,8 +776,8 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F randomYellow(final float minRG, final float maxB) {
-		final float x = Utilities.nextFloat(Math.max(Math.min(minRG, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Utilities.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), x));
+		final float x = Randoms.nextFloat(Math.max(Math.min(minRG, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), x));
 		
 		return new Color4F(x, x, y);
 	}

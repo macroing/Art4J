@@ -20,6 +20,8 @@ package org.macroing.img4j.color;
 
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 
+import org.macroing.img4j.utility.Randoms;
+
 /**
  * This {@code Color} class consists exclusively of static methods that operates on colors that are defined by primitive types such as {@code double} and {@code int}.
  * 
@@ -1142,7 +1144,7 @@ public final class Color {
 	 * @return an {@code int} that contains a random color in packed form
 	 */
 	public static int random() {
-		return packRGBA(Utilities.nextInt(), Utilities.nextInt(), Utilities.nextInt(), 255);
+		return packRGBA(Randoms.nextInt(256), Randoms.nextInt(256), Randoms.nextInt(256), 255);
 	}
 	
 	/**
@@ -1176,9 +1178,9 @@ public final class Color {
 	 * @return an {@code int} that contains a random blue color in packed form
 	 */
 	public static int randomBlue(final int maxR, final int maxG) {
-		final int b = Utilities.nextInt(1, 256);
-		final int r = Utilities.nextInt(0, Math.min(Math.max(maxR, 0) + 1, b));
-		final int g = Utilities.nextInt(0, Math.min(Math.max(maxG, 0) + 1, b));
+		final int b = Randoms.nextInt(1, 256);
+		final int r = Randoms.nextInt(0, Math.min(Math.max(maxR, 0) + 1, b));
+		final int g = Randoms.nextInt(0, Math.min(Math.max(maxG, 0) + 1, b));
 		
 		return packRGBA(r, g, b, 255);
 	}
@@ -1214,8 +1216,8 @@ public final class Color {
 	 * @return an {@code int} that contains a random cyan color in packed form
 	 */
 	public static int randomCyan(final int minGB, final int maxR) {
-		final int x = Utilities.nextInt(Math.max(Math.min(minGB, 255), 1), 256);
-		final int y = Utilities.nextInt(0, Math.min(Math.max(maxR, 0) + 1, x));
+		final int x = Randoms.nextInt(Math.max(Math.min(minGB, 255), 1), 256);
+		final int y = Randoms.nextInt(0, Math.min(Math.max(maxR, 0) + 1, x));
 		
 		return packRGBA(y, x, x, 255);
 	}
@@ -1226,7 +1228,7 @@ public final class Color {
 	 * @return an {@code int} that contains a random grayscale color in packed form
 	 */
 	public static int randomGrayscale() {
-		final int x = Utilities.nextInt();
+		final int x = Randoms.nextInt(256);
 		
 		return packRGBA(x, x, x, 255);
 	}
@@ -1262,9 +1264,9 @@ public final class Color {
 	 * @return an {@code int} that contains a random green color in packed form
 	 */
 	public static int randomGreen(final int maxR, final int maxB) {
-		final int g = Utilities.nextInt(1, 256);
-		final int r = Utilities.nextInt(0, Math.min(Math.max(maxR, 0) + 1, g));
-		final int b = Utilities.nextInt(0, Math.min(Math.max(maxB, 0) + 1, g));
+		final int g = Randoms.nextInt(1, 256);
+		final int r = Randoms.nextInt(0, Math.min(Math.max(maxR, 0) + 1, g));
+		final int b = Randoms.nextInt(0, Math.min(Math.max(maxB, 0) + 1, g));
 		
 		return packRGBA(r, g, b, 255);
 	}
@@ -1300,8 +1302,8 @@ public final class Color {
 	 * @return an {@code int} that contains a random magenta color in packed form
 	 */
 	public static int randomMagenta(final int minRB, final int maxG) {
-		final int x = Utilities.nextInt(Math.max(Math.min(minRB, 255), 1), 256);
-		final int y = Utilities.nextInt(0, Math.min(Math.max(maxG, 0) + 1, x));
+		final int x = Randoms.nextInt(Math.max(Math.min(minRB, 255), 1), 256);
+		final int y = Randoms.nextInt(0, Math.min(Math.max(maxG, 0) + 1, x));
 		
 		return packRGBA(x, y, x, 255);
 	}
@@ -1337,9 +1339,9 @@ public final class Color {
 	 * @return an {@code int} that contains a random red color in packed form
 	 */
 	public static int randomRed(final int maxG, final int maxB) {
-		final int r = Utilities.nextInt(1, 256);
-		final int g = Utilities.nextInt(0, Math.min(Math.max(maxG, 0) + 1, r));
-		final int b = Utilities.nextInt(0, Math.min(Math.max(maxB, 0) + 1, r));
+		final int r = Randoms.nextInt(1, 256);
+		final int g = Randoms.nextInt(0, Math.min(Math.max(maxG, 0) + 1, r));
+		final int b = Randoms.nextInt(0, Math.min(Math.max(maxB, 0) + 1, r));
 		
 		return packRGBA(r, g, b, 255);
 	}
@@ -1375,8 +1377,8 @@ public final class Color {
 	 * @return an {@code int} that contains a random yellow color in packed form
 	 */
 	public static int randomYellow(final int minRG, final int maxB) {
-		final int x = Utilities.nextInt(Math.max(Math.min(minRG, 255), 0), 256);
-		final int y = Utilities.nextInt(0, Math.min(Math.max(maxB, 0) + 1, x));
+		final int x = Randoms.nextInt(Math.max(Math.min(minRG, 255), 0), 256);
+		final int y = Randoms.nextInt(0, Math.min(Math.max(maxB, 0) + 1, x));
 		
 		return packRGBA(x, x, y, 255);
 	}

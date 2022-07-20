@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.data;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,25 +27,6 @@ final class Utilities {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public static BufferedImage getCompatibleBufferedImage(final BufferedImage bufferedImage) {
-		return getCompatibleBufferedImage(bufferedImage, BufferedImage.TYPE_INT_ARGB);
-	}
-	
-	public static BufferedImage getCompatibleBufferedImage(final BufferedImage bufferedImage, final int type) {
-		if(bufferedImage.getType() == type) {
-			return bufferedImage;
-		}
-		
-		final BufferedImage compatibleBufferedImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), type);
-		
-		final
-		Graphics2D graphics2D = compatibleBufferedImage.createGraphics();
-		graphics2D.drawImage(bufferedImage, 0, 0, null);
-		
-		return compatibleBufferedImage;
-		
-	}
 	
 	public static <T> List<T> requireNonNullList(final List<T> list, final String name) {
 		Objects.requireNonNull(name, "name == null");
