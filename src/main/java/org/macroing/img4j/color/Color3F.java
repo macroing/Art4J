@@ -18,6 +18,7 @@
  */
 package org.macroing.img4j.color;
 
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,46 +40,55 @@ public final class Color3F {
 	/**
 	 * A {@code Color3F} instance that represents the color black.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F BLACK;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color blue.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F BLUE;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color cyan.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F CYAN;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color gray.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F GRAY;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color green.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F GREEN;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color magenta.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F MAGENTA;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color red.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F RED;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color white.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F WHITE;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color yellow.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3F YELLOW;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +140,7 @@ public final class Color3F {
 	 * }
 	 * </pre>
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F() {
 		this(0.0F);
 	}
@@ -142,6 +153,7 @@ public final class Color3F {
 	 * @param color a {@link Color3D} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final Color3D color) {
 		this((float)(color.r), (float)(color.g), (float)(color.b));
 	}
@@ -154,6 +166,7 @@ public final class Color3F {
 	 * @param color a {@link Color4D} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final Color4D color) {
 		this((float)(color.r), (float)(color.g), (float)(color.b));
 	}
@@ -166,6 +179,7 @@ public final class Color3F {
 	 * @param color a {@link Color4F} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final Color4F color) {
 		this(color.r, color.g, color.b);
 	}
@@ -182,6 +196,7 @@ public final class Color3F {
 	 * 
 	 * @param grayscale the value of the red, green and blue components
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final float grayscale) {
 		this(grayscale, grayscale, grayscale);
 	}
@@ -193,6 +208,7 @@ public final class Color3F {
 	 * @param g the value of the green component
 	 * @param b the value of the blue component
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final float r, final float g, final float b) {
 		this.r = r;
 		this.g = g;
@@ -211,6 +227,7 @@ public final class Color3F {
 	 * 
 	 * @param grayscale the value of the red, green and blue components
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final int grayscale) {
 		this(grayscale, grayscale, grayscale);
 	}
@@ -229,6 +246,7 @@ public final class Color3F {
 	 * @param g the value of the green component
 	 * @param b the value of the blue component
 	 */
+//	TODO: Add Unit Tests!
 	public Color3F(final int r, final int g, final int b) {
 		this(Ints.saturate(r) / 255.0F, Ints.saturate(g) / 255.0F, Ints.saturate(b) / 255.0F);
 	}
@@ -240,6 +258,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code String} representation of this {@code Color3F} instance
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new Color3F(%s, %s, %s)", Strings.toNonScientificNotationJava(this.r), Strings.toNonScientificNotationJava(this.g), Strings.toNonScientificNotationJava(this.b));
@@ -253,6 +272,7 @@ public final class Color3F {
 	 * @param color the {@code Color3F} to compare to this {@code Color3F} instance for equality
 	 * @return {@code true} if, and only if, {@code color} is equal to this {@code Color3F} instance, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean equals(final Color3F color) {
 		if(color == this) {
 			return true;
@@ -277,6 +297,7 @@ public final class Color3F {
 	 * @param object the {@code Object} to compare to this {@code Color3F} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Color3F}, and they are equal, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -293,6 +314,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is black, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlack() {
 		return Floats.isZero(this.r) && Floats.isZero(this.g) && Floats.isZero(this.b);
 	}
@@ -309,6 +331,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is blue, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlue() {
 		return isBlue(1.0F, 1.0F);
 	}
@@ -322,6 +345,7 @@ public final class Color3F {
 	 * @param deltaG the delta for the G-component
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is blue, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlue(final float deltaR, final float deltaG) {
 		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
 	}
@@ -331,6 +355,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is cyan, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isCyan() {
 		return Floats.equals(this.g, this.b) && this.r < this.g;
 	}
@@ -340,6 +365,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is grayscale, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isGrayscale() {
 		return Floats.equals(this.r, this.g) && Floats.equals(this.g, this.b);
 	}
@@ -356,6 +382,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is green, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isGreen() {
 		return isGreen(1.0F, 1.0F);
 	}
@@ -369,6 +396,7 @@ public final class Color3F {
 	 * @param deltaB the delta for the B-component
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is green, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isGreen(final float deltaR, final float deltaB) {
 		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
 	}
@@ -378,6 +406,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is magenta, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isMagenta() {
 		return Floats.equals(this.r, this.b) && this.g < this.b;
 	}
@@ -394,6 +423,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is red, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isRed() {
 		return isRed(1.0F, 1.0F);
 	}
@@ -407,6 +437,7 @@ public final class Color3F {
 	 * @param deltaB the delta for the B-component
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is red, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isRed(final float deltaG, final float deltaB) {
 		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
 	}
@@ -416,6 +447,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is white, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isWhite() {
 		return Floats.equals(this.r, 1.0F) && Floats.equals(this.g, 1.0F) && Floats.equals(this.b, 1.0F);
 	}
@@ -425,6 +457,7 @@ public final class Color3F {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is yellow, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isYellow() {
 		return Floats.equals(this.r, this.g) && this.b < this.r;
 	}
@@ -434,6 +467,7 @@ public final class Color3F {
 	 * 
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public float average() {
 		return (this.r + this.g + this.b) / 3.0F; 
 	}
@@ -443,6 +477,7 @@ public final class Color3F {
 	 * 
 	 * @return the lightness for this {@code Color3F} instance
 	 */
+//	TODO: Add Unit Tests!
 	public float lightness() {
 		return (max() + min()) / 2.0F;
 	}
@@ -452,6 +487,7 @@ public final class Color3F {
 	 * 
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public float max() {
 		return Floats.max(this.r, this.g, this.b);
 	}
@@ -461,6 +497,7 @@ public final class Color3F {
 	 * 
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public float min() {
 		return Floats.min(this.r, this.g, this.b);
 	}
@@ -470,6 +507,7 @@ public final class Color3F {
 	 * 
 	 * @return the relative luminance for this {@code Color3F} instance
 	 */
+//	TODO: Add Unit Tests!
 	public float relativeLuminance() {
 		return this.r * 0.212671F + this.g * 0.715160F + this.b * 0.072169F;
 	}
@@ -479,6 +517,7 @@ public final class Color3F {
 	 * 
 	 * @return a hash code for this {@code Color3F} instance
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
@@ -491,6 +530,7 @@ public final class Color3F {
 	 * 
 	 * @return the alpha, red, green and blue components as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntARGB() {
 		final int a = ((255      & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
@@ -505,6 +545,7 @@ public final class Color3F {
 	 * 
 	 * @return the blue component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntB() {
 		return Utilities.convertComponentFromDoubleToInt(this.b);
 	}
@@ -514,6 +555,7 @@ public final class Color3F {
 	 * 
 	 * @return the green component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntG() {
 		return Utilities.convertComponentFromDoubleToInt(this.g);
 	}
@@ -523,6 +565,7 @@ public final class Color3F {
 	 * 
 	 * @return the red component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntR() {
 		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}
@@ -532,6 +575,7 @@ public final class Color3F {
 	 * 
 	 * @return the red, green and blue components as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntRGB() {
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
 		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
@@ -554,6 +598,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F add(final Color3F colorLHS, final Color3F colorRHS) {
 		final float r = colorLHS.r + colorRHS.r;
 		final float g = colorLHS.g + colorRHS.g;
@@ -574,6 +619,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F add(final Color3F colorLHS, final float scalarRHS) {
 		final float r = colorLHS.r + scalarRHS;
 		final float g = colorLHS.g + scalarRHS;
@@ -601,6 +647,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the blend
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS) {
 		return blend(colorLHS, colorRHS, 0.5F);
 	}
@@ -628,6 +675,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the blend
 	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F blend(final Color3F color11, final Color3F color12, final Color3F color21, final Color3F color22, final float tX, final float tY) {
 		return blend(blend(color11, color12, tX), blend(color21, color22, tX), tY);
 	}
@@ -652,6 +700,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the blend
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS, final float t) {
 		return blend(colorLHS, colorRHS, t, t, t);
 	}
@@ -671,6 +720,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the blend
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS, final float tR, final float tG, final float tB) {
 		final float r = Floats.lerp(colorLHS.r, colorRHS.r, tR);
 		final float g = Floats.lerp(colorLHS.g, colorRHS.g, tG);
@@ -685,6 +735,7 @@ public final class Color3F {
 	 * @param colorARGB an {@code int} that contains the alpha, red, green and blue components
 	 * @return a {@code Color3F} instance from the {@code int} {@code colorARGB}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F fromIntARGB(final int colorARGB) {
 		final int r = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -699,6 +750,7 @@ public final class Color3F {
 	 * @param colorRGB an {@code int} that contains the red, green and blue components
 	 * @return a {@code Color3F} instance from the {@code int} {@code colorRGB}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F fromIntRGB(final int colorRGB) {
 		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -716,6 +768,7 @@ public final class Color3F {
 	 * @return a cached {@code Color3F} instance that is equal to {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F getCached(final Color3F color) {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(color, "color == null"), key -> color);
 	}
@@ -729,6 +782,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.average()}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleAverage(final Color3F color) {
 		return new Color3F(color.average());
 	}
@@ -742,6 +796,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.b}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleB(final Color3F color) {
 		return new Color3F(color.b);
 	}
@@ -755,6 +810,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.g}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleG(final Color3F color) {
 		return new Color3F(color.g);
 	}
@@ -768,6 +824,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.lightness()}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleLightness(final Color3F color) {
 		return new Color3F(color.lightness());
 	}
@@ -781,6 +838,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.max()}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleMax(final Color3F color) {
 		return new Color3F(color.max());
 	}
@@ -794,6 +852,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.min()}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleMin(final Color3F color) {
 		return new Color3F(color.min());
 	}
@@ -807,6 +866,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.r}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleR(final Color3F color) {
 		return new Color3F(color.r);
 	}
@@ -820,6 +880,7 @@ public final class Color3F {
 	 * @return a grayscale {@code Color3F} instance based on {@code color.luminance()}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F grayscaleRelativeLuminance(final Color3F color) {
 		return new Color3F(color.relativeLuminance());
 	}
@@ -835,6 +896,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the inversion
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F invert(final Color3F color) {
 		return new Color3F(1.0F - color.r, 1.0F - color.g, 1.0F - color.b);
 	}
@@ -851,6 +913,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F multiply(final Color3F colorLHS, final float scalarRHS) {
 		final float r = colorLHS.r * scalarRHS;
 		final float g = colorLHS.g * scalarRHS;
@@ -871,6 +934,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F random() {
 		return new Color3F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
 	}
@@ -887,6 +951,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a blue color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomBlue() {
 		return randomBlue(0.0F, 0.0F);
 	}
@@ -898,6 +963,7 @@ public final class Color3F {
 	 * @param maxG the maximum value to use for the G-component
 	 * @return a {@code Color3F} instance with random component values that represents a blue color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomBlue(final float maxR, final float maxG) {
 		final float b = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), b));
@@ -918,6 +984,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a cyan color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomCyan() {
 		return randomCyan(0.0F, 0.0F);
 	}
@@ -929,6 +996,7 @@ public final class Color3F {
 	 * @param maxR the maximum value to use for the R-component
 	 * @return a {@code Color3F} instance with random component values that represents a cyan color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomCyan(final float minGB, final float maxR) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minGB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), x));
@@ -941,6 +1009,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a grayscale color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomGrayscale() {
 		return new Color3F(Randoms.nextFloat(0.0F, Math.nextUp(1.0F)));
 	}
@@ -957,6 +1026,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a green color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomGreen() {
 		return randomGreen(0.0F, 0.0F);
 	}
@@ -968,6 +1038,7 @@ public final class Color3F {
 	 * @param maxB the maximum value to use for the B-component
 	 * @return a {@code Color3F} instance with random component values that represents a green color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomGreen(final float maxR, final float maxB) {
 		final float g = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), g));
@@ -988,6 +1059,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a magenta color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomMagenta() {
 		return randomMagenta(0.0F, 0.0F);
 	}
@@ -999,6 +1071,7 @@ public final class Color3F {
 	 * @param maxG the maximum value to use for the G-component
 	 * @return a {@code Color3F} instance with random component values that represents a magenta color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomMagenta(final float minRB, final float maxG) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minRB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), x));
@@ -1018,6 +1091,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a red color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomRed() {
 		return randomRed(0.0F, 0.0F);
 	}
@@ -1029,6 +1103,7 @@ public final class Color3F {
 	 * @param maxB the maximum value to use for the B-component
 	 * @return a {@code Color3F} instance with random component values that represents a red color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomRed(final float maxG, final float maxB) {
 		final float r = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), r));
@@ -1049,6 +1124,7 @@ public final class Color3F {
 	 * 
 	 * @return a {@code Color3F} instance with random component values that represents a yellow color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomYellow() {
 		return randomYellow(0.0F, 0.0F);
 	}
@@ -1060,6 +1136,7 @@ public final class Color3F {
 	 * @param maxB the maximum value to use for the B-component
 	 * @return a {@code Color3F} instance with random component values that represents a yellow color
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F randomYellow(final float minRG, final float maxB) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minRG, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), x));
@@ -1078,6 +1155,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F redoGammaCorrection(final Color3F color) {
 		return new Color3F(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b));
 	}
@@ -1093,6 +1171,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F sepia(final Color3F color) {
 		final float r = color.r * 0.393F + color.g * 0.769F + color.b * 0.189F;
 		final float g = color.r * 0.349F + color.g * 0.686F + color.b * 0.168F;
@@ -1112,6 +1191,7 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3F undoGammaCorrection(final Color3F color) {
 		return new Color3F(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b));
 	}
@@ -1121,6 +1201,7 @@ public final class Color3F {
 	 * 
 	 * @return the size of the cache
 	 */
+//	TODO: Add Unit Tests!
 	public static int getCacheSize() {
 		return CACHE.size();
 	}
@@ -1128,6 +1209,7 @@ public final class Color3F {
 	/**
 	 * Clears the cache.
 	 */
+//	TODO: Add Unit Tests!
 	public static void clearCache() {
 		CACHE.clear();
 	}

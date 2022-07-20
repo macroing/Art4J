@@ -18,12 +18,14 @@
  */
 package org.macroing.img4j.utility;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.concurrent.ThreadLocalRandom;
 
-//TODO: Add Javadocs!
-//TODO: Add Unit Tests!
+/**
+ * A class that consists exclusively of static methods that returns pseudorandom {@code boolean}, {@code double}, {@code float} and {@code int} values.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Randoms {
 	private Randoms() {
 		
@@ -31,38 +33,69 @@ public final class Randoms {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code boolean} value.
+	 * 
+	 * @return a pseudorandom {@code boolean} value
+	 */
 	public static boolean nextBoolean() {
 		return ThreadLocalRandom.current().nextBoolean();
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code double} value between {@code 0.0D} (inclusive) and {@code 1.0D} (exclusive).
+	 * 
+	 * @return a pseudorandom {@code double} value between {@code 0.0D} (inclusive) and {@code 1.0D} (exclusive)
+	 */
 	public static double nextDouble() {
 		return ThreadLocalRandom.current().nextDouble();
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code double} value between {@code 0.0D} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code bound} is less than or equal to {@code 0.0D}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param bound the upper bound (exclusive) that must be positive
+	 * @return a pseudorandom {@code double} value between {@code 0.0D} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code bound} is less than or equal to {@code 0.0D}
+	 */
 	public static double nextDouble(final double bound) {
 		return ThreadLocalRandom.current().nextDouble(bound);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code double} value between {@code origin} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code origin} is greater than or equal to {@code bound}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param origin the least value returned
+	 * @param bound the upper bound (exclusive)
+	 * @return a pseudorandom {@code double} value between {@code origin} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code origin} is greater than or equal to {@code bound}
+	 */
 	public static double nextDouble(final double origin, final double bound) {
 		return ThreadLocalRandom.current().nextDouble(origin, bound);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code float} value between {@code 0.0F} (inclusive) and {@code 1.0F} (exclusive).
+	 * 
+	 * @return a pseudorandom {@code float} value between {@code 0.0F} (inclusive) and {@code 1.0F} (exclusive)
+	 */
 	public static float nextFloat() {
 		return ThreadLocalRandom.current().nextFloat();
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code float} value between {@code 0.0F} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code bound} is less than or equal to {@code 0.0F}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param bound the upper bound (exclusive) that must be positive
+	 * @return a pseudorandom {@code float} value between {@code 0.0F} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code bound} is less than or equal to {@code 0.0F}
+	 */
 	public static float nextFloat(final float bound) {
 		if(bound <= 0.0F) {
 			throw new IllegalArgumentException("bound must be positive");
@@ -70,44 +103,68 @@ public final class Randoms {
 		
 		final float result = ThreadLocalRandom.current().nextFloat() * bound;
 		
-		return (result < bound) ? result : Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
+		return nextFloatInternal(bound, result);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code float} value between {@code origin} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code origin} is greater than or equal to {@code bound}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param origin the least value returned
+	 * @param bound the upper bound (exclusive)
+	 * @return a pseudorandom {@code float} value between {@code origin} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code origin} is greater than or equal to {@code bound}
+	 */
 	public static float nextFloat(final float origin, final float bound) {
 		if(origin >= bound) {
 			throw new IllegalArgumentException("bound must be greater than origin");
 		}
 		
-		float result = (ThreadLocalRandom.current().nextInt() >>> 8) * 0x1.0p-24F;
+		final float result = (ThreadLocalRandom.current().nextInt() >>> 8) * 0x1.0p-24F * (bound - origin) + origin;
 		
-		if(origin < bound) {
-			result = result * (bound - origin) + origin;
-			
-			if(result >= bound) {
-				result = Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
-			}
-		}
-		
-		return result;
+		return nextFloatInternal(bound, result);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code int} value.
+	 * 
+	 * @return a pseudorandom {@code int} value
+	 */
 	public static int nextInt() {
 		return ThreadLocalRandom.current().nextInt();
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code int} value between {@code 0} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code bound} is less than or equal to {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param bound the upper bound (exclusive) that must be positive
+	 * @return a pseudorandom {@code int} value between {@code 0} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code bound} is less than or equal to {@code 0}
+	 */
 	public static int nextInt(final int bound) {
 		return ThreadLocalRandom.current().nextInt(bound);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add Unit Tests!
+	/**
+	 * Returns a pseudorandom {@code int} value between {@code origin} (inclusive) and {@code bound} (exclusive).
+	 * <p>
+	 * If {@code origin} is greater than or equal to {@code bound}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param origin the least value returned
+	 * @param bound the upper bound (exclusive)
+	 * @return a pseudorandom {@code int} value between {@code origin} (inclusive) and {@code bound} (exclusive)
+	 * @throws IllegalArgumentException thrown if, and only if, {@code origin} is greater than or equal to {@code bound}
+	 */
 	public static int nextInt(final int origin, final int bound) {
 		return ThreadLocalRandom.current().nextInt(origin, bound);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	static float nextFloatInternal(final float bound, final float result) {
+		return result < bound ? result : Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
 	}
 }

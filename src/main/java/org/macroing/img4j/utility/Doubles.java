@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.utility;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 /**
  * The class {@code Doubles} contains methods for performing basic numeric operations such as the elementary exponential, logarithm, square root and trigonometric functions.
  * <p>
@@ -264,7 +262,6 @@ public final class Doubles {
 	 * @param value a {@code double} value
 	 * @return the {@code double} value that is closest in value to the argument and is equal to a mathematical integer
 	 */
-//	TODO: Add Unit Tests!
 	public static double rint(final double value) {
 		return Math.rint(value);
 	}
