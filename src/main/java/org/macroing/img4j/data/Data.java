@@ -30,6 +30,8 @@ import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
+import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Floats;
 
 /**
  * A {@code Data} contains data for an image.
@@ -111,11 +113,11 @@ public abstract class Data {
 			return Color3D.BLACK;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Doubles.floor(x));
+		final int maximumX = (int)(Doubles.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Doubles.floor(y));
+		final int maximumY = (int)(Doubles.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColor3D(minimumX, minimumY);
@@ -172,11 +174,11 @@ public abstract class Data {
 			return Color3F.BLACK;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Floats.floor(x));
+		final int maximumX = (int)(Floats.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Floats.floor(y));
+		final int maximumY = (int)(Floats.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColor3F(minimumX, minimumY);
@@ -233,11 +235,11 @@ public abstract class Data {
 			return Color4D.TRANSPARENT;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Doubles.floor(x));
+		final int maximumX = (int)(Doubles.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Doubles.floor(y));
+		final int maximumY = (int)(Doubles.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColor4D(minimumX, minimumY);
@@ -294,11 +296,11 @@ public abstract class Data {
 			return Color4F.TRANSPARENT;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Floats.floor(x));
+		final int maximumX = (int)(Floats.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Floats.floor(y));
+		final int maximumY = (int)(Floats.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColor4F(minimumX, minimumY);
@@ -555,8 +557,8 @@ public abstract class Data {
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
 	public final boolean scale(final double scaleX, final double scaleY) {
-		final int resolutionX = (int)(Utilities.ceil(getResolutionX() * scaleX));
-		final int resolutionY = (int)(Utilities.ceil(getResolutionY() * scaleY));
+		final int resolutionX = (int)(Doubles.ceil(getResolutionX() * scaleX));
+		final int resolutionY = (int)(Doubles.ceil(getResolutionY() * scaleY));
 		
 		return scale(resolutionX, resolutionY);
 	}
@@ -575,8 +577,8 @@ public abstract class Data {
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
 	public final boolean scale(final float scaleX, final float scaleY) {
-		final int resolutionX = (int)(Utilities.ceil(getResolutionX() * scaleX));
-		final int resolutionY = (int)(Utilities.ceil(getResolutionY() * scaleY));
+		final int resolutionX = (int)(Floats.ceil(getResolutionX() * scaleX));
+		final int resolutionY = (int)(Floats.ceil(getResolutionY() * scaleY));
 		
 		return scale(resolutionX, resolutionY);
 	}
@@ -928,11 +930,11 @@ public abstract class Data {
 			return 0;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Doubles.floor(x));
+		final int maximumX = (int)(Doubles.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Doubles.floor(y));
+		final int maximumY = (int)(Doubles.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColorARGB(minimumX, minimumY);
@@ -966,11 +968,11 @@ public abstract class Data {
 			return 0;
 		}
 		
-		final int minimumX = (int)(Utilities.floor(x));
-		final int maximumX = (int)(Utilities.ceil(x));
+		final int minimumX = (int)(Floats.floor(x));
+		final int maximumX = (int)(Floats.ceil(x));
 		
-		final int minimumY = (int)(Utilities.floor(y));
-		final int maximumY = (int)(Utilities.ceil(y));
+		final int minimumY = (int)(Floats.floor(y));
+		final int maximumY = (int)(Floats.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
 			return getColorARGB(minimumX, minimumY);

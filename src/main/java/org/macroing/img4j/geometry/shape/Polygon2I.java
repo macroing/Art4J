@@ -25,6 +25,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.utility.ParameterArguments;
 
 /**
  * A {@code Polygon2I} is an implementation of {@link Shape2I} that represents a polygon.
@@ -212,13 +213,8 @@ public final class Polygon2I implements Shape2I {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static Point2I[] doRequireValidPoints(final Point2I[] points) {
-		if(points.length < 3) {
-			throw new IllegalArgumentException("points.length < 3");
-		}
-		
-		for(int i = 0; i < points.length; i++) {
-			Objects.requireNonNull(points[i]);
-		}
+		ParameterArguments.requireNonNullArray(points, "points");
+		ParameterArguments.requireRange(points.length, 3, Integer.MAX_VALUE, "points.length");
 		
 		return points.clone();
 	}

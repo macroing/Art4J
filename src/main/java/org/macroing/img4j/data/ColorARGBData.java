@@ -33,6 +33,9 @@ import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
 import org.macroing.img4j.utility.BufferedImages;
+import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Floats;
+import org.macroing.img4j.utility.ParameterArguments;
 
 final class ColorARGBData extends Data {
 	private int resolutionX;
@@ -72,17 +75,17 @@ final class ColorARGBData extends Data {
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
-		this.resolutionX = Utilities.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = Utilities.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[Utilities.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
+		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new int[ParameterArguments.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
-		this.resolutionX = Utilities.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = Utilities.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[Utilities.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
+		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new int[ParameterArguments.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
@@ -370,19 +373,19 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public boolean rotate(final double angle, final boolean isAngleInRadians) {
-		if(Utilities.isZero(angle)) {
+		if(Doubles.isZero(angle)) {
 			return false;
 		}
 		
-		final double angleDegrees = isAngleInRadians ? Utilities.toDegrees(angle) : angle;
+		final double angleDegrees = isAngleInRadians ? Doubles.toDegrees(angle) : angle;
 		
-		if(Utilities.equals(angleDegrees, +360.0D) || Utilities.equals(angleDegrees, -360.0D)) {
+		if(Doubles.equals(angleDegrees, +360.0D) || Doubles.equals(angleDegrees, -360.0D)) {
 			return false;
 		}
 		
-		final double angleRadians = isAngleInRadians ? angle : Utilities.toRadians(angle);
-		final double angleRadiansCos = Utilities.cos(angleRadians);
-		final double angleRadiansSin = Utilities.sin(angleRadians);
+		final double angleRadians = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double angleRadiansCos = Doubles.cos(angleRadians);
+		final double angleRadiansSin = Doubles.sin(angleRadians);
 		
 		final double directionAX = -this.resolutionX * 0.5D;
 		final double directionAY = -this.resolutionY * 0.5D;
@@ -405,10 +408,10 @@ final class ColorARGBData extends Data {
 		final double rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
 		final double rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
 		
-		final double minimumX = Utilities.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final double minimumY = Utilities.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		final double maximumX = Utilities.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final double maximumY = Utilities.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final double minimumX = Doubles.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final double minimumY = Doubles.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final double maximumX = Doubles.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final double maximumY = Doubles.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
 		
 		final int newResolutionX = (int)(maximumX - minimumX);
 		final int newResolutionY = (int)(maximumY - minimumY);
@@ -419,8 +422,8 @@ final class ColorARGBData extends Data {
 		final int[] newColors = new int[newResolutionX * newResolutionY];
 		final int[] oldColors = this.colors;
 		
-		final double directionBX = Utilities.abs(Utilities.min(minimumX, 0.0D));
-		final double directionBY = Utilities.abs(Utilities.min(minimumY, 0.0D));
+		final double directionBX = Doubles.abs(Doubles.min(minimumX, 0.0D));
+		final double directionBY = Doubles.abs(Doubles.min(minimumY, 0.0D));
 		
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
@@ -451,19 +454,19 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public boolean rotate(final float angle, final boolean isAngleInRadians) {
-		if(Utilities.isZero(angle)) {
+		if(Floats.isZero(angle)) {
 			return false;
 		}
 		
-		final float angleDegrees = isAngleInRadians ? Utilities.toDegrees(angle) : angle;
+		final float angleDegrees = isAngleInRadians ? Floats.toDegrees(angle) : angle;
 		
-		if(Utilities.equals(angleDegrees, +360.0F) || Utilities.equals(angleDegrees, -360.0F)) {
+		if(Floats.equals(angleDegrees, +360.0F) || Floats.equals(angleDegrees, -360.0F)) {
 			return false;
 		}
 		
-		final float angleRadians = isAngleInRadians ? angle : Utilities.toRadians(angle);
-		final float angleRadiansCos = Utilities.cos(angleRadians);
-		final float angleRadiansSin = Utilities.sin(angleRadians);
+		final float angleRadians = isAngleInRadians ? angle : Floats.toRadians(angle);
+		final float angleRadiansCos = Floats.cos(angleRadians);
+		final float angleRadiansSin = Floats.sin(angleRadians);
 		
 		final float directionAX = -this.resolutionX * 0.5F;
 		final float directionAY = -this.resolutionY * 0.5F;
@@ -486,10 +489,10 @@ final class ColorARGBData extends Data {
 		final float rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
 		final float rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
 		
-		final float minimumX = Utilities.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final float minimumY = Utilities.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		final float maximumX = Utilities.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final float maximumY = Utilities.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final float minimumX = Floats.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final float minimumY = Floats.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final float maximumX = Floats.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final float maximumY = Floats.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
 		
 		final int newResolutionX = (int)(maximumX - minimumX);
 		final int newResolutionY = (int)(maximumY - minimumY);
@@ -500,8 +503,8 @@ final class ColorARGBData extends Data {
 		final int[] newColors = new int[newResolutionX * newResolutionY];
 		final int[] oldColors = this.colors;
 		
-		final float directionBX = Utilities.abs(Utilities.min(minimumX, 0.0F));
-		final float directionBY = Utilities.abs(Utilities.min(minimumY, 0.0F));
+		final float directionBX = Floats.abs(Floats.min(minimumX, 0.0F));
+		final float directionBY = Floats.abs(Floats.min(minimumY, 0.0F));
 		
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {

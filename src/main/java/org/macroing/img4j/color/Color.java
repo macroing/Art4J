@@ -20,6 +20,8 @@ package org.macroing.img4j.color;
 
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 
+import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Randoms;
 
 /**
@@ -624,10 +626,10 @@ public final class Color {
 	 * @return an {@code int} that contains the color in packed form
 	 */
 	public static int blend(final int colorARGBLHS, final int colorARGBRHS, final double tR, final double tG, final double tB, final double tA) {
-		final int r = Utilities.convertComponentFromDoubleToInt(Utilities.lerp(unpackRAsDouble(colorARGBLHS), unpackRAsDouble(colorARGBRHS), tR));
-		final int g = Utilities.convertComponentFromDoubleToInt(Utilities.lerp(unpackGAsDouble(colorARGBLHS), unpackGAsDouble(colorARGBRHS), tG));
-		final int b = Utilities.convertComponentFromDoubleToInt(Utilities.lerp(unpackBAsDouble(colorARGBLHS), unpackBAsDouble(colorARGBRHS), tB));
-		final int a = Utilities.convertComponentFromDoubleToInt(Utilities.lerp(unpackAAsDouble(colorARGBLHS), unpackAAsDouble(colorARGBRHS), tA));
+		final int r = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(unpackRAsDouble(colorARGBLHS), unpackRAsDouble(colorARGBRHS), tR));
+		final int g = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(unpackGAsDouble(colorARGBLHS), unpackGAsDouble(colorARGBRHS), tG));
+		final int b = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(unpackBAsDouble(colorARGBLHS), unpackBAsDouble(colorARGBRHS), tB));
+		final int a = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(unpackAAsDouble(colorARGBLHS), unpackAAsDouble(colorARGBRHS), tA));
 		
 		return packRGBA(r, g, b, a);
 	}
@@ -667,10 +669,10 @@ public final class Color {
 	 * @return an {@code int} that contains the color in packed form
 	 */
 	public static int blend(final int colorARGBLHS, final int colorARGBRHS, final float tR, final float tG, final float tB, final float tA) {
-		final int r = Utilities.convertComponentFromFloatToInt(Utilities.lerp(unpackRAsFloat(colorARGBLHS), unpackRAsFloat(colorARGBRHS), tR));
-		final int g = Utilities.convertComponentFromFloatToInt(Utilities.lerp(unpackGAsFloat(colorARGBLHS), unpackGAsFloat(colorARGBRHS), tG));
-		final int b = Utilities.convertComponentFromFloatToInt(Utilities.lerp(unpackBAsFloat(colorARGBLHS), unpackBAsFloat(colorARGBRHS), tB));
-		final int a = Utilities.convertComponentFromFloatToInt(Utilities.lerp(unpackAAsFloat(colorARGBLHS), unpackAAsFloat(colorARGBRHS), tA));
+		final int r = Utilities.convertComponentFromFloatToInt(Floats.lerp(unpackRAsFloat(colorARGBLHS), unpackRAsFloat(colorARGBRHS), tR));
+		final int g = Utilities.convertComponentFromFloatToInt(Floats.lerp(unpackGAsFloat(colorARGBLHS), unpackGAsFloat(colorARGBRHS), tG));
+		final int b = Utilities.convertComponentFromFloatToInt(Floats.lerp(unpackBAsFloat(colorARGBLHS), unpackBAsFloat(colorARGBRHS), tB));
+		final int a = Utilities.convertComponentFromFloatToInt(Floats.lerp(unpackAAsFloat(colorARGBLHS), unpackAAsFloat(colorARGBRHS), tA));
 		
 		return packRGBA(r, g, b, a);
 	}

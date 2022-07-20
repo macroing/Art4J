@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
@@ -258,7 +259,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is black, {@code false} otherwise
 	 */
 	public boolean isBlack() {
-		return Utilities.isZero(this.r) && Utilities.isZero(this.g) && Utilities.isZero(this.b);
+		return Doubles.isZero(this.r) && Doubles.isZero(this.g) && Doubles.isZero(this.b);
 	}
 	
 	/**
@@ -288,7 +289,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is cyan, {@code false} otherwise
 	 */
 	public boolean isCyan() {
-		return Utilities.equals(this.g, this.b) && this.r < this.g;
+		return Doubles.equals(this.g, this.b) && this.r < this.g;
 	}
 	
 	/**
@@ -297,7 +298,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is grayscale, {@code false} otherwise
 	 */
 	public boolean isGrayscale() {
-		return Utilities.equals(this.r, this.g) && Utilities.equals(this.g, this.b);
+		return Doubles.equals(this.r, this.g) && Doubles.equals(this.g, this.b);
 	}
 	
 	/**
@@ -327,7 +328,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is magenta, {@code false} otherwise
 	 */
 	public boolean isMagenta() {
-		return Utilities.equals(this.r, this.b) && this.g < this.b;
+		return Doubles.equals(this.r, this.b) && this.g < this.b;
 	}
 	
 	/**
@@ -357,7 +358,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is white, {@code false} otherwise
 	 */
 	public boolean isWhite() {
-		return Utilities.equals(this.r, 1.0D) && Utilities.equals(this.g, 1.0D) && Utilities.equals(this.b, 1.0D);
+		return Doubles.equals(this.r, 1.0D) && Doubles.equals(this.g, 1.0D) && Doubles.equals(this.b, 1.0D);
 	}
 	
 	/**
@@ -366,7 +367,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is yellow, {@code false} otherwise
 	 */
 	public boolean isYellow() {
-		return Utilities.equals(this.r, this.g) && this.b < this.r;
+		return Doubles.equals(this.r, this.g) && this.b < this.r;
 	}
 	
 	/**
@@ -393,7 +394,7 @@ public final class Color3D {
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public double max() {
-		return Utilities.max(this.r, this.g, this.b);
+		return Doubles.max(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -402,7 +403,7 @@ public final class Color3D {
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public double min() {
-		return Utilities.min(this.r, this.g, this.b);
+		return Doubles.min(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -507,9 +508,9 @@ public final class Color3D {
 	
 //	TODO: Add Javadocs!
 	public static Color3D blend(final Color3D colorLHS, final Color3D colorRHS, final double tR, final double tG, final double tB) {
-		final double r = Utilities.lerp(colorLHS.r, colorRHS.r, tR);
-		final double g = Utilities.lerp(colorLHS.g, colorRHS.g, tG);
-		final double b = Utilities.lerp(colorLHS.b, colorRHS.b, tB);
+		final double r = Doubles.lerp(colorLHS.r, colorRHS.r, tR);
+		final double g = Doubles.lerp(colorLHS.g, colorRHS.g, tG);
+		final double b = Doubles.lerp(colorLHS.b, colorRHS.b, tB);
 		
 		return new Color3D(r, g, b);
 	}

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
@@ -344,7 +345,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is black, {@code false} otherwise
 	 */
 	public boolean isBlack() {
-		return Utilities.isZero(this.r) && Utilities.isZero(this.g) && Utilities.isZero(this.b);
+		return Floats.isZero(this.r) && Floats.isZero(this.g) && Floats.isZero(this.b);
 	}
 	
 	/**
@@ -374,7 +375,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is cyan, {@code false} otherwise
 	 */
 	public boolean isCyan() {
-		return Utilities.equals(this.g, this.b) && this.r < this.g;
+		return Floats.equals(this.g, this.b) && this.r < this.g;
 	}
 	
 	/**
@@ -383,7 +384,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is grayscale, {@code false} otherwise
 	 */
 	public boolean isGrayscale() {
-		return Utilities.equals(this.r, this.g) && Utilities.equals(this.g, this.b);
+		return Floats.equals(this.r, this.g) && Floats.equals(this.g, this.b);
 	}
 	
 	/**
@@ -413,7 +414,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is magenta, {@code false} otherwise
 	 */
 	public boolean isMagenta() {
-		return Utilities.equals(this.r, this.b) && this.g < this.b;
+		return Floats.equals(this.r, this.b) && this.g < this.b;
 	}
 	
 	/**
@@ -443,7 +444,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is white, {@code false} otherwise
 	 */
 	public boolean isWhite() {
-		return Utilities.equals(this.r, 1.0F) && Utilities.equals(this.g, 1.0F) && Utilities.equals(this.b, 1.0F);
+		return Floats.equals(this.r, 1.0F) && Floats.equals(this.g, 1.0F) && Floats.equals(this.b, 1.0F);
 	}
 	
 	/**
@@ -452,7 +453,7 @@ public final class Color4F {
 	 * @return {@code true} if, and only if, this {@code Color4F} instance is yellow, {@code false} otherwise
 	 */
 	public boolean isYellow() {
-		return Utilities.equals(this.r, this.g) && this.b < this.r;
+		return Floats.equals(this.r, this.g) && this.b < this.r;
 	}
 	
 	/**
@@ -479,7 +480,7 @@ public final class Color4F {
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public float max() {
-		return Utilities.max(this.r, this.g, this.b);
+		return Floats.max(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -488,7 +489,7 @@ public final class Color4F {
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public float min() {
-		return Utilities.min(this.r, this.g, this.b);
+		return Floats.min(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -595,10 +596,10 @@ public final class Color4F {
 	
 //	TODO: Add Javadocs!
 	public static Color4F blend(final Color4F colorLHS, final Color4F colorRHS, final float tR, final float tG, final float tB, final float tA) {
-		final float r = Utilities.lerp(colorLHS.r, colorRHS.r, tR);
-		final float g = Utilities.lerp(colorLHS.g, colorRHS.g, tG);
-		final float b = Utilities.lerp(colorLHS.b, colorRHS.b, tB);
-		final float a = Utilities.lerp(colorLHS.a, colorRHS.a, tA);
+		final float r = Floats.lerp(colorLHS.r, colorRHS.r, tR);
+		final float g = Floats.lerp(colorLHS.g, colorRHS.g, tG);
+		final float b = Floats.lerp(colorLHS.b, colorRHS.b, tB);
+		final float a = Floats.lerp(colorLHS.a, colorRHS.a, tA);
 		
 		return new Color4F(r, g, b, a);
 	}

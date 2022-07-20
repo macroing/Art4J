@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.utility.ParameterArguments;
 
 /**
  * A {@code LineSegment2I} is an implementation of {@link Shape2I} that represents a line segment.
@@ -239,9 +240,8 @@ public final class LineSegment2I implements Shape2I {
 	 * @throws NullPointerException thrown if, and only if, either {@code points} or an element in {@code points} are {@code null}
 	 */
 	public static List<LineSegment2I> fromPoints(final Point2I... points) {
-		if(points.length < 2) {
-			throw new IllegalArgumentException("points.length < 2");
-		}
+		ParameterArguments.requireNonNullArray(points, "points");
+		ParameterArguments.requireRange(points.length, 2, Integer.MAX_VALUE, "points.length");
 		
 		final List<LineSegment2I> lineSegments = new ArrayList<>(points.length);
 		

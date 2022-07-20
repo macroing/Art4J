@@ -22,13 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.ParameterArguments;
+
 final class CombinedChange implements Change {
 	private final List<Change> changes;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public CombinedChange(final List<Change> changes) {
-		this.changes = new ArrayList<>(Utilities.requireNonNullList(changes, "changes"));
+		this.changes = new ArrayList<>(ParameterArguments.requireNonNullList(changes, "changes"));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
