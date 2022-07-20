@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
+import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
@@ -272,6 +273,13 @@ public final class Color4F {
 	
 	/**
 	 * Constructs a new {@code Color4F} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4F(Ints.saturate(r) / 255.0F, Ints.saturate(g) / 255.0F, Ints.saturate(b) / 255.0F, Ints.saturate(a) / 255.0F);
+	 * }
+	 * </pre>
 	 * 
 	 * @param r the value of the red component
 	 * @param g the value of the green component
@@ -279,7 +287,7 @@ public final class Color4F {
 	 * @param a the value of the alpha component
 	 */
 	public Color4F(final int r, final int g, final int b, final int a) {
-		this(r / 255.0F, g / 255.0F, b / 255.0F, a / 255.0F);
+		this(Ints.saturate(r) / 255.0F, Ints.saturate(g) / 255.0F, Ints.saturate(b) / 255.0F, Ints.saturate(a) / 255.0F);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

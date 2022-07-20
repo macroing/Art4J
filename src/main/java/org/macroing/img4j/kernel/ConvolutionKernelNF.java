@@ -22,6 +22,7 @@ import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Randoms;
 
 //TODO: Add Javadocs!
@@ -73,7 +74,7 @@ public final class ConvolutionKernelNF {
 		this.bias = bias;
 		this.factor = factor;
 		this.elements = doRequireValidElements(elements);
-		this.resolution = (int)(Utilities.sqrt(this.elements.length));
+		this.resolution = (int)(Floats.sqrt(this.elements.length));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,9 +86,9 @@ public final class ConvolutionKernelNF {
 			return true;
 		} else if(!(object instanceof ConvolutionKernelNF)) {
 			return false;
-		} else if(!Utilities.equals(this.bias, ConvolutionKernelNF.class.cast(object).bias)) {
+		} else if(!Floats.equals(this.bias, ConvolutionKernelNF.class.cast(object).bias)) {
 			return false;
-		} else if(!Utilities.equals(this.factor, ConvolutionKernelNF.class.cast(object).factor)) {
+		} else if(!Floats.equals(this.factor, ConvolutionKernelNF.class.cast(object).factor)) {
 			return false;
 		} else if(!Arrays.equals(this.elements, ConvolutionKernelNF.class.cast(object).elements)) {
 			return false;
@@ -165,7 +166,7 @@ public final class ConvolutionKernelNF {
 		final boolean isFactorBasedOnRandomDouble = Randoms.nextBoolean();
 		
 		final float bias = isBiasBasedOnRandomDouble ? Randoms.nextFloat() : 0.0F;
-		final float factor = isFactorBasedOnElementTotal ? Utilities.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Randoms.nextFloat() : 1.0F;
+		final float factor = isFactorBasedOnElementTotal ? Floats.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Randoms.nextFloat() : 1.0F;
 		
 		return new ConvolutionKernelNF(bias, factor, elements);
 	}
@@ -182,11 +183,11 @@ public final class ConvolutionKernelNF {
 		}
 		
 //		Compute the square root of 'elements.length' and the value that is closest to it and represents a mathematical integer:
-		final float vA = Utilities.sqrt(elements.length);
-		final float vB = Utilities.rint(vA);
+		final float vA = Floats.sqrt(elements.length);
+		final float vB = Floats.rint(vA);
 		
 //		Check that the square root of 'elements.length' and the value that is closest to it and represents a mathematical integer are equal:
-		if(!Utilities.equals(vA, vB)) {
+		if(!Floats.equals(vA, vB)) {
 			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Floats.sqrt(elements.length) must return a value that is a mathematical integer.", Integer.valueOf(elements.length)));
 		}
 		

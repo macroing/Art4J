@@ -19,9 +19,11 @@
 package org.macroing.img4j.utility;
 
 import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.concurrent.ThreadLocalRandom;
 
 //TODO: Add Javadocs!
+//TODO: Add Unit Tests!
 public final class Randoms {
 	private Randoms() {
 		
@@ -30,31 +32,37 @@ public final class Randoms {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static boolean nextBoolean() {
 		return ThreadLocalRandom.current().nextBoolean();
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static double nextDouble() {
 		return ThreadLocalRandom.current().nextDouble();
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static double nextDouble(final double bound) {
 		return ThreadLocalRandom.current().nextDouble(bound);
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static double nextDouble(final double origin, final double bound) {
 		return ThreadLocalRandom.current().nextDouble(origin, bound);
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static float nextFloat() {
 		return ThreadLocalRandom.current().nextFloat();
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static float nextFloat(final float bound) {
 		if(bound <= 0.0F) {
 			throw new IllegalArgumentException("bound must be positive");
@@ -66,6 +74,7 @@ public final class Randoms {
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static float nextFloat(final float origin, final float bound) {
 		if(origin >= bound) {
 			throw new IllegalArgumentException("bound must be greater than origin");
@@ -85,16 +94,19 @@ public final class Randoms {
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static int nextInt() {
 		return ThreadLocalRandom.current().nextInt();
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static int nextInt(final int bound) {
 		return ThreadLocalRandom.current().nextInt(bound);
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
 	public static int nextInt(final int origin, final int bound) {
 		return ThreadLocalRandom.current().nextInt(origin, bound);
 	}

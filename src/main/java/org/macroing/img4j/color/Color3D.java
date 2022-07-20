@@ -18,60 +18,77 @@
  */
 package org.macroing.img4j.color;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code Color3D} represents a color with three {@code double}-based components.
+ * <p>
+ * This class is immutable and therefore suitable for concurrent use without external synchronization.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Color3D {
 	/**
 	 * A {@code Color3D} instance that represents the color black.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D BLACK;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color blue.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D BLUE;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color cyan.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D CYAN;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color gray.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D GRAY;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color green.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D GREEN;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color magenta.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D MAGENTA;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color red.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D RED;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color white.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D WHITE;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color yellow.
 	 */
+//	TODO: Add Unit Tests!
 	public static final Color3D YELLOW;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,21 +140,46 @@ public final class Color3D {
 	 * }
 	 * </pre>
 	 */
+//	TODO: Add Unit Tests!
 	public Color3D() {
 		this(0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final Color3F color) {
 		this(color.r, color.g, color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final Color4D color) {
 		this(color.r, color.g, color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final Color4F color) {
 		this(color.r, color.g, color.b);
 	}
@@ -154,6 +196,7 @@ public final class Color3D {
 	 * 
 	 * @param grayscale the value of the red, green and blue components
 	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final double grayscale) {
 		this(grayscale, grayscale, grayscale);
 	}
@@ -165,6 +208,7 @@ public final class Color3D {
 	 * @param g the value of the green component
 	 * @param b the value of the blue component
 	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final double r, final double g, final double b) {
 		this.r = r;
 		this.g = g;
@@ -183,19 +227,28 @@ public final class Color3D {
 	 * 
 	 * @param grayscale the value of the red, green and blue components
 	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final int grayscale) {
 		this(grayscale, grayscale, grayscale);
 	}
 	
 	/**
 	 * Constructs a new {@code Color3D} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3D(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D);
+	 * }
+	 * </pre>
 	 * 
 	 * @param r the value of the red component
 	 * @param g the value of the green component
 	 * @param b the value of the blue component
 	 */
+//	TODO: Add Unit Tests!
 	public Color3D(final int r, final int g, final int b) {
-		this(r / 255.0D, g / 255.0D, b / 255.0D);
+		this(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,6 +258,7 @@ public final class Color3D {
 	 * 
 	 * @return a {@code String} representation of this {@code Color3D} instance
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new Color3D(%s, %s, %s)", Strings.toNonScientificNotationJava(this.r), Strings.toNonScientificNotationJava(this.g), Strings.toNonScientificNotationJava(this.b));
@@ -218,6 +272,7 @@ public final class Color3D {
 	 * @param color the {@code Color3D} to compare to this {@code Color3D} instance for equality
 	 * @return {@code true} if, and only if, {@code color} is equal to this {@code Color3D} instance, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean equals(final Color3D color) {
 		if(color == this) {
 			return true;
@@ -242,6 +297,7 @@ public final class Color3D {
 	 * @param object the {@code Object} to compare to this {@code Color3D} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Color3D}, and they are equal, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -258,6 +314,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is black, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlack() {
 		return Doubles.isZero(this.r) && Doubles.isZero(this.g) && Doubles.isZero(this.b);
 	}
@@ -274,11 +331,21 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is blue, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlue() {
 		return isBlue(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3D} instance is blue, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3D} instance {@code color} is blue if, and only if, {@code color.b - deltaR >= color.r} and {@code color.b - deltaG >= color.g}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaG the delta for the G-component
+	 * @return {@code true} if, and only if, this {@code Color3D} instance is blue, {@code false} otherwise
+	 */
+//	TODO: Add Unit Tests!
 	public boolean isBlue(final double deltaR, final double deltaG) {
 		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
 	}
@@ -288,6 +355,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is cyan, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isCyan() {
 		return Doubles.equals(this.g, this.b) && this.r < this.g;
 	}
@@ -297,6 +365,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is grayscale, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isGrayscale() {
 		return Doubles.equals(this.r, this.g) && Doubles.equals(this.g, this.b);
 	}
@@ -313,11 +382,21 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is green, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isGreen() {
 		return isGreen(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3D} instance is green, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3D} instance {@code color} is green if, and only if, {@code color.g - deltaR >= color.r} and {@code color.g - deltaB >= color.b}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color3D} instance is green, {@code false} otherwise
+	 */
+//	TODO: Add Unit Tests!
 	public boolean isGreen(final double deltaR, final double deltaB) {
 		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
 	}
@@ -327,6 +406,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is magenta, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isMagenta() {
 		return Doubles.equals(this.r, this.b) && this.g < this.b;
 	}
@@ -343,11 +423,21 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is red, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isRed() {
 		return isRed(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3D} instance is red, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3D} instance {@code color} is red if, and only if, {@code color.r - deltaG >= color.g} and {@code color.r - deltaB >= color.b}.
+	 * 
+	 * @param deltaG the delta for the G-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color3D} instance is red, {@code false} otherwise
+	 */
+//	TODO: Add Unit Tests!
 	public boolean isRed(final double deltaG, final double deltaB) {
 		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
 	}
@@ -357,6 +447,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is white, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isWhite() {
 		return Doubles.equals(this.r, 1.0D) && Doubles.equals(this.g, 1.0D) && Doubles.equals(this.b, 1.0D);
 	}
@@ -366,6 +457,7 @@ public final class Color3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is yellow, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public boolean isYellow() {
 		return Doubles.equals(this.r, this.g) && this.b < this.r;
 	}
@@ -375,6 +467,7 @@ public final class Color3D {
 	 * 
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public double average() {
 		return (this.r + this.g + this.b) / 3.0D; 
 	}
@@ -384,6 +477,7 @@ public final class Color3D {
 	 * 
 	 * @return the lightness for this {@code Color3D} instance
 	 */
+//	TODO: Add Unit Tests!
 	public double lightness() {
 		return (max() + min()) / 2.0D;
 	}
@@ -393,6 +487,7 @@ public final class Color3D {
 	 * 
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public double max() {
 		return Doubles.max(this.r, this.g, this.b);
 	}
@@ -402,6 +497,7 @@ public final class Color3D {
 	 * 
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
+//	TODO: Add Unit Tests!
 	public double min() {
 		return Doubles.min(this.r, this.g, this.b);
 	}
@@ -411,6 +507,7 @@ public final class Color3D {
 	 * 
 	 * @return the relative luminance for this {@code Color3D} instance
 	 */
+//	TODO: Add Unit Tests!
 	public double relativeLuminance() {
 		return this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D;
 	}
@@ -420,12 +517,20 @@ public final class Color3D {
 	 * 
 	 * @return a hash code for this {@code Color3D} instance
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * <p>
+	 * The alpha component is treated as if it was {@code 1.0D} or {@code 255}.
+	 * 
+	 * @return the alpha, red, green and blue components as an {@code int}
+	 */
+//	TODO: Add Unit Tests!
 	public int toIntARGB() {
 		final int a = ((255      & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
@@ -440,6 +545,7 @@ public final class Color3D {
 	 * 
 	 * @return the blue component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntB() {
 		return Utilities.convertComponentFromDoubleToInt(this.b);
 	}
@@ -449,6 +555,7 @@ public final class Color3D {
 	 * 
 	 * @return the green component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntG() {
 		return Utilities.convertComponentFromDoubleToInt(this.g);
 	}
@@ -458,11 +565,17 @@ public final class Color3D {
 	 * 
 	 * @return the red component as an {@code int}
 	 */
+//	TODO: Add Unit Tests!
 	public int toIntR() {
 		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the red, green and blue components as an {@code int}.
+	 * 
+	 * @return the red, green and blue components as an {@code int}
+	 */
+//	TODO: Add Unit Tests!
 	public int toIntRGB() {
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
 		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
@@ -473,8 +586,20 @@ public final class Color3D {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
-	public static Color3D addRGB(final Color3D colorLHS, final Color3D colorRHS) {
+	/**
+	 * Adds the component values of {@code colorRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D add(final Color3D colorLHS, final Color3D colorRHS) {
 		final double r = colorLHS.r + colorRHS.r;
 		final double g = colorLHS.g + colorRHS.g;
 		final double b = colorLHS.b + colorRHS.b;
@@ -482,31 +607,120 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color3D addRGB(final Color3D color, final double s) {
-		final double r = color.r + s;
-		final double g = color.g + s;
-		final double b = color.b + s;
+	/**
+	 * Adds {@code scalarRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D add(final Color3D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r + scalarRHS;
+		final double g = colorLHS.g + scalarRHS;
+		final double b = colorLHS.b + scalarRHS;
 		
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.blend(colorLHS, colorRHS, 0.5D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D blend(final Color3D colorLHS, final Color3D colorRHS) {
 		return blend(colorLHS, colorRHS, 0.5D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code color11}, {@code color12}, {@code color21} and {@code color22}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.blend(Color3D.blend(color11, color12, tX), Color3D.blend(color21, color22, tX), tY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color11 the {@code Color3D} instance on row 1 and column 1
+	 * @param color12 the {@code Color3D} instance on row 1 and column 2
+	 * @param color21 the {@code Color3D} instance on row 2 and column 1
+	 * @param color22 the {@code Color3D} instance on row 2 and column 2
+	 * @param tX the factor to use for all components in the first and second blend operation
+	 * @param tY the factor to use for all components in the third blend operation
+	 * @return a new {@code Color3D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D blend(final Color3D color11, final Color3D color12, final Color3D color21, final Color3D color22, final double tX, final double tY) {
 		return blend(blend(color11, color12, tX), blend(color21, color22, tX), tY);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.blend(colorLHS, colorRHS, t, t, t);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @param t the factor to use for all components in the blending process
+	 * @return a new {@code Color3D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D blend(final Color3D colorLHS, final Color3D colorRHS, final double t) {
 		return blend(colorLHS, colorRHS, t, t, t);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @param tR the factor to use for the R-component in the blending process
+	 * @param tG the factor to use for the G-component in the blending process
+	 * @param tB the factor to use for the B-component in the blending process
+	 * @return a new {@code Color3D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D blend(final Color3D colorLHS, final Color3D colorRHS, final double tR, final double tG, final double tB) {
 		final double r = Doubles.lerp(colorLHS.r, colorRHS.r, tR);
 		final double g = Doubles.lerp(colorLHS.g, colorRHS.g, tG);
@@ -515,7 +729,13 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance from the {@code int} {@code colorARGB}.
+	 * 
+	 * @param colorARGB an {@code int} that contains the alpha, red, green and blue components
+	 * @return a {@code Color3D} instance from the {@code int} {@code colorARGB}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D fromIntARGB(final int colorARGB) {
 		final int r = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -524,7 +744,13 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance from the {@code int} {@code colorRGB}.
+	 * 
+	 * @param colorRGB an {@code int} that contains the red, green and blue components
+	 * @return a {@code Color3D} instance from the {@code int} {@code colorRGB}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D fromIntRGB(final int colorRGB) {
 		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -542,75 +768,202 @@ public final class Color3D {
 	 * @return a cached {@code Color3D} instance that is equal to {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public static Color3D getCached(final Color3D color) {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(color, "color == null"), key -> color);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.average()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.average()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleAverage(final Color3D color) {
 		return new Color3D(color.average());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.b}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.b}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleB(final Color3D color) {
 		return new Color3D(color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.g}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.g}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleG(final Color3D color) {
 		return new Color3D(color.g);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.lightness()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.lightness()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleLightness(final Color3D color) {
 		return new Color3D(color.lightness());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.max()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.max()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleMax(final Color3D color) {
 		return new Color3D(color.max());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.min()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.min()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleMin(final Color3D color) {
 		return new Color3D(color.min());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.r}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.r}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleR(final Color3D color) {
 		return new Color3D(color.r);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3D} instance based on {@code color.relativeLuminance()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a grayscale {@code Color3D} instance based on {@code color.relativeLuminance()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D grayscaleRelativeLuminance(final Color3D color) {
 		return new Color3D(color.relativeLuminance());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Inverts the component values of {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the inversion.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the inversion
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D invert(final Color3D color) {
 		return new Color3D(1.0D - color.r, 1.0D - color.g, 1.0D - color.b);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color3D multiplyRGB(final Color3D color, final double s) {
-		final double r = color.r * s;
-		final double g = color.g * s;
-		final double b = color.b * s;
+	/**
+	 * Multiplies the component values of {@code colorLHS} with {@code scalarRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiply(final Color3D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r * scalarRHS;
+		final double g = colorLHS.g * scalarRHS;
+		final double b = colorLHS.b * scalarRHS;
 		
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3D(Randoms.nextDouble(), Randoms.nextDouble(), Randoms.nextDouble());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D random() {
 		return new Color3D(Randoms.nextDouble(), Randoms.nextDouble(), Randoms.nextDouble());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a blue color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomBlue(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a blue color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomBlue() {
 		return randomBlue(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a blue color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color3D} instance with random component values that represents a blue color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomBlue(final double maxR, final double maxG) {
 		final double b = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
 		final double r = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), b));
@@ -619,12 +972,31 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a cyan color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomCyan(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a cyan color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomCyan() {
 		return randomCyan(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a cyan color.
+	 * 
+	 * @param minGB the minimum value to use for the G- and B-components
+	 * @param maxR the maximum value to use for the R-component
+	 * @return a {@code Color3D} instance with random component values that represents a cyan color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomCyan(final double minGB, final double maxR) {
 		final double x = Randoms.nextDouble(Math.max(Math.min(minGB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), x));
@@ -632,17 +1004,41 @@ public final class Color3D {
 		return new Color3D(y, x, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a grayscale color.
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a grayscale color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomGrayscale() {
 		return new Color3D(Randoms.nextDouble(0.0D, Math.nextUp(1.0D)));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a green color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomGreen(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a green color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomGreen() {
 		return randomGreen(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a green color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3D} instance with random component values that represents a green color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomGreen(final double maxR, final double maxB) {
 		final double g = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
 		final double r = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxR, 0.0D)), g));
@@ -651,12 +1047,31 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a magenta color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomMagenta(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a magenta color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomMagenta() {
 		return randomMagenta(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a magenta color.
+	 * 
+	 * @param minRB the minimum value to use for the R- and B-components
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color3D} instance with random component values that represents a magenta color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomMagenta(final double minRB, final double maxG) {
 		final double x = Randoms.nextDouble(Math.max(Math.min(minRB, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), x));
@@ -664,12 +1079,31 @@ public final class Color3D {
 		return new Color3D(x, y, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a red color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomRed(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a red color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomRed() {
 		return randomRed(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a red color.
+	 * 
+	 * @param maxG the maximum value to use for the G-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3D} instance with random component values that represents a red color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomRed(final double maxG, final double maxB) {
 		final double r = Randoms.nextDouble(Math.nextUp(0.0D), Math.nextUp(1.0D));
 		final double g = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxG, 0.0D)), r));
@@ -678,12 +1112,31 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a yellow color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.randomYellow(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3D} instance with random component values that represents a yellow color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomYellow() {
 		return randomYellow(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3D} instance with random component values that represents a yellow color.
+	 * 
+	 * @param minRG the minimum value to use for the R- and G-components
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3D} instance with random component values that represents a yellow color
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D randomYellow(final double minRG, final double maxB) {
 		final double x = Randoms.nextDouble(Math.max(Math.min(minRG, 1.0D), Math.nextUp(0.0D)), Math.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Math.min(Math.nextUp(Math.max(maxB, 0.0D)), x));
@@ -691,12 +1144,34 @@ public final class Color3D {
 		return new Color3D(x, x, y);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Redoes gamma correction on {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D redoGammaCorrection(final Color3D color) {
 		return new Color3D(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Converts {@code color} to its sepia-representation.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D sepia(final Color3D color) {
 		final double r = color.r * 0.393D + color.g * 0.769D + color.b * 0.189D;
 		final double g = color.r * 0.349D + color.g * 0.686D + color.b * 0.168D;
@@ -705,17 +1180,36 @@ public final class Color3D {
 		return new Color3D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Undoes gamma correction on {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
 	public static Color3D undoGammaCorrection(final Color3D color) {
 		return new Color3D(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the size of the cache.
+	 * 
+	 * @return the size of the cache
+	 */
+//	TODO: Add Unit Tests!
 	public static int getCacheSize() {
 		return CACHE.size();
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Clears the cache.
+	 */
+//	TODO: Add Unit Tests!
 	public static void clearCache() {
 		CACHE.clear();
 	}

@@ -18,16 +18,23 @@
  */
 package org.macroing.img4j.color;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
+import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code Color3F} represents a color with three {@code float}-based components.
+ * <p>
+ * This class is immutable and therefore suitable for concurrent use without external synchronization.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Color3F {
 	/**
 	 * A {@code Color3F} instance that represents the color black.
@@ -127,17 +134,38 @@ public final class Color3F {
 		this(0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color3F(final Color3D color) {
 		this((float)(color.r), (float)(color.g), (float)(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color3F(final Color4D color) {
 		this((float)(color.r), (float)(color.g), (float)(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color3F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color3F(final Color4F color) {
 		this(color.r, color.g, color.b);
 	}
@@ -189,13 +217,20 @@ public final class Color3F {
 	
 	/**
 	 * Constructs a new {@code Color3F} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3F(Ints.saturate(r) / 255.0F, Ints.saturate(g) / 255.0F, Ints.saturate(b) / 255.0F);
+	 * }
+	 * </pre>
 	 * 
 	 * @param r the value of the red component
 	 * @param g the value of the green component
 	 * @param b the value of the blue component
 	 */
 	public Color3F(final int r, final int g, final int b) {
-		this(r / 255.0F, g / 255.0F, b / 255.0F);
+		this(Ints.saturate(r) / 255.0F, Ints.saturate(g) / 255.0F, Ints.saturate(b) / 255.0F);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,7 +313,15 @@ public final class Color3F {
 		return isBlue(1.0F, 1.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3F} instance is blue, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3F} instance {@code color} is blue if, and only if, {@code color.b - deltaR >= color.r} and {@code color.b - deltaG >= color.g}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaG the delta for the G-component
+	 * @return {@code true} if, and only if, this {@code Color3F} instance is blue, {@code false} otherwise
+	 */
 	public boolean isBlue(final float deltaR, final float deltaG) {
 		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
 	}
@@ -317,7 +360,15 @@ public final class Color3F {
 		return isGreen(1.0F, 1.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3F} instance is green, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3F} instance {@code color} is green if, and only if, {@code color.g - deltaR >= color.r} and {@code color.g - deltaB >= color.b}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color3F} instance is green, {@code false} otherwise
+	 */
 	public boolean isGreen(final float deltaR, final float deltaB) {
 		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
 	}
@@ -347,7 +398,15 @@ public final class Color3F {
 		return isRed(1.0F, 1.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color3F} instance is red, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color3F} instance {@code color} is red if, and only if, {@code color.r - deltaG >= color.g} and {@code color.r - deltaB >= color.b}.
+	 * 
+	 * @param deltaG the delta for the G-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color3F} instance is red, {@code false} otherwise
+	 */
 	public boolean isRed(final float deltaG, final float deltaB) {
 		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
 	}
@@ -425,7 +484,13 @@ public final class Color3F {
 		return Objects.hash(Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * <p>
+	 * The alpha component is treated as if it was {@code 1.0F} or {@code 255}.
+	 * 
+	 * @return the alpha, red, green and blue components as an {@code int}
+	 */
 	public int toIntARGB() {
 		final int a = ((255      & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
@@ -462,7 +527,11 @@ public final class Color3F {
 		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the red, green and blue components as an {@code int}.
+	 * 
+	 * @return the red, green and blue components as an {@code int}
+	 */
 	public int toIntRGB() {
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
 		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
@@ -473,8 +542,19 @@ public final class Color3F {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
-	public static Color3F addRGB(final Color3F colorLHS, final Color3F colorRHS) {
+	/**
+	 * Adds the component values of {@code colorRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the addition.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color3F add(final Color3F colorLHS, final Color3F colorRHS) {
 		final float r = colorLHS.r + colorRHS.r;
 		final float g = colorLHS.g + colorRHS.g;
 		final float b = colorLHS.b + colorRHS.b;
@@ -482,31 +562,115 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color3F addRGB(final Color3F color, final float s) {
-		final float r = color.r + s;
-		final float g = color.g + s;
-		final float b = color.b + s;
+	/**
+	 * Adds {@code scalarRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the addition.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color3F add(final Color3F colorLHS, final float scalarRHS) {
+		final float r = colorLHS.r + scalarRHS;
+		final float g = colorLHS.g + scalarRHS;
+		final float b = colorLHS.b + scalarRHS;
 		
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.blend(colorLHS, colorRHS, 0.5F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS) {
 		return blend(colorLHS, colorRHS, 0.5F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code color11}, {@code color12}, {@code color21} and {@code color22}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the blend.
+	 * <p>
+	 * If either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.blend(Color3F.blend(color11, color12, tX), Color3F.blend(color21, color22, tX), tY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color11 the {@code Color3F} instance on row 1 and column 1
+	 * @param color12 the {@code Color3F} instance on row 1 and column 2
+	 * @param color21 the {@code Color3F} instance on row 2 and column 1
+	 * @param color22 the {@code Color3F} instance on row 2 and column 2
+	 * @param tX the factor to use for all components in the first and second blend operation
+	 * @param tY the factor to use for all components in the third blend operation
+	 * @return a new {@code Color3F} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}
+	 */
 	public static Color3F blend(final Color3F color11, final Color3F color12, final Color3F color21, final Color3F color22, final float tX, final float tY) {
 		return blend(blend(color11, color12, tX), blend(color21, color22, tX), tY);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.blend(colorLHS, colorRHS, t, t, t);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @param t the factor to use for all components in the blending process
+	 * @return a new {@code Color3F} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS, final float t) {
 		return blend(colorLHS, colorRHS, t, t, t);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @param tR the factor to use for the R-component in the blending process
+	 * @param tG the factor to use for the G-component in the blending process
+	 * @param tB the factor to use for the B-component in the blending process
+	 * @return a new {@code Color3F} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color3F blend(final Color3F colorLHS, final Color3F colorRHS, final float tR, final float tG, final float tB) {
 		final float r = Floats.lerp(colorLHS.r, colorRHS.r, tR);
 		final float g = Floats.lerp(colorLHS.g, colorRHS.g, tG);
@@ -515,7 +679,12 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance from the {@code int} {@code colorARGB}.
+	 * 
+	 * @param colorARGB an {@code int} that contains the alpha, red, green and blue components
+	 * @return a {@code Color3F} instance from the {@code int} {@code colorARGB}
+	 */
 	public static Color3F fromIntARGB(final int colorARGB) {
 		final int r = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -524,7 +693,12 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance from the {@code int} {@code colorRGB}.
+	 * 
+	 * @param colorRGB an {@code int} that contains the red, green and blue components
+	 * @return a {@code Color3F} instance from the {@code int} {@code colorRGB}
+	 */
 	public static Color3F fromIntRGB(final int colorRGB) {
 		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
@@ -546,71 +720,184 @@ public final class Color3F {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(color, "color == null"), key -> color);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.average()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.average()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleAverage(final Color3F color) {
 		return new Color3F(color.average());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.b}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.b}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleB(final Color3F color) {
 		return new Color3F(color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.g}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.g}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleG(final Color3F color) {
 		return new Color3F(color.g);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.lightness()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.lightness()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleLightness(final Color3F color) {
 		return new Color3F(color.lightness());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.max()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.max()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleMax(final Color3F color) {
 		return new Color3F(color.max());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.min()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.min()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleMin(final Color3F color) {
 		return new Color3F(color.min());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.r}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.r}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleR(final Color3F color) {
 		return new Color3F(color.r);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color3F} instance based on {@code color.relativeLuminance()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a grayscale {@code Color3F} instance based on {@code color.luminance()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F grayscaleRelativeLuminance(final Color3F color) {
 		return new Color3F(color.relativeLuminance());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Inverts the component values of {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the inversion.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the inversion
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F invert(final Color3F color) {
 		return new Color3F(1.0F - color.r, 1.0F - color.g, 1.0F - color.b);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color3F multiplyRGB(final Color3F color, final float s) {
-		final float r = color.r * s;
-		final float g = color.g * s;
-		final float b = color.b * s;
+	/**
+	 * Multiplies the component values of {@code colorLHS} with {@code scalarRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color3F multiply(final Color3F colorLHS, final float scalarRHS) {
+		final float r = colorLHS.r * scalarRHS;
+		final float g = colorLHS.g * scalarRHS;
+		final float b = colorLHS.b * scalarRHS;
 		
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values
+	 */
 	public static Color3F random() {
 		return new Color3F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a blue color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomBlue(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a blue color
+	 */
 	public static Color3F randomBlue() {
 		return randomBlue(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a blue color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color3F} instance with random component values that represents a blue color
+	 */
 	public static Color3F randomBlue(final float maxR, final float maxG) {
 		final float b = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), b));
@@ -619,12 +906,29 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a cyan color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomCyan(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a cyan color
+	 */
 	public static Color3F randomCyan() {
 		return randomCyan(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a cyan color.
+	 * 
+	 * @param minGB the minimum value to use for the G- and B-components
+	 * @param maxR the maximum value to use for the R-component
+	 * @return a {@code Color3F} instance with random component values that represents a cyan color
+	 */
 	public static Color3F randomCyan(final float minGB, final float maxR) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minGB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), x));
@@ -632,17 +936,38 @@ public final class Color3F {
 		return new Color3F(y, x, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a grayscale color.
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a grayscale color
+	 */
 	public static Color3F randomGrayscale() {
 		return new Color3F(Randoms.nextFloat(0.0F, Math.nextUp(1.0F)));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a green color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomGreen(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a green color
+	 */
 	public static Color3F randomGreen() {
 		return randomGreen(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a green color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3F} instance with random component values that represents a green color
+	 */
 	public static Color3F randomGreen(final float maxR, final float maxB) {
 		final float g = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), g));
@@ -651,12 +976,29 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a magenta color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomMagenta(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a magenta color
+	 */
 	public static Color3F randomMagenta() {
 		return randomMagenta(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a magenta color.
+	 * 
+	 * @param minRB the minimum value to use for the R- and B-components
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color3F} instance with random component values that represents a magenta color
+	 */
 	public static Color3F randomMagenta(final float minRB, final float maxG) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minRB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), x));
@@ -664,12 +1006,29 @@ public final class Color3F {
 		return new Color3F(x, y, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a red color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomRed(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a red color
+	 */
 	public static Color3F randomRed() {
 		return randomRed(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a red color.
+	 * 
+	 * @param maxG the maximum value to use for the G-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3F} instance with random component values that represents a red color
+	 */
 	public static Color3F randomRed(final float maxG, final float maxB) {
 		final float r = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
 		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), r));
@@ -678,12 +1037,29 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a yellow color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3F.randomYellow(0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color3F} instance with random component values that represents a yellow color
+	 */
 	public static Color3F randomYellow() {
 		return randomYellow(0.0F, 0.0F);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color3F} instance with random component values that represents a yellow color.
+	 * 
+	 * @param minRG the minimum value to use for the R- and G-components
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color3F} instance with random component values that represents a yellow color
+	 */
 	public static Color3F randomYellow(final float minRG, final float maxB) {
 		final float x = Randoms.nextFloat(Math.max(Math.min(minRG, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
 		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), x));
@@ -691,12 +1067,32 @@ public final class Color3F {
 		return new Color3F(x, x, y);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Redoes gamma correction on {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F redoGammaCorrection(final Color3F color) {
 		return new Color3F(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Converts {@code color} to its sepia-representation.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F sepia(final Color3F color) {
 		final float r = color.r * 0.393F + color.g * 0.769F + color.b * 0.189F;
 		final float g = color.r * 0.349F + color.g * 0.686F + color.b * 0.168F;
@@ -705,17 +1101,33 @@ public final class Color3F {
 		return new Color3F(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Undoes gamma correction on {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color3F undoGammaCorrection(final Color3F color) {
 		return new Color3F(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the size of the cache.
+	 * 
+	 * @return the size of the cache
+	 */
 	public static int getCacheSize() {
 		return CACHE.size();
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Clears the cache.
+	 */
 	public static void clearCache() {
 		CACHE.clear();
 	}
