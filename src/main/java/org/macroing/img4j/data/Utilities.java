@@ -66,16 +66,96 @@ final class Utilities {
 		return Double.compare(a, b) == 0;
 	}
 	
+	public static boolean equals(final float a, final float b) {
+		return Float.compare(a, b) == 0;
+	}
+	
 	public static boolean isZero(final double value) {
 		return Double.compare(value, +0.0D) == 0 || Double.compare(value, -0.0D) == 0;
+	}
+	
+	public static boolean isZero(final float value) {
+		return Float.compare(value, +0.0F) == 0 || Float.compare(value, -0.0F) == 0;
+	}
+	
+	public static double abs(final double value) {
+		return Math.abs(value);
+	}
+	
+	public static double ceil(final double value) {
+		return Math.ceil(value);
+	}
+	
+	public static double cos(final double angle) {
+		return Math.cos(angle);
+	}
+	
+	public static double floor(final double value) {
+		return Math.floor(value);
 	}
 	
 	public static double max(final double a, final double b, final double c, final double d) {
 		return Math.max(Math.max(a, b), Math.max(c, d));
 	}
 	
+	public static double min(final double a, final double b) {
+		return Math.min(a, b);
+	}
+	
 	public static double min(final double a, final double b, final double c, final double d) {
 		return Math.min(Math.min(a, b), Math.min(c, d));
+	}
+	
+	public static double sin(final double angle) {
+		return Math.sin(angle);
+	}
+	
+	public static double toDegrees(final double angle) {
+		return Math.toDegrees(angle);
+	}
+	
+	public static double toRadians(final double angle) {
+		return Math.toRadians(angle);
+	}
+	
+	public static float abs(final float value) {
+		return Math.abs(value);
+	}
+	
+	public static float ceil(final float value) {
+		return (float)(Math.ceil(value));
+	}
+	
+	public static float cos(final float angle) {
+		return (float)(Math.cos(angle));
+	}
+	
+	public static float floor(final float value) {
+		return (float)(Math.floor(value));
+	}
+	
+	public static float max(final float a, final float b, final float c, final float d) {
+		return Math.max(Math.max(a, b), Math.max(c, d));
+	}
+	
+	public static float min(final float a, final float b) {
+		return Math.min(a, b);
+	}
+	
+	public static float min(final float a, final float b, final float c, final float d) {
+		return Math.min(Math.min(a, b), Math.min(c, d));
+	}
+	
+	public static float sin(final float angle) {
+		return (float)(Math.sin(angle));
+	}
+	
+	public static float toDegrees(final float angle) {
+		return (float)(Math.toDegrees(angle));
+	}
+	
+	public static float toRadians(final float angle) {
+		return (float)(Math.toRadians(angle));
 	}
 	
 	public static int requireRange(final int value, final int rangeEndA, final int rangeEndB, final String name) {

@@ -23,51 +23,51 @@ import java.util.Arrays;
 import java.util.Objects;
 
 //TODO: Add Javadocs!
-public final class ConvolutionKernelND {
+public final class ConvolutionKernelNF {
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND BOX_BLUR_3 = new ConvolutionKernelND(0.0D, 1.0D / 9.0D, new double[] {1.0D, 1.0D, 1.0D, 1.0D, 1.0D, 1.0D, 1.0D, 1.0D, 1.0D});
+	public static final ConvolutionKernelNF BOX_BLUR_3 = new ConvolutionKernelNF(0.0F, 1.0F / 9.0F, new float[] {1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND EMBOSS_3 = new ConvolutionKernelND(0.5D, 1.0D, new double[] {-1.0D, -1.0D, 0.0D, -1.0D, 0.0D, 1.0D, 0.0D, 1.0D, 1.0D});
+	public static final ConvolutionKernelNF EMBOSS_3 = new ConvolutionKernelNF(0.5F, 1.0F, new float[] {-1.0F, -1.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND GAUSSIAN_BLUR_3 = new ConvolutionKernelND(0.0D, 1.0D / 16.0D, new double[] {1.0D, 2.0D, 1.0D, 2.0D, 4.0D, 2.0D, 1.0D, 2.0D, 1.0D});
+	public static final ConvolutionKernelNF GAUSSIAN_BLUR_3 = new ConvolutionKernelNF(0.0F, 1.0F / 16.0F, new float[] {1.0F, 2.0F, 1.0F, 2.0F, 4.0F, 2.0F, 1.0F, 2.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND GAUSSIAN_BLUR_5 = new ConvolutionKernelND(0.0D, 1.0D / 256.0D, new double[] {1.0D, 4.0D, 6.0D, 4.0D, 1.0D, 4.0D, 16.0D, 24.0D, 16.0D, 4.0D, 6.0D, 24.0D, 36.0D, 24.0D, 6.0D, 4.0D, 16.0D, 24.0D, 16.0D, 4.0D, 1.0D, 4.0D, 6.0D, 4.0D, 1.0D});
+	public static final ConvolutionKernelNF GAUSSIAN_BLUR_5 = new ConvolutionKernelNF(0.0F, 1.0F / 256.0F, new float[] {1.0F, 4.0F, 6.0F, 4.0F, 1.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 6.0F, 24.0F, 36.0F, 24.0F, 6.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 1.0F, 4.0F, 6.0F, 4.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND GRADIENT_HORIZONTAL_3 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {-1.0D, -1.0D, -1.0D, 0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D});
+	public static final ConvolutionKernelNF GRADIENT_HORIZONTAL_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND GRADIENT_VERTICAL_3 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {-1.0D, 0.0D, 1.0D, -1.0D, 0.0D, 1.0D, -1.0D, 0.0D, 1.0D});
+	public static final ConvolutionKernelNF GRADIENT_VERTICAL_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, 0.0F, 1.0F, -1.0F, 0.0F, 1.0F, -1.0F, 0.0F, 1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND IDENTITY_3 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D});
+	public static final ConvolutionKernelNF IDENTITY_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND IDENTITY_5 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D});
+	public static final ConvolutionKernelNF IDENTITY_5 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND RIDGE_DETECTION_3 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {-1.0D, -1.0D, -1.0D, -1.0D, 8.0D, -1.0D, -1.0D, -1.0D, -1.0D});
+	public static final ConvolutionKernelNF RIDGE_DETECTION_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, -1.0F, 8.0F, -1.0F, -1.0F, -1.0F, -1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND SHARPEN_3 = new ConvolutionKernelND(0.0D, 1.0D, new double[] {-1.0D, -1.0D, -1.0D, -1.0D, 9.0D, -1.0D, -1.0D, -1.0D, -1.0D});
+	public static final ConvolutionKernelNF SHARPEN_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, -1.0F, 9.0F, -1.0F, -1.0F, -1.0F, -1.0F});
 	
 //	TODO: Add Javadocs!
-	public static final ConvolutionKernelND UNSHARP_MASKING_5 = new ConvolutionKernelND(0.0D, -1.0D / 256.0D, new double[] {1.0D, 4.0D, 6.0D, 4.0D, 1.0D, 4.0D, 16.0D, 24.0D, 16.0D, 4.0D, 6.0D, 24.0D, -476.0D, 24.0D, 6.0D, 4.0D, 16.0D, 24.0D, 16.0D, 4.0D, 1.0D, 4.0D, 6.0D, 4.0D, 1.0D});
+	public static final ConvolutionKernelNF UNSHARP_MASKING_5 = new ConvolutionKernelNF(0.0F, -1.0F / 256.0F, new float[] {1.0F, 4.0F, 6.0F, 4.0F, 1.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 6.0F, 24.0F, -476.0F, 24.0F, 6.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 1.0F, 4.0F, 6.0F, 4.0F, 1.0F});
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final double bias;
-	private final double factor;
-	private final double[] elements;
+	private final float bias;
+	private final float factor;
+	private final float[] elements;
 	private final int resolution;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 //	TODO: Add Javadocs!
-	public ConvolutionKernelND(final double bias, final double factor, final double[] elements) {
+	public ConvolutionKernelNF(final float bias, final float factor, final float[] elements) {
 		this.bias = bias;
 		this.factor = factor;
 		this.elements = doRequireValidElements(elements);
@@ -81,15 +81,15 @@ public final class ConvolutionKernelND {
 	public boolean equals(final Object object) {
 		if(object == this) {
 			return true;
-		} else if(!(object instanceof ConvolutionKernelND)) {
+		} else if(!(object instanceof ConvolutionKernelNF)) {
 			return false;
-		} else if(Double.compare(this.bias, ConvolutionKernelND.class.cast(object).bias) != 0) {
+		} else if(!Utilities.equals(this.bias, ConvolutionKernelNF.class.cast(object).bias)) {
 			return false;
-		} else if(Double.compare(this.factor, ConvolutionKernelND.class.cast(object).factor) != 0) {
+		} else if(!Utilities.equals(this.factor, ConvolutionKernelNF.class.cast(object).factor)) {
 			return false;
-		} else if(!Arrays.equals(this.elements, ConvolutionKernelND.class.cast(object).elements)) {
+		} else if(!Arrays.equals(this.elements, ConvolutionKernelNF.class.cast(object).elements)) {
 			return false;
-		} else if(this.resolution != ConvolutionKernelND.class.cast(object).resolution) {
+		} else if(this.resolution != ConvolutionKernelNF.class.cast(object).resolution) {
 			return false;
 		} else {
 			return true;
@@ -97,17 +97,17 @@ public final class ConvolutionKernelND {
 	}
 	
 //	TODO: Add Javadocs!
-	public double getBias() {
+	public float getBias() {
 		return this.bias;
 	}
 	
 //	TODO: Add Javadocs!
-	public double getFactor() {
+	public float getFactor() {
 		return this.factor;
 	}
 	
 //	TODO: Add Javadocs!
-	public double[] getElements() {
+	public float[] getElements() {
 		return this.elements.clone();
 	}
 	
@@ -119,13 +119,13 @@ public final class ConvolutionKernelND {
 //	TODO: Add Javadocs!
 	@Override
 	public int hashCode() {
-		return Objects.hash(Double.valueOf(this.bias), Double.valueOf(this.factor), Integer.valueOf(Arrays.hashCode(this.elements)), Integer.valueOf(this.resolution));
+		return Objects.hash(Float.valueOf(this.bias), Float.valueOf(this.factor), Integer.valueOf(Arrays.hashCode(this.elements)), Integer.valueOf(this.resolution));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 //	TODO: Add Javadocs!
-	public static ConvolutionKernelND random(final int resolution) {
+	public static ConvolutionKernelNF random(final int resolution) {
 		if(resolution < 1) {
 			throw new IllegalArgumentException(String.format("The value of resolution, %d, is invalid. It must be greater than or equal to 1.", Integer.valueOf(resolution)));
 		}
@@ -138,35 +138,39 @@ public final class ConvolutionKernelND {
 			throw new IllegalArgumentException(String.format("The value of resolution * resolution, %d, is invalid. It must be greater than or equal to 1.", Integer.valueOf(resolution * resolution)));
 		}
 		
-		final double[] elements = new double[resolution * resolution];
+		final float[] elements = new float[resolution * resolution];
 		
 		final int middle = (resolution - 1) / 2;
 		
 		for(int y = 0; y < resolution; y++) {
 			for(int x = 0; x < resolution; x++) {
 				if(x == middle && y == middle) {
-					elements[y * resolution + x] = 1.0D;
+					elements[y * resolution + x] = 1.0F;
 				} else {
-					elements[y * resolution + x] = Utilities.nextDouble(-1.0D, 1.0D);
+					elements[y * resolution + x] = Utilities.nextFloat(-1.0F, 1.0F);
 				}
 			}
 		}
 		
-		final double elementTotal = Arrays.stream(elements).sum();
+		float elementTotal = 0.0F;
+		
+		for(final float element : elements) {
+			elementTotal += element;
+		}
 		
 		final boolean isBiasBasedOnRandomDouble = Utilities.nextBoolean();
 		final boolean isFactorBasedOnElementTotal = Utilities.nextBoolean();
 		final boolean isFactorBasedOnRandomDouble = Utilities.nextBoolean();
 		
-		final double bias = isBiasBasedOnRandomDouble ? Utilities.nextDouble() : 0.0D;
-		final double factor = isFactorBasedOnElementTotal ? Utilities.isZero(elementTotal) ? 1.0D : 1.0D / elementTotal : isFactorBasedOnRandomDouble ? Utilities.nextDouble() : 1.0D;
+		final float bias = isBiasBasedOnRandomDouble ? Utilities.nextFloat() : 0.0F;
+		final float factor = isFactorBasedOnElementTotal ? Utilities.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Utilities.nextFloat() : 1.0F;
 		
-		return new ConvolutionKernelND(bias, factor, elements);
+		return new ConvolutionKernelNF(bias, factor, elements);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static double[] doRequireValidElements(final double[] elements) {
+	private static float[] doRequireValidElements(final float[] elements) {
 //		Check that 'elements' is not 'null':
 		Objects.requireNonNull(elements, "elements == null");
 		
@@ -176,12 +180,12 @@ public final class ConvolutionKernelND {
 		}
 		
 //		Compute the square root of 'elements.length' and the value that is closest to it and represents a mathematical integer:
-		final double vA = Utilities.sqrt(elements.length);
-		final double vB = Utilities.rint(vA);
+		final float vA = Utilities.sqrt(elements.length);
+		final float vB = Utilities.rint(vA);
 		
 //		Check that the square root of 'elements.length' and the value that is closest to it and represents a mathematical integer are equal:
 		if(!Utilities.equals(vA, vB)) {
-			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Math.sqrt(elements.length) must return a value that is a mathematical integer.", Integer.valueOf(elements.length)));
+			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Floats.sqrt(elements.length) must return a value that is a mathematical integer.", Integer.valueOf(elements.length)));
 		}
 		
 //		Compute the resolution by converting the square root of 'elements.length' to an 'int':
@@ -189,7 +193,7 @@ public final class ConvolutionKernelND {
 		
 //		Check that the resolution is odd:
 		if(kR % 2 == 0) {
-			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Math.sqrt(elements.length) must return a value that is odd.", Integer.valueOf(elements.length)));
+			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Floats.sqrt(elements.length) must return a value that is odd.", Integer.valueOf(elements.length)));
 		}
 		
 		return elements.clone();

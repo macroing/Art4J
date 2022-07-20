@@ -134,6 +134,21 @@ public final class Color4D {
 		this(0.0D);
 	}
 	
+//	TODO: Add Javadocs!
+	public Color4D(final Color3D color) {
+		this(color.r, color.g, color.b);
+	}
+	
+//	TODO: Add Javadocs!
+	public Color4D(final Color3F color) {
+		this(color.r, color.g, color.b);
+	}
+	
+//	TODO: Add Javadocs!
+	public Color4D(final Color4F color) {
+		this(color.r, color.g, color.b, color.a);
+	}
+	
 	/**
 	 * Constructs a new {@code Color4D} instance that represents gray.
 	 * <p>

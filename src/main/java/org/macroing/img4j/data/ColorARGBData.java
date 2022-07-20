@@ -26,8 +26,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.macroing.img4j.color.Color;
+import org.macroing.img4j.color.Color3D;
+import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
+import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
+import org.macroing.img4j.kernel.ConvolutionKernelNF;
 
 final class ColorARGBData extends Data {
 	private int resolutionX;
@@ -74,6 +78,14 @@ final class ColorARGBData extends Data {
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
+	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
+		this.resolutionX = Utilities.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = Utilities.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new int[Utilities.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
+		
+		Arrays.fill(this.colors, color.toIntARGB());
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
@@ -89,6 +101,26 @@ final class ColorARGBData extends Data {
 	}
 	
 	@Override
+	public Color3D getColor3D(final int index) {
+		return Color3D.fromIntARGB(getColorARGB(index));
+	}
+	
+	@Override
+	public Color3D getColor3D(final int x, final int y) {
+		return Color3D.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
+	public Color3F getColor3F(final int index) {
+		return Color3F.fromIntARGB(getColorARGB(index));
+	}
+	
+	@Override
+	public Color3F getColor3F(final int x, final int y) {
+		return Color3F.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
 	public Color4D getColor4D(final int index) {
 		return Color4D.fromIntARGB(getColorARGB(index));
 	}
@@ -96,6 +128,16 @@ final class ColorARGBData extends Data {
 	@Override
 	public Color4D getColor4D(final int x, final int y) {
 		return Color4D.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
+	public Color4F getColor4F(final int index) {
+		return Color4F.fromIntARGB(getColorARGB(index));
+	}
+	
+	@Override
+	public Color4F getColor4F(final int x, final int y) {
+		return Color4F.fromIntARGB(getColorARGB(x, y));
 	}
 	
 	@Override
@@ -220,6 +262,95 @@ final class ColorARGBData extends Data {
 	}
 	
 	@Override
+	public boolean convolve(final ConvolutionKernelNF convolutionKernel, final int[] indices) {
+		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
+		Objects.requireNonNull(indices, "indices == null");
+		
+		if(indices.length == 0) {
+			return false;
+		}
+		
+		final float bias = convolutionKernel.getBias();
+		final float factor = convolutionKernel.getFactor();
+		
+		final float[] elements = convolutionKernel.getElements();
+		
+		final int kernelResolution = convolutionKernel.getResolution();
+		final int kernelOffset = (kernelResolution - 1) / 2;
+		
+		final int resolution  = getResolution();
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int[] oldColors = this.colors;
+		final int[] newColors = this.colors.clone();
+		
+		final float[] colors = doUnpackColorsAsFloatArrayRGB();
+		
+		final boolean hasChangeBegun = changeBegin();
+		
+		int count = 0;
+		
+		for(final int index : indices) {
+			if(index >= 0 && index < resolution) {
+				final int x = index % resolutionX;
+				final int y = index / resolutionX;
+				
+				final int xOffset = x - kernelOffset;
+				final int yOffset = y - kernelOffset;
+				
+				float colorR = 0.0F;
+				float colorG = 0.0F;
+				float colorB = 0.0F;
+				float colorA = Color.unpackAAsFloat(oldColors[index]);
+				
+				for(int kernelY = 0; kernelY < kernelResolution; kernelY++) {
+					final int imageY = yOffset + kernelY;
+					final int imageRow = imageY * resolutionX;
+					
+					final int kernelRow = kernelY * kernelResolution;
+					
+					for(int kernelX = 0; kernelX < kernelResolution; kernelX++) {
+						final int imageX = xOffset + kernelX;
+						
+						if(imageX >= 0 && imageX < resolutionX && imageY >= 0 && imageY < resolutionY) {
+							final int imageIndex = (imageRow + imageX) * 3;
+							
+							final float element = elements[kernelRow + kernelX];
+							
+							colorR += colors[imageIndex + 0] * element;
+							colorG += colors[imageIndex + 1] * element;
+							colorB += colors[imageIndex + 2] * element;
+						}
+					}
+				}
+				
+				colorR = colorR * factor + bias;
+				colorG = colorG * factor + bias;
+				colorB = colorB * factor + bias;
+				
+				newColors[index] = Color.packRGBA(colorR, colorG, colorB, colorA);
+				
+				count++;
+			}
+		}
+		
+		if(hasChangeBegun) {
+			if(count > 0) {
+				changeAdd(new StateChange(resolutionX, resolutionX, resolutionY, resolutionY, newColors, oldColors));
+			}
+			
+			changeEnd();
+		}
+		
+		if(count > 0) {
+			this.colors = newColors;
+		}
+		
+		return count > 0;
+	}
+	
+	@Override
 	public boolean equals(final Object object) {
 		if(!super.equals(object)) {
 			return false;
@@ -242,15 +373,15 @@ final class ColorARGBData extends Data {
 			return false;
 		}
 		
-		final double angleDegrees = isAngleInRadians ? Math.toDegrees(angle) : angle;
+		final double angleDegrees = isAngleInRadians ? Utilities.toDegrees(angle) : angle;
 		
 		if(Utilities.equals(angleDegrees, +360.0D) || Utilities.equals(angleDegrees, -360.0D)) {
 			return false;
 		}
 		
-		final double angleRadians = isAngleInRadians ? angle : Math.toRadians(angle);
-		final double angleRadiansCos = Math.cos(angleRadians);
-		final double angleRadiansSin = Math.sin(angleRadians);
+		final double angleRadians = isAngleInRadians ? angle : Utilities.toRadians(angle);
+		final double angleRadiansCos = Utilities.cos(angleRadians);
+		final double angleRadiansSin = Utilities.sin(angleRadians);
 		
 		final double directionAX = -this.resolutionX * 0.5D;
 		final double directionAY = -this.resolutionY * 0.5D;
@@ -287,8 +418,8 @@ final class ColorARGBData extends Data {
 		final int[] newColors = new int[newResolutionX * newResolutionY];
 		final int[] oldColors = this.colors;
 		
-		final double directionBX = Math.abs(Math.min(minimumX, 0.0D));
-		final double directionBY = Math.abs(Math.min(minimumY, 0.0D));
+		final double directionBX = Utilities.abs(Utilities.min(minimumX, 0.0D));
+		final double directionBY = Utilities.abs(Utilities.min(minimumY, 0.0D));
 		
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
@@ -300,6 +431,87 @@ final class ColorARGBData extends Data {
 				
 				final int cX = (int)(bX - directionAX - 0.5D);
 				final int cY = (int)(bY - directionAY - 0.5D);
+				
+				newColors[y * newResolutionX + x] = getColorARGB(cX, cY);
+			}
+		}
+		
+		if(changeBegin()) {
+			changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
+			changeEnd();
+		}
+		
+		this.colors = newColors;
+		this.resolutionX = newResolutionX;
+		this.resolutionY = newResolutionY;
+		
+		return true;
+	}
+	
+	@Override
+	public boolean rotate(final float angle, final boolean isAngleInRadians) {
+		if(Utilities.isZero(angle)) {
+			return false;
+		}
+		
+		final float angleDegrees = isAngleInRadians ? Utilities.toDegrees(angle) : angle;
+		
+		if(Utilities.equals(angleDegrees, +360.0F) || Utilities.equals(angleDegrees, -360.0F)) {
+			return false;
+		}
+		
+		final float angleRadians = isAngleInRadians ? angle : Utilities.toRadians(angle);
+		final float angleRadiansCos = Utilities.cos(angleRadians);
+		final float angleRadiansSin = Utilities.sin(angleRadians);
+		
+		final float directionAX = -this.resolutionX * 0.5F;
+		final float directionAY = -this.resolutionY * 0.5F;
+		
+		final float rectangleAAX = directionAX;
+		final float rectangleAAY = directionAY;
+		final float rectangleABX = directionAX;
+		final float rectangleABY = directionAY + this.resolutionY;
+		final float rectangleACX = directionAX + this.resolutionX;
+		final float rectangleACY = directionAY + this.resolutionY;
+		final float rectangleADX = directionAX + this.resolutionX;
+		final float rectangleADY = directionAY;
+		
+		final float rectangleBAX = rectangleAAX * angleRadiansCos - rectangleAAY * angleRadiansSin;
+		final float rectangleBAY = rectangleAAY * angleRadiansCos + rectangleAAX * angleRadiansSin;
+		final float rectangleBBX = rectangleABX * angleRadiansCos - rectangleABY * angleRadiansSin;
+		final float rectangleBBY = rectangleABY * angleRadiansCos + rectangleABX * angleRadiansSin;
+		final float rectangleBCX = rectangleACX * angleRadiansCos - rectangleACY * angleRadiansSin;
+		final float rectangleBCY = rectangleACY * angleRadiansCos + rectangleACX * angleRadiansSin;
+		final float rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
+		final float rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
+		
+		final float minimumX = Utilities.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final float minimumY = Utilities.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		final float maximumX = Utilities.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
+		final float maximumY = Utilities.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
+		
+		final int newResolutionX = (int)(maximumX - minimumX);
+		final int newResolutionY = (int)(maximumY - minimumY);
+		
+		final int oldResolutionX = this.resolutionX;
+		final int oldResolutionY = this.resolutionY;
+		
+		final int[] newColors = new int[newResolutionX * newResolutionY];
+		final int[] oldColors = this.colors;
+		
+		final float directionBX = Utilities.abs(Utilities.min(minimumX, 0.0F));
+		final float directionBY = Utilities.abs(Utilities.min(minimumY, 0.0F));
+		
+		for(int y = 0; y < newResolutionY; y++) {
+			for(int x = 0; x < newResolutionX; x++) {
+				final float aX = x - directionBX;
+				final float aY = y - directionBY;
+				
+				final float bX = aX * angleRadiansCos - aY * -angleRadiansSin;
+				final float bY = aY * angleRadiansCos + aX * -angleRadiansSin;
+				
+				final int cX = (int)(bX - directionAX - 0.5F);
+				final int cY = (int)(bY - directionAY - 0.5F);
 				
 				newColors[y * newResolutionX + x] = getColorARGB(cX, cY);
 			}
@@ -358,6 +570,126 @@ final class ColorARGBData extends Data {
 	}
 	
 	@Override
+	public boolean setColor3D(final Color3D color, final int index) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(index >= 0 && index < this.colors.length) {
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColor3D(final Color3D color, final int x, final int y) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
+			final int index = y * this.resolutionX + x;
+			
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColor3F(final Color3F color, final int index) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(index >= 0 && index < this.colors.length) {
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColor3F(final Color3F color, final int x, final int y) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
+			final int index = y * this.resolutionX + x;
+			
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
 		
@@ -388,6 +720,66 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public boolean setColor4D(final Color4D color, final int x, final int y) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
+			final int index = y * this.resolutionX + x;
+			
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColor4F(final Color4F color, final int index) {
+		Objects.requireNonNull(color, "color == null");
+		
+		if(index >= 0 && index < this.colors.length) {
+			final int newColor = color.toIntARGB();
+			final int oldColor = this.colors[index];
+			
+			if(newColor != oldColor) {
+				final boolean hasChangeBegun = hasChangeBegun();
+				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+				
+				if(hasChangeBegun || hasChangeBegunNow) {
+					changeAdd(new PixelChange(newColor, oldColor, index));
+					
+					if(hasChangeBegunNow) {
+						changeEnd();
+					}
+				}
+				
+				this.colors[index] = newColor;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean setColor4F(final Color4F color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
 		
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
@@ -764,6 +1156,18 @@ final class ColorARGBData extends Data {
 			colors[j + 0] = Color.unpackRAsDouble(this.colors[i]);
 			colors[j + 1] = Color.unpackGAsDouble(this.colors[i]);
 			colors[j + 2] = Color.unpackBAsDouble(this.colors[i]);
+		}
+		
+		return colors;
+	}
+	
+	private float[] doUnpackColorsAsFloatArrayRGB() {
+		final float[] colors = new float[this.colors.length * 3];
+		
+		for(int i = 0, j = 0; i < this.colors.length; i++, j = i * 3) {
+			colors[j + 0] = Color.unpackRAsFloat(this.colors[i]);
+			colors[j + 1] = Color.unpackGAsFloat(this.colors[i]);
+			colors[j + 2] = Color.unpackBAsFloat(this.colors[i]);
 		}
 		
 		return colors;

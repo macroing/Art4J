@@ -29,6 +29,7 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 import org.macroing.img4j.color.Color4D;
+import org.macroing.img4j.color.Color4F;
 
 //TODO: Add Javadocs!
 public abstract class DataFactory {
@@ -135,6 +136,9 @@ public abstract class DataFactory {
 //	TODO: Add Javadocs!
 	public abstract Data create(final int resolutionX, final int resolutionY, final Color4D color);
 	
+//	TODO: Add Javadocs!
+	public abstract Data create(final int resolutionX, final int resolutionY, final Color4F color);
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -144,6 +148,15 @@ public abstract class DataFactory {
 	 */
 	public static DataFactory forColor4D() {
 		return new Color4DDataFactory();
+	}
+	
+	/**
+	 * Returns a {@code DataFactory} instance that creates {@link Data} instances that stores pixels as {@link Color4F} instances.
+	 * 
+	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as {@code Color4F} instances
+	 */
+	public static DataFactory forColor4F() {
+		return new Color4FDataFactory();
 	}
 	
 	/**

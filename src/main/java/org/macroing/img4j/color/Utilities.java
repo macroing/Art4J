@@ -30,11 +30,16 @@ final class Utilities {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final DecimalFormat DECIMAL_FORMAT_DOUBLE;
-	private static final double COLOR_SPACE_BREAK_POINT;
-	private static final double COLOR_SPACE_GAMMA;
-	private static final double COLOR_SPACE_SEGMENT_OFFSET;
-	private static final double COLOR_SPACE_SLOPE;
-	private static final double COLOR_SPACE_SLOPE_MATCH;
+	private static final double COLOR_SPACE_D_BREAK_POINT;
+	private static final double COLOR_SPACE_D_GAMMA;
+	private static final double COLOR_SPACE_D_SEGMENT_OFFSET;
+	private static final double COLOR_SPACE_D_SLOPE;
+	private static final double COLOR_SPACE_D_SLOPE_MATCH;
+	private static final float COLOR_SPACE_F_BREAK_POINT;
+	private static final float COLOR_SPACE_F_GAMMA;
+	private static final float COLOR_SPACE_F_SEGMENT_OFFSET;
+	private static final float COLOR_SPACE_F_SLOPE;
+	private static final float COLOR_SPACE_F_SLOPE_MATCH;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -46,11 +51,17 @@ final class Utilities {
 		
 		DECIMAL_FORMAT_DOUBLE = doCreateDecimalFormat(16);
 		
-		COLOR_SPACE_BREAK_POINT = 0.00304D;
-		COLOR_SPACE_GAMMA = 2.4D;
-		COLOR_SPACE_SLOPE = 1.0D / (COLOR_SPACE_GAMMA / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D) - COLOR_SPACE_GAMMA * COLOR_SPACE_BREAK_POINT + COLOR_SPACE_BREAK_POINT);
-		COLOR_SPACE_SLOPE_MATCH = COLOR_SPACE_GAMMA * COLOR_SPACE_SLOPE / Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA - 1.0D);
-		COLOR_SPACE_SEGMENT_OFFSET = COLOR_SPACE_SLOPE_MATCH * Math.pow(COLOR_SPACE_BREAK_POINT, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SLOPE * COLOR_SPACE_BREAK_POINT;
+		COLOR_SPACE_D_BREAK_POINT = 0.00304D;
+		COLOR_SPACE_D_GAMMA = 2.4D;
+		COLOR_SPACE_D_SLOPE = 1.0D / (COLOR_SPACE_D_GAMMA / Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA - 1.0D) - COLOR_SPACE_D_GAMMA * COLOR_SPACE_D_BREAK_POINT + COLOR_SPACE_D_BREAK_POINT);
+		COLOR_SPACE_D_SLOPE_MATCH = COLOR_SPACE_D_GAMMA * COLOR_SPACE_D_SLOPE / Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA - 1.0D);
+		COLOR_SPACE_D_SEGMENT_OFFSET = COLOR_SPACE_D_SLOPE_MATCH * Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA) - COLOR_SPACE_D_SLOPE * COLOR_SPACE_D_BREAK_POINT;
+		
+		COLOR_SPACE_F_BREAK_POINT = 0.00304F;
+		COLOR_SPACE_F_GAMMA = 2.4F;
+		COLOR_SPACE_F_SLOPE = 1.0F / (COLOR_SPACE_F_GAMMA / (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA - 1.0F)) - COLOR_SPACE_F_GAMMA * COLOR_SPACE_F_BREAK_POINT + COLOR_SPACE_F_BREAK_POINT);
+		COLOR_SPACE_F_SLOPE_MATCH = COLOR_SPACE_F_GAMMA * COLOR_SPACE_F_SLOPE / (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA - 1.0F));
+		COLOR_SPACE_F_SEGMENT_OFFSET = COLOR_SPACE_F_SLOPE_MATCH * (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA)) - COLOR_SPACE_F_SLOPE * COLOR_SPACE_F_BREAK_POINT;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +117,7 @@ final class Utilities {
 	}
 	
 	public static double redoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_BREAK_POINT ? value * COLOR_SPACE_SLOPE : COLOR_SPACE_SLOPE_MATCH * Math.pow(value, 1.0D / COLOR_SPACE_GAMMA) - COLOR_SPACE_SEGMENT_OFFSET;
+		return value <= COLOR_SPACE_D_BREAK_POINT ? value * COLOR_SPACE_D_SLOPE : COLOR_SPACE_D_SLOPE_MATCH * Math.pow(value, 1.0D / COLOR_SPACE_D_GAMMA) - COLOR_SPACE_D_SEGMENT_OFFSET;
 	}
 	
 	public static double saturate(final double value) {
@@ -118,11 +129,75 @@ final class Utilities {
 	}
 	
 	public static double undoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_BREAK_POINT * COLOR_SPACE_SLOPE ? value / COLOR_SPACE_SLOPE : Math.pow((value + COLOR_SPACE_SEGMENT_OFFSET) / COLOR_SPACE_SLOPE_MATCH, COLOR_SPACE_GAMMA);
+		return value <= COLOR_SPACE_D_BREAK_POINT * COLOR_SPACE_D_SLOPE ? value / COLOR_SPACE_D_SLOPE : Math.pow((value + COLOR_SPACE_D_SEGMENT_OFFSET) / COLOR_SPACE_D_SLOPE_MATCH, COLOR_SPACE_D_GAMMA);
+	}
+	
+	public static float lerp(final float a, final float b, final float t) {
+		return (1.0F - t) * a + t * b;
+	}
+	
+	public static float max(final float a, final float b, final float c) {
+		return Math.max(Math.max(a, b), c);
+	}
+	
+	public static float min(final float a, final float b, final float c) {
+		return Math.min(Math.min(a, b), c);
+	}
+	
+	public static float nextFloat() {
+		return ThreadLocalRandom.current().nextFloat();
+	}
+	
+	public static float nextFloat(final float bound) {
+		if(bound <= 0.0F) {
+			throw new IllegalArgumentException("bound must be positive");
+		}
+		
+		final float result = ThreadLocalRandom.current().nextFloat() * bound;
+		
+		return (result < bound) ? result : Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
+	}
+	
+	public static float nextFloat(final float origin, final float bound) {
+		if(origin >= bound) {
+			throw new IllegalArgumentException("bound must be greater than origin");
+		}
+		
+		float result = (ThreadLocalRandom.current().nextInt() >>> 8) * 0x1.0p-24F;
+		
+		if(origin < bound) {
+			result = result * (bound - origin) + origin;
+			
+			if(result >= bound) {
+				result = Float.intBitsToFloat(Float.floatToIntBits(bound) - 1);
+			}
+		}
+		
+		return result;
+	}
+	
+	public static float redoGammaCorrection(final float value) {
+		return value <= COLOR_SPACE_F_BREAK_POINT ? value * COLOR_SPACE_F_SLOPE : COLOR_SPACE_F_SLOPE_MATCH * (float)(Math.pow(value, 1.0F / COLOR_SPACE_F_GAMMA)) - COLOR_SPACE_F_SEGMENT_OFFSET;
+	}
+	
+	public static float saturate(final float value) {
+		return saturate(value, 0.0F, 1.0F);
+	}
+	
+	public static float saturate(final float value, final float valueMinimum, final float valueMaximum) {
+		return Math.max(Math.min(value, valueMaximum), valueMinimum);
+	}
+	
+	public static float undoGammaCorrection(final float value) {
+		return value <= COLOR_SPACE_F_BREAK_POINT * COLOR_SPACE_F_SLOPE ? value / COLOR_SPACE_F_SLOPE : (float)(Math.pow((value + COLOR_SPACE_F_SEGMENT_OFFSET) / COLOR_SPACE_F_SLOPE_MATCH, COLOR_SPACE_F_GAMMA));
 	}
 	
 	public static int convertComponentFromDoubleToInt(final double component) {
-		return (int)(Utilities.saturate(component) * 255.0D + 0.5D);
+		return (int)(saturate(component) * 255.0D + 0.5D);
+	}
+	
+	public static int convertComponentFromFloatToInt(final float component) {
+		return (int)(saturate(component) * 255.0F + 0.5F);
 	}
 	
 	public static int nextInt() {
