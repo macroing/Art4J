@@ -112,6 +112,16 @@ public final class DoublesUnitTests {
 	}
 	
 	@Test
+	public void testNextDown() {
+		assertEquals(Math.nextDown(0.5D), Doubles.nextDown(0.5D));
+	}
+	
+	@Test
+	public void testNextUp() {
+		assertEquals(Math.nextUp(0.5D), Doubles.nextUp(0.5D));
+	}
+	
+	@Test
 	public void testRint() {
 		assertEquals(0.0D, Doubles.rint(0.00D));
 		assertEquals(0.0D, Doubles.rint(0.25D));

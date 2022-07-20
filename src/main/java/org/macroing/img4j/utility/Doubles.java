@@ -255,6 +255,26 @@ public final class Doubles {
 	}
 	
 	/**
+	 * Returns the floating-point value adjacent to {@code value} in the direction of negative infinity.
+	 * 
+	 * @param value starting floating-point value
+	 * @return the floating-point value adjacent to {@code value} in the direction of negative infinity
+	 */
+	public static double nextDown(final double value) {
+		return Math.nextDown(value);
+	}
+	
+	/**
+	 * Returns the floating-point value adjacent to {@code value} in the direction of positive infinity.
+	 * 
+	 * @param value starting floating-point value
+	 * @return the floating-point value adjacent to {@code value} in the direction of positive infinity
+	 */
+	public static double nextUp(final double value) {
+		return Math.nextUp(value);
+	}
+	
+	/**
 	 * Returns the {@code double} value that is closest in value to the argument and is equal to a mathematical integer.
 	 * <p>
 	 * If two {@code double} values that are mathematical integers are equally close, the result is the integer value that is even.

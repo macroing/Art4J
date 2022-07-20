@@ -112,6 +112,16 @@ public final class FloatsUnitTests {
 	}
 	
 	@Test
+	public void testNextDown() {
+		assertEquals(Math.nextDown(0.5F), Floats.nextDown(0.5F));
+	}
+	
+	@Test
+	public void testNextUp() {
+		assertEquals(Math.nextUp(0.5F), Floats.nextUp(0.5F));
+	}
+	
+	@Test
 	public void testRint() {
 		assertEquals(0.0F, Floats.rint(0.00F));
 		assertEquals(0.0F, Floats.rint(0.25F));

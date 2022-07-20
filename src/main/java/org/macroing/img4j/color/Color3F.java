@@ -928,7 +928,7 @@ public final class Color3F {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Color3F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
+	 * new Color3F(Randoms.nextFloat(Floats.nextUp(1.0F)), Randoms.nextFloat(Floats.nextUp(1.0F)), Randoms.nextFloat(Floats.nextUp(1.0F)));
 	 * }
 	 * </pre>
 	 * 
@@ -936,7 +936,7 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F random() {
-		return new Color3F(Randoms.nextFloat(), Randoms.nextFloat(), Randoms.nextFloat());
+		return new Color3F(Randoms.nextFloat(Floats.nextUp(1.0F)), Randoms.nextFloat(Floats.nextUp(1.0F)), Randoms.nextFloat(Floats.nextUp(1.0F)));
 	}
 	
 	/**
@@ -965,9 +965,9 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomBlue(final float maxR, final float maxG) {
-		final float b = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), b));
-		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), b));
+		final float b = Randoms.nextFloat(Floats.nextUp(0.0F), Floats.nextUp(1.0F));
+		final float r = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxR, 0.0F)), b));
+		final float g = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxG, 0.0F)), b));
 		
 		return new Color3F(r, g, b);
 	}
@@ -998,8 +998,8 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomCyan(final float minGB, final float maxR) {
-		final float x = Randoms.nextFloat(Math.max(Math.min(minGB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), x));
+		final float x = Randoms.nextFloat(Floats.max(Floats.min(minGB, 1.0F), Floats.nextUp(0.0F)), Floats.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxR, 0.0F)), x));
 		
 		return new Color3F(y, x, x);
 	}
@@ -1011,7 +1011,7 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomGrayscale() {
-		return new Color3F(Randoms.nextFloat(0.0F, Math.nextUp(1.0F)));
+		return new Color3F(Randoms.nextFloat(Floats.nextUp(1.0F)));
 	}
 	
 	/**
@@ -1040,9 +1040,9 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomGreen(final float maxR, final float maxB) {
-		final float g = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float r = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxR, 0.0F)), g));
-		final float b = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), g));
+		final float g = Randoms.nextFloat(Floats.nextUp(0.0F), Floats.nextUp(1.0F));
+		final float r = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxR, 0.0F)), g));
+		final float b = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxB, 0.0F)), g));
 		
 		return new Color3F(r, g, b);
 	}
@@ -1073,8 +1073,8 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomMagenta(final float minRB, final float maxG) {
-		final float x = Randoms.nextFloat(Math.max(Math.min(minRB, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), x));
+		final float x = Randoms.nextFloat(Floats.max(Floats.min(minRB, 1.0F), Floats.nextUp(0.0F)), Floats.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxG, 0.0F)), x));
 		
 		return new Color3F(x, y, x);
 	}
@@ -1105,9 +1105,9 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomRed(final float maxG, final float maxB) {
-		final float r = Randoms.nextFloat(Math.nextUp(0.0F), Math.nextUp(1.0F));
-		final float g = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxG, 0.0F)), r));
-		final float b = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), r));
+		final float r = Randoms.nextFloat(Floats.nextUp(0.0F), Floats.nextUp(1.0F));
+		final float g = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxG, 0.0F)), r));
+		final float b = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxB, 0.0F)), r));
 		
 		return new Color3F(r, g, b);
 	}
@@ -1138,8 +1138,8 @@ public final class Color3F {
 	 */
 //	TODO: Add Unit Tests!
 	public static Color3F randomYellow(final float minRG, final float maxB) {
-		final float x = Randoms.nextFloat(Math.max(Math.min(minRG, 1.0F), Math.nextUp(0.0F)), Math.nextUp(1.0F));
-		final float y = Randoms.nextFloat(0.0F, Math.min(Math.nextUp(Math.max(maxB, 0.0F)), x));
+		final float x = Randoms.nextFloat(Floats.max(Floats.min(minRG, 1.0F), Floats.nextUp(0.0F)), Floats.nextUp(1.0F));
+		final float y = Randoms.nextFloat(0.0F, Floats.min(Floats.nextUp(Floats.max(maxB, 0.0F)), x));
 		
 		return new Color3F(x, x, y);
 	}
