@@ -244,7 +244,7 @@ final class ColorARGBData extends Data {
 				colorG = colorG * factor + bias;
 				colorB = colorB * factor + bias;
 				
-				newColors[index] = Color.packRGBA(colorR, colorG, colorB, colorA);
+				newColors[index] = Color4D.toIntARGB(colorR, colorG, colorB, colorA);
 				
 				count++;
 			}
@@ -333,7 +333,7 @@ final class ColorARGBData extends Data {
 				colorG = colorG * factor + bias;
 				colorB = colorB * factor + bias;
 				
-				newColors[index] = Color.packRGBA(colorR, colorG, colorB, colorA);
+				newColors[index] = Color4F.toIntARGB(colorR, colorG, colorB, colorA);
 				
 				count++;
 			}

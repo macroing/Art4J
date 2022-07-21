@@ -33,70 +33,70 @@ public final class Color {
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(0, 0, 0)}.
 	 */
-	public static final int BLACK = packRGB(0, 0, 0);
+	public static final int BLACK = Color4I.toIntARGB(0, 0, 0, 255);
 	
 	/**
 	 * An {@code int} that represents the color blue in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(0, 0, 255)}.
 	 */
-	public static final int BLUE = packRGB(0, 0, 255);
+	public static final int BLUE = Color4I.toIntARGB(0, 0, 255, 255);
 	
 	/**
 	 * An {@code int} that represents the color cyan in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(0, 255, 255)}.
 	 */
-	public static final int CYAN = packRGB(0, 255, 255);
+	public static final int CYAN = Color4I.toIntARGB(0, 255, 255, 255);
 	
 	/**
 	 * An {@code int} that represents the color gray in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(128, 128, 128)}.
 	 */
-	public static final int GRAY = packRGB(128, 128, 128);
+	public static final int GRAY = Color4I.toIntARGB(128, 128, 128, 255);
 	
 	/**
 	 * An {@code int} that represents the color green in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(0, 255, 0)}.
 	 */
-	public static final int GREEN = packRGB(0, 255, 0);
+	public static final int GREEN = Color4I.toIntARGB(0, 255, 0, 255);
 	
 	/**
 	 * An {@code int} that represents the color magenta in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(255, 0, 255)}.
 	 */
-	public static final int MAGENTA = packRGB(255, 0, 255);
+	public static final int MAGENTA = Color4I.toIntARGB(255, 0, 255, 255);
 	
 	/**
 	 * An {@code int} that represents the color red in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(255, 0, 0)}.
 	 */
-	public static final int RED = packRGB(255, 0, 0);
+	public static final int RED = Color4I.toIntARGB(255, 0, 0, 255);
 	
 	/**
 	 * An {@code int} that represents the color transparent in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGBA(0, 0, 0, 0)}.
 	 */
-	public static final int TRANSPARENT = packRGBA(0, 0, 0, 0);
+	public static final int TRANSPARENT = Color4I.toIntARGB(0, 0, 0, 0);
 	
 	/**
 	 * An {@code int} that represents the color white in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(255, 255, 255)}.
 	 */
-	public static final int WHITE = packRGB(255, 255, 255);
+	public static final int WHITE = Color4I.toIntARGB(255, 255, 255, 255);
 	
 	/**
 	 * An {@code int} that represents the color yellow in packed form.
 	 * <p>
 	 * The color is equivalent to {@code Color.packRGB(255, 255, 0)}.
 	 */
-	public static final int YELLOW = packRGB(255, 255, 0);
+	public static final int YELLOW = Color4I.toIntARGB(255, 255, 0, 255);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -146,7 +146,7 @@ public final class Color {
 		final int b = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleB(colorARGBLHS), Color4D.fromIntARGBToDoubleB(colorARGBRHS), tB));
 		final int a = Utilities.convertComponentFromDoubleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleA(colorARGBLHS), Color4D.fromIntARGBToDoubleA(colorARGBRHS), tA));
 		
-		return packRGBA(r, g, b, a);
+		return Color4I.toIntARGB(r, g, b, a);
 	}
 	
 	/**
@@ -189,7 +189,7 @@ public final class Color {
 		final int b = Utilities.convertComponentFromFloatToInt(Floats.lerp(Color4F.fromIntARGBToFloatB(colorARGBLHS), Color4F.fromIntARGBToFloatB(colorARGBRHS), tB));
 		final int a = Utilities.convertComponentFromFloatToInt(Floats.lerp(Color4F.fromIntARGBToFloatA(colorARGBLHS), Color4F.fromIntARGBToFloatA(colorARGBRHS), tA));
 		
-		return packRGBA(r, g, b, a);
+		return Color4I.toIntARGB(r, g, b, a);
 	}
 	
 	/**
@@ -241,107 +241,6 @@ public final class Color {
 	}
 	
 	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 1.0D} in packed form.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * Color.packRGBA(r, g, b, 1.0D);
-	 * }
-	 * </pre>
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 1.0D} in packed form
-	 */
-	public static int packRGB(final double r, final double g, final double b) {
-		return packRGBA(r, g, b, 1.0D);
-	}
-	
-	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 1.0F} in packed form.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * Color.packRGBA(r, g, b, 1.0F);
-	 * }
-	 * </pre>
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 1.0F} in packed form
-	 */
-	public static int packRGB(final float r, final float g, final float b) {
-		return packRGBA(r, g, b, 1.0F);
-	}
-	
-	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 255} in packed form.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * Color.packRGBA(r, g, b, 255);
-	 * }
-	 * </pre>
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code 255} in packed form
-	 */
-	public static int packRGB(final int r, final int g, final int b) {
-		return packRGBA(r, g, b, 255);
-	}
-	
-	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form.
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @param a the value of the A-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form
-	 */
-	public static int packRGBA(final double r, final double g, final double b, final double a) {
-		return packRGBA(Utilities.convertComponentFromDoubleToInt(r), Utilities.convertComponentFromDoubleToInt(g), Utilities.convertComponentFromDoubleToInt(b), Utilities.convertComponentFromDoubleToInt(a));
-	}
-	
-	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form.
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @param a the value of the A-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form
-	 */
-	public static int packRGBA(final float r, final float g, final float b, final float a) {
-		return packRGBA(Utilities.convertComponentFromFloatToInt(r), Utilities.convertComponentFromFloatToInt(g), Utilities.convertComponentFromFloatToInt(b), Utilities.convertComponentFromFloatToInt(a));
-	}
-	
-	/**
-	 * Returns an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form.
-	 * 
-	 * @param r the value of the R-component
-	 * @param g the value of the G-component
-	 * @param b the value of the B-component
-	 * @param a the value of the A-component
-	 * @return an {@code int} that contains {@code r}, {@code g}, {@code b} and {@code a} in packed form
-	 */
-	public static int packRGBA(final int r, final int g, final int b, final int a) {
-		final int packedR = ((r & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int packedG = ((g & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int packedB = ((b & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		final int packedA = ((a & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
-		
-		return packedR | packedG | packedB | packedA;
-	}
-	
-	/**
 	 * Converts {@code colorARGB} to its Sepia-representation.
 	 * <p>
 	 * Returns an {@code int} that contains the color in packed form.
@@ -360,6 +259,6 @@ public final class Color {
 		final double colorBB = colorAR * 0.272D + colorAG * 0.534D + colorAB * 0.131D;
 		final double colorBA = colorAA;
 		
-		return packRGBA(colorBR, colorBG, colorBB, colorBA);
+		return Color4D.toIntARGB(colorBR, colorBG, colorBB, colorBA);
 	}
 }

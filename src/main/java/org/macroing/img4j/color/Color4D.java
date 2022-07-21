@@ -602,21 +602,16 @@ public final class Color4D {
 	 * @return the alpha component as an {@code int}
 	 */
 	public int toIntA() {
-		return Utilities.convertComponentFromDoubleToInt(this.a);
+		return toIntA(this.a);
 	}
 	
 	/**
-	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
 	 * 
-	 * @return the alpha, red, green and blue components as an {@code int}
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
 	 */
 	public int toIntARGB() {
-		final int a = ((toIntA() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return a | r | g | b;
+		return toIntARGB(this.r, this.g, this.b, this.a);
 	}
 	
 	/**
@@ -625,7 +620,7 @@ public final class Color4D {
 	 * @return the blue component as an {@code int}
 	 */
 	public int toIntB() {
-		return Utilities.convertComponentFromDoubleToInt(this.b);
+		return toIntB(this.b);
 	}
 	
 	/**
@@ -634,7 +629,7 @@ public final class Color4D {
 	 * @return the green component as an {@code int}
 	 */
 	public int toIntG() {
-		return Utilities.convertComponentFromDoubleToInt(this.g);
+		return toIntG(this.g);
 	}
 	
 	/**
@@ -643,20 +638,16 @@ public final class Color4D {
 	 * @return the red component as an {@code int}
 	 */
 	public int toIntR() {
-		return Utilities.convertComponentFromDoubleToInt(this.r);
+		return toIntR(this.r);
 	}
 	
 	/**
-	 * Returns the red, green and blue components as an {@code int}.
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
 	 * 
-	 * @return the red, green and blue components as an {@code int}
+	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public int toIntRGB() {
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return r | g | b;
+		return toIntRGB(this.r, this.g, this.b);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1327,6 +1318,80 @@ public final class Color4D {
 	 */
 	public static int getCacheSize() {
 		return CACHE.size();
+	}
+	
+	/**
+	 * Returns the alpha component as an {@code int}.
+	 * 
+	 * @param a the value of the alpha component
+	 * @return the alpha component as an {@code int}
+	 */
+	public static int toIntA(final double a) {
+		return Utilities.convertComponentFromDoubleToInt(a);
+	}
+	
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
+	 */
+	public static int toIntARGB(final double r, final double g, final double b, final double a) {
+		final int colorA = ((toIntA(a) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
+		final int colorR = ((toIntR(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((toIntG(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((toIntB(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorA | colorR | colorG | colorB;
+	}
+	
+	/**
+	 * Returns the blue component as an {@code int}.
+	 * 
+	 * @param b the value of the blue component
+	 * @return the blue component as an {@code int}
+	 */
+	public static int toIntB(final double b) {
+		return Utilities.convertComponentFromDoubleToInt(b);
+	}
+	
+	/**
+	 * Returns the green component as an {@code int}.
+	 * 
+	 * @param g the value of the green component
+	 * @return the green component as an {@code int}
+	 */
+	public static int toIntG(final double g) {
+		return Utilities.convertComponentFromDoubleToInt(g);
+	}
+	
+	/**
+	 * Returns the red component as an {@code int}.
+	 * 
+	 * @param r the value of the red component
+	 * @return the red component as an {@code int}
+	 */
+	public static int toIntR(final double r) {
+		return Utilities.convertComponentFromDoubleToInt(r);
+	}
+	
+	/**
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the red, green and blue components as an {@code int} in the format RGB
+	 */
+	public static int toIntRGB(final double r, final double g, final double b) {
+		final int colorR = ((toIntR(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((toIntG(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((toIntB(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorR | colorG | colorB;
 	}
 	
 	/**
