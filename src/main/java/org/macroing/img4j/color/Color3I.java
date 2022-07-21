@@ -222,7 +222,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is black, {@code false} otherwise
 	 */
 	public boolean isBlack() {
-		return this.r == 0 && this.g == 0 && this.b == 0;
+		return isBlack(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -238,7 +238,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is blue, {@code false} otherwise
 	 */
 	public boolean isBlue() {
-		return isBlue(255, 255);
+		return isBlue(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -251,7 +251,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is blue, {@code false} otherwise
 	 */
 	public boolean isBlue(final int deltaR, final int deltaG) {
-		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
+		return isBlue(this.r, this.g, this.b, deltaR, deltaG);
 	}
 	
 	/**
@@ -260,7 +260,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is cyan, {@code false} otherwise
 	 */
 	public boolean isCyan() {
-		return this.g == this.b && this.r < this.g;
+		return isCyan(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -269,7 +269,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is grayscale, {@code false} otherwise
 	 */
 	public boolean isGrayscale() {
-		return this.r == this.g && this.g == this.b;
+		return isGrayscale(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -285,7 +285,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is green, {@code false} otherwise
 	 */
 	public boolean isGreen() {
-		return isGreen(255, 255);
+		return isGreen(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -298,7 +298,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is green, {@code false} otherwise
 	 */
 	public boolean isGreen(final int deltaR, final int deltaB) {
-		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
+		return isGreen(this.r, this.g, this.b, deltaR, deltaB);
 	}
 	
 	/**
@@ -307,7 +307,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is magenta, {@code false} otherwise
 	 */
 	public boolean isMagenta() {
-		return this.r == this.b && this.g < this.b;
+		return isMagenta(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -323,7 +323,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is red, {@code false} otherwise
 	 */
 	public boolean isRed() {
-		return isRed(255, 255);
+		return isRed(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -336,7 +336,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is red, {@code false} otherwise
 	 */
 	public boolean isRed(final int deltaG, final int deltaB) {
-		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
+		return isRed(this.r, this.g, this.b, deltaG, deltaB);
 	}
 	
 	/**
@@ -345,7 +345,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is white, {@code false} otherwise
 	 */
 	public boolean isWhite() {
-		return this.r == 255 && this.g == 255 && this.b == 255;
+		return isWhite(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -354,7 +354,7 @@ public final class Color3I {
 	 * @return {@code true} if, and only if, this {@code Color3I} instance is yellow, {@code false} otherwise
 	 */
 	public boolean isYellow() {
-		return this.r == this.g && this.b < this.r;
+		return isYellow(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -363,7 +363,7 @@ public final class Color3I {
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public int average() {
-		return (this.r + this.g + this.b) / 3; 
+		return average(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -372,7 +372,7 @@ public final class Color3I {
 	 * @return the lightness for this {@code Color3I} instance
 	 */
 	public int lightness() {
-		return (max() + min()) / 2;
+		return lightness(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -381,7 +381,7 @@ public final class Color3I {
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public int max() {
-		return Ints.max(this.r, this.g, this.b);
+		return max(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public final class Color3I {
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public int min() {
-		return Ints.min(this.r, this.g, this.b);
+		return min(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -399,7 +399,7 @@ public final class Color3I {
 	 * @return the relative luminance for this {@code Color3I} instance
 	 */
 	public int relativeLuminance() {
-		return (int)(this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D);
+		return relativeLuminance(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -413,23 +413,25 @@ public final class Color3I {
 	}
 	
 	/**
-	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
 	 * <p>
 	 * The alpha component is treated as if it was {@code 255}.
 	 * 
-	 * @return the alpha, red, green and blue components as an {@code int}
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
 	 */
 	public int toIntARGB() {
-		final int a = ((255      & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return a | r | g | b;
+		return toIntARGB(this.r, this.g, this.b);
 	}
 	
 	/**
 	 * Returns the blue component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.b);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the blue component as an {@code int}
 	 */
@@ -439,6 +441,13 @@ public final class Color3I {
 	
 	/**
 	 * Returns the green component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.g);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the green component as an {@code int}
 	 */
@@ -448,6 +457,13 @@ public final class Color3I {
 	
 	/**
 	 * Returns the red component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.r);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the red component as an {@code int}
 	 */
@@ -456,16 +472,12 @@ public final class Color3I {
 	}
 	
 	/**
-	 * Returns the red, green and blue components as an {@code int}.
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
 	 * 
-	 * @return the red, green and blue components as an {@code int}
+	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public int toIntRGB() {
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return r | g | b;
+		return toIntRGB(this.r, this.g, this.b);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1015,12 +1027,286 @@ public final class Color3I {
 	}
 	
 	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is black, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is black, {@code false} otherwise
+	 */
+	public static boolean isBlack(final int r, final int g, final int b) {
+		return r == 0 && g == 0 && b == 0;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is blue, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3I.isBlue(r, g, b, 255, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is blue, {@code false} otherwise
+	 */
+	public static boolean isBlue(final int r, final int g, final int b) {
+		return isBlue(r, g, b, 255, 255);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is blue, {@code false} otherwise.
+	 * <p>
+	 * The color is blue if, and only if, {@code b - deltaR >= r} and {@code b - deltaG >= g}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param deltaR the delta for the R-component
+	 * @param deltaG the delta for the G-component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is blue, {@code false} otherwise
+	 */
+	public static boolean isBlue(final int r, final int g, final int b, final int deltaR, final int deltaG) {
+		return b - deltaR >= r && b - deltaG >= g;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is cyan, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is cyan, {@code false} otherwise
+	 */
+	public static boolean isCyan(final int r, final int g, final int b) {
+		return g == b && r < g;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is grayscale, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is grayscale, {@code false} otherwise
+	 */
+	public static boolean isGrayscale(final int r, final int g, final int b) {
+		return r == g && g == b;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is green, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3I.isGreen(r, g, b, 255, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is green, {@code false} otherwise
+	 */
+	public static boolean isGreen(final int r, final int g, final int b) {
+		return isGreen(r, g, b, 255, 255);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is green, {@code false} otherwise.
+	 * <p>
+	 * The color is green if, and only if, {@code g - deltaR >= r} and {@code g - deltaB >= b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param deltaR the delta for the R-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is green, {@code false} otherwise
+	 */
+	public static boolean isGreen(final int r, final int g, final int b, final int deltaR, final int deltaB) {
+		return g - deltaR >= r && g - deltaB >= b;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is magenta, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is magenta, {@code false} otherwise
+	 */
+	public static boolean isMagenta(final int r, final int g, final int b) {
+		return r == b && g < b;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is red, {@code false} otherwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3I.isRed(r, g, b, 255, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is red, {@code false} otherwise
+	 */
+	public static boolean isRed(final int r, final int g, final int b) {
+		return isRed(r, g, b, 255, 255);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is red, {@code false} otherwise.
+	 * <p>
+	 * The color is red if, and only if, {@code r - deltaG >= g} and {@code r - deltaB >= b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param deltaG the delta for the G-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is red, {@code false} otherwise
+	 */
+	public static boolean isRed(final int r, final int g, final int b, final int deltaG, final int deltaB) {
+		return r - deltaG >= g && r - deltaB >= b;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is white, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is white, {@code false} otherwise
+	 */
+	public static boolean isWhite(final int r, final int g, final int b) {
+		return r == 255 && g == 255 && b == 255;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is yellow, {@code false} otherwise.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return {@code true} if, and only if, the color represented by {@code r}, {@code g} and {@code b} is yellow, {@code false} otherwise
+	 */
+	public static boolean isYellow(final int r, final int g, final int b) {
+		return r == g && b < r;
+	}
+	
+	/**
 	 * Returns the size of the cache.
 	 * 
 	 * @return the size of the cache
 	 */
 	public static int getCacheSize() {
 		return CACHE.size();
+	}
+	
+	/**
+	 * Returns the average component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the average component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static int average(final int r, final int g, final int b) {
+		return (r + g + b) / 3;
+	}
+	
+	/**
+	 * Returns the lightness for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the lightness for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static int lightness(final int r, final int g, final int b) {
+		return (max(r, g, b) + min(r, g, b)) / 2;
+	}
+	
+	/**
+	 * Returns the largest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the largest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static int max(final int r, final int g, final int b) {
+		return Ints.max(r, g, b);
+	}
+	
+	/**
+	 * Returns the smallest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the smallest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static int min(final int r, final int g, final int b) {
+		return Ints.min(r, g, b);
+	}
+	
+	/**
+	 * Returns the relative luminance for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the relative luminance for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static int relativeLuminance(final int r, final int g, final int b) {
+		return (int)(r * 0.212671D + g * 0.715160D + b * 0.072169D);
+	}
+	
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
+	 * <p>
+	 * The alpha component is treated as if it was {@code 255}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
+	 */
+	public static int toIntARGB(final int r, final int g, final int b) {
+		final int a = 255;
+		
+		final int colorA = ((Ints.saturate(a) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorA | colorR | colorG | colorB;
+	}
+	
+	/**
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the red, green and blue components as an {@code int} in the format RGB
+	 */
+	public static int toIntRGB(final int r, final int g, final int b) {
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorR | colorG | colorB;
 	}
 	
 	/**

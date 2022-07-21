@@ -435,7 +435,7 @@ public final class Color3D {
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public double average() {
-		return (this.r + this.g + this.b) / 3.0D; 
+		return average(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -444,7 +444,7 @@ public final class Color3D {
 	 * @return the lightness for this {@code Color3D} instance
 	 */
 	public double lightness() {
-		return (max() + min()) / 2.0D;
+		return lightness(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -453,7 +453,7 @@ public final class Color3D {
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public double max() {
-		return Doubles.max(this.r, this.g, this.b);
+		return max(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -462,7 +462,7 @@ public final class Color3D {
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public double min() {
-		return Doubles.min(this.r, this.g, this.b);
+		return min(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -471,7 +471,7 @@ public final class Color3D {
 	 * @return the relative luminance for this {@code Color3D} instance
 	 */
 	public double relativeLuminance() {
-		return this.r * 0.212671D + this.g * 0.715160D + this.b * 0.072169D;
+		return relativeLuminance(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -1084,6 +1084,126 @@ public final class Color3D {
 		final double b = color.r * 0.272D + color.g * 0.534D + color.b * 0.131D;
 		
 		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Returns the average component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the average component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static double average(final double r, final double g, final double b) {
+		return (r + g + b) / 3.0D;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the B-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleB(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the G-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleG(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the R-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleR(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the B-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleB(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the G-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleG(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the R-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleR(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the lightness for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the lightness for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static double lightness(final double r, final double g, final double b) {
+		return (max(r, g, b) + min(r, g, b)) / 2.0D;
+	}
+	
+	/**
+	 * Returns the largest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the largest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static double max(final double r, final double g, final double b) {
+		return Doubles.max(r, g, b);
+	}
+	
+	/**
+	 * Returns the smallest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the smallest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static double min(final double r, final double g, final double b) {
+		return Doubles.min(r, g, b);
+	}
+	
+	/**
+	 * Returns the relative luminance for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the relative luminance for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static double relativeLuminance(final double r, final double g, final double b) {
+		return r * 0.212671D + g * 0.715160D + b * 0.072169D;
 	}
 	
 	/**

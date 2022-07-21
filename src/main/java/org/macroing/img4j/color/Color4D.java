@@ -1251,6 +1251,76 @@ public final class Color4D {
 	}
 	
 	/**
+	 * Returns the value of the A-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the A-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleA(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_A) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the B-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleB(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the G-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleG(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorARGB} as a {@code double}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the R-component in {@code colorARGB} as a {@code double}
+	 */
+	public static double fromIntARGBToDoubleR(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the B-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleB(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the G-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleG(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorRGB} as a {@code double}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the R-component in {@code colorRGB} as a {@code double}
+	 */
+	public static double fromIntRGBToDoubleR(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
+	}
+	
+	/**
 	 * Returns the size of the cache.
 	 * 
 	 * @return the size of the cache

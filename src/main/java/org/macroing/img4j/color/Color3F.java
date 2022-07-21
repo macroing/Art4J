@@ -435,7 +435,7 @@ public final class Color3F {
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public float average() {
-		return (this.r + this.g + this.b) / 3.0F; 
+		return average(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -444,7 +444,7 @@ public final class Color3F {
 	 * @return the lightness for this {@code Color3F} instance
 	 */
 	public float lightness() {
-		return (max() + min()) / 2.0F;
+		return lightness(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -453,7 +453,7 @@ public final class Color3F {
 	 * @return the largest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public float max() {
-		return Floats.max(this.r, this.g, this.b);
+		return max(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -462,7 +462,7 @@ public final class Color3F {
 	 * @return the smallest component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public float min() {
-		return Floats.min(this.r, this.g, this.b);
+		return min(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -471,7 +471,7 @@ public final class Color3F {
 	 * @return the relative luminance for this {@code Color3F} instance
 	 */
 	public float relativeLuminance() {
-		return this.r * 0.212671F + this.g * 0.715160F + this.b * 0.072169F;
+		return relativeLuminance(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -1084,6 +1084,126 @@ public final class Color3F {
 		final float b = color.r * 0.272F + color.g * 0.534F + color.b * 0.131F;
 		
 		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Returns the average component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the average component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static float average(final float r, final float g, final float b) {
+		return (r + g + b) / 3.0F;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorARGB} as a {@code float}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the B-component in {@code colorARGB} as a {@code float}
+	 */
+	public static float fromIntARGBToFloatB(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorARGB} as a {@code float}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the G-component in {@code colorARGB} as a {@code float}
+	 */
+	public static float fromIntARGBToFloatG(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorARGB} as a {@code float}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the R-component in {@code colorARGB} as a {@code float}
+	 */
+	public static float fromIntARGBToFloatR(final int colorARGB) {
+		return ((colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorRGB} as a {@code float}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the B-component in {@code colorRGB} as a {@code float}
+	 */
+	public static float fromIntRGBToFloatB(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorRGB} as a {@code float}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the G-component in {@code colorRGB} as a {@code float}
+	 */
+	public static float fromIntRGBToFloatG(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorRGB} as a {@code float}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the R-component in {@code colorRGB} as a {@code float}
+	 */
+	public static float fromIntRGBToFloatR(final int colorRGB) {
+		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0F;
+	}
+	
+	/**
+	 * Returns the lightness for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the lightness for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static float lightness(final float r, final float g, final float b) {
+		return (max(r, g, b) + min(r, g, b)) / 2.0F;
+	}
+	
+	/**
+	 * Returns the largest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the largest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static float max(final float r, final float g, final float b) {
+		return Floats.max(r, g, b);
+	}
+	
+	/**
+	 * Returns the smallest component value of {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the smallest component value of {@code r}, {@code g} and {@code b}
+	 */
+	public static float min(final float r, final float g, final float b) {
+		return Floats.min(r, g, b);
+	}
+	
+	/**
+	 * Returns the relative luminance for the color represented by {@code r}, {@code g} and {@code b}.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the relative luminance for the color represented by {@code r}, {@code g} and {@code b}
+	 */
+	public static float relativeLuminance(final float r, final float g, final float b) {
+		return r * 0.212671F + g * 0.715160F + b * 0.072169F;
 	}
 	
 	/**

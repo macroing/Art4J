@@ -413,7 +413,7 @@ public final class Color4I {
 	 * @return the average component value of {@code  r}, {@code  g} and {@code  b}
 	 */
 	public int average() {
-		return (this.r + this.g + this.b) / 3; 
+		return (this.r + this.g + this.b) / 3;
 	}
 	
 	/**
@@ -464,6 +464,13 @@ public final class Color4I {
 	
 	/**
 	 * Returns the alpha component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.a);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the alpha component as an {@code int}
 	 */
@@ -472,21 +479,23 @@ public final class Color4I {
 	}
 	
 	/**
-	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
 	 * 
-	 * @return the alpha, red, green and blue components as an {@code int}
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
 	 */
 	public int toIntARGB() {
-		final int a = ((toIntA() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return a | r | g | b;
+		return toIntARGB(this.r, this.g, this.b, this.a);
 	}
 	
 	/**
 	 * Returns the blue component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.b);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the blue component as an {@code int}
 	 */
@@ -496,6 +505,13 @@ public final class Color4I {
 	
 	/**
 	 * Returns the green component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.g);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the green component as an {@code int}
 	 */
@@ -505,6 +521,13 @@ public final class Color4I {
 	
 	/**
 	 * Returns the red component as an {@code int}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturate(color.r);
+	 * }
+	 * </pre>
 	 * 
 	 * @return the red component as an {@code int}
 	 */
@@ -513,16 +536,12 @@ public final class Color4I {
 	}
 	
 	/**
-	 * Returns the red, green and blue components as an {@code int}.
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
 	 * 
-	 * @return the red, green and blue components as an {@code int}
+	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public int toIntRGB() {
-		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
-		
-		return r | g | b;
+		return toIntRGB(this.r, this.g, this.b);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1102,6 +1121,40 @@ public final class Color4I {
 	 */
 	public static int getCacheSize() {
 		return CACHE.size();
+	}
+	
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 * @return the alpha, red, green and blue components as an {@code int} in the format ARGB
+	 */
+	public static int toIntARGB(final int r, final int g, final int b, final int a) {
+		final int colorA = ((Ints.saturate(a) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorA | colorR | colorG | colorB;
+	}
+	
+	/**
+	 * Returns the red, green and blue components as an {@code int} in the format RGB.
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @return the red, green and blue components as an {@code int} in the format RGB
+	 */
+	public static int toIntRGB(final int r, final int g, final int b) {
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return colorR | colorG | colorB;
 	}
 	
 	/**

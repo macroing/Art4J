@@ -404,6 +404,34 @@ public final class Color4FUnitTests {
 	}
 	
 	@Test
+	public void testFromIntARGBToFloatA() {
+		final int colorARGB = ((255 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntARGBToFloatA(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToFloatB() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntARGBToFloatB(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToFloatG() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntARGBToFloatG(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToFloatR() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntARGBToFloatR(colorARGB));
+	}
+	
+	@Test
 	public void testFromIntRGB() {
 		final int colorRGB = ((0 & 0xFF) << 16) | ((128 & 0xFF) << 8) | ((255 & 0xFF) << 0);
 		
@@ -413,6 +441,27 @@ public final class Color4FUnitTests {
 		assertEquals(128, color.toIntG());
 		assertEquals(255, color.toIntB());
 		assertEquals(255, color.toIntA());
+	}
+	
+	@Test
+	public void testFromIntRGBToFloatB() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntRGBToFloatB(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToFloatG() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntRGBToFloatG(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToFloatR() {
+		final int colorRGB = ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0F, Color4F.fromIntRGBToFloatR(colorRGB));
 	}
 	
 	@Test

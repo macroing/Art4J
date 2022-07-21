@@ -217,7 +217,7 @@ final class ColorARGBData extends Data {
 				double colorR = 0.0D;
 				double colorG = 0.0D;
 				double colorB = 0.0D;
-				double colorA = Color.unpackAAsDouble(oldColors[index]);
+				double colorA = Color4D.fromIntARGBToDoubleA(oldColors[index]);
 				
 				for(int kernelY = 0; kernelY < kernelResolution; kernelY++) {
 					final int imageY = yOffset + kernelY;
@@ -306,7 +306,7 @@ final class ColorARGBData extends Data {
 				float colorR = 0.0F;
 				float colorG = 0.0F;
 				float colorB = 0.0F;
-				float colorA = Color.unpackAAsFloat(oldColors[index]);
+				float colorA = Color4F.fromIntARGBToFloatA(oldColors[index]);
 				
 				for(int kernelY = 0; kernelY < kernelResolution; kernelY++) {
 					final int imageY = yOffset + kernelY;
@@ -1157,9 +1157,9 @@ final class ColorARGBData extends Data {
 		final double[] colors = new double[this.colors.length * 3];
 		
 		for(int i = 0, j = 0; i < this.colors.length; i++, j = i * 3) {
-			colors[j + 0] = Color.unpackRAsDouble(this.colors[i]);
-			colors[j + 1] = Color.unpackGAsDouble(this.colors[i]);
-			colors[j + 2] = Color.unpackBAsDouble(this.colors[i]);
+			colors[j + 0] = Color4D.fromIntARGBToDoubleR(this.colors[i]);
+			colors[j + 1] = Color4D.fromIntARGBToDoubleG(this.colors[i]);
+			colors[j + 2] = Color4D.fromIntARGBToDoubleB(this.colors[i]);
 		}
 		
 		return colors;
@@ -1169,9 +1169,9 @@ final class ColorARGBData extends Data {
 		final float[] colors = new float[this.colors.length * 3];
 		
 		for(int i = 0, j = 0; i < this.colors.length; i++, j = i * 3) {
-			colors[j + 0] = Color.unpackRAsFloat(this.colors[i]);
-			colors[j + 1] = Color.unpackGAsFloat(this.colors[i]);
-			colors[j + 2] = Color.unpackBAsFloat(this.colors[i]);
+			colors[j + 0] = Color4F.fromIntARGBToFloatR(this.colors[i]);
+			colors[j + 1] = Color4F.fromIntARGBToFloatG(this.colors[i]);
+			colors[j + 2] = Color4F.fromIntARGBToFloatB(this.colors[i]);
 		}
 		
 		return colors;

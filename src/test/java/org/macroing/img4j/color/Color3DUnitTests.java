@@ -303,6 +303,27 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testFromIntARGBToDoubleB() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntARGBToDoubleB(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToDoubleG() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntARGBToDoubleG(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToDoubleR() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntARGBToDoubleR(colorARGB));
+	}
+	
+	@Test
 	public void testFromIntRGB() {
 		final int colorRGB = ((0 & 0xFF) << 16) | ((128 & 0xFF) << 8) | ((255 & 0xFF) << 0);
 		
@@ -311,6 +332,27 @@ public final class Color3DUnitTests {
 		assertEquals(  0, color.toIntR());
 		assertEquals(128, color.toIntG());
 		assertEquals(255, color.toIntB());
+	}
+	
+	@Test
+	public void testFromIntRGBToDoubleB() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntRGBToDoubleB(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToDoubleG() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntRGBToDoubleG(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToDoubleR() {
+		final int colorRGB = ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(1.0D, Color3D.fromIntRGBToDoubleR(colorRGB));
 	}
 	
 	@Test
