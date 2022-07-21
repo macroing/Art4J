@@ -481,7 +481,7 @@ public final class Color3F {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(Double.valueOf(this.b), Double.valueOf(this.g), Double.valueOf(this.r));
+		return Objects.hash(Float.valueOf(this.b), Float.valueOf(this.g), Float.valueOf(this.r));
 	}
 	
 	/**

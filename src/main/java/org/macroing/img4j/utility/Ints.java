@@ -40,6 +40,34 @@ public final class Ints {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Performs a linear interpolation operation on the supplied values.
+	 * <p>
+	 * Returns the result of the linear interpolation operation.
+	 * 
+	 * @param a an {@code int} value
+	 * @param b an {@code int} value
+	 * @param t the factor
+	 * @return the result of the linear interpolation operation
+	 */
+	public static int lerp(final int a, final int b, final double t) {
+		return (int)((1.0D - t) * a + t * b);
+	}
+	
+	/**
+	 * Performs a linear interpolation operation on the supplied values.
+	 * <p>
+	 * Returns the result of the linear interpolation operation.
+	 * 
+	 * @param a an {@code int} value
+	 * @param b an {@code int} value
+	 * @param t the factor
+	 * @return the result of the linear interpolation operation
+	 */
+	public static int lerp(final int a, final int b, final float t) {
+		return (int)((1.0F - t) * a + t * b);
+	}
+	
+	/**
 	 * Returns the greater value of {@code a} and {@code b}.
 	 * <p>
 	 * The result is the argument closer to the value of {@code Integer.MAX_VALUE}.

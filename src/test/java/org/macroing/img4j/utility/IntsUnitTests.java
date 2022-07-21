@@ -31,6 +31,30 @@ public final class IntsUnitTests {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
+	public void testLerpIntIntDouble() {
+//		Interpolation:
+		assertEquals(100, Ints.lerp(100, 200, +0.0D));
+		assertEquals(150, Ints.lerp(100, 200, +0.5D));
+		assertEquals(200, Ints.lerp(100, 200, +1.0D));
+		
+//		Extrapolation:
+		assertEquals(  0, Ints.lerp(100, 200, -1.0D));
+		assertEquals(300, Ints.lerp(100, 200, +2.0D));
+	}
+	
+	@Test
+	public void testLerpIntIntFloat() {
+//		Interpolation:
+		assertEquals(100, Ints.lerp(100, 200, +0.0F));
+		assertEquals(150, Ints.lerp(100, 200, +0.5F));
+		assertEquals(200, Ints.lerp(100, 200, +1.0F));
+		
+//		Extrapolation:
+		assertEquals(  0, Ints.lerp(100, 200, -1.0F));
+		assertEquals(300, Ints.lerp(100, 200, +2.0F));
+	}
+	
+	@Test
 	public void testMaxIntInt() {
 		assertEquals(2, Ints.max(1, 2));
 	}
