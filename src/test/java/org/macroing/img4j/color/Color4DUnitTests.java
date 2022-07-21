@@ -119,7 +119,7 @@ public final class Color4DUnitTests {
 	}
 	
 	@Test
-	public void testBlendColor4DColor4DDoubleDoubleDouble() {
+	public void testBlendColor4DColor4DDoubleDoubleDoubleDouble() {
 		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
 		final Color4D b = new Color4D(2.0D, 2.0D, 2.0D, 2.0D);
 		final Color4D c = Color4D.blend(a, b, 0.0D, 0.5D, 1.0D, 2.0D);

@@ -119,7 +119,7 @@ public final class Color4FUnitTests {
 	}
 	
 	@Test
-	public void testBlendColor4FColor4FFloatFloatFloat() {
+	public void testBlendColor4FColor4FFloatFloatFloatFloat() {
 		final Color4F a = new Color4F(1.0F, 1.0F, 1.0F, 1.0F);
 		final Color4F b = new Color4F(2.0F, 2.0F, 2.0F, 2.0F);
 		final Color4F c = Color4F.blend(a, b, 0.0F, 0.5F, 1.0F, 2.0F);
