@@ -18,7 +18,6 @@
  */
 package org.macroing.img4j.color;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -1069,22 +1068,6 @@ public final class Color3D {
 	}
 	
 	/**
-	 * Redoes gamma correction on {@code color}.
-	 * <p>
-	 * Returns a new {@code Color3D} instance with the result of the operation.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param color a {@code Color3D} instance
-	 * @return a new {@code Color3D} instance with the result of the operation
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static Color3D redoGammaCorrection(final Color3D color) {
-		return new Color3D(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b));
-	}
-	
-	/**
 	 * Converts {@code color} to its sepia-representation.
 	 * <p>
 	 * Returns a new {@code Color3D} instance with the result of the operation.
@@ -1101,22 +1084,6 @@ public final class Color3D {
 		final double b = color.r * 0.272D + color.g * 0.534D + color.b * 0.131D;
 		
 		return new Color3D(r, g, b);
-	}
-	
-	/**
-	 * Undoes gamma correction on {@code color}.
-	 * <p>
-	 * Returns a new {@code Color3D} instance with the result of the operation.
-	 * <p>
-	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param color a {@code Color3D} instance
-	 * @return a new {@code Color3D} instance with the result of the operation
-	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static Color3D undoGammaCorrection(final Color3D color) {
-		return new Color3D(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b));
 	}
 	
 	/**

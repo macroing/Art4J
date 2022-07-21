@@ -18,7 +18,6 @@
  */
 package org.macroing.img4j.color;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +27,14 @@ import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.Randoms;
 import org.macroing.img4j.utility.Strings;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code Color4D} represents a color with four {@code double}-based components.
+ * <p>
+ * This class is immutable and therefore suitable for concurrent use without external synchronization.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class Color4D {
 	/**
 	 * A {@code Color4D} instance that represents the color black.
@@ -139,17 +145,64 @@ public final class Color4D {
 		this(0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color4D(final Color3D color) {
 		this(color.r, color.g, color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4D(final Color3D color, final double a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color4D(final Color3F color) {
 		this(color.r, color.g, color.b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code Color4D} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4D(final Color3F color, final double a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4D} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public Color4D(final Color4F color) {
 		this(color.r, color.g, color.b, color.a);
 	}
@@ -315,13 +368,13 @@ public final class Color4D {
 			return true;
 		} else if(color == null) {
 			return false;
-		} else if(Double.compare(this.a, color.a) != 0) {
+		} else if(!Doubles.equals(this.a, color.a)) {
 			return false;
-		} else if(Double.compare(this.b, color.b) != 0) {
+		} else if(!Doubles.equals(this.b, color.b)) {
 			return false;
-		} else if(Double.compare(this.g, color.g) != 0) {
+		} else if(!Doubles.equals(this.g, color.g)) {
 			return false;
-		} else if(Double.compare(this.r, color.r) != 0) {
+		} else if(!Doubles.equals(this.r, color.r)) {
 			return false;
 		} else {
 			return true;
@@ -372,7 +425,15 @@ public final class Color4D {
 		return isBlue(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is blue, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color4D} instance {@code color} is blue if, and only if, {@code color.b - deltaR >= color.r} and {@code color.b - deltaG >= color.g}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaG the delta for the G-component
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is blue, {@code false} otherwise
+	 */
 	public boolean isBlue(final double deltaR, final double deltaG) {
 		return this.b - deltaR >= this.r && this.b - deltaG >= this.g;
 	}
@@ -411,7 +472,15 @@ public final class Color4D {
 		return isGreen(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is green, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color4D} instance {@code color} is green if, and only if, {@code color.g - deltaR >= color.r} and {@code color.g - deltaB >= color.b}.
+	 * 
+	 * @param deltaR the delta for the R-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is green, {@code false} otherwise
+	 */
 	public boolean isGreen(final double deltaR, final double deltaB) {
 		return this.g - deltaR >= this.r && this.g - deltaB >= this.b;
 	}
@@ -441,7 +510,15 @@ public final class Color4D {
 		return isRed(1.0D, 1.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Color4D} instance is red, {@code false} otherwise.
+	 * <p>
+	 * The {@code Color4D} instance {@code color} is red if, and only if, {@code color.r - deltaG >= color.g} and {@code color.r - deltaB >= color.b}.
+	 * 
+	 * @param deltaG the delta for the G-component
+	 * @param deltaB the delta for the B-component
+	 * @return {@code true} if, and only if, this {@code Color4D} instance is red, {@code false} otherwise
+	 */
 	public boolean isRed(final double deltaG, final double deltaB) {
 		return this.r - deltaG >= this.g && this.r - deltaB >= this.b;
 	}
@@ -528,7 +605,11 @@ public final class Color4D {
 		return Utilities.convertComponentFromDoubleToInt(this.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the alpha, red, green and blue components as an {@code int}.
+	 * 
+	 * @return the alpha, red, green and blue components as an {@code int}
+	 */
 	public int toIntARGB() {
 		final int a = ((toIntA() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_A);
 		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
@@ -565,10 +646,36 @@ public final class Color4D {
 		return Utilities.convertComponentFromDoubleToInt(this.r);
 	}
 	
+	/**
+	 * Returns the red, green and blue components as an {@code int}.
+	 * 
+	 * @return the red, green and blue components as an {@code int}
+	 */
+	public int toIntRGB() {
+		final int r = ((toIntR() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
+		final int g = ((toIntG() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
+		final int b = ((toIntB() & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		
+		return r | g | b;
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
-	public static Color4D addRGB(final Color4D colorLHS, final Color4D colorRHS) {
+	/**
+	 * Adds the red, green and blue component values of {@code colorRHS} to the red, green and blue component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The alpha component of {@code colorLHS} will be used.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color4D add(final Color4D colorLHS, final Color4D colorRHS) {
 		final double r = colorLHS.r + colorRHS.r;
 		final double g = colorLHS.g + colorRHS.g;
 		final double b = colorLHS.b + colorRHS.b;
@@ -577,32 +684,119 @@ public final class Color4D {
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color4D addRGB(final Color4D color, final double s) {
-		final double r = color.r + s;
-		final double g = color.g + s;
-		final double b = color.b + s;
-		final double a = color.a;
+	/**
+	 * Adds {@code scalarRHS} to the red, green and blue component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The alpha component of {@code colorLHS} will be used.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color4D add(final Color4D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r + scalarRHS;
+		final double g = colorLHS.g + scalarRHS;
+		final double b = colorLHS.b + scalarRHS;
+		final double a = colorLHS.a;
 		
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.blend(colorLHS, colorRHS, 0.5D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color4D} instance on the left-hand side
+	 * @param colorRHS the {@code Color4D} instance on the right-hand side
+	 * @return a new {@code Color4D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color4D blend(final Color4D colorLHS, final Color4D colorRHS) {
 		return blend(colorLHS, colorRHS, 0.5D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code color11}, {@code color12}, {@code color21} and {@code color22}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.blend(Color4D.blend(color11, color12, tX), Color4D.blend(color21, color22, tX), tY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color11 the {@code Color4D} instance on row 1 and column 1
+	 * @param color12 the {@code Color4D} instance on row 1 and column 2
+	 * @param color21 the {@code Color4D} instance on row 2 and column 1
+	 * @param color22 the {@code Color4D} instance on row 2 and column 2
+	 * @param tX the factor to use for all components in the first and second blend operation
+	 * @param tY the factor to use for all components in the third blend operation
+	 * @return a new {@code Color4D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21} or {@code color22} are {@code null}
+	 */
 	public static Color4D blend(final Color4D color11, final Color4D color12, final Color4D color21, final Color4D color22, final double tX, final double tY) {
 		return blend(blend(color11, color12, tX), blend(color21, color22, tX), tY);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.blend(colorLHS, colorRHS, t, t, t, t);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorLHS the {@code Color4D} instance on the left-hand side
+	 * @param colorRHS the {@code Color4D} instance on the right-hand side
+	 * @param t the factor to use for all components in the blending process
+	 * @return a new {@code Color4D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color4D blend(final Color4D colorLHS, final Color4D colorRHS, final double t) {
 		return blend(colorLHS, colorRHS, t, t, t, t);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color4D} instance on the left-hand side
+	 * @param colorRHS the {@code Color4D} instance on the right-hand side
+	 * @param tR the factor to use for the R-component in the blending process
+	 * @param tG the factor to use for the G-component in the blending process
+	 * @param tB the factor to use for the B-component in the blending process
+	 * @param tA the factor to use for the A-component in the blending process
+	 * @return a new {@code Color4D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color4D blend(final Color4D colorLHS, final Color4D colorRHS, final double tR, final double tG, final double tB, final double tA) {
 		final double r = Doubles.lerp(colorLHS.r, colorRHS.r, tR);
 		final double g = Doubles.lerp(colorLHS.g, colorRHS.g, tG);
@@ -612,7 +806,18 @@ public final class Color4D {
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Blends the component values of {@code colorLHS} over the component values of {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the blend.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color4D} instance on the left-hand side
+	 * @param colorRHS the {@code Color4D} instance on the right-hand side
+	 * @return a new {@code Color4D} instance with the result of the blend
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
 	public static Color4D blendOver(final Color4D colorLHS, final Color4D colorRHS) {
 		final double a = colorLHS.a + colorRHS.a * (1.0D - colorLHS.a);
 		final double r = (colorLHS.r * colorLHS.a + colorRHS.r * colorRHS.a * (1.0D - colorLHS.a)) / a;
@@ -622,7 +827,12 @@ public final class Color4D {
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance from the {@code int} {@code colorARGB}.
+	 * 
+	 * @param colorARGB an {@code int} that contains the alpha, red, green and blue components
+	 * @return a {@code Color4D} instance from the {@code int} {@code colorARGB}
+	 */
 	public static Color4D fromIntARGB(final int colorARGB) {
 		final int a = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_A) & 0xFF;
 		final int r = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
@@ -630,6 +840,20 @@ public final class Color4D {
 		final int b = (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
 		
 		return new Color4D(r, g, b, a);
+	}
+	
+	/**
+	 * Returns a {@code Color4D} instance from the {@code int} {@code colorRGB}.
+	 * 
+	 * @param colorRGB an {@code int} that contains the red, green and blue components
+	 * @return a {@code Color4D} instance from the {@code int} {@code colorRGB}
+	 */
+	public static Color4D fromIntRGB(final int colorRGB) {
+		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
+		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
+		final int b = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+		
+		return new Color4D(r, g, b);
 	}
 	
 	/**
@@ -645,72 +869,198 @@ public final class Color4D {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(color, "color == null"), key -> color);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.a}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public static Color4D grayscaleA(final Color4D color) {
+		return new Color4D(color.a, color.a);
+	}
+	
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.average()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.average()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleAverage(final Color4D color) {
 		return new Color4D(color.average(), color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.b}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.b}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleB(final Color4D color) {
 		return new Color4D(color.b, color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.g}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.g}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleG(final Color4D color) {
 		return new Color4D(color.g, color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.lightness()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.lightness()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleLightness(final Color4D color) {
 		return new Color4D(color.lightness(), color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.max()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.max()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleMax(final Color4D color) {
 		return new Color4D(color.max(), color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.min()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.min()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleMin(final Color4D color) {
 		return new Color4D(color.min(), color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.r}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.r}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleR(final Color4D color) {
 		return new Color4D(color.r, color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a grayscale {@code Color4D} instance based on {@code color.relativeLuminance()}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a grayscale {@code Color4D} instance based on {@code color.relativeLuminance()}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D grayscaleRelativeLuminance(final Color4D color) {
 		return new Color4D(color.relativeLuminance(), color.a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Inverts the red, green and blue component values of {@code color}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the inversion.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a new {@code Color4D} instance with the result of the inversion
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D invert(final Color4D color) {
 		return new Color4D(1.0D - color.r, 1.0D - color.g, 1.0D - color.b, color.a);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color4D multiplyRGB(final Color4D color, final double s) {
-		final double r = color.r * s;
-		final double g = color.g * s;
-		final double b = color.b * s;
-		final double a = color.a;
+	/**
+	 * Multiplies the red, green and blue component values of {@code colorLHS} with {@code scalarRHS}.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color4D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color4D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color4D multiply(final Color4D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r * scalarRHS;
+		final double g = colorLHS.g * scalarRHS;
+		final double b = colorLHS.b * scalarRHS;
+		final double a = colorLHS.a;
 		
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4D(Randoms.nextDouble(Doubles.nextUp(1.0D)), Randoms.nextDouble(Doubles.nextUp(1.0D)), Randoms.nextDouble(Doubles.nextUp(1.0D)));
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values
+	 */
 	public static Color4D random() {
 		return new Color4D(Randoms.nextDouble(Doubles.nextUp(1.0D)), Randoms.nextDouble(Doubles.nextUp(1.0D)), Randoms.nextDouble(Doubles.nextUp(1.0D)));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a blue color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomBlue(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a blue color
+	 */
 	public static Color4D randomBlue() {
 		return randomBlue(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a blue color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color4D} instance with random component values that represents a blue color
+	 */
 	public static Color4D randomBlue(final double maxR, final double maxG) {
 		final double b = Randoms.nextDouble(Doubles.nextUp(0.0D), Doubles.nextUp(1.0D));
 		final double r = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxR, 0.0D)), b));
@@ -719,12 +1069,29 @@ public final class Color4D {
 		return new Color4D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a cyan color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomCyan(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a cyan color
+	 */
 	public static Color4D randomCyan() {
 		return randomCyan(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a cyan color.
+	 * 
+	 * @param minGB the minimum value to use for the G- and B-components
+	 * @param maxR the maximum value to use for the R-component
+	 * @return a {@code Color4D} instance with random component values that represents a cyan color
+	 */
 	public static Color4D randomCyan(final double minGB, final double maxR) {
 		final double x = Randoms.nextDouble(Doubles.max(Doubles.min(minGB, 1.0D), Doubles.nextUp(0.0D)), Doubles.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxR, 0.0D)), x));
@@ -732,17 +1099,38 @@ public final class Color4D {
 		return new Color4D(y, x, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a grayscale color.
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a grayscale color
+	 */
 	public static Color4D randomGrayscale() {
-		return new Color4D(Randoms.nextDouble(Doubles.nextUp(1.0D)), 1.0D);
+		return new Color4D(Randoms.nextDouble(Doubles.nextUp(1.0D)));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a green color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomGreen(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a green color
+	 */
 	public static Color4D randomGreen() {
 		return randomGreen(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a green color.
+	 * 
+	 * @param maxR the maximum value to use for the R-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color4D} instance with random component values that represents a green color
+	 */
 	public static Color4D randomGreen(final double maxR, final double maxB) {
 		final double g = Randoms.nextDouble(Doubles.nextUp(0.0D), Doubles.nextUp(1.0D));
 		final double r = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxR, 0.0D)), g));
@@ -751,12 +1139,29 @@ public final class Color4D {
 		return new Color4D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a magenta color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomMagenta(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a magenta color
+	 */
 	public static Color4D randomMagenta() {
 		return randomMagenta(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a magenta color.
+	 * 
+	 * @param minRB the minimum value to use for the R- and B-components
+	 * @param maxG the maximum value to use for the G-component
+	 * @return a {@code Color4D} instance with random component values that represents a magenta color
+	 */
 	public static Color4D randomMagenta(final double minRB, final double maxG) {
 		final double x = Randoms.nextDouble(Doubles.max(Doubles.min(minRB, 1.0D), Doubles.nextUp(0.0D)), Doubles.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxG, 0.0D)), x));
@@ -764,12 +1169,29 @@ public final class Color4D {
 		return new Color4D(x, y, x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a red color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomRed(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a red color
+	 */
 	public static Color4D randomRed() {
 		return randomRed(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a red color.
+	 * 
+	 * @param maxG the maximum value to use for the G-component
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color4D} instance with random component values that represents a red color
+	 */
 	public static Color4D randomRed(final double maxG, final double maxB) {
 		final double r = Randoms.nextDouble(Doubles.nextUp(0.0D), Doubles.nextUp(1.0D));
 		final double g = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxG, 0.0D)), r));
@@ -778,12 +1200,29 @@ public final class Color4D {
 		return new Color4D(r, g, b);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a yellow color.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.randomYellow(0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4D} instance with random component values that represents a yellow color
+	 */
 	public static Color4D randomYellow() {
 		return randomYellow(0.0D, 0.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Color4D} instance with random component values that represents a yellow color.
+	 * 
+	 * @param minRG the minimum value to use for the R- and G-components
+	 * @param maxB the maximum value to use for the B-component
+	 * @return a {@code Color4D} instance with random component values that represents a yellow color
+	 */
 	public static Color4D randomYellow(final double minRG, final double maxB) {
 		final double x = Randoms.nextDouble(Doubles.max(Doubles.min(minRG, 1.0D), Doubles.nextUp(0.0D)), Doubles.nextUp(1.0D));
 		final double y = Randoms.nextDouble(0.0D, Doubles.min(Doubles.nextUp(Doubles.max(maxB, 0.0D)), x));
@@ -791,12 +1230,17 @@ public final class Color4D {
 		return new Color4D(x, x, y);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color4D redoGammaCorrection(final Color4D color) {
-		return new Color4D(Utilities.redoGammaCorrection(color.r), Utilities.redoGammaCorrection(color.g), Utilities.redoGammaCorrection(color.b), color.a);
-	}
-	
-//	TODO: Add Javadocs!
+	/**
+	 * Converts {@code color} to its sepia-representation.
+	 * <p>
+	 * Returns a new {@code Color4D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4D} instance
+	 * @return a new {@code Color4D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public static Color4D sepia(final Color4D color) {
 		final double r = color.r * 0.393D + color.g * 0.769D + color.b * 0.189D;
 		final double g = color.r * 0.349D + color.g * 0.686D + color.b * 0.168D;
@@ -806,17 +1250,18 @@ public final class Color4D {
 		return new Color4D(r, g, b, a);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Color4D undoGammaCorrection(final Color4D color) {
-		return new Color4D(Utilities.undoGammaCorrection(color.r), Utilities.undoGammaCorrection(color.g), Utilities.undoGammaCorrection(color.b), color.a);
-	}
-	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the size of the cache.
+	 * 
+	 * @return the size of the cache
+	 */
 	public static int getCacheSize() {
 		return CACHE.size();
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Clears the cache.
+	 */
 	public static void clearCache() {
 		CACHE.clear();
 	}

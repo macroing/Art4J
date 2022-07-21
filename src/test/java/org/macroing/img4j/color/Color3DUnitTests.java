@@ -258,6 +258,7 @@ public final class Color3DUnitTests {
 		assertTrue(a.equals(a));
 		assertTrue(a.equals(b));
 		assertTrue(b.equals(a));
+		
 		assertFalse(a.equals(c));
 		assertFalse(c.equals(a));
 		assertFalse(a.equals(d));
@@ -279,6 +280,7 @@ public final class Color3DUnitTests {
 		assertEquals(a, a);
 		assertEquals(a, b);
 		assertEquals(b, a);
+		
 		assertNotEquals(a, c);
 		assertNotEquals(c, a);
 		assertNotEquals(a, d);
