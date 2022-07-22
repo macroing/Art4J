@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.Randoms;
 
@@ -84,6 +86,56 @@ public final class Color4I {
 	 */
 	public static final Color4I YELLOW;
 	
+	/**
+	 * An {@code int} that represents the color black in the format ARGB.
+	 */
+	public static final int BLACK_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color blue in the format ARGB.
+	 */
+	public static final int BLUE_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color cyan in the format ARGB.
+	 */
+	public static final int CYAN_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color gray in the format ARGB.
+	 */
+	public static final int GRAY_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color green in the format ARGB.
+	 */
+	public static final int GREEN_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color magenta in the format ARGB.
+	 */
+	public static final int MAGENTA_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color red in the format ARGB.
+	 */
+	public static final int RED_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color transparent in the format ARGB.
+	 */
+	public static final int TRANSPARENT_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color white in the format ARGB.
+	 */
+	public static final int WHITE_A_R_G_B;
+	
+	/**
+	 * An {@code int} that represents the color yellow in the format ARGB.
+	 */
+	public static final int YELLOW_A_R_G_B;
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final Map<Color4I, Color4I> CACHE;
@@ -103,6 +155,17 @@ public final class Color4I {
 		TRANSPARENT = getCached(new Color4I(0, 0, 0, 0));
 		WHITE = getCached(new Color4I(255, 255, 255));
 		YELLOW = getCached(new Color4I(255, 255, 0));
+		
+		BLACK_A_R_G_B = toIntARGB(0, 0, 0, 255);
+		BLUE_A_R_G_B = toIntARGB(0, 0, 255, 255);
+		CYAN_A_R_G_B = toIntARGB(0, 255, 255, 255);
+		GRAY_A_R_G_B = toIntARGB(128, 128, 128, 255);
+		GREEN_A_R_G_B = toIntARGB(0, 255, 0, 255);
+		MAGENTA_A_R_G_B = toIntARGB(255, 0, 255, 255);
+		RED_A_R_G_B = toIntARGB(255, 0, 0, 255);
+		TRANSPARENT_A_R_G_B = toIntARGB(0, 0, 0, 0);
+		WHITE_A_R_G_B = toIntARGB(255, 255, 255, 255);
+		YELLOW_A_R_G_B = toIntARGB(255, 255, 0, 255);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -713,9 +776,9 @@ public final class Color4I {
 	 * @return a {@code Color4I} instance from the {@code int} {@code colorRGB}
 	 */
 	public static Color4I fromIntRGB(final int colorRGB) {
-		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
-		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
-		final int b = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+		final int r = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
+		final int g = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
+		final int b = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
 		
 		return new Color4I(r, g, b);
 	}
@@ -1115,12 +1178,238 @@ public final class Color4I {
 	}
 	
 	/**
+	 * Blends the component values of {@code colorARGBLHS} and {@code colorARGBRHS}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4I.blendARGB(colorARGBLHS, colorARGBRHS, t, t, t, t);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGBLHS an {@code int} that represents a color in the format ARGB
+	 * @param colorARGBRHS an {@code int} that represents a color in the format ARGB
+	 * @param t the factor to use for all components in the blending process
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGBLHS, final int colorARGBRHS, final double t) {
+		return blendARGB(colorARGBLHS, colorARGBRHS, t, t, t, t);
+	}
+	
+	/**
+	 * Blends the component values of {@code colorARGBLHS} and {@code colorARGBRHS}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * 
+	 * @param colorARGBLHS an {@code int} that represents a color in the format ARGB
+	 * @param colorARGBRHS an {@code int} that represents a color in the format ARGB
+	 * @param tR the factor to use for the R-component in the blending process
+	 * @param tG the factor to use for the G-component in the blending process
+	 * @param tB the factor to use for the B-component in the blending process
+	 * @param tA the factor to use for the A-component in the blending process
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGBLHS, final int colorARGBRHS, final double tR, final double tG, final double tB, final double tA) {
+		final int r = Ints.saturateAndScaleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleR(colorARGBLHS), Color4D.fromIntARGBToDoubleR(colorARGBRHS), tR));
+		final int g = Ints.saturateAndScaleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleG(colorARGBLHS), Color4D.fromIntARGBToDoubleG(colorARGBRHS), tG));
+		final int b = Ints.saturateAndScaleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleB(colorARGBLHS), Color4D.fromIntARGBToDoubleB(colorARGBRHS), tB));
+		final int a = Ints.saturateAndScaleToInt(Doubles.lerp(Color4D.fromIntARGBToDoubleA(colorARGBLHS), Color4D.fromIntARGBToDoubleA(colorARGBRHS), tA));
+		
+		return toIntARGB(r, g, b, a);
+	}
+	
+	/**
+	 * Blends the component values of {@code colorARGBLHS} and {@code colorARGBRHS}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4I.blendARGB(colorARGBLHS, colorARGBRHS, t, t, t, t);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGBLHS an {@code int} that represents a color in the format ARGB
+	 * @param colorARGBRHS an {@code int} that represents a color in the format ARGB
+	 * @param t the factor to use for all components in the blending process
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGBLHS, final int colorARGBRHS, final float t) {
+		return blendARGB(colorARGBLHS, colorARGBRHS, t, t, t, t);
+	}
+	
+	/**
+	 * Blends the component values of {@code colorARGBLHS} and {@code colorARGBRHS}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * 
+	 * @param colorARGBLHS an {@code int} that represents a color in the format ARGB
+	 * @param colorARGBRHS an {@code int} that represents a color in the format ARGB
+	 * @param tR the factor to use for the R-component in the blending process
+	 * @param tG the factor to use for the G-component in the blending process
+	 * @param tB the factor to use for the B-component in the blending process
+	 * @param tA the factor to use for the A-component in the blending process
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGBLHS, final int colorARGBRHS, final float tR, final float tG, final float tB, final float tA) {
+		final int r = Ints.saturateAndScaleToInt(Floats.lerp(Color4F.fromIntARGBToFloatR(colorARGBLHS), Color4F.fromIntARGBToFloatR(colorARGBRHS), tR));
+		final int g = Ints.saturateAndScaleToInt(Floats.lerp(Color4F.fromIntARGBToFloatG(colorARGBLHS), Color4F.fromIntARGBToFloatG(colorARGBRHS), tG));
+		final int b = Ints.saturateAndScaleToInt(Floats.lerp(Color4F.fromIntARGBToFloatB(colorARGBLHS), Color4F.fromIntARGBToFloatB(colorARGBRHS), tB));
+		final int a = Ints.saturateAndScaleToInt(Floats.lerp(Color4F.fromIntARGBToFloatA(colorARGBLHS), Color4F.fromIntARGBToFloatA(colorARGBRHS), tA));
+		
+		return toIntARGB(r, g, b, a);
+	}
+	
+	/**
+	 * Blends the components values of {@code colorARGB11}, {@code colorARGB12}, {@code colorARGB21} and {@code colorARGB22}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4I.blendARGB(Color4I.blendARGB(colorARGB11, colorARGB12, tX), Color4I.blendARGB(colorARGB21, colorARGB22, tX), tY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGB11 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB12 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB21 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB22 an {@code int} that represents a color in the format ARGB
+	 * @param tX the factor to use for all components in the first two blend operations
+	 * @param tY the factor to use for all components in the third blend operation
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGB11, final int colorARGB12, final int colorARGB21, final int colorARGB22, final double tX, final double tY) {
+		return blendARGB(blendARGB(colorARGB11, colorARGB12, tX), blendARGB(colorARGB21, colorARGB22, tX), tY);
+	}
+	
+	/**
+	 * Blends the components values of {@code colorARGB11}, {@code colorARGB12}, {@code colorARGB21} and {@code colorARGB22}.
+	 * <p>
+	 * Returns an {@code int} that represents a color in the format ARGB and contains the result of the blend.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4I.blendARGB(Color4I.blendARGB(colorARGB11, colorARGB12, tX), Color4I.blendARGB(colorARGB21, colorARGB22, tX), tY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGB11 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB12 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB21 an {@code int} that represents a color in the format ARGB
+	 * @param colorARGB22 an {@code int} that represents a color in the format ARGB
+	 * @param tX the factor to use for all components in the first two blend operations
+	 * @param tY the factor to use for all components in the third blend operation
+	 * @return an {@code int} that represents a color in the format ARGB and contains the result of the blend
+	 */
+	public static int blendARGB(final int colorARGB11, final int colorARGB12, final int colorARGB21, final int colorARGB22, final float tX, final float tY) {
+		return blendARGB(blendARGB(colorARGB11, colorARGB12, tX), blendARGB(colorARGB21, colorARGB22, tX), tY);
+	}
+	
+	/**
+	 * Returns the value of the A-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the A-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntA(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_A) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the B-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntB(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the G-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntG(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the R-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntR(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the B-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntB(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the G-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntG(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the R-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntR(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
+	}
+	
+	/**
 	 * Returns the size of the cache.
 	 * 
 	 * @return the size of the cache
 	 */
 	public static int getCacheSize() {
 		return CACHE.size();
+	}
+	
+	/**
+	 * Converts {@code colorARGB} to its Sepia-representation.
+	 * <p>
+	 * Returns an {@code int} that contains the color in packed form.
+	 * 
+	 * @param colorARGB an {@code int} that contains packed A-, R-, G- and B-components
+	 * @return an {@code int} that contains the color in packed form
+	 */
+	public static int sepiaARGB(final int colorARGB) {
+		final int colorAR = fromIntARGBToIntR(colorARGB);
+		final int colorAG = fromIntARGBToIntG(colorARGB);
+		final int colorAB = fromIntARGBToIntB(colorARGB);
+		final int colorAA = fromIntARGBToIntA(colorARGB);
+		
+		final int colorBR = (int)(colorAR * 0.393D + colorAG * 0.769D + colorAB * 0.189D);
+		final int colorBG = (int)(colorAR * 0.349D + colorAG * 0.686D + colorAB * 0.168D);
+		final int colorBB = (int)(colorAR * 0.272D + colorAG * 0.534D + colorAB * 0.131D);
+		final int colorBA =       colorAA;
+		
+		return toIntARGB(colorBR, colorBG, colorBB, colorBA);
 	}
 	
 	/**
@@ -1150,9 +1439,9 @@ public final class Color4I {
 	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public static int toIntRGB(final int r, final int g, final int b) {
-		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_B);
 		
 		return colorR | colorG | colorB;
 	}

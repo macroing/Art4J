@@ -18,9 +18,9 @@
  */
 package org.macroing.img4j.test;
 
-import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
+import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.image.Image;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
@@ -307,15 +307,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillColorARGB((colorARGB, x, y) -> Color.sepia(colorARGB));
+			imageA.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillColorARGB((colorARGB, x, y) -> Color.sepia(colorARGB));
+			imageB.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillColorARGB((colorARGB, x, y) -> Color.sepia(colorARGB));
+			imageC.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -436,15 +436,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color.RED);
+			imageA.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color.RED);
+			imageB.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color.RED);
+			imageC.fillRegionColorARGB(100, 100, (colorARGB, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeD = System.currentTimeMillis();
 			

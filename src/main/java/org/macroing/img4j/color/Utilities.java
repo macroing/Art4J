@@ -18,14 +18,14 @@
  */
 package org.macroing.img4j.color;
 
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
-
 final class Utilities {
 	public static final int COLOR_A_R_G_B_SHIFT_A;
 	public static final int COLOR_A_R_G_B_SHIFT_B;
 	public static final int COLOR_A_R_G_B_SHIFT_G;
 	public static final int COLOR_A_R_G_B_SHIFT_R;
+	public static final int COLOR_R_G_B_SHIFT_B;
+	public static final int COLOR_R_G_B_SHIFT_G;
+	public static final int COLOR_R_G_B_SHIFT_R;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -47,6 +47,10 @@ final class Utilities {
 		COLOR_A_R_G_B_SHIFT_B =  0;
 		COLOR_A_R_G_B_SHIFT_G =  8;
 		COLOR_A_R_G_B_SHIFT_R = 16;
+		
+		COLOR_R_G_B_SHIFT_B =  0;
+		COLOR_R_G_B_SHIFT_G =  8;
+		COLOR_R_G_B_SHIFT_R = 16;
 		
 		COLOR_SPACE_D_BREAK_POINT = 0.00304D;
 		COLOR_SPACE_D_GAMMA = 2.4D;
@@ -83,13 +87,5 @@ final class Utilities {
 	
 	public static float undoGammaCorrection(final float value) {
 		return value <= COLOR_SPACE_F_BREAK_POINT * COLOR_SPACE_F_SLOPE ? value / COLOR_SPACE_F_SLOPE : (float)(Math.pow((value + COLOR_SPACE_F_SEGMENT_OFFSET) / COLOR_SPACE_F_SLOPE_MATCH, COLOR_SPACE_F_GAMMA));
-	}
-	
-	public static int convertComponentFromDoubleToInt(final double component) {
-		return (int)(Doubles.saturate(component) * 255.0D + 0.5D);
-	}
-	
-	public static int convertComponentFromFloatToInt(final float component) {
-		return (int)(Floats.saturate(component) * 255.0F + 0.5F);
 	}
 }

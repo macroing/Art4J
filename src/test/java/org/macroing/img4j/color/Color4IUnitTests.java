@@ -70,6 +70,82 @@ public final class Color4IUnitTests {
 	}
 	
 	@Test
+	public void testBlendARGBIntIntDouble() {
+		final int a = Color4I.toIntARGB(1, 1, 1, 1);
+		final int b = Color4I.toIntARGB(5, 5, 5, 5);
+		final int c = Color4I.blendARGB(a, b, 0.25D);
+		
+		assertEquals(2, Color4I.fromIntARGBToIntR(c));
+		assertEquals(2, Color4I.fromIntARGBToIntG(c));
+		assertEquals(2, Color4I.fromIntARGBToIntB(c));
+		assertEquals(2, Color4I.fromIntARGBToIntA(c));
+	}
+	
+	@Test
+	public void testBlendARGBIntIntDoubleDoubleDoubleDouble() {
+		final int a = Color4I.toIntARGB(1, 1, 1, 1);
+		final int b = Color4I.toIntARGB(3, 3, 3, 3);
+		final int c = Color4I.blendARGB(a, b, 0.0D, 0.5D, 1.0D, 2.0D);
+		
+		assertEquals(1, Color4I.fromIntARGBToIntR(c));
+		assertEquals(2, Color4I.fromIntARGBToIntG(c));
+		assertEquals(3, Color4I.fromIntARGBToIntB(c));
+		assertEquals(5, Color4I.fromIntARGBToIntA(c));
+	}
+	
+	@Test
+	public void testBlendARGBIntIntFloat() {
+		final int a = Color4I.toIntARGB(1, 1, 1, 1);
+		final int b = Color4I.toIntARGB(5, 5, 5, 5);
+		final int c = Color4I.blendARGB(a, b, 0.25F);
+		
+		assertEquals(2, Color4I.fromIntARGBToIntR(c));
+		assertEquals(2, Color4I.fromIntARGBToIntG(c));
+		assertEquals(2, Color4I.fromIntARGBToIntB(c));
+		assertEquals(2, Color4I.fromIntARGBToIntA(c));
+	}
+	
+	@Test
+	public void testBlendARGBIntIntFloatFloatFloatFloat() {
+		final int a = Color4I.toIntARGB(1, 1, 1, 1);
+		final int b = Color4I.toIntARGB(3, 3, 3, 3);
+		final int c = Color4I.blendARGB(a, b, 0.0F, 0.5F, 1.0F, 2.0F);
+		
+		assertEquals(1, Color4I.fromIntARGBToIntR(c));
+		assertEquals(2, Color4I.fromIntARGBToIntG(c));
+		assertEquals(3, Color4I.fromIntARGBToIntB(c));
+		assertEquals(5, Color4I.fromIntARGBToIntA(c));
+	}
+	
+	@Test
+	public void testBlendARGBIntIntIntIntDoubleDouble() {
+		final int a = Color4I.toIntARGB(0, 0, 0, 0);
+		final int b = Color4I.toIntARGB(4, 0, 4, 0);
+		final int c = Color4I.toIntARGB(0, 0, 0, 0);
+		final int d = Color4I.toIntARGB(0, 4, 0, 4);
+		final int e = Color4I.blendARGB(a, b, c, d, 0.5D, 0.5D);
+		
+		assertEquals(1, Color4I.fromIntARGBToIntR(e));
+		assertEquals(1, Color4I.fromIntARGBToIntG(e));
+		assertEquals(1, Color4I.fromIntARGBToIntB(e));
+		assertEquals(1, Color4I.fromIntARGBToIntA(e));
+	}
+	
+	@Test
+	public void testBlendARGBIntIntIntIntFloatFloat() {
+		final int a = Color4I.toIntARGB(0, 0, 0, 0);
+		final int b = Color4I.toIntARGB(4, 0, 4, 0);
+		final int c = Color4I.toIntARGB(0, 0, 0, 0);
+		final int d = Color4I.toIntARGB(0, 4, 0, 4);
+		final int e = Color4I.blendARGB(a, b, c, d, 0.5F, 0.5F);
+		
+		assertEquals(1, Color4I.fromIntARGBToIntR(e));
+		assertEquals(1, Color4I.fromIntARGBToIntG(e));
+		assertEquals(1, Color4I.fromIntARGBToIntB(e));
+		assertEquals(1, Color4I.fromIntARGBToIntA(e));
+	}
+	
+	@Test
 	public void testBlendColor4IColor4I() {
 		final Color4I a = new Color4I(1, 1, 1, 1);
 		final Color4I b = new Color4I(3, 3, 3, 3);
@@ -173,6 +249,17 @@ public final class Color4IUnitTests {
 		assertEquals(new Color4I(  0,   0,   0,   0), Color4I.TRANSPARENT);
 		assertEquals(new Color4I(255, 255, 255, 255), Color4I.WHITE);
 		assertEquals(new Color4I(255, 255,   0, 255), Color4I.YELLOW);
+		
+		assertEquals(Color4I.toIntARGB(  0,   0,   0, 255), Color4I.BLACK_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(  0,   0, 255, 255), Color4I.BLUE_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(  0, 255, 255, 255), Color4I.CYAN_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(128, 128, 128, 255), Color4I.GRAY_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(  0, 255,   0, 255), Color4I.GREEN_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(255,   0, 255, 255), Color4I.MAGENTA_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(255,   0,   0, 255), Color4I.RED_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(  0,   0,   0,   0), Color4I.TRANSPARENT_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(255, 255, 255, 255), Color4I.WHITE_A_R_G_B);
+		assertEquals(Color4I.toIntARGB(255, 255,   0, 255), Color4I.YELLOW_A_R_G_B);
 	}
 	
 	@Test
@@ -289,6 +376,34 @@ public final class Color4IUnitTests {
 	}
 	
 	@Test
+	public void testFromIntARGBToIntA() {
+		final int colorARGB = ((255 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntARGBToIntA(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToIntB() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntARGBToIntB(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToIntG() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntARGBToIntG(colorARGB));
+	}
+	
+	@Test
+	public void testFromIntARGBToIntR() {
+		final int colorARGB = ((0 & 0xFF) << 24) | ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntARGBToIntR(colorARGB));
+	}
+	
+	@Test
 	public void testFromIntRGB() {
 		final int colorRGB = ((0 & 0xFF) << 16) | ((128 & 0xFF) << 8) | ((255 & 0xFF) << 0);
 		
@@ -298,6 +413,27 @@ public final class Color4IUnitTests {
 		assertEquals(128, color.toIntG());
 		assertEquals(255, color.toIntB());
 		assertEquals(255, color.toIntA());
+	}
+	
+	@Test
+	public void testFromIntRGBToIntB() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((255 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntRGBToIntB(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToIntG() {
+		final int colorRGB = ((0 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntRGBToIntG(colorRGB));
+	}
+	
+	@Test
+	public void testFromIntRGBToIntR() {
+		final int colorRGB = ((255 & 0xFF) << 16) | ((0 & 0xFF) << 8) | ((0 & 0xFF) << 0);
+		
+		assertEquals(255, Color4I.fromIntRGBToIntR(colorRGB));
 	}
 	
 	@Test
@@ -892,6 +1028,17 @@ public final class Color4IUnitTests {
 		assertEquals((int)(255.0D * 1.000D), b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4I.sepia(null));
+	}
+	
+	@Test
+	public void testSepiaARGB() {
+		final int a = Color4I.toIntARGB(100, 100, 100, 255);
+		final int b = Color4I.sepiaARGB(a);
+		
+		assertEquals((int)(100.0D * 1.351D), Color4I.fromIntARGBToIntR(b));
+		assertEquals((int)(100.0D * 1.203D), Color4I.fromIntARGBToIntG(b));
+		assertEquals((int)(100.0D * 0.937D), Color4I.fromIntARGBToIntB(b));
+		assertEquals((int)(255.0D * 1.000D), Color4I.fromIntARGBToIntA(b));
 	}
 	
 	@Test

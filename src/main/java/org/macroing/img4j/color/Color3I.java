@@ -640,9 +640,9 @@ public final class Color3I {
 	 * @return a {@code Color3I} instance from the {@code int} {@code colorRGB}
 	 */
 	public static Color3I fromIntRGB(final int colorRGB) {
-		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
-		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
-		final int b = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+		final int r = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
+		final int g = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
+		final int b = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
 		
 		return new Color3I(r, g, b);
 	}
@@ -1225,6 +1225,66 @@ public final class Color3I {
 	}
 	
 	/**
+	 * Returns the value of the B-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the B-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntB(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the G-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntG(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorARGB} as an {@code int}.
+	 * 
+	 * @param colorARGB an {@code int} that contains a color with components in the format ARGB
+	 * @return the value of the R-component in {@code colorARGB} as an {@code int}
+	 */
+	public static int fromIntARGBToIntR(final int colorARGB) {
+		return (colorARGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the B-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the B-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntB(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the G-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the G-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntG(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
+	}
+	
+	/**
+	 * Returns the value of the R-component in {@code colorRGB} as an {@code int}.
+	 * 
+	 * @param colorRGB an {@code int} that contains a color with components in the format RGB
+	 * @return the value of the R-component in {@code colorRGB} as an {@code int}
+	 */
+	public static int fromIntRGBToIntR(final int colorRGB) {
+		return (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
+	}
+	
+	/**
 	 * Returns the lightness for the color represented by {@code r}, {@code g} and {@code b}.
 	 * 
 	 * @param r the value of the red component
@@ -1302,9 +1362,9 @@ public final class Color3I {
 	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public static int toIntRGB(final int r, final int g, final int b) {
-		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		final int colorR = ((Ints.saturate(r) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_R);
+		final int colorG = ((Ints.saturate(g) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_G);
+		final int colorB = ((Ints.saturate(b) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_B);
 		
 		return colorR | colorG | colorB;
 	}

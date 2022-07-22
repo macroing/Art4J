@@ -2524,9 +2524,9 @@ public final class Image {
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
-	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * <p>
-	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
@@ -2546,9 +2546,9 @@ public final class Image {
 	/**
 	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * <p>
 	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColorARGB(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
 	 * 
@@ -2563,7 +2563,7 @@ public final class Image {
 	/**
 	 * Returns the color at {@code index} in this {@code Image} instance.
 	 * <p>
-	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * 
 	 * @param index the index of the pixel
 	 * @return the color at {@code index} in this {@code Image} instance
@@ -2575,9 +2575,9 @@ public final class Image {
 	/**
 	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
 	 * <p>
-	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * <p>
-	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color.TRANSPARENT} will be returned.
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel

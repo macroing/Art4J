@@ -200,4 +200,60 @@ public final class Ints {
 		
 		return max(min(value, valueMax), valueMin);
 	}
+	
+	/**
+	 * Returns an {@code int} representation of {@code Doubles.saturate(value) * 255.0D + 0.5D}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturateAndScaleToInt(value, 255.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param value the {@code double} value to saturate and scale to an {@code int}
+	 * @return an {@code int} representation of {@code Doubles.saturate(value) * 255.0D + 0.5D}
+	 */
+	public static int saturateAndScaleToInt(final double value) {
+		return saturateAndScaleToInt(value, 255.0D);
+	}
+	
+	/**
+	 * Returns an {@code int} representation of {@code Doubles.saturate(value) * scale + 0.5D}.
+	 * 
+	 * @param value the {@code double} value to saturate and scale to an {@code int}
+	 * @param scale the {@code double} value to scale with
+	 * @return an {@code int} representation of {@code Doubles.saturate(value) * scale + 0.5D}
+	 */
+	public static int saturateAndScaleToInt(final double value, final double scale) {
+		return (int)(Doubles.saturate(value) * scale + 0.5D);
+	}
+	
+	/**
+	 * Returns an {@code int} representation of {@code Floats.saturate(value) * 255.0F + 0.5F}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Ints.saturateAndScaleToInt(value, 255.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param value the {@code float} value to saturate and scale to an {@code int}
+	 * @return an {@code int} representation of {@code Floats.saturate(value) * 255.0F + 0.5F}
+	 */
+	public static int saturateAndScaleToInt(final float value) {
+		return saturateAndScaleToInt(value, 255.0F);
+	}
+	
+	/**
+	 * Returns an {@code int} representation of {@code Floats.saturate(value) * scale + 0.5F}.
+	 * 
+	 * @param value the {@code float} value to saturate and scale to an {@code int}
+	 * @param scale the {@code float} value to scale with
+	 * @return an {@code int} representation of {@code Floats.saturate(value) * scale + 0.5F}
+	 */
+	public static int saturateAndScaleToInt(final float value, final float scale) {
+		return (int)(Floats.saturate(value) * scale + 0.5F);
+	}
 }

@@ -25,11 +25,11 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.macroing.img4j.color.Color;
 import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
+import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
 import org.macroing.img4j.utility.BufferedImages;
@@ -928,7 +928,7 @@ final class ColorARGBData extends Data {
 					
 					newColors[newIndex] = oldColors[oldIndex];
 				} else {
-					newColors[newIndex] = Color.WHITE;
+					newColors[newIndex] = Color4I.WHITE_A_R_G_B;
 				}
 			}
 		}
@@ -983,12 +983,12 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public int getColorARGB(final int index) {
-		return index >= 0 && index < this.colors.length ? this.colors[index] : Color.TRANSPARENT;
+		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
 	@Override
 	public int getColorARGB(final int x, final int y) {
-		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color.TRANSPARENT;
+		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
 	@Override

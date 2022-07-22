@@ -85,6 +85,42 @@ public final class IntsUnitTests {
 	}
 	
 	@Test
+	public void testSaturateAndScaleToIntDouble() {
+		assertEquals(  0, Ints.saturateAndScaleToInt(-1.0D));
+		assertEquals(  0, Ints.saturateAndScaleToInt(+0.0D));
+		assertEquals(128, Ints.saturateAndScaleToInt(+0.5D));
+		assertEquals(255, Ints.saturateAndScaleToInt(+1.0D));
+		assertEquals(255, Ints.saturateAndScaleToInt(+2.0D));
+	}
+	
+	@Test
+	public void testSaturateAndScaleToIntDoubleDouble() {
+		assertEquals(  0, Ints.saturateAndScaleToInt(-1.0D, 300.0D));
+		assertEquals(  0, Ints.saturateAndScaleToInt(+0.0D, 300.0D));
+		assertEquals(150, Ints.saturateAndScaleToInt(+0.5D, 300.0D));
+		assertEquals(300, Ints.saturateAndScaleToInt(+1.0D, 300.0D));
+		assertEquals(300, Ints.saturateAndScaleToInt(+2.0D, 300.0D));
+	}
+	
+	@Test
+	public void testSaturateAndScaleToIntFloat() {
+		assertEquals(  0, Ints.saturateAndScaleToInt(-1.0F));
+		assertEquals(  0, Ints.saturateAndScaleToInt(+0.0F));
+		assertEquals(128, Ints.saturateAndScaleToInt(+0.5F));
+		assertEquals(255, Ints.saturateAndScaleToInt(+1.0F));
+		assertEquals(255, Ints.saturateAndScaleToInt(+2.0F));
+	}
+	
+	@Test
+	public void testSaturateAndScaleToIntFloatFloat() {
+		assertEquals(  0, Ints.saturateAndScaleToInt(-1.0F, 300.0F));
+		assertEquals(  0, Ints.saturateAndScaleToInt(+0.0F, 300.0F));
+		assertEquals(150, Ints.saturateAndScaleToInt(+0.5F, 300.0F));
+		assertEquals(300, Ints.saturateAndScaleToInt(+1.0F, 300.0F));
+		assertEquals(300, Ints.saturateAndScaleToInt(+2.0F, 300.0F));
+	}
+	
+	@Test
 	public void testSaturateInt() {
 		assertEquals(  0, Ints.saturate(-  1));
 		assertEquals(128, Ints.saturate(+128));

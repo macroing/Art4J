@@ -840,9 +840,9 @@ public final class Color4D {
 	 * @return a {@code Color4D} instance from the {@code int} {@code colorRGB}
 	 */
 	public static Color4D fromIntRGB(final int colorRGB) {
-		final int r = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF;
-		final int g = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF;
-		final int b = (colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF;
+		final int r = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
+		final int g = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
+		final int b = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
 		
 		return new Color4D(r, g, b);
 	}
@@ -1288,7 +1288,7 @@ public final class Color4D {
 	 * @return the value of the B-component in {@code colorRGB} as a {@code double}
 	 */
 	public static double fromIntRGBToDoubleB(final int colorRGB) {
-		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
+		return ((colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF) / 255.0D;
 	}
 	
 	/**
@@ -1298,7 +1298,7 @@ public final class Color4D {
 	 * @return the value of the G-component in {@code colorRGB} as a {@code double}
 	 */
 	public static double fromIntRGBToDoubleG(final int colorRGB) {
-		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
+		return ((colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF) / 255.0D;
 	}
 	
 	/**
@@ -1308,7 +1308,7 @@ public final class Color4D {
 	 * @return the value of the R-component in {@code colorRGB} as a {@code double}
 	 */
 	public static double fromIntRGBToDoubleR(final int colorRGB) {
-		return ((colorRGB >> Utilities.COLOR_A_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
+		return ((colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF) / 255.0D;
 	}
 	
 	/**
@@ -1327,7 +1327,7 @@ public final class Color4D {
 	 * @return the alpha component as an {@code int}
 	 */
 	public static int toIntA(final double a) {
-		return Utilities.convertComponentFromDoubleToInt(a);
+		return Ints.saturateAndScaleToInt(a);
 	}
 	
 	/**
@@ -1355,7 +1355,7 @@ public final class Color4D {
 	 * @return the blue component as an {@code int}
 	 */
 	public static int toIntB(final double b) {
-		return Utilities.convertComponentFromDoubleToInt(b);
+		return Ints.saturateAndScaleToInt(b);
 	}
 	
 	/**
@@ -1365,7 +1365,7 @@ public final class Color4D {
 	 * @return the green component as an {@code int}
 	 */
 	public static int toIntG(final double g) {
-		return Utilities.convertComponentFromDoubleToInt(g);
+		return Ints.saturateAndScaleToInt(g);
 	}
 	
 	/**
@@ -1375,7 +1375,7 @@ public final class Color4D {
 	 * @return the red component as an {@code int}
 	 */
 	public static int toIntR(final double r) {
-		return Utilities.convertComponentFromDoubleToInt(r);
+		return Ints.saturateAndScaleToInt(r);
 	}
 	
 	/**
@@ -1387,9 +1387,9 @@ public final class Color4D {
 	 * @return the red, green and blue components as an {@code int} in the format RGB
 	 */
 	public static int toIntRGB(final double r, final double g, final double b) {
-		final int colorR = ((toIntR(r) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_R);
-		final int colorG = ((toIntG(g) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_G);
-		final int colorB = ((toIntB(b) & 0xFF) << Utilities.COLOR_A_R_G_B_SHIFT_B);
+		final int colorR = ((toIntR(r) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_R);
+		final int colorG = ((toIntG(g) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_G);
+		final int colorB = ((toIntB(b) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_B);
 		
 		return colorR | colorG | colorB;
 	}
