@@ -18,46 +18,76 @@
  */
 package org.macroing.img4j.kernel;
 
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Arrays;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Randoms;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code ConvolutionKernelNF} is a convolution kernel with N x N {@code float}-based elements in N rows and N columns.
+ * <p>
+ * N has to be a positive and odd number. Some valid numbers are 1, 3, 5 and 7.
+ * <p>
+ * This class is immutable and therefore suitable for concurrent use without external synchronization.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public final class ConvolutionKernelNF {
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a box blur effect.
+	 */
 	public static final ConvolutionKernelNF BOX_BLUR_3 = new ConvolutionKernelNF(0.0F, 1.0F / 9.0F, new float[] {1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs an emboss effect.
+	 */
 	public static final ConvolutionKernelNF EMBOSS_3 = new ConvolutionKernelNF(0.5F, 1.0F, new float[] {-1.0F, -1.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a Gaussian blur effect.
+	 */
 	public static final ConvolutionKernelNF GAUSSIAN_BLUR_3 = new ConvolutionKernelNF(0.0F, 1.0F / 16.0F, new float[] {1.0F, 2.0F, 1.0F, 2.0F, 4.0F, 2.0F, 1.0F, 2.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 5 rows and 5 columns that performs a Gaussian blur effect.
+	 */
 	public static final ConvolutionKernelNF GAUSSIAN_BLUR_5 = new ConvolutionKernelNF(0.0F, 1.0F / 256.0F, new float[] {1.0F, 4.0F, 6.0F, 4.0F, 1.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 6.0F, 24.0F, 36.0F, 24.0F, 6.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 1.0F, 4.0F, 6.0F, 4.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a gradient effect in the horizontal direction.
+	 */
 	public static final ConvolutionKernelNF GRADIENT_HORIZONTAL_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, 0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a gradient effect in the vertical direction.
+	 */
 	public static final ConvolutionKernelNF GRADIENT_VERTICAL_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, 0.0F, 1.0F, -1.0F, 0.0F, 1.0F, -1.0F, 0.0F, 1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs no effect.
+	 */
 	public static final ConvolutionKernelNF IDENTITY_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 5 rows and 5 columns that performs no effect.
+	 */
 	public static final ConvolutionKernelNF IDENTITY_5 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a ridge detection effect.
+	 */
 	public static final ConvolutionKernelNF RIDGE_DETECTION_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, -1.0F, 8.0F, -1.0F, -1.0F, -1.0F, -1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 3 rows and 3 columns that performs a sharpen effect.
+	 */
 	public static final ConvolutionKernelNF SHARPEN_3 = new ConvolutionKernelNF(0.0F, 1.0F, new float[] {-1.0F, -1.0F, -1.0F, -1.0F, 9.0F, -1.0F, -1.0F, -1.0F, -1.0F});
 	
-//	TODO: Add Javadocs!
+	/**
+	 * A {@code ConvolutionKernelNF} instance with 5 rows and 5 columns that performs an unsharp masking effect.
+	 */
 	public static final ConvolutionKernelNF UNSHARP_MASKING_5 = new ConvolutionKernelNF(0.0F, -1.0F / 256.0F, new float[] {1.0F, 4.0F, 6.0F, 4.0F, 1.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 6.0F, 24.0F, -476.0F, 24.0F, 6.0F, 4.0F, 16.0F, 24.0F, 16.0F, 4.0F, 1.0F, 4.0F, 6.0F, 4.0F, 1.0F});
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +99,23 @@ public final class ConvolutionKernelNF {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Constructs a new {@code ConvolutionKernelNF} instance.
+	 * <p>
+	 * If {@code elements} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code elements.length} is invalid, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * The value of {@code sqrt(elements.length)} must be a mathematical integer. The mathematical integer must be positive and odd.
+	 * <p>
+	 * Any modifications made to {@code elements} post construction, will not affect the constructed {@code ConvolutionKernelNF} instance.
+	 * 
+	 * @param bias the bias to use
+	 * @param factor the factor to use
+	 * @param elements a {@code float[]} that contains the elements to use
+	 * @throws IllegalArgumentException thrown if, and only if, {@code elements.length} is invalid
+	 * @throws NullPointerException thrown if, and only if, {@code elements} is {@code null}
+	 */
 	public ConvolutionKernelNF(final float bias, final float factor, final float[] elements) {
 		this.bias = bias;
 		this.factor = factor;
@@ -79,7 +125,14 @@ public final class ConvolutionKernelNF {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Compares {@code object} to this {@code ConvolutionKernelNF} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code ConvolutionKernelNF}, and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code ConvolutionKernelNF} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code ConvolutionKernelNF}, and their respective values are equal, {@code false} otherwise
+	 */
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -99,27 +152,55 @@ public final class ConvolutionKernelNF {
 		}
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the bias associated with this {@code ConvolutionKernelNF} instance.
+	 * <p>
+	 * This is the same as Offset in Gimp.
+	 * 
+	 * @return the bias associated with this {@code ConvolutionKernelNF} instance
+	 */
 	public float getBias() {
 		return this.bias;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the factor associated with this {@code ConvolutionKernelNF} instance.
+	 * <p>
+	 * This is the same as the reciprocal value of the Divisor in Gimp.
+	 * 
+	 * @return the factor associated with this {@code ConvolutionKernelNF} instance
+	 */
 	public float getFactor() {
 		return this.factor;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code float[]} that contains a copy of the elements associated with this {@code ConvolutionKernelNF} instance.
+	 * <p>
+	 * Any modifications made to the returned {@code float[]}, will not affect this {@code ConvolutionKernelNF} instance.
+	 * 
+	 * @return a {@code float[]} that contains a copy of the elements associated with this {@code ConvolutionKernelNF} instance
+	 */
 	public float[] getElements() {
 		return this.elements.clone();
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns the resolution of this {@code ConvolutionKernelNF} instance.
+	 * <p>
+	 * This is the same as the number N mentioned elsewhere in the documentation.
+	 * 
+	 * @return the resolution of this {@code ConvolutionKernelNF} instance
+	 */
 	public int getResolution() {
 		return this.resolution;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a hash code for this {@code ConvolutionKernelNF} instance.
+	 * 
+	 * @return a hash code for this {@code ConvolutionKernelNF} instance
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(Float.valueOf(this.bias), Float.valueOf(this.factor), Integer.valueOf(Arrays.hashCode(this.elements)), Integer.valueOf(this.resolution));
@@ -127,7 +208,15 @@ public final class ConvolutionKernelNF {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a new random {@code ConvolutionKernelNF} instance with a resolution of {@code resolution}.
+	 * <p>
+	 * If {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution * resolution < 1}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param resolution the resolution of the {@code ConvolutionKernelNF} instance and is the same as the number N mentioned elsewhere in the documentation
+	 * @return a new random {@code ConvolutionKernelNF} instance with a resolution of {@code resolution}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution * resolution < 1}
+	 */
 	public static ConvolutionKernelNF random(final int resolution) {
 		if(resolution < 1) {
 			throw new IllegalArgumentException(String.format("The value of resolution, %d, is invalid. It must be greater than or equal to 1.", Integer.valueOf(resolution)));
