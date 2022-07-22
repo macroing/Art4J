@@ -19,73 +19,17 @@
 package org.macroing.img4j.color;
 
 final class Utilities {
-	public static final int COLOR_A_R_G_B_SHIFT_A;
-	public static final int COLOR_A_R_G_B_SHIFT_B;
-	public static final int COLOR_A_R_G_B_SHIFT_G;
-	public static final int COLOR_A_R_G_B_SHIFT_R;
-	public static final int COLOR_R_G_B_SHIFT_B;
-	public static final int COLOR_R_G_B_SHIFT_G;
-	public static final int COLOR_R_G_B_SHIFT_R;
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private static final double COLOR_SPACE_D_BREAK_POINT;
-	private static final double COLOR_SPACE_D_GAMMA;
-	private static final double COLOR_SPACE_D_SEGMENT_OFFSET;
-	private static final double COLOR_SPACE_D_SLOPE;
-	private static final double COLOR_SPACE_D_SLOPE_MATCH;
-	private static final float COLOR_SPACE_F_BREAK_POINT;
-	private static final float COLOR_SPACE_F_GAMMA;
-	private static final float COLOR_SPACE_F_SEGMENT_OFFSET;
-	private static final float COLOR_SPACE_F_SLOPE;
-	private static final float COLOR_SPACE_F_SLOPE_MATCH;
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	static {
-		COLOR_A_R_G_B_SHIFT_A = 24;
-		COLOR_A_R_G_B_SHIFT_B =  0;
-		COLOR_A_R_G_B_SHIFT_G =  8;
-		COLOR_A_R_G_B_SHIFT_R = 16;
-		
-		COLOR_R_G_B_SHIFT_B =  0;
-		COLOR_R_G_B_SHIFT_G =  8;
-		COLOR_R_G_B_SHIFT_R = 16;
-		
-		COLOR_SPACE_D_BREAK_POINT = 0.00304D;
-		COLOR_SPACE_D_GAMMA = 2.4D;
-		COLOR_SPACE_D_SLOPE = 1.0D / (COLOR_SPACE_D_GAMMA / Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA - 1.0D) - COLOR_SPACE_D_GAMMA * COLOR_SPACE_D_BREAK_POINT + COLOR_SPACE_D_BREAK_POINT);
-		COLOR_SPACE_D_SLOPE_MATCH = COLOR_SPACE_D_GAMMA * COLOR_SPACE_D_SLOPE / Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA - 1.0D);
-		COLOR_SPACE_D_SEGMENT_OFFSET = COLOR_SPACE_D_SLOPE_MATCH * Math.pow(COLOR_SPACE_D_BREAK_POINT, 1.0D / COLOR_SPACE_D_GAMMA) - COLOR_SPACE_D_SLOPE * COLOR_SPACE_D_BREAK_POINT;
-		
-		COLOR_SPACE_F_BREAK_POINT = 0.00304F;
-		COLOR_SPACE_F_GAMMA = 2.4F;
-		COLOR_SPACE_F_SLOPE = 1.0F / (COLOR_SPACE_F_GAMMA / (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA - 1.0F)) - COLOR_SPACE_F_GAMMA * COLOR_SPACE_F_BREAK_POINT + COLOR_SPACE_F_BREAK_POINT);
-		COLOR_SPACE_F_SLOPE_MATCH = COLOR_SPACE_F_GAMMA * COLOR_SPACE_F_SLOPE / (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA - 1.0F));
-		COLOR_SPACE_F_SEGMENT_OFFSET = COLOR_SPACE_F_SLOPE_MATCH * (float)(Math.pow(COLOR_SPACE_F_BREAK_POINT, 1.0F / COLOR_SPACE_F_GAMMA)) - COLOR_SPACE_F_SLOPE * COLOR_SPACE_F_BREAK_POINT;
-	}
+	public static final int COLOR_A_R_G_B_SHIFT_A = 24;
+	public static final int COLOR_A_R_G_B_SHIFT_B =  0;
+	public static final int COLOR_A_R_G_B_SHIFT_G =  8;
+	public static final int COLOR_A_R_G_B_SHIFT_R = 16;
+	public static final int COLOR_R_G_B_SHIFT_B =  0;
+	public static final int COLOR_R_G_B_SHIFT_G =  8;
+	public static final int COLOR_R_G_B_SHIFT_R = 16;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private Utilities() {
 		
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public static double redoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_D_BREAK_POINT ? value * COLOR_SPACE_D_SLOPE : COLOR_SPACE_D_SLOPE_MATCH * Math.pow(value, 1.0D / COLOR_SPACE_D_GAMMA) - COLOR_SPACE_D_SEGMENT_OFFSET;
-	}
-	
-	public static double undoGammaCorrection(final double value) {
-		return value <= COLOR_SPACE_D_BREAK_POINT * COLOR_SPACE_D_SLOPE ? value / COLOR_SPACE_D_SLOPE : Math.pow((value + COLOR_SPACE_D_SEGMENT_OFFSET) / COLOR_SPACE_D_SLOPE_MATCH, COLOR_SPACE_D_GAMMA);
-	}
-	
-	public static float redoGammaCorrection(final float value) {
-		return value <= COLOR_SPACE_F_BREAK_POINT ? value * COLOR_SPACE_F_SLOPE : COLOR_SPACE_F_SLOPE_MATCH * (float)(Math.pow(value, 1.0F / COLOR_SPACE_F_GAMMA)) - COLOR_SPACE_F_SEGMENT_OFFSET;
-	}
-	
-	public static float undoGammaCorrection(final float value) {
-		return value <= COLOR_SPACE_F_BREAK_POINT * COLOR_SPACE_F_SLOPE ? value / COLOR_SPACE_F_SLOPE : (float)(Math.pow((value + COLOR_SPACE_F_SEGMENT_OFFSET) / COLOR_SPACE_F_SLOPE_MATCH, COLOR_SPACE_F_GAMMA));
 	}
 }

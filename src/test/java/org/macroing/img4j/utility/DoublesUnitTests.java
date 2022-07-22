@@ -122,6 +122,11 @@ public final class DoublesUnitTests {
 	}
 	
 	@Test
+	public void testPow() {
+		assertEquals(Math.pow(2.0D, 2.0D), Doubles.pow(2.0D, 2.0D));
+	}
+	
+	@Test
 	public void testRint() {
 		assertEquals(0.0D, Doubles.rint(0.00D));
 		assertEquals(0.0D, Doubles.rint(0.25D));

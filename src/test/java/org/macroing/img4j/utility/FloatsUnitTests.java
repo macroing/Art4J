@@ -122,6 +122,11 @@ public final class FloatsUnitTests {
 	}
 	
 	@Test
+	public void testPow() {
+		assertEquals((float)(Math.pow(2.0F, 2.0F)), Floats.pow(2.0F, 2.0F));
+	}
+	
+	@Test
 	public void testRint() {
 		assertEquals(0.0F, Floats.rint(0.00F));
 		assertEquals(0.0F, Floats.rint(0.25F));

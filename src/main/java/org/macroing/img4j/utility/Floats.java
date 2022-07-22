@@ -275,6 +275,20 @@ public final class Floats {
 	}
 	
 	/**
+	 * Returns {@code base} raised to the power of {@code exponent}.
+	 * <p>
+	 * For the full documentation of this method, see {@link Math#pow(double, double)}.
+	 * 
+	 * @param base the base
+	 * @param exponent the exponent
+	 * @return {@code base} raised to the power of {@code exponent}
+	 * @see Math#pow(double, double)
+	 */
+	public static float pow(final float base, final float exponent) {
+		return (float)(Math.pow(base, exponent));
+	}
+	
+	/**
 	 * Returns the {@code float} value that is closest in value to the argument and is equal to a mathematical integer.
 	 * <p>
 	 * If two {@code float} values that are mathematical integers are equally close, the result is the integer value that is even.
