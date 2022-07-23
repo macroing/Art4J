@@ -18,6 +18,8 @@
  */
 package org.macroing.img4j.geometry.shape;
 
+import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -313,6 +315,56 @@ public final class Rectangle2I implements Shape2I {
 		}
 		
 		return new Rectangle2I(max, min);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
+	public static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+		final List<LineSegment2I> lineSegments = rectangle.getLineSegments();
+		
+		final LineSegment2I lineSegmentA = lineSegments.get(0);
+		final LineSegment2I lineSegmentB = lineSegments.get(1);
+		final LineSegment2I lineSegmentC = lineSegments.get(2);
+		final LineSegment2I lineSegmentD = lineSegments.get(3);
+		
+		final List<LineSegment2I> lineSegmentsForA = LineSegment2I.rotateAll(lineSegmentA, angle, isAngleInRadians);
+		final List<LineSegment2I> lineSegmentsForB = LineSegment2I.rotateAll(lineSegmentB, angle, isAngleInRadians);
+		final List<LineSegment2I> lineSegmentsForC = LineSegment2I.rotateAll(lineSegmentC, angle, isAngleInRadians);
+		final List<LineSegment2I> lineSegmentsForD = LineSegment2I.rotateAll(lineSegmentD, angle, isAngleInRadians);
+		
+		for(int i = 0; i < lineSegmentsForA.size(); i++) {
+			final Point2I newA = lineSegmentsForA.get(i).getB();
+			
+			for(int j = 0; j < lineSegmentsForB.size(); j++) {
+				final Point2I newB = lineSegmentsForB.get(j).getB();
+				
+				for(int k = 0; k < lineSegmentsForC.size(); k++) {
+					final Point2I newC = lineSegmentsForC.get(k).getB();
+					
+					for(int l = 0; l < lineSegmentsForD.size(); l++) {
+						final Point2I newD = lineSegmentsForD.get(l).getB();
+						
+						final int distanceNewAB = Point2I.distance(newA, newB);
+						final int distanceNewBC = Point2I.distance(newB, newC);
+						final int distanceNewCD = Point2I.distance(newC, newD);
+						final int distanceNewDA = Point2I.distance(newD, newA);
+						
+						final int deltaNewABCD = Math.abs(distanceNewAB - distanceNewCD);
+						final int deltaNewBCDA = Math.abs(distanceNewBC - distanceNewDA);
+						
+						final boolean isValidABCD = deltaNewABCD == 0;
+						final boolean isValidBCDA = deltaNewBCDA == 0;
+						final boolean isValid = isValidABCD && isValidBCDA;
+						
+						if(isValid) {
+							return new Rectangle2I(newA, newB, newC, newD);
+						}
+					}
+				}
+			}
+		}
+		
+		throw new IllegalArgumentException();
 	}
 	
 	/**

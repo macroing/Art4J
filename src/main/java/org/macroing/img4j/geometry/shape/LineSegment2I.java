@@ -18,12 +18,16 @@
  */
 package org.macroing.img4j.geometry.shape;
 
+import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.geometry.Vector2I;
+import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.ParameterArguments;
 
 /**
@@ -252,6 +256,210 @@ public final class LineSegment2I implements Shape2I {
 			final LineSegment2I lineSegment = new LineSegment2I(pointI, pointJ);
 			
 			lineSegments.add(lineSegment);
+		}
+		
+		return lineSegments;
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
+	public static LineSegment2I rotate(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
+		final double a = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double aCos = Doubles.cos(a);
+		final double aSin = Doubles.sin(a);
+		
+		final Point2I pA = lineSegment.getA();
+		final Point2I pB = lineSegment.getB();
+		
+		final double pAX = pA.x;
+		final double pAY = pA.y;
+		final double pBX = pB.x;
+		final double pBY = pB.y;
+		final double pCX = pAX + (pBX - pAX) * aCos + (pBY - pAY) * aSin;
+		final double pCY = pAY - (pBX - pAX) * aSin + (pBY - pAY) * aCos;
+		
+		final double vABX = pBX - pAX;
+		final double vABY = pBY - pAY;
+		final double vABLength = Doubles.sqrt(vABX * vABX + vABY * vABY);
+		
+		final double vACX = pCX - pAX;
+		final double vACY = pCY - pAY;
+		final double vACLength = Doubles.sqrt(vACX * vACX + vACY * vACY);
+		final double vACNX = vACX / vACLength;
+		final double vACNY = vACY / vACLength;
+		
+		final double pDX = pAX + vACNX * vABLength;
+		final double pDY = pAY + vACNY * vABLength;
+		
+		final Point2I pC = new Point2I((int)(pDX - 1.0D), (int)(pDY - 1.0D));
+		final Point2I pD = new Point2I((int)(pDX - 0.0D), (int)(pDY - 1.0D));
+		final Point2I pE = new Point2I((int)(pDX + 1.0D), (int)(pDY - 1.0D));
+		final Point2I pF = new Point2I((int)(pDX - 1.0D), (int)(pDY + 0.0D));
+		final Point2I pG = new Point2I((int)(pDX - 0.0D), (int)(pDY + 0.0D));
+		final Point2I pH = new Point2I((int)(pDX + 1.0D), (int)(pDY + 0.0D));
+		final Point2I pI = new Point2I((int)(pDX - 1.0D), (int)(pDY + 1.0D));
+		final Point2I pJ = new Point2I((int)(pDX - 0.0D), (int)(pDY + 1.0D));
+		final Point2I pK = new Point2I((int)(pDX + 1.0D), (int)(pDY + 1.0D));
+		
+		final Vector2I vAB = Vector2I.direction(pA, pB);
+		final Vector2I vAC = Vector2I.direction(pA, pC);
+		final Vector2I vAD = Vector2I.direction(pA, pD);
+		final Vector2I vAE = Vector2I.direction(pA, pE);
+		final Vector2I vAF = Vector2I.direction(pA, pF);
+		final Vector2I vAG = Vector2I.direction(pA, pG);
+		final Vector2I vAH = Vector2I.direction(pA, pH);
+		final Vector2I vAI = Vector2I.direction(pA, pI);
+		final Vector2I vAJ = Vector2I.direction(pA, pJ);
+		final Vector2I vAK = Vector2I.direction(pA, pK);
+		
+		final int vABLengthI = vAB.length();
+		final int vACLengthI = vAC.length();
+		final int vADLengthI = vAD.length();
+		final int vAELengthI = vAE.length();
+		final int vAFLengthI = vAF.length();
+		final int vAGLengthI = vAG.length();
+		final int vAHLengthI = vAH.length();
+		final int vAILengthI = vAI.length();
+		final int vAJLengthI = vAJ.length();
+		final int vAKLengthI = vAK.length();
+		
+		if(vABLengthI == vACLengthI) {
+			return new LineSegment2I(pA, pC);
+		}
+		
+		if(vABLengthI == vADLengthI) {
+			return new LineSegment2I(pA, pD);
+		}
+		
+		if(vABLengthI == vAELengthI) {
+			return new LineSegment2I(pA, pE);
+		}
+		
+		if(vABLengthI == vAFLengthI) {
+			return new LineSegment2I(pA, pF);
+		}
+		
+		if(vABLengthI == vAGLengthI) {
+			return new LineSegment2I(pA, pG);
+		}
+		
+		if(vABLengthI == vAHLengthI) {
+			return new LineSegment2I(pA, pH);
+		}
+		
+		if(vABLengthI == vAILengthI) {
+			return new LineSegment2I(pA, pI);
+		}
+		
+		if(vABLengthI == vAJLengthI) {
+			return new LineSegment2I(pA, pJ);
+		}
+		
+		if(vABLengthI == vAKLengthI) {
+			return new LineSegment2I(pA, pK);
+		}
+		
+		return lineSegment;
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add Unit Tests!
+	public static List<LineSegment2I> rotateAll(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
+		final List<LineSegment2I> lineSegments = new ArrayList<>();
+		
+		final double a = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double aCos = Doubles.cos(a);
+		final double aSin = Doubles.sin(a);
+		
+		final Point2I pA = lineSegment.getA();
+		final Point2I pB = lineSegment.getB();
+		
+		final double pAX = pA.x;
+		final double pAY = pA.y;
+		final double pBX = pB.x;
+		final double pBY = pB.y;
+		final double pCX = pAX + (pBX - pAX) * aCos + (pBY - pAY) * aSin;
+		final double pCY = pAY - (pBX - pAX) * aSin + (pBY - pAY) * aCos;
+		
+		final double vABX = pBX - pAX;
+		final double vABY = pBY - pAY;
+		final double vABLength = Doubles.sqrt(vABX * vABX + vABY * vABY);
+		
+		final double vACX = pCX - pAX;
+		final double vACY = pCY - pAY;
+		final double vACLength = Doubles.sqrt(vACX * vACX + vACY * vACY);
+		final double vACNX = vACX / vACLength;
+		final double vACNY = vACY / vACLength;
+		
+		final double pDX = pAX + vACNX * vABLength;
+		final double pDY = pAY + vACNY * vABLength;
+		
+		final Point2I pC = new Point2I((int)(pDX - 1.0D), (int)(pDY - 1.0D));
+		final Point2I pD = new Point2I((int)(pDX - 0.0D), (int)(pDY - 1.0D));
+		final Point2I pE = new Point2I((int)(pDX + 1.0D), (int)(pDY - 1.0D));
+		final Point2I pF = new Point2I((int)(pDX - 1.0D), (int)(pDY + 0.0D));
+		final Point2I pG = new Point2I((int)(pDX - 0.0D), (int)(pDY + 0.0D));
+		final Point2I pH = new Point2I((int)(pDX + 1.0D), (int)(pDY + 0.0D));
+		final Point2I pI = new Point2I((int)(pDX - 1.0D), (int)(pDY + 1.0D));
+		final Point2I pJ = new Point2I((int)(pDX - 0.0D), (int)(pDY + 1.0D));
+		final Point2I pK = new Point2I((int)(pDX + 1.0D), (int)(pDY + 1.0D));
+		
+		final Vector2I vAB = Vector2I.direction(pA, pB);
+		final Vector2I vAC = Vector2I.direction(pA, pC);
+		final Vector2I vAD = Vector2I.direction(pA, pD);
+		final Vector2I vAE = Vector2I.direction(pA, pE);
+		final Vector2I vAF = Vector2I.direction(pA, pF);
+		final Vector2I vAG = Vector2I.direction(pA, pG);
+		final Vector2I vAH = Vector2I.direction(pA, pH);
+		final Vector2I vAI = Vector2I.direction(pA, pI);
+		final Vector2I vAJ = Vector2I.direction(pA, pJ);
+		final Vector2I vAK = Vector2I.direction(pA, pK);
+		
+		final int vABLengthI = vAB.length();
+		final int vACLengthI = vAC.length();
+		final int vADLengthI = vAD.length();
+		final int vAELengthI = vAE.length();
+		final int vAFLengthI = vAF.length();
+		final int vAGLengthI = vAG.length();
+		final int vAHLengthI = vAH.length();
+		final int vAILengthI = vAI.length();
+		final int vAJLengthI = vAJ.length();
+		final int vAKLengthI = vAK.length();
+		
+		if(vABLengthI == vACLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pC));
+		}
+		
+		if(vABLengthI == vADLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pD));
+		}
+		
+		if(vABLengthI == vAELengthI) {
+			lineSegments.add(new LineSegment2I(pA, pE));
+		}
+		
+		if(vABLengthI == vAFLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pF));
+		}
+		
+		if(vABLengthI == vAGLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pG));
+		}
+		
+		if(vABLengthI == vAHLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pH));
+		}
+		
+		if(vABLengthI == vAILengthI) {
+			lineSegments.add(new LineSegment2I(pA, pI));
+		}
+		
+		if(vABLengthI == vAJLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pJ));
+		}
+		
+		if(vABLengthI == vAKLengthI) {
+			lineSegments.add(new LineSegment2I(pA, pK));
 		}
 		
 		return lineSegments;
