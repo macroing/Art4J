@@ -22,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.net.URL;
 import java.util.Objects;
 
@@ -31,7 +30,12 @@ import javax.imageio.ImageIO;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 
-//TODO: Add Javadocs!
+/**
+ * A {@code DataFactory} creates instances of the {@link Data} class.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
 public abstract class DataFactory {
 	/**
 	 * Constructs a new {@code DataFactory} instance.
@@ -58,7 +62,14 @@ public abstract class DataFactory {
 		return create(1024, 768);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Data} instance from {@code bufferedImage}.
+	 * <p>
+	 * If {@code bufferedImage} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param bufferedImage a {@code BufferedImage} instance
+	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
+	 */
 	public abstract Data create(final BufferedImage bufferedImage);
 	
 	/**
@@ -130,13 +141,45 @@ public abstract class DataFactory {
 		}
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY}.
+	 * <p>
+	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 */
 	public abstract Data create(final int resolutionX, final int resolutionY);
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}.
+	 * <p>
+	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the {@link Color4D} to fill with
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public abstract Data create(final int resolutionX, final int resolutionY, final Color4D color);
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}.
+	 * <p>
+	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the {@link Color4F} to fill with
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
 	public abstract Data create(final int resolutionX, final int resolutionY, final Color4F color);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
