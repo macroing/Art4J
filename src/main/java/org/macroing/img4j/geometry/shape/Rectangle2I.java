@@ -24,6 +24,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.utility.Doubles;
 
 /**
  * A {@code Rectangle2I} is an implementation of {@link Shape2I} that represents a rectangle.
@@ -72,6 +73,31 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
+	 * Constructs a new {@code Rectangle2I} instance based on {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code a}, {@code b} and {@code c} cannot form a rectangle, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * It is currently not possible to specify {@code a}, {@code b} and {@code c} in counterclockwise order. This will likely be fixed in the future.
+	 * 
+	 * @param a a {@link Point2I} instance
+	 * @param b a {@code Point2I} instance
+	 * @param c a {@code Point2I} instance
+	 * @throws IllegalArgumentException thrown if, and only if, {@code a}, {@code b} and {@code c} cannot form a rectangle
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
+	public Rectangle2I(final Point2I a, final Point2I b, final Point2I c) {
+		this.a = Objects.requireNonNull(a, "a == null");
+		this.b = Objects.requireNonNull(b, "b == null");
+		this.c = Objects.requireNonNull(c, "c == null");
+		this.d = doComputeD(a, b, c);
+		this.lineSegments = LineSegment2I.fromPoints(this.a, this.b, this.c, this.d);
+		
+		doCheckPointValidity(this.a, this.b, this.c, this.d);
+	}
+	
+	/**
 	 * Constructs a new {@code Rectangle2I} instance based on {@code a}, {@code b}, {@code c} and {@code d}.
 	 * <p>
 	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -116,8 +142,8 @@ public final class Rectangle2I implements Shape2I {
 	public List<Point2I> findPoints(final boolean isIncludingBorderOnly) {
 		final List<Point2I> points = new ArrayList<>();
 		
-		final Point2I max = Point2I.max(this.a, this.b, this.c, this.d);
-		final Point2I min = Point2I.min(this.a, this.b, this.c, this.d);
+		final Point2I max = max();
+		final Point2I min = min();
 		
 		final int maxX = max.x;
 		final int minX = min.x;
@@ -370,6 +396,34 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static Point2I doComputeD(final Point2I a, final Point2I b, final Point2I c) {
+		final double aX = a.x;
+		final double aY = a.y;
+		final double bX = b.x;
+		final double bY = b.y;
+		final double cX = c.x;
+		final double cY = c.y;
+		
+		final double dABX = bX - aX;
+		final double dABY = bY - aY;
+		
+		final double distance = Doubles.abs(dABY * cX - dABX * cY + bX * aY - bY * aX) / Doubles.sqrt(dABX * dABX + dABY * dABY);
+		
+		final double perpendicularX = -dABY;
+		final double perpendicularY = +dABX;
+		final double perpendicularLength = Doubles.sqrt(perpendicularX * perpendicularX + perpendicularY * perpendicularY);
+		final double perpendicularNormalizedX = perpendicularX / perpendicularLength;
+		final double perpendicularNormalizedY = perpendicularY / perpendicularLength;
+		
+		final double dX = aX + perpendicularNormalizedX * distance;
+		final double dY = aY + perpendicularNormalizedY * distance;
+		
+		final int x = (int)(dX);
+		final int y = (int)(dY);
+		
+		return new Point2I(x, y);
+	}
 	
 	private static void doCheckPointValidity(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
 		Objects.requireNonNull(a, "a == null");

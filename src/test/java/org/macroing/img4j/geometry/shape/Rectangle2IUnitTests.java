@@ -111,6 +111,45 @@ public final class Rectangle2IUnitTests {
 	}
 	
 	@Test
+	public void testConstructorPoint2IPoint2IPoint2I() {
+		final Rectangle2I rectangle = new Rectangle2I(new Point2I(10, 10), new Point2I(30, 10), new Point2I(30, 30));
+		
+		final List<LineSegment2I> lineSegments = rectangle.getLineSegments();
+		
+		assertEquals(new Point2I(10, 10), rectangle.getA());
+		assertEquals(new Point2I(30, 10), rectangle.getB());
+		assertEquals(new Point2I(30, 30), rectangle.getC());
+		assertEquals(new Point2I(10, 30), rectangle.getD());
+		
+		assertNotNull(lineSegments);
+		
+		assertTrue(lineSegments.size() == 4);
+		
+		assertNotNull(lineSegments.get(0));
+		assertNotNull(lineSegments.get(1));
+		assertNotNull(lineSegments.get(2));
+		assertNotNull(lineSegments.get(3));
+		
+		assertEquals(new Point2I(10, 10), lineSegments.get(0).getA());
+		assertEquals(new Point2I(30, 10), lineSegments.get(0).getB());
+		
+		assertEquals(new Point2I(30, 10), lineSegments.get(1).getA());
+		assertEquals(new Point2I(30, 30), lineSegments.get(1).getB());
+		
+		assertEquals(new Point2I(30, 30), lineSegments.get(2).getA());
+		assertEquals(new Point2I(10, 30), lineSegments.get(2).getB());
+		
+		assertEquals(new Point2I(10, 30), lineSegments.get(3).getA());
+		assertEquals(new Point2I(10, 10), lineSegments.get(3).getB());
+		
+		assertThrows(NullPointerException.class, () -> new Rectangle2I(new Point2I(), new Point2I(), null));
+		assertThrows(NullPointerException.class, () -> new Rectangle2I(new Point2I(), null, new Point2I()));
+		assertThrows(NullPointerException.class, () -> new Rectangle2I(null, new Point2I(), new Point2I()));
+		
+		assertThrows(IllegalArgumentException.class, () -> new Rectangle2I(new Point2I(10, 10), new Point2I(10, 30), new Point2I(30, 30)));
+	}
+	
+	@Test
 	public void testConstructorPoint2IPoint2IPoint2IPoint2I() {
 		final Rectangle2I rectangle = new Rectangle2I(new Point2I(10, 10), new Point2I(10, 30), new Point2I(30, 30), new Point2I(30, 10));
 		

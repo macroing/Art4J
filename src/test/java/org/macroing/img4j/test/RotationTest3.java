@@ -24,6 +24,7 @@ import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.LineSegment2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Ints;
 
 public final class RotationTest3 {
 	private RotationTest3() {
@@ -39,68 +40,136 @@ public final class RotationTest3 {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static LineSegment2I rotate(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
-		final Point2I pA = lineSegment.getA();
-		final Point2I pB = lineSegment.getB();
-		final Point2I pC = Point2I.rotateCounterclockwise(pB, angle, isAngleInRadians, pA);
+	private static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+		final Point2I a = rectangle.getA();
+		final Point2I b = rectangle.getB();
+		final Point2I c = rectangle.getC();
+		final Point2I d = Point2I.rotateCounterclockwise(b, angle, isAngleInRadians, a);
+		final Point2I e = Point2I.rotateCounterclockwise(c, angle, isAngleInRadians, b);
 		
-		final int aX = pA.x;
-		final int aY = pA.y;
-		final int bX = pB.x;
-		final int bY = pB.y;
-		final int cX = pC.x;
-		final int cY = pC.y;
+		/*
+		 * Compute along the first axis:
+		 */
 		
-		final int dABX = bX - aX;
-		final int dABY = bY - aY;
-		final int dACX = cX - aX;
-		final int dACY = cY - aY;
+		final int dABX = b.x - a.x;
+		final int dABY = b.y - a.y;
 		
-		final int dABXAbs = Math.abs(dABX);
-		final int dABYAbs = Math.abs(dABY);
-		final int dACXAbs = Math.abs(dACX);
-		final int dACYAbs = Math.abs(dACY);
+		final int dADX = d.x - a.x;
+		final int dADY = d.y - a.y;
 		
-		final int newDAX = dACX < 0 ? -1 : dACX > 0 ? 1 : 0;
-		final int newDAY = dACY < 0 ? -1 : dACY > 0 ? 1 : 0;
-		final int newDCX = dACXAbs > dACYAbs ? newDAX : 0;
-		final int newDCY = dACXAbs > dACYAbs ? 0 : newDAY;
+		final int dABXAbs = Ints.abs(dABX);
+		final int dABYAbs = Ints.abs(dABY);
 		
-		final int oldL = dABXAbs > dABYAbs ? dABXAbs : dABYAbs;
+		final int dADXAbs = Ints.abs(dADX);
+		final int dADYAbs = Ints.abs(dADY);
 		
-		final int newL = dACXAbs > dACYAbs ? dACXAbs : dACYAbs;
-		final int newS = dACXAbs > dACYAbs ? dACYAbs : dACXAbs;
+		final int newDAX = dADX < 0 ? -1 : dADX > 0 ? 1 : 0;
+		final int newDAY = dADY < 0 ? -1 : dADY > 0 ? 1 : 0;
 		
-		int n = newL >> 1;
+		final int newDDX = dADXAbs > dADYAbs ? newDAX : 0;
+		final int newDDY = dADXAbs > dADYAbs ? 0 : newDAY;
 		
-		int newX = aX;
-		int newY = aY;
-		int oldX = aX;
-		int oldY = aY;
+		final int oldAL = dABXAbs > dABYAbs ? dABXAbs : dABYAbs;
+		final int newAL = dADXAbs > dADYAbs ? dADXAbs : dADYAbs;
+		final int newAS = dADXAbs > dADYAbs ? dADYAbs : dADXAbs;
 		
-		for(int i = 0; i <= oldL; i++) {
-			newX = oldX;
-			newY = oldY;
+		int nA = newAL >> 1;
+		
+		int newBX = a.x;
+		int newBY = a.y;
+		int oldBX = a.x;
+		int oldBY = a.y;
+		
+		for(int i = 0; i <= oldAL; i++) {
+			newBX = oldBX;
+			newBY = oldBY;
 			
-			n += newS;
+			nA += newAS;
 			
-			if(n >= newL) {
-				n -= newL;
+			if(nA >= newAL) {
+				nA -= newAL;
 				
-				oldX += newDAX;
-				oldY += newDAY;
+				oldBX += newDAX;
+				oldBY += newDAY;
 			} else {
-				oldX += newDCX;
-				oldY += newDCY;
+				oldBX += newDDX;
+				oldBY += newDDY;
 			}
 		}
 		
-		final Point2I pD = new Point2I(newX, newY);
+		/*
+		 * Compute along the second axis:
+		 */
 		
-		return new LineSegment2I(pA, pD);
-	}
-	
-	private static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+		final int dBCX = c.x - b.x;
+		final int dBCY = c.y - b.y;
+		
+		final int dBEX = e.x - newBX;
+		final int dBEY = e.y - newBY;
+		
+		final int dBCXAbs = Ints.abs(dBCX);
+		final int dBCYAbs = Ints.abs(dBCY);
+		
+		final int dBEXAbs = Ints.abs(dBEX);
+		final int dBEYAbs = Ints.abs(dBEY);
+		
+		final int newDBX = dBCX < 0 ? -1 : dBCX > 0 ? 1 : 0;
+		final int newDBY = dBCY < 0 ? -1 : dBCY > 0 ? 1 : 0;
+		
+		final int newDEX = dBEXAbs > dBEYAbs ? newDBX : 0;
+		final int newDEY = dBEXAbs > dBEYAbs ? 0 : newDBY;
+		
+		final int oldBL = dBCXAbs > dBCYAbs ? dBCXAbs : dBCYAbs;
+		final int newBL = dBEXAbs > dBEYAbs ? dBEXAbs : dBEYAbs;
+		final int newBS = dBEXAbs > dBEYAbs ? dBEYAbs : dBEXAbs;
+		
+		int nB = newBL >> 1;
+		
+		int newCX = newBX;
+		int newCY = newBY;
+		int oldCX = newBX;
+		int oldCY = newBY;
+		
+		for(int i = 0; i <= oldBL; i++) {
+			newCX = oldCX;
+			newCY = oldCY;
+			
+			nB += newBS;
+			
+			if(nB >= newBL) {
+				nB -= newBL;
+				
+				oldCX += newDBX;
+				oldCY += newDBY;
+			} else {
+				oldCX += newDEX;
+				oldCY += newDEY;
+			}
+		}
+		
+		final double distance = Doubles.abs((newBY - a.y) * newCX - (newBX - a.x) * newCY + newBX * a.y - newBY * a.x) / Doubles.sqrt(Doubles.pow(newBY - a.y, 2.0D) + Doubles.pow(newBX - a.x, 2.0D));
+		
+		final double directionABX = newBX - a.x;
+		final double directionABY = newBY - a.y;
+		final double perpendicularX = -directionABY;
+		final double perpendicularY = +directionABX;
+		final double perpendicularLength = Doubles.sqrt(perpendicularX * perpendicularX + perpendicularY * perpendicularY);
+		final double perpendicularNormalizedX = perpendicularX / perpendicularLength;
+		final double perpendicularNormalizedY = perpendicularY / perpendicularLength;
+		
+		final int newDX = (int)(a.x + perpendicularNormalizedX * distance);
+		final int newDY = (int)(a.y + perpendicularNormalizedY * distance);
+		
+		final Point2I newA = a;
+		final Point2I newB = new Point2I(newBX, newBY);
+		final Point2I newC = new Point2I(newCX, newCY);
+		final Point2I newD = new Point2I(newDX, newDY);
+		
+		System.out.println(newA + " " + newB + " " + newC + " " + newD);
+		
+		return new Rectangle2I(newA, newB, newC, newD);
+		
+		/*
 		final List<LineSegment2I> lineSegments = rectangle.getLineSegments();
 		
 		final LineSegment2I lineSegment00 = lineSegments.get(0);
@@ -108,10 +177,10 @@ public final class RotationTest3 {
 		final LineSegment2I lineSegment20 = lineSegments.get(2);
 		final LineSegment2I lineSegment30 = lineSegments.get(3);
 		
-		final LineSegment2I lineSegment01 = rotate(lineSegment00, angle, isAngleInRadians);
-		final LineSegment2I lineSegment11 = rotate(lineSegment10, angle, isAngleInRadians);
-		final LineSegment2I lineSegment21 = rotate(lineSegment20, angle, isAngleInRadians);
-		final LineSegment2I lineSegment31 = rotate(lineSegment30, angle, isAngleInRadians);
+		final LineSegment2I lineSegment01 = LineSegment2I.rotateBCounterclockwise(lineSegment00, angle, isAngleInRadians);
+		final LineSegment2I lineSegment11 = LineSegment2I.rotateBCounterclockwise(lineSegment10, angle, isAngleInRadians);
+		final LineSegment2I lineSegment21 = LineSegment2I.rotateBCounterclockwise(lineSegment20, angle, isAngleInRadians);
+		final LineSegment2I lineSegment31 = LineSegment2I.rotateBCounterclockwise(lineSegment30, angle, isAngleInRadians);
 		
 		final Point2I a = lineSegment01.getB();
 		final Point2I b = lineSegment11.getB();
@@ -119,18 +188,19 @@ public final class RotationTest3 {
 		final Point2I d = lineSegment31.getB();
 		
 		return new Rectangle2I(a, b, c, d);
+		*/
 	}
 	
 	private static void testLineSegment2I() {
 		final LineSegment2I a = new LineSegment2I(new Point2I(0, 0), new Point2I(0, 100));
-		final LineSegment2I b = rotate(a, 45.0D, false);
-		final LineSegment2I c = rotate(b, 45.0D, false);
-		final LineSegment2I d = rotate(c, 45.0D, false);
-		final LineSegment2I e = rotate(d, 45.0D, false);
-		final LineSegment2I f = rotate(e, 45.0D, false);
-		final LineSegment2I g = rotate(f, 45.0D, false);
-		final LineSegment2I h = rotate(g, 45.0D, false);
-		final LineSegment2I i = rotate(h, 45.0D, false);
+		final LineSegment2I b = LineSegment2I.rotateBCounterclockwise(a, 45.0D, false);
+		final LineSegment2I c = LineSegment2I.rotateBCounterclockwise(b, 45.0D, false);
+		final LineSegment2I d = LineSegment2I.rotateBCounterclockwise(c, 45.0D, false);
+		final LineSegment2I e = LineSegment2I.rotateBCounterclockwise(d, 45.0D, false);
+		final LineSegment2I f = LineSegment2I.rotateBCounterclockwise(e, 45.0D, false);
+		final LineSegment2I g = LineSegment2I.rotateBCounterclockwise(f, 45.0D, false);
+		final LineSegment2I h = LineSegment2I.rotateBCounterclockwise(g, 45.0D, false);
+		final LineSegment2I i = LineSegment2I.rotateBCounterclockwise(h, 45.0D, false);
 		
 		System.out.println(a);
 		System.out.println(b);
@@ -143,7 +213,7 @@ public final class RotationTest3 {
 		System.out.println(i);
 		
 		for(int j = 0; j < 10000; j++) {
-			if(rotate(a, Math.random() * 360.0D, false).findPoints().size() != 101) {
+			if(LineSegment2I.rotateBCounterclockwise(a, Math.random() * 360.0D, false).findPoints().size() != 101) {
 				System.out.println("Error!");
 			}
 		}
@@ -151,14 +221,14 @@ public final class RotationTest3 {
 	
 	private static void testRectangle2I() {
 		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
-		final Rectangle2I b = rotate(a, 90.0D, false);
-		final Rectangle2I c = rotate(b, 90.0D, false);
-		final Rectangle2I d = rotate(c, 90.0D, false);
-		final Rectangle2I e = rotate(d, 90.0D, false);
-		final Rectangle2I f = rotate(e, 90.0D, false);
-		final Rectangle2I g = rotate(f, 90.0D, false);
-		final Rectangle2I h = rotate(g, 90.0D, false);
-		final Rectangle2I i = rotate(h, 90.0D, false);
+		final Rectangle2I b = rotate(a, 45.0D, false);
+		final Rectangle2I c = rotate(b, 45.0D, false);
+		final Rectangle2I d = rotate(c, 45.0D, false);
+		final Rectangle2I e = rotate(d, 45.0D, false);
+		final Rectangle2I f = rotate(e, 45.0D, false);
+		final Rectangle2I g = rotate(f, 45.0D, false);
+		final Rectangle2I h = rotate(g, 45.0D, false);
+		final Rectangle2I i = rotate(h, 45.0D, false);
 		
 		System.out.println(a);
 		System.out.println(b);
@@ -169,5 +239,11 @@ public final class RotationTest3 {
 		System.out.println(g);
 		System.out.println(h);
 		System.out.println(i);
+		
+		for(int j = 0; j < 10; j++) {
+			if(rotate(a, Math.random() * 360.0D, false).findPoints().size() != a.findPoints().size()) {
+				System.out.println("Error!");
+			}
+		}
 	}
 }
