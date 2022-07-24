@@ -20,6 +20,8 @@ package org.macroing.img4j.geometry;
 
 import java.util.Objects;
 
+import org.macroing.img4j.utility.Doubles;
+
 /**
  * A {@code Point2I} represents a point with two {@code int}-based components.
  * <p>
@@ -245,6 +247,78 @@ public final class Point2I {
 	 */
 	public static Point2I min(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
 		return new Point2I(Math.min(Math.min(a.x, b.x), Math.min(c.x, d.x)), Math.min(Math.min(a.y, b.y), Math.min(c.y, d.y)));
+	}
+	
+	/**
+	 * Rotates {@code point} counterclockwise by {@code angle} degrees around {@code new Point2I(0, 0)}.
+	 * <p>
+	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Point2I.rotateCounterclockwise(point, angle, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point the {@code Point2I} instance to rotate
+	 * @param angle the rotation angle in degrees
+	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public static Point2I rotateCounterclockwise(final Point2I point, final double angle) {
+		return rotateCounterclockwise(point, angle, false);
+	}
+	
+	/**
+	 * Rotates {@code point} counterclockwise by {@code angle} degrees or radians around {@code new Point2I(0, 0)}.
+	 * <p>
+	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Point2I.rotateCounterclockwise(point, angle, isAngleInRadians, new Point2I(0, 0));
+	 * }
+	 * </pre>
+	 * 
+	 * @param point the {@code Point2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public static Point2I rotateCounterclockwise(final Point2I point, final double angle, final boolean isAngleInRadians) {
+		return rotateCounterclockwise(point, angle, isAngleInRadians, new Point2I(0, 0));
+	}
+	
+	/**
+	 * Rotates {@code point} counterclockwise by {@code angle} degrees or radians around {@code center}.
+	 * <p>
+	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * <p>
+	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param point the {@code Point2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @param center a {@code Point2I} instance that represents the center of the rotation
+	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
+	 */
+	public static Point2I rotateCounterclockwise(final Point2I point, final double angle, final boolean isAngleInRadians, final Point2I center) {
+		final double a = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double aCos = Doubles.cos(a);
+		final double aSin = Doubles.sin(a);
+		
+		final int x = (int)(Doubles.rint((point.x - center.x) * aCos - (point.y - center.y) * aSin + center.x));
+		final int y = (int)(Doubles.rint((point.x - center.x) * aSin + (point.y - center.y) * aCos + center.y));
+		
+		return new Point2I(x, y);
 	}
 	
 	/**
