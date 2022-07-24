@@ -92,6 +92,10 @@ public final class ConvolutionKernelNF {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private static final int MAX_RESOLUTION = 46339;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private final float bias;
 	private final float factor;
 	private final float[] elements;
@@ -144,8 +148,6 @@ public final class ConvolutionKernelNF {
 		} else if(!Floats.equals(this.factor, ConvolutionKernelNF.class.cast(object).factor)) {
 			return false;
 		} else if(!Arrays.equals(this.elements, ConvolutionKernelNF.class.cast(object).elements)) {
-			return false;
-		} else if(this.resolution != ConvolutionKernelNF.class.cast(object).resolution) {
 			return false;
 		} else {
 			return true;
@@ -203,7 +205,7 @@ public final class ConvolutionKernelNF {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(Float.valueOf(this.bias), Float.valueOf(this.factor), Integer.valueOf(Arrays.hashCode(this.elements)), Integer.valueOf(this.resolution));
+		return Objects.hash(Float.valueOf(this.bias), Float.valueOf(this.factor), Integer.valueOf(Arrays.hashCode(this.elements)));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,13 +213,19 @@ public final class ConvolutionKernelNF {
 	/**
 	 * Returns a new random {@code ConvolutionKernelNF} instance with a resolution of {@code resolution}.
 	 * <p>
-	 * If {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution * resolution < 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution > 46339}, an {@code IllegalArgumentException} will be thrown.
 	 * 
 	 * @param resolution the resolution of the {@code ConvolutionKernelNF} instance and is the same as the number N mentioned elsewhere in the documentation
 	 * @return a new random {@code ConvolutionKernelNF} instance with a resolution of {@code resolution}
-	 * @throws IllegalArgumentException thrown if, and only if, {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution * resolution < 1}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code resolution < 1}, {@code resolution % 2 == 0} or {@code resolution > 46339}
 	 */
 	public static ConvolutionKernelNF random(final int resolution) {
+		return random(resolution, Randoms.nextBoolean(), false, Randoms.nextBoolean(), Randoms.nextBoolean());
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	static ConvolutionKernelNF random(final int resolution, final boolean isBiasBasedOnRandomFloat, final boolean isElementTotalZero, final boolean isFactorBasedOnElementTotal, final boolean isFactorBasedOnRandomFloat) {
 		if(resolution < 1) {
 			throw new IllegalArgumentException(String.format("The value of resolution, %d, is invalid. It must be greater than or equal to 1.", Integer.valueOf(resolution)));
 		}
@@ -226,8 +234,8 @@ public final class ConvolutionKernelNF {
 			throw new IllegalArgumentException(String.format("The value of resolution, %d, is invalid. It cannot be even.", Integer.valueOf(resolution)));
 		}
 		
-		if(resolution * resolution < 1) {
-			throw new IllegalArgumentException(String.format("The value of resolution * resolution, %d, is invalid. It must be greater than or equal to 1.", Integer.valueOf(resolution * resolution)));
+		if(resolution > MAX_RESOLUTION) {
+			throw new IllegalArgumentException(String.format("The value of resolution, %d, is invalid. It must be less than or equal to 46339.", Integer.valueOf(resolution)));
 		}
 		
 		final float[] elements = new float[resolution * resolution];
@@ -239,7 +247,7 @@ public final class ConvolutionKernelNF {
 				if(x == middle && y == middle) {
 					elements[y * resolution + x] = 1.0F;
 				} else {
-					elements[y * resolution + x] = Randoms.nextFloat(-1.0F, 1.0F);
+					elements[y * resolution + x] = Randoms.nextFloat(-1.0F, Floats.nextUp(1.0F));
 				}
 			}
 		}
@@ -250,12 +258,10 @@ public final class ConvolutionKernelNF {
 			elementTotal += element;
 		}
 		
-		final boolean isBiasBasedOnRandomDouble = Randoms.nextBoolean();
-		final boolean isFactorBasedOnElementTotal = Randoms.nextBoolean();
-		final boolean isFactorBasedOnRandomDouble = Randoms.nextBoolean();
+		elementTotal = isElementTotalZero ? 0.0F : elementTotal;
 		
-		final float bias = isBiasBasedOnRandomDouble ? Randoms.nextFloat() : 0.0F;
-		final float factor = isFactorBasedOnElementTotal ? Floats.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomDouble ? Randoms.nextFloat() : 1.0F;
+		final float bias = isBiasBasedOnRandomFloat ? Randoms.nextFloat(0.0F, Floats.nextUp(1.0F)) : 0.0F;
+		final float factor = isFactorBasedOnElementTotal ? Floats.isZero(elementTotal) ? 1.0F : 1.0F / elementTotal : isFactorBasedOnRandomFloat ? Randoms.nextFloat(0.0F, Floats.nextUp(1.0F)) : 1.0F;
 		
 		return new ConvolutionKernelNF(bias, factor, elements);
 	}
@@ -278,14 +284,6 @@ public final class ConvolutionKernelNF {
 //		Check that the square root of 'elements.length' and the value that is closest to it and represents a mathematical integer are equal:
 		if(!Floats.equals(vA, vB)) {
 			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Floats.sqrt(elements.length) must return a value that is a mathematical integer.", Integer.valueOf(elements.length)));
-		}
-		
-//		Compute the resolution by converting the square root of 'elements.length' to an 'int':
-		final int kR = (int)(vA);
-		
-//		Check that the resolution is odd:
-		if(kR % 2 == 0) {
-			throw new IllegalArgumentException(String.format("The value of elements.length, %d, is invalid. Floats.sqrt(elements.length) must return a value that is odd.", Integer.valueOf(elements.length)));
 		}
 		
 		return elements.clone();
