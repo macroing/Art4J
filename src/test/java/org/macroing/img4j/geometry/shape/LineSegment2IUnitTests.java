@@ -228,6 +228,22 @@ public final class LineSegment2IUnitTests {
 	}
 	
 	@Test
+	public void testLength() {
+		final LineSegment2I a = new LineSegment2I(new Point2I(0, 0), new Point2I(4, 0));
+		final LineSegment2I b = new LineSegment2I(new Point2I(0, 0), new Point2I(0, 4));
+		
+		assertEquals(4, a.length());
+		assertEquals(4, b.length());
+	}
+	
+	@Test
+	public void testLengthSquared() {
+		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(0, 0), new Point2I(2, 4));
+		
+		assertEquals(20, lineSegment.lengthSquared());
+	}
+	
+	@Test
 	public void testMax() {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
@@ -239,6 +255,100 @@ public final class LineSegment2IUnitTests {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
 		assertEquals(new Point2I(10, 10), lineSegment.min());
+	}
+	
+	@Test
+	public void testRotateBCounterclockwiseLineSegment2IDouble() {
+		final LineSegment2I a = new LineSegment2I(new Point2I(0, 0), new Point2I(9, 0));
+		
+		final LineSegment2I b = LineSegment2I.rotateBCounterclockwise(a, +90.0D);
+		final LineSegment2I c = LineSegment2I.rotateBCounterclockwise(b, +90.0D);
+		final LineSegment2I d = LineSegment2I.rotateBCounterclockwise(c, +90.0D);
+		final LineSegment2I e = LineSegment2I.rotateBCounterclockwise(d, +90.0D);
+		
+		final LineSegment2I f = LineSegment2I.rotateBCounterclockwise(e, -90.0D);
+		final LineSegment2I g = LineSegment2I.rotateBCounterclockwise(f, -90.0D);
+		final LineSegment2I h = LineSegment2I.rotateBCounterclockwise(g, -90.0D);
+		final LineSegment2I i = LineSegment2I.rotateBCounterclockwise(h, -90.0D);
+		
+		assertEquals(new Point2I(+0, +0), b.getA());
+		assertEquals(new Point2I(+0, +9), b.getB());
+		assertEquals(new Point2I(+0, +0), c.getA());
+		assertEquals(new Point2I(-9, +0), c.getB());
+		assertEquals(new Point2I(+0, +0), d.getA());
+		assertEquals(new Point2I(-0, -9), d.getB());
+		assertEquals(new Point2I(+0, +0), e.getA());
+		assertEquals(new Point2I(+9, +0), e.getB());
+		
+		assertEquals(new Point2I(+0, +0), f.getA());
+		assertEquals(new Point2I(-0, -9), f.getB());
+		assertEquals(new Point2I(+0, +0), g.getA());
+		assertEquals(new Point2I(-9, +0), g.getB());
+		assertEquals(new Point2I(+0, +0), h.getA());
+		assertEquals(new Point2I(+0, +9), h.getB());
+		assertEquals(new Point2I(+0, +0), i.getA());
+		assertEquals(new Point2I(+9, +0), i.getB());
+		
+		assertThrows(NullPointerException.class, () -> LineSegment2I.rotateBCounterclockwise(null, 0.0D));
+	}
+	
+	@Test
+	public void testRotateBCounterclockwiseLineSegment2IDoubleBoolean() {
+		final LineSegment2I a = new LineSegment2I(new Point2I(0, 0), new Point2I(9, 0));
+		
+		final LineSegment2I b = LineSegment2I.rotateBCounterclockwise(a, +90.0D, false);
+		final LineSegment2I c = LineSegment2I.rotateBCounterclockwise(b, +90.0D, false);
+		final LineSegment2I d = LineSegment2I.rotateBCounterclockwise(c, +90.0D, false);
+		final LineSegment2I e = LineSegment2I.rotateBCounterclockwise(d, +90.0D, false);
+		
+		final LineSegment2I f = LineSegment2I.rotateBCounterclockwise(e, Math.toRadians(-90.0D), true);
+		final LineSegment2I g = LineSegment2I.rotateBCounterclockwise(f, Math.toRadians(-90.0D), true);
+		final LineSegment2I h = LineSegment2I.rotateBCounterclockwise(g, Math.toRadians(-90.0D), true);
+		final LineSegment2I i = LineSegment2I.rotateBCounterclockwise(h, Math.toRadians(-90.0D), true);
+		
+		final LineSegment2I j = new LineSegment2I(new Point2I(1, 1), new Point2I(8, 1));
+		
+		final LineSegment2I k = LineSegment2I.rotateBCounterclockwise(j, +90.0D, false);
+		final LineSegment2I l = LineSegment2I.rotateBCounterclockwise(k, +90.0D, false);
+		final LineSegment2I m = LineSegment2I.rotateBCounterclockwise(l, +90.0D, false);
+		final LineSegment2I n = LineSegment2I.rotateBCounterclockwise(m, +90.0D, false);
+		
+		assertEquals(new Point2I(+0, +0), b.getA());
+		assertEquals(new Point2I(+0, +9), b.getB());
+		assertEquals(new Point2I(+0, +0), c.getA());
+		assertEquals(new Point2I(-9, +0), c.getB());
+		assertEquals(new Point2I(+0, +0), d.getA());
+		assertEquals(new Point2I(-0, -9), d.getB());
+		assertEquals(new Point2I(+0, +0), e.getA());
+		assertEquals(new Point2I(+9, +0), e.getB());
+		
+		assertEquals(new Point2I(+0, +0), f.getA());
+		assertEquals(new Point2I(-0, -9), f.getB());
+		assertEquals(new Point2I(+0, +0), g.getA());
+		assertEquals(new Point2I(-9, +0), g.getB());
+		assertEquals(new Point2I(+0, +0), h.getA());
+		assertEquals(new Point2I(+0, +9), h.getB());
+		assertEquals(new Point2I(+0, +0), i.getA());
+		assertEquals(new Point2I(+9, +0), i.getB());
+		
+		assertEquals(new Point2I(+1, +1), k.getA());
+		assertEquals(new Point2I(+1, +8), k.getB());
+		assertEquals(new Point2I(+1, +1), l.getA());
+		assertEquals(new Point2I(-6, +1), l.getB());
+		assertEquals(new Point2I(+1, +1), m.getA());
+		assertEquals(new Point2I(+1, -6), m.getB());
+		assertEquals(new Point2I(+1, +1), n.getA());
+		assertEquals(new Point2I(+8, +1), n.getB());
+		
+		assertThrows(NullPointerException.class, () -> LineSegment2I.rotateBCounterclockwise(null, 0.0D, false));
+		
+		final List<Point2I> points = j.findPoints();
+		
+		for(double degrees = 0.0D; degrees < 360.0D; degrees += 1.0D) {
+			final LineSegment2I lineSegment = LineSegment2I.rotateBCounterclockwise(j, degrees, false);
+			
+			assertEquals(points.size(), lineSegment.findPoints().size());
+		}
 	}
 	
 	@Test

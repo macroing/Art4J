@@ -40,6 +40,21 @@ public final class Ints {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns the absolute version of {@code value}.
+	 * <p>
+	 * If the argument is not negative, the argument is returned. If the argument is negative, the negation of the argument is returned.
+	 * <p>
+	 * Note that if the argument is equal to the value of {@code Integer.MIN_VALUE}, the most negative representable {@code int} value, the result is that same value, which is negative.
+	 * 
+	 * @param value an {@code int} value
+	 * @return the absolute version of {@code value}
+	 * @see Math#abs(int)
+	 */
+	public static int abs(final int value) {
+		return Math.abs(value);
+	}
+	
+	/**
 	 * Performs a linear interpolation operation on the supplied values.
 	 * <p>
 	 * Returns the result of the linear interpolation operation.

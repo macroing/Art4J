@@ -31,6 +31,12 @@ public final class IntsUnitTests {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
+	public void testAbs() {
+		assertEquals(1, Ints.abs(+1));
+		assertEquals(1, Ints.abs(-1));
+	}
+	
+	@Test
 	public void testLerpIntIntDouble() {
 //		Interpolation:
 		assertEquals(100, Ints.lerp(100, 200, +0.0D));

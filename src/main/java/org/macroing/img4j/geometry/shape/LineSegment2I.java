@@ -24,6 +24,8 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
+import org.macroing.img4j.geometry.Vector2I;
+import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.ParameterArguments;
 
 /**
@@ -72,8 +74,8 @@ public final class LineSegment2I implements Shape2I {
 		final int w = bX - aX;
 		final int h = bY - aY;
 		
-		final int wAbs = Math.abs(w);
-		final int hAbs = Math.abs(h);
+		final int wAbs = Ints.abs(w);
+		final int hAbs = Ints.abs(h);
 		
 		final int dAX = w < 0 ? -1 : w > 0 ? 1 : 0;
 		final int dAY = h < 0 ? -1 : h > 0 ? 1 : 0;
@@ -185,7 +187,7 @@ public final class LineSegment2I implements Shape2I {
 		
 		if(crossProduct != 0) {
 			return false;
-		} else if(Math.abs(dABX) >= Math.abs(dABY)) {
+		} else if(Ints.abs(dABX) >= Ints.abs(dABY)) {
 			return dABX > 0 ? aX <= pX && pX <= bX : bX <= pX && pX <= aX;
 		} else {
 			return dABY > 0 ? aY <= pY && pY <= bY : bY <= pY && pY <= aY;
@@ -225,7 +227,121 @@ public final class LineSegment2I implements Shape2I {
 		return Objects.hash(this.a, this.b);
 	}
 	
+	/**
+	 * Returns the length of this {@code LineSegment2I} instance.
+	 * 
+	 * @return the length of this {@code LineSegment2I} instance
+	 */
+	public int length() {
+		return Vector2I.direction(this.a, this.b).length();
+	}
+	
+	/**
+	 * Returns the squared length of this {@code LineSegment2I} instance.
+	 * 
+	 * @return the squared length of this {@code LineSegment2I} instance
+	 */
+	public int lengthSquared() {
+		return Vector2I.direction(this.a, this.b).lengthSquared();
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Rotates {@code lineSegment.getB()} counterclockwise by {@code angle} degrees around {@code lineSegment.getA()}.
+	 * <p>
+	 * Returns a new {@code LineSegment2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code lineSegment} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The returned {@code LineSegment2I} instance may have a length that is different from the length of {@code lineSegment}. However, the {@link #findPoints()} method will return the same number of {@link Point2I} instances for both.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * LineSegment2I.rotateBCounterclockwise(lineSegment, angle, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param lineSegment the {@code LineSegment2I} instance to rotate
+	 * @param angle the rotation angle in degrees
+	 * @return a new {@code LineSegment2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code lineSegment} is {@code null}
+	 */
+	public static LineSegment2I rotateBCounterclockwise(final LineSegment2I lineSegment, final double angle) {
+		return rotateBCounterclockwise(lineSegment, angle, false);
+	}
+	
+	/**
+	 * Rotates {@code lineSegment.getB()} counterclockwise by {@code angle} degrees or radians around {@code lineSegment.getA()}.
+	 * <p>
+	 * Returns a new {@code LineSegment2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code lineSegment} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The returned {@code LineSegment2I} instance may have a length that is different from the length of {@code lineSegment}. However, the {@link #findPoints()} method will return the same number of {@link Point2I} instances for both.
+	 * 
+	 * @param lineSegment the {@code LineSegment2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @return a new {@code LineSegment2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code lineSegment} is {@code null}
+	 */
+	public static LineSegment2I rotateBCounterclockwise(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
+		final Point2I a = lineSegment.getA();
+		final Point2I b = lineSegment.getB();
+		final Point2I c = Point2I.rotateCounterclockwise(b, angle, isAngleInRadians, a);
+		
+		final int dABX = b.x - a.x;
+		final int dABY = b.y - a.y;
+		
+		final int dACX = c.x - a.x;
+		final int dACY = c.y - a.y;
+		
+		final int dABXAbs = Ints.abs(dABX);
+		final int dABYAbs = Ints.abs(dABY);
+		
+		final int dACXAbs = Ints.abs(dACX);
+		final int dACYAbs = Ints.abs(dACY);
+		
+		final int newDAX = dACX < 0 ? -1 : dACX > 0 ? 1 : 0;
+		final int newDAY = dACY < 0 ? -1 : dACY > 0 ? 1 : 0;
+		
+		final int newDCX = dACXAbs > dACYAbs ? newDAX : 0;
+		final int newDCY = dACXAbs > dACYAbs ? 0 : newDAY;
+		
+		final int oldL = dABXAbs > dABYAbs ? dABXAbs : dABYAbs;
+		final int newL = dACXAbs > dACYAbs ? dACXAbs : dACYAbs;
+		final int newS = dACXAbs > dACYAbs ? dACYAbs : dACXAbs;
+		
+		int n = newL >> 1;
+		
+		int newX = a.x;
+		int newY = a.y;
+		int oldX = a.x;
+		int oldY = a.y;
+		
+		for(int i = 0; i <= oldL; i++) {
+			newX = oldX;
+			newY = oldY;
+			
+			n += newS;
+			
+			if(n >= newL) {
+				n -= newL;
+				
+				oldX += newDAX;
+				oldY += newDAY;
+			} else {
+				oldX += newDCX;
+				oldY += newDCY;
+			}
+		}
+		
+		final Point2I d = new Point2I(newX, newY);
+		
+		return new LineSegment2I(a, d);
+	}
 	
 	/**
 	 * Returns a {@code List} of {@code LineSegment2I} instances that are connecting the {@link Point2I} instances in {@code points}.
