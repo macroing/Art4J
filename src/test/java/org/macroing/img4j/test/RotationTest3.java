@@ -70,14 +70,14 @@ public final class RotationTest3 {
 	
 	private static void testRectangle2I() {
 		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
-		final Rectangle2I b = Rectangle2I.rotateBCD(a, 90.0D, false);
-		final Rectangle2I c = Rectangle2I.rotateBCD(b, 90.0D, false);
-		final Rectangle2I d = Rectangle2I.rotateBCD(c, 90.0D, false);
-		final Rectangle2I e = Rectangle2I.rotateBCD(d, 90.0D, false);
-		final Rectangle2I f = Rectangle2I.rotateBCD(e, 90.0D, false);
-		final Rectangle2I g = Rectangle2I.rotateBCD(f, 90.0D, false);
-		final Rectangle2I h = Rectangle2I.rotateBCD(g, 90.0D, false);
-		final Rectangle2I i = Rectangle2I.rotateBCD(h, 90.0D, false);
+		final Rectangle2I b = Rectangle2I.rotateABCD(a, 90.0D, false);
+		final Rectangle2I c = Rectangle2I.rotateABCD(b, 90.0D, false);
+		final Rectangle2I d = Rectangle2I.rotateABCD(c, 90.0D, false);
+		final Rectangle2I e = Rectangle2I.rotateABCD(d, 90.0D, false);
+		final Rectangle2I f = Rectangle2I.rotateABCD(e, 90.0D, false);
+		final Rectangle2I g = Rectangle2I.rotateABCD(f, 90.0D, false);
+		final Rectangle2I h = Rectangle2I.rotateABCD(g, 90.0D, false);
+		final Rectangle2I i = Rectangle2I.rotateABCD(h, 90.0D, false);
 		
 		System.out.println(a + " " + a.findPoints().size());
 		System.out.println(b + " " + b.findPoints().size());
@@ -97,7 +97,7 @@ public final class RotationTest3 {
 //		final List<Point2I> aPoints = a.findPoints();
 		
 		for(int j = 0; j < 10; j++) {
-			final Rectangle2I r = Rectangle2I.rotateBCD(a, Doubles.rint(Math.random() * 360.0D), false);
+			final Rectangle2I r = Rectangle2I.rotateABCD(a, Doubles.rint(Math.random() * 360.0D), false);
 			
 			final LineSegment2I r0 = r.getLineSegments().get(0);
 			final LineSegment2I r1 = r.getLineSegments().get(1);

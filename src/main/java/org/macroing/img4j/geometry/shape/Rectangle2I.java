@@ -343,42 +343,13 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
-	 * Rotates {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees or radians around {@code center}.
-	 * <p>
-	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
-	 * <p>
-	 * If either {@code rectangle} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
-	 * <p>
-	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
-	 * <p>
-	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
-	 * 
-	 * @param rectangle the {@code Rectangle2I} instance to rotate
-	 * @param angle the rotation angle in degrees or radians
-	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
-	 * @param center a {@code Point2I} instance that represents the center of the rotation
-	 * @return a new {@code Rectangle2I} instance with the result of the rotation
-	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
-	 */
-	public static Rectangle2I rotateABCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center) {
-		final Point2I[] points = doRotate(angle, isAngleInRadians, center, rectangle.getA(), rectangle.getB(), rectangle.getC());
-		
-		final Point2I a = points[0];
-		final Point2I b = points[1];
-		final Point2I c = points[2];
-		final Point2I d = points[3];
-		
-		return new Rectangle2I(a, b, c, d);
-	}
-	
-	/**
 	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees around {@code rectangle.getA()}.
 	 * <p>
 	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
 	 * <p>
@@ -389,17 +360,18 @@ public final class Rectangle2I implements Shape2I {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * Rectangle2I.rotateBCD(rectangle, angle, false);
+	 * Rectangle2I.rotateABCD(rectangle, angle, false);
 	 * }
 	 * </pre>
 	 * 
 	 * @param rectangle the {@code Rectangle2I} instance to rotate
 	 * @param angle the rotation angle in degrees
 	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
 	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
 	 */
-	public static Rectangle2I rotateBCD(final Rectangle2I rectangle, final double angle) {
-		return rotateBCD(rectangle, angle, false);
+	public static Rectangle2I rotateABCD(final Rectangle2I rectangle, final double angle) {
+		return rotateABCD(rectangle, angle, false);
 	}
 	
 	/**
@@ -408,6 +380,8 @@ public final class Rectangle2I implements Shape2I {
 	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
 	 * <p>
@@ -426,10 +400,45 @@ public final class Rectangle2I implements Shape2I {
 	 * @param angle the rotation angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
 	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
 	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
 	 */
-	public static Rectangle2I rotateBCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+	public static Rectangle2I rotateABCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
 		return rotateABCD(rectangle, angle, isAngleInRadians, rectangle.getA());
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees or radians around {@code center}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If either {@code rectangle} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @param center a {@code Point2I} instance that represents the center of the rotation
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
+	 */
+	public static Rectangle2I rotateABCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center) {
+		final Point2I[] points = doRotate(angle, isAngleInRadians, center, rectangle.getA(), rectangle.getB(), rectangle.getC());
+		
+		final Point2I a = points[0];
+		final Point2I b = points[1];
+		final Point2I c = points[2];
+		final Point2I d = points[3];
+		
+		return new Rectangle2I(a, b, c, d);
 	}
 	
 	/**

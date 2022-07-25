@@ -98,7 +98,7 @@ public final class RotationTest {
 //			Retrieve the old rotation bounds:
 			final Rectangle2I rotationBounds = getRotationBounds();
 			final Rectangle2I rotationBoundsTranslated = translate(rotationBounds, -(oldResolutionX / 2), -(oldResolutionY / 2));
-			final Rectangle2I rotationBoundsRotated = Rectangle2I.rotateBCD(rotationBoundsTranslated, angle, isAngleInRadians);
+			final Rectangle2I rotationBoundsRotated = Rectangle2I.rotateABCD(rotationBoundsTranslated, angle, isAngleInRadians);
 			
 			final Point2I min = rotationBoundsRotated.min();
 			final Point2I max = rotationBoundsRotated.max();

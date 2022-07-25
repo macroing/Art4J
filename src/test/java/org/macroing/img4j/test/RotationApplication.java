@@ -65,7 +65,7 @@ public final class RotationApplication extends Application {
 			public void handle(final long now) {
 				final LineSegment2I updatedLineSegment = lineSegment.updateAndGet(currentLineSegment -> LineSegment2I.rotateB(currentLineSegment, -1.0D));
 				
-				final Rectangle2I updatedRectangle = rectangle.updateAndGet(currentRectangle -> Rectangle2I.rotateBCD(currentRectangle, 1.0D));
+				final Rectangle2I updatedRectangle = rectangle.updateAndGet(currentRectangle -> Rectangle2I.rotateABCD(currentRectangle, 1.0D));
 				
 				graphicsContext.clearRect(0.0D, 0.0D, 1024.0D, 768.0D);
 				graphicsContext.setFill(Color.RED);

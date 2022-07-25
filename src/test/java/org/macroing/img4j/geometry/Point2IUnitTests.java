@@ -314,6 +314,8 @@ public final class Point2IUnitTests {
 		final Point2I o = Point2I.rotate(n, +90.0D, false, k);
 		final Point2I p = Point2I.rotate(o, +90.0D, false, k);
 		
+		final Point2I q = Point2I.rotate(k, +90.0D, false, k);
+		
 		assertEquals(+0, c.x);
 		assertEquals(+9, c.y);
 		assertEquals(-9, d.x);
@@ -340,6 +342,9 @@ public final class Point2IUnitTests {
 		assertEquals(-6, o.y);
 		assertEquals(+8, p.x);
 		assertEquals(+1, p.y);
+		
+		assertEquals(+1, q.x);
+		assertEquals(+1, q.y);
 		
 		assertThrows(NullPointerException.class, () -> Point2I.rotate(new Point2I(), 0.0D, false, null));
 		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0D, false, new Point2I()));
