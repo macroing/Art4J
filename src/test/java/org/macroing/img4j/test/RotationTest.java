@@ -35,11 +35,11 @@ public final class RotationTest {
 	
 	public static void main(final String[] args) {
 		final
-		Image image = new Image(11, 11);
+		Image image = new Image(10, 10);
 		image.print();
-		image.rotate(90.0D, false);
+		image.rotate(45.0D, false);
 		image.print();
-		image.rotate(90.0D, false);
+		image.rotate(45.0D, false);
 		image.print();
 	}
 	
@@ -59,7 +59,9 @@ public final class RotationTest {
 			this.resolutionY = resolutionY;
 			this.colors = new int[resolutionX * resolutionY];
 			
-			Arrays.fill(this.colors, 100);
+			for(int i = 0; i < this.colors.length; i++) {
+				this.colors[i] = i % 10;
+			}
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +74,7 @@ public final class RotationTest {
 			final int resolutionX = getResolutionX();
 			final int resolutionY = getResolutionY();
 			
-			return new Rectangle2I(new Point2I(0, 0), new Point2I(0, resolutionY), new Point2I(resolutionX, resolutionY), new Point2I(resolutionX, 0));
+			return new Rectangle2I(new Point2I(0, 0), new Point2I(resolutionX, 0), new Point2I(resolutionX, resolutionY), new Point2I(0, resolutionY));
 		}
 		
 		public boolean rotate(final double angle, final boolean isAngleInRadians) {
@@ -95,8 +97,8 @@ public final class RotationTest {
 			
 //			Retrieve the old rotation bounds:
 			final Rectangle2I rotationBounds = getRotationBounds();
-//			final Rectangle2I rotationBoundsTranslated = translate(rotationBounds, -oldResolutionX / 2, -oldResolutionY / 2);
-			final Rectangle2I rotationBoundsRotated = rotate(rotationBounds, angle, isAngleInRadians);
+			final Rectangle2I rotationBoundsTranslated = translate(rotationBounds, -(oldResolutionX / 2), -(oldResolutionY / 2));
+			final Rectangle2I rotationBoundsRotated = Rectangle2I.rotateBCD(rotationBoundsTranslated, angle, isAngleInRadians);
 			
 			final Point2I min = rotationBoundsRotated.min();
 			final Point2I max = rotationBoundsRotated.max();
@@ -104,7 +106,7 @@ public final class RotationTest {
 			final int newResolutionX = max.x - min.x;
 			final int newResolutionY = max.y - min.y;
 			
-//			final Rectangle2I rotationBoundsRotatedTranslated = translate(rotationBoundsRotated, newResolutionX / 2, newResolutionY / 2);
+			final Rectangle2I rotationBoundsRotatedTranslated = translate(rotationBoundsRotated, newResolutionX / 2, newResolutionY / 2);
 			
 			final int[] newColors = new int[newResolutionX * newResolutionY];
 			
@@ -114,15 +116,19 @@ public final class RotationTest {
 			for(int y = 0; y < newResolutionY; y++) {
 				for(int x = 0; x < newResolutionX; x++) {
 					final Point2I a = new Point2I(x, y);
-//					final Point2I b = translate(a, -newResolutionX / 2, -newResolutionY / 2);
-					final Point2I c = rotate(a, rotationBoundsRotated, -angle, isAngleInRadians);
-//					final Point2I d = translate(c, oldResolutionX / 2, oldResolutionY / 2);
+					final Point2I b = translate(a, -(newResolutionX / 2), -(newResolutionY / 2));
+					final Point2I c = Point2I.rotate(b, -angle, isAngleInRadians);
+					final Point2I d = translate(c, oldResolutionX / 2, oldResolutionY / 2);
 					
-					newColors[y * newResolutionX + x] = getColor(c.x, c.y);
+					newColors[y * newResolutionX + x] = getColor(d.x, d.y);
+					
+//					if(newColors[y * newResolutionX + x] == 255) {
+//						System.out.println("(" + d.x + "," + d.y + ") -> (" + x + "," + y + ")");
+//					}
 				}
 			}
 			
-			setRotationBounds(rotationBoundsRotated);
+			setRotationBounds(rotationBoundsRotatedTranslated);
 			
 			this.colors = newColors;
 			this.resolutionX = newResolutionX;
@@ -160,9 +166,9 @@ public final class RotationTest {
 			for(int y = 0; y < this.resolutionY; y++) {
 				for(int x = 0; x < this.resolutionX; x++) {
 					if(this.colors[y * this.resolutionX + x] == 255) {
-						System.out.print("  ");
+						System.out.print(" ");
 					} else {
-						System.out.print("OO");
+						System.out.print(this.colors[y * this.resolutionX + x]);
 					}
 				}
 				

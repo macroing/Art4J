@@ -248,7 +248,7 @@ public final class LineSegment2I implements Shape2I {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Rotates {@code lineSegment.getB()} counterclockwise by {@code angle} degrees around {@code lineSegment.getA()}.
+	 * Rotates {@code lineSegment.getB()} by {@code angle} degrees around {@code lineSegment.getA()}.
 	 * <p>
 	 * Returns a new {@code LineSegment2I} instance with the result of the rotation.
 	 * <p>
@@ -277,7 +277,7 @@ public final class LineSegment2I implements Shape2I {
 	}
 	
 	/**
-	 * Rotates {@code lineSegment.getB()} counterclockwise by {@code angle} degrees or radians around {@code lineSegment.getA()}.
+	 * Rotates {@code lineSegment.getB()} by {@code angle} degrees or radians around {@code lineSegment.getA()}.
 	 * <p>
 	 * Returns a new {@code LineSegment2I} instance with the result of the rotation.
 	 * <p>

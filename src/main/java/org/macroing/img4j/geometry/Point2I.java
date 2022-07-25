@@ -250,7 +250,7 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Rotates {@code point} counterclockwise by {@code angle} degrees around {@code new Point2I(0, 0)}.
+	 * Rotates {@code point} by {@code angle} degrees around {@code new Point2I(0, 0)}.
 	 * <p>
 	 * Returns a new {@code Point2I} instance with the result of the rotation.
 	 * <p>
@@ -277,7 +277,7 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Rotates {@code point} counterclockwise by {@code angle} degrees or radians around {@code new Point2I(0, 0)}.
+	 * Rotates {@code point} by {@code angle} degrees or radians around {@code new Point2I(0, 0)}.
 	 * <p>
 	 * Returns a new {@code Point2I} instance with the result of the rotation.
 	 * <p>
@@ -305,7 +305,7 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Rotates {@code point} counterclockwise by {@code angle} degrees or radians around {@code center}.
+	 * Rotates {@code point} by {@code angle} degrees or radians around {@code center}.
 	 * <p>
 	 * Returns a new {@code Point2I} instance with the result of the rotation.
 	 * <p>

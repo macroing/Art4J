@@ -343,7 +343,38 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
-	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} counterclockwise by {@code angle} degrees around {@code rectangle.getA()}.
+	 * Rotates {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees or radians around {@code center}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If either {@code rectangle} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @param center a {@code Point2I} instance that represents the center of the rotation
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
+	 */
+	public static Rectangle2I rotateABCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center) {
+		final Point2I[] points = doRotate(angle, isAngleInRadians, center, rectangle.getA(), rectangle.getB(), rectangle.getC());
+		
+		final Point2I a = points[0];
+		final Point2I b = points[1];
+		final Point2I c = points[2];
+		final Point2I d = points[3];
+		
+		return new Rectangle2I(a, b, c, d);
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees around {@code rectangle.getA()}.
 	 * <p>
 	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
 	 * <p>
@@ -372,7 +403,7 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
-	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} counterclockwise by {@code angle} degrees or radians around {@code rectangle.getA()}.
+	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees or radians around {@code rectangle.getA()}.
 	 * <p>
 	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
 	 * <p>
@@ -383,6 +414,13 @@ public final class Rectangle2I implements Shape2I {
 	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
 	 * <p>
 	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Rectangle2I.rotateABCD(rectangle, angle, isAngleInRadians, rectangle.getA());
+	 * }
+	 * </pre>
 	 * 
 	 * @param rectangle the {@code Rectangle2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
@@ -391,119 +429,7 @@ public final class Rectangle2I implements Shape2I {
 	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
 	 */
 	public static Rectangle2I rotateBCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
-		final Point2I oldA = rectangle.getA();
-		final Point2I oldB = rectangle.getB();
-		final Point2I oldC = rectangle.getC();
-		
-		/*
-		 * Rotate the old B-point around the old A-point:
-		 */
-		
-		final Point2I newB = Point2I.rotate(oldB, angle, isAngleInRadians, oldA);
-		
-		final int oldDeltaABX = oldB.x - oldA.x;
-		final int oldDeltaABXAbs = Ints.abs(oldDeltaABX);
-		final int oldDeltaABY = oldB.y - oldA.y;
-		final int oldDeltaABYAbs = Ints.abs(oldDeltaABY);
-		
-		final int newDeltaABX = newB.x - oldA.x;
-		final int newDeltaABXAbs = Ints.abs(newDeltaABX);
-		final int newDeltaABY = newB.y - oldA.y;
-		final int newDeltaABYAbs = Ints.abs(newDeltaABY);
-		
-		final int newBIncrement0X = newDeltaABX < 0 ? -1 : newDeltaABX > 0 ? 1 : 0;
-		final int newBIncrement0Y = newDeltaABY < 0 ? -1 : newDeltaABY > 0 ? 1 : 0;
-		
-		final int newBIncrement1X = newDeltaABXAbs > newDeltaABYAbs ? newBIncrement0X : 0;
-		final int newBIncrement1Y = newDeltaABXAbs > newDeltaABYAbs ? 0 : newBIncrement0Y;
-		
-		final int oldBL = oldDeltaABXAbs > oldDeltaABYAbs ? oldDeltaABXAbs : oldDeltaABYAbs;
-		
-		final int newBL = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABXAbs : newDeltaABYAbs;
-		final int newBS = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABYAbs : newDeltaABXAbs;
-		
-		int nB = newBL >> 1;
-		
-		int newBX = oldA.x;
-		int newBY = oldA.y;
-		
-		int oldBX = oldA.x;
-		int oldBY = oldA.y;
-		
-		for(int i = 0; i <= oldBL; i++) {
-			newBX = oldBX;
-			newBY = oldBY;
-			
-			nB += newBS;
-			
-			if(nB >= newBL) {
-				nB -= newBL;
-				
-				oldBX += newBIncrement0X;
-				oldBY += newBIncrement0Y;
-			} else {
-				oldBX += newBIncrement1X;
-				oldBY += newBIncrement1Y;
-			}
-		}
-		
-		/*
-		 * Rotate the old C-point around the old B-point and update it with regards to the new B-point:
-		 */
-		
-		final Point2I newC = Point2I.rotate(oldC, angle, isAngleInRadians, oldB);
-		
-		final int oldDeltaBCX = oldC.x - oldB.x;
-		final int oldDeltaBCXAbs = Ints.abs(oldDeltaBCX);
-		final int oldDeltaBCY = oldC.y - oldB.y;
-		final int oldDeltaBCYAbs = Ints.abs(oldDeltaBCY);
-		
-		final int newDeltaBCX = newC.x - oldB.x;
-		final int newDeltaBCXAbs = Ints.abs(newDeltaBCX);
-		final int newDeltaBCY = newC.y - oldB.y;
-		final int newDeltaBCYAbs = Ints.abs(newDeltaBCY);
-		
-		final int newCIncrement0X = newDeltaBCX < 0 ? -1 : newDeltaBCX > 0 ? 1 : 0;
-		final int newCIncrement0Y = newDeltaBCY < 0 ? -1 : newDeltaBCY > 0 ? 1 : 0;
-		
-		final int newCIncrement1X = newDeltaBCXAbs > newDeltaBCYAbs ? newCIncrement0X : 0;
-		final int newCIncrement1Y = newDeltaBCXAbs > newDeltaBCYAbs ? 0 : newCIncrement0Y;
-		
-		final int oldCL = oldDeltaBCXAbs > oldDeltaBCYAbs ? oldDeltaBCXAbs : oldDeltaBCYAbs;
-		
-		final int newCL = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCXAbs : newDeltaBCYAbs;
-		final int newCS = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCYAbs : newDeltaBCXAbs;
-		
-		int nC = newCL >> 1;
-		
-		int newCX = newBX;
-		int newCY = newBY;
-		
-		int oldCX = newBX;
-		int oldCY = newBY;
-		
-		for(int i = 0; i <= oldCL; i++) {
-			newCX = oldCX;
-			newCY = oldCY;
-			
-			nC += newCS;
-			
-			if(nC >= newCL) {
-				nC -= newCL;
-				
-				oldCX += newCIncrement0X;
-				oldCY += newCIncrement0Y;
-			} else {
-				oldCX += newCIncrement1X;
-				oldCY += newCIncrement1Y;
-			}
-		}
-		
-		/*
-		 * Construct and return a new Rectangle2I instance based on the old A-point and the new B- and C-points:
-		 */
-		
-		return new Rectangle2I(oldA, new Point2I(newBX, newBY), new Point2I(newCX, newCY));
+		return rotateABCD(rectangle, angle, isAngleInRadians, rectangle.getA());
 	}
 	
 	/**
@@ -588,6 +514,132 @@ public final class Rectangle2I implements Shape2I {
 		final int y = (int)(Doubles.rint(dY));
 		
 		return new Point2I(x, y);
+	}
+	
+	private static Point2I[] doRotate(final double angle, final boolean isAngleInRadians, final Point2I center, final Point2I oldA, final Point2I oldB, final Point2I oldC) {
+		/*
+		 * Rotate the old A-point around the center point:
+		 */
+		
+		final Point2I newA = Point2I.rotate(oldA, angle, isAngleInRadians, center);
+		
+		final int newAX = newA.x;
+		final int newAY = newA.y;
+		
+		/*
+		 * Rotate the old B-point around the old A-point and update it with regards to the new A-point:
+		 */
+		
+		final Point2I newB = Point2I.rotate(oldB, angle, isAngleInRadians, oldA);
+		
+		final int oldDeltaABX = oldB.x - oldA.x;
+		final int oldDeltaABXAbs = Ints.abs(oldDeltaABX);
+		final int oldDeltaABY = oldB.y - oldA.y;
+		final int oldDeltaABYAbs = Ints.abs(oldDeltaABY);
+		
+		final int newDeltaABX = newB.x - oldA.x;
+		final int newDeltaABXAbs = Ints.abs(newDeltaABX);
+		final int newDeltaABY = newB.y - oldA.y;
+		final int newDeltaABYAbs = Ints.abs(newDeltaABY);
+		
+		final int newBIncrement0X = newDeltaABX < 0 ? -1 : newDeltaABX > 0 ? 1 : 0;
+		final int newBIncrement0Y = newDeltaABY < 0 ? -1 : newDeltaABY > 0 ? 1 : 0;
+		
+		final int newBIncrement1X = newDeltaABXAbs > newDeltaABYAbs ? newBIncrement0X : 0;
+		final int newBIncrement1Y = newDeltaABXAbs > newDeltaABYAbs ? 0 : newBIncrement0Y;
+		
+		final int oldBL = oldDeltaABXAbs > oldDeltaABYAbs ? oldDeltaABXAbs : oldDeltaABYAbs;
+		
+		final int newBL = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABXAbs : newDeltaABYAbs;
+		final int newBS = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABYAbs : newDeltaABXAbs;
+		
+		int nB = newBL >> 1;
+		
+		int newBX = newAX;
+		int newBY = newAY;
+		
+		int oldBX = newAX;
+		int oldBY = newAY;
+		
+		for(int i = 0; i <= oldBL; i++) {
+			newBX = oldBX;
+			newBY = oldBY;
+			
+			nB += newBS;
+			
+			if(nB >= newBL) {
+				nB -= newBL;
+				
+				oldBX += newBIncrement0X;
+				oldBY += newBIncrement0Y;
+			} else {
+				oldBX += newBIncrement1X;
+				oldBY += newBIncrement1Y;
+			}
+		}
+		
+		/*
+		 * Rotate the old C-point around the old B-point and update it with regards to the new B-point:
+		 */
+		
+		final Point2I newC = Point2I.rotate(oldC, angle, isAngleInRadians, oldB);
+		
+		final int oldDeltaBCX = oldC.x - oldB.x;
+		final int oldDeltaBCXAbs = Ints.abs(oldDeltaBCX);
+		final int oldDeltaBCY = oldC.y - oldB.y;
+		final int oldDeltaBCYAbs = Ints.abs(oldDeltaBCY);
+		
+		final int newDeltaBCX = newC.x - oldB.x;
+		final int newDeltaBCXAbs = Ints.abs(newDeltaBCX);
+		final int newDeltaBCY = newC.y - oldB.y;
+		final int newDeltaBCYAbs = Ints.abs(newDeltaBCY);
+		
+		final int newCIncrement0X = newDeltaBCX < 0 ? -1 : newDeltaBCX > 0 ? 1 : 0;
+		final int newCIncrement0Y = newDeltaBCY < 0 ? -1 : newDeltaBCY > 0 ? 1 : 0;
+		
+		final int newCIncrement1X = newDeltaBCXAbs > newDeltaBCYAbs ? newCIncrement0X : 0;
+		final int newCIncrement1Y = newDeltaBCXAbs > newDeltaBCYAbs ? 0 : newCIncrement0Y;
+		
+		final int oldCL = oldDeltaBCXAbs > oldDeltaBCYAbs ? oldDeltaBCXAbs : oldDeltaBCYAbs;
+		
+		final int newCL = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCXAbs : newDeltaBCYAbs;
+		final int newCS = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCYAbs : newDeltaBCXAbs;
+		
+		int nC = newCL >> 1;
+		
+		int newCX = newBX;
+		int newCY = newBY;
+		
+		int oldCX = newBX;
+		int oldCY = newBY;
+		
+		for(int i = 0; i <= oldCL; i++) {
+			newCX = oldCX;
+			newCY = oldCY;
+			
+			nC += newCS;
+			
+			if(nC >= newCL) {
+				nC -= newCL;
+				
+				oldCX += newCIncrement0X;
+				oldCY += newCIncrement0Y;
+			} else {
+				oldCX += newCIncrement1X;
+				oldCY += newCIncrement1Y;
+			}
+		}
+		
+		/*
+		 * Construct and return a new Point2I[]:
+		 */
+		
+		final Point2I a = newA;
+		final Point2I b = new Point2I(newBX, newBY);
+		final Point2I c = new Point2I(newCX, newCY);
+		final Point2I d = doComputeD(a, b, c);
+		
+		return new Point2I[] {a, b, c, d};
 	}
 	
 	private static void doCheckPointValidity(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
