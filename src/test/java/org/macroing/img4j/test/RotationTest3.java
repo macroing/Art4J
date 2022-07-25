@@ -104,8 +104,8 @@ public final class RotationTest3 {
 		final int dBCX = c.x - b.x;
 		final int dBCY = c.y - b.y;
 		
-		final int dBEX = e.x - newBX;
-		final int dBEY = e.y - newBY;
+		final int dBEX = e.x - b.x;
+		final int dBEY = e.y - b.y;
 		
 		final int dBCXAbs = Ints.abs(dBCX);
 		final int dBCYAbs = Ints.abs(dBCY);
@@ -113,8 +113,8 @@ public final class RotationTest3 {
 		final int dBEXAbs = Ints.abs(dBEX);
 		final int dBEYAbs = Ints.abs(dBEY);
 		
-		final int newDBX = dBCX < 0 ? -1 : dBCX > 0 ? 1 : 0;
-		final int newDBY = dBCY < 0 ? -1 : dBCY > 0 ? 1 : 0;
+		final int newDBX = dBEX < 0 ? -1 : dBEX > 0 ? 1 : 0;
+		final int newDBY = dBEY < 0 ? -1 : dBEY > 0 ? 1 : 0;
 		
 		final int newDEX = dBEXAbs > dBEYAbs ? newDBX : 0;
 		final int newDEY = dBEXAbs > dBEYAbs ? 0 : newDBY;
@@ -147,27 +147,13 @@ public final class RotationTest3 {
 			}
 		}
 		
-		final double distance = Doubles.abs((newBY - a.y) * newCX - (newBX - a.x) * newCY + newBX * a.y - newBY * a.x) / Doubles.sqrt(Doubles.pow(newBY - a.y, 2.0D) + Doubles.pow(newBX - a.x, 2.0D));
-		
-		final double directionABX = newBX - a.x;
-		final double directionABY = newBY - a.y;
-		final double perpendicularX = -directionABY;
-		final double perpendicularY = +directionABX;
-		final double perpendicularLength = Doubles.sqrt(perpendicularX * perpendicularX + perpendicularY * perpendicularY);
-		final double perpendicularNormalizedX = perpendicularX / perpendicularLength;
-		final double perpendicularNormalizedY = perpendicularY / perpendicularLength;
-		
-		final int newDX = (int)(a.x + perpendicularNormalizedX * distance);
-		final int newDY = (int)(a.y + perpendicularNormalizedY * distance);
-		
 		final Point2I newA = a;
 		final Point2I newB = new Point2I(newBX, newBY);
 		final Point2I newC = new Point2I(newCX, newCY);
-		final Point2I newD = new Point2I(newDX, newDY);
 		
-		System.out.println(newA + " " + newB + " " + newC + " " + newD);
+		System.out.println(newA + " " + newB + " " + newC);
 		
-		return new Rectangle2I(newA, newB, newC, newD);
+		return new Rectangle2I(newA, newB, newC);
 		
 		/*
 		final List<LineSegment2I> lineSegments = rectangle.getLineSegments();
@@ -221,29 +207,51 @@ public final class RotationTest3 {
 	
 	private static void testRectangle2I() {
 		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
-		final Rectangle2I b = rotate(a, 45.0D, false);
-		final Rectangle2I c = rotate(b, 45.0D, false);
-		final Rectangle2I d = rotate(c, 45.0D, false);
-		final Rectangle2I e = rotate(d, 45.0D, false);
-		final Rectangle2I f = rotate(e, 45.0D, false);
-		final Rectangle2I g = rotate(f, 45.0D, false);
-		final Rectangle2I h = rotate(g, 45.0D, false);
-		final Rectangle2I i = rotate(h, 45.0D, false);
+		final Rectangle2I b = rotate(a, 90.0D, false);
+		final Rectangle2I c = rotate(b, 90.0D, false);
+		final Rectangle2I d = rotate(c, 90.0D, false);
+		final Rectangle2I e = rotate(d, 90.0D, false);
+		final Rectangle2I f = rotate(e, 90.0D, false);
+		final Rectangle2I g = rotate(f, 90.0D, false);
+		final Rectangle2I h = rotate(g, 90.0D, false);
+		final Rectangle2I i = rotate(h, 90.0D, false);
 		
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(c);
-		System.out.println(d);
-		System.out.println(e);
-		System.out.println(f);
-		System.out.println(g);
-		System.out.println(h);
-		System.out.println(i);
+		System.out.println(a + " " + a.findPoints().size());
+		System.out.println(b + " " + b.findPoints().size());
+		System.out.println(c + " " + c.findPoints().size());
+		System.out.println(d + " " + d.findPoints().size());
+		System.out.println(e + " " + e.findPoints().size());
+		System.out.println(f + " " + f.findPoints().size());
+		System.out.println(g + " " + g.findPoints().size());
+		System.out.println(h + " " + h.findPoints().size());
+		System.out.println(i + " " + i.findPoints().size());
+		
+		final LineSegment2I a0 = a.getLineSegments().get(0);
+		final LineSegment2I a1 = a.getLineSegments().get(1);
+		final LineSegment2I a2 = a.getLineSegments().get(2);
+		final LineSegment2I a3 = a.getLineSegments().get(3);
+		
+//		final List<Point2I> aPoints = a.findPoints();
 		
 		for(int j = 0; j < 10; j++) {
-			if(rotate(a, Math.random() * 360.0D, false).findPoints().size() != a.findPoints().size()) {
+			final Rectangle2I r = rotate(a, Doubles.rint(Math.random() * 360.0D), false);
+			
+			final LineSegment2I r0 = r.getLineSegments().get(0);
+			final LineSegment2I r1 = r.getLineSegments().get(1);
+			final LineSegment2I r2 = r.getLineSegments().get(2);
+			final LineSegment2I r3 = r.getLineSegments().get(3);
+			
+			if(a0.findPoints().size() != r0.findPoints().size() || a1.findPoints().size() != r1.findPoints().size() || a2.findPoints().size() != r2.findPoints().size() || a3.findPoints().size() != r3.findPoints().size()) {
 				System.out.println("Error!");
 			}
+			
+//			final List<Point2I> rPoints = r.findPoints(true);
+			
+//			if(rPoints.size() != aPoints.size()) {
+//				System.out.println("Error! " + aPoints.size() + " " + rPoints.size() + " " + (r.getLineSegments().get(2).findPoints().size() * r.getLineSegments().get(3).findPoints().size()));
+//			}
 		}
+		
+		System.out.println(a.getLineSegments().get(0).findPoints().size() * a.getLineSegments().get(1).findPoints().size());
 	}
 }

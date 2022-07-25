@@ -25,6 +25,7 @@ import java.util.Objects;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
 import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Ints;
 
 /**
  * A {@code Rectangle2I} is an implementation of {@link Shape2I} that represents a rectangle.
@@ -342,6 +343,162 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
+	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} counterclockwise by {@code angle} degrees around {@code rectangle.getA()}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Rectangle2I.rotateBCDCounterclockwise(rectangle, angle, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 */
+	public static Rectangle2I rotateBCDCounterclockwise(final Rectangle2I rectangle, final double angle) {
+		return rotateBCDCounterclockwise(rectangle, angle, false);
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} counterclockwise by {@code angle} degrees or radians around {@code rectangle.getA()}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 */
+	public static Rectangle2I rotateBCDCounterclockwise(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+		final Point2I oldA = rectangle.getA();
+		final Point2I oldB = rectangle.getB();
+		final Point2I oldC = rectangle.getC();
+		
+		/*
+		 * Rotate the old B-point around the old A-point:
+		 */
+		
+		final Point2I newB = Point2I.rotateCounterclockwise(oldB, angle, isAngleInRadians, oldA);
+		
+		final int oldDeltaABX = oldB.x - oldA.x;
+		final int oldDeltaABXAbs = Ints.abs(oldDeltaABX);
+		final int oldDeltaABY = oldB.y - oldA.y;
+		final int oldDeltaABYAbs = Ints.abs(oldDeltaABY);
+		
+		final int newDeltaABX = newB.x - oldA.x;
+		final int newDeltaABXAbs = Ints.abs(newDeltaABX);
+		final int newDeltaABY = newB.y - oldA.y;
+		final int newDeltaABYAbs = Ints.abs(newDeltaABY);
+		
+		final int newBIncrement0X = newDeltaABX < 0 ? -1 : newDeltaABX > 0 ? 1 : 0;
+		final int newBIncrement0Y = newDeltaABY < 0 ? -1 : newDeltaABY > 0 ? 1 : 0;
+		
+		final int newBIncrement1X = newDeltaABXAbs > newDeltaABYAbs ? newBIncrement0X : 0;
+		final int newBIncrement1Y = newDeltaABXAbs > newDeltaABYAbs ? 0 : newBIncrement0Y;
+		
+		final int oldBL = oldDeltaABXAbs > oldDeltaABYAbs ? oldDeltaABXAbs : oldDeltaABYAbs;
+		
+		final int newBL = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABXAbs : newDeltaABYAbs;
+		final int newBS = newDeltaABXAbs > newDeltaABYAbs ? newDeltaABYAbs : newDeltaABXAbs;
+		
+		int nB = newBL >> 1;
+		
+		int newBX = oldA.x;
+		int newBY = oldA.y;
+		
+		int oldBX = oldA.x;
+		int oldBY = oldA.y;
+		
+		for(int i = 0; i <= oldBL; i++) {
+			newBX = oldBX;
+			newBY = oldBY;
+			
+			nB += newBS;
+			
+			if(nB >= newBL) {
+				nB -= newBL;
+				
+				oldBX += newBIncrement0X;
+				oldBY += newBIncrement0Y;
+			} else {
+				oldBX += newBIncrement1X;
+				oldBY += newBIncrement1Y;
+			}
+		}
+		
+		/*
+		 * Rotate the old C-point around the old B-point and update it with regards to the new B-point:
+		 */
+		
+		final Point2I newC = Point2I.rotateCounterclockwise(oldC, angle, isAngleInRadians, oldB);
+		
+		final int oldDeltaBCX = oldC.x - oldB.x;
+		final int oldDeltaBCXAbs = Ints.abs(oldDeltaBCX);
+		final int oldDeltaBCY = oldC.y - oldB.y;
+		final int oldDeltaBCYAbs = Ints.abs(oldDeltaBCY);
+		
+		final int newDeltaBCX = newC.x - oldB.x;
+		final int newDeltaBCXAbs = Ints.abs(newDeltaBCX);
+		final int newDeltaBCY = newC.y - oldB.y;
+		final int newDeltaBCYAbs = Ints.abs(newDeltaBCY);
+		
+		final int newCIncrement0X = newDeltaBCX < 0 ? -1 : newDeltaBCX > 0 ? 1 : 0;
+		final int newCIncrement0Y = newDeltaBCY < 0 ? -1 : newDeltaBCY > 0 ? 1 : 0;
+		
+		final int newCIncrement1X = newDeltaBCXAbs > newDeltaBCYAbs ? newCIncrement0X : 0;
+		final int newCIncrement1Y = newDeltaBCXAbs > newDeltaBCYAbs ? 0 : newCIncrement0Y;
+		
+		final int oldCL = oldDeltaBCXAbs > oldDeltaBCYAbs ? oldDeltaBCXAbs : oldDeltaBCYAbs;
+		
+		final int newCL = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCXAbs : newDeltaBCYAbs;
+		final int newCS = newDeltaBCXAbs > newDeltaBCYAbs ? newDeltaBCYAbs : newDeltaBCXAbs;
+		
+		int nC = newCL >> 1;
+		
+		int newCX = newBX;
+		int newCY = newBY;
+		
+		int oldCX = newBX;
+		int oldCY = newBY;
+		
+		for(int i = 0; i <= oldCL; i++) {
+			newCX = oldCX;
+			newCY = oldCY;
+			
+			nC += newCS;
+			
+			if(nC >= newCL) {
+				nC -= newCL;
+				
+				oldCX += newCIncrement0X;
+				oldCY += newCIncrement0Y;
+			} else {
+				oldCX += newCIncrement1X;
+				oldCY += newCIncrement1Y;
+			}
+		}
+		
+		/*
+		 * Construct and return a new Rectangle2I instance based on the old A-point and the new B- and C-points:
+		 */
+		
+		return new Rectangle2I(oldA, new Point2I(newBX, newBY), new Point2I(newCX, newCY));
+	}
+	
+	/**
 	 * Returns a {@code Rectangle2I} instance that is the union of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -419,8 +576,8 @@ public final class Rectangle2I implements Shape2I {
 		final double dX = aX + perpendicularNormalizedX * distance;
 		final double dY = aY + perpendicularNormalizedY * distance;
 		
-		final int x = (int)(dX);
-		final int y = (int)(dY);
+		final int x = (int)(Doubles.rint(dX));
+		final int y = (int)(Doubles.rint(dY));
 		
 		return new Point2I(x, y);
 	}
@@ -444,7 +601,7 @@ public final class Rectangle2I implements Shape2I {
 		final boolean isValid = isValidABCD & isValidBCDA;//TODO: Using & instead of && to get full code coverage. Should this be fixed?
 		
 		if(!isValid) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(String.format("The distances %s, %s, %s and %s are invalid.", Integer.toString(distanceAB), Integer.toString(distanceBC), Integer.toString(distanceCD), Integer.toString(distanceDA)));
 		}
 	}
 }

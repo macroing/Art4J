@@ -344,11 +344,19 @@ public final class LineSegment2IUnitTests {
 		
 		final List<Point2I> points = j.findPoints();
 		
-		for(double degrees = 0.0D; degrees < 360.0D; degrees += 1.0D) {
-			final LineSegment2I lineSegment = LineSegment2I.rotateBCounterclockwise(j, degrees, false);
+		LineSegment2I o = j;
+		LineSegment2I p = j;
+		
+		for(double degrees = 1.0D; degrees <= 360.0D; degrees += 1.0D) {
+			o = LineSegment2I.rotateBCounterclockwise(o, 1.0D, false);
+			p = LineSegment2I.rotateBCounterclockwise(j, degrees, false);
 			
-			assertEquals(points.size(), lineSegment.findPoints().size());
+			assertEquals(points.size(), o.findPoints().size());
+			assertEquals(points.size(), p.findPoints().size());
 		}
+		
+		assertEquals(j, o);
+		assertEquals(j, p);
 	}
 	
 	@Test
