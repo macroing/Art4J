@@ -442,6 +442,105 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
+	 * Rotates {@code rectangle.getC()}, {@code rectangle.getD()} and {@code rectangle.getA()} by {@code angle} degrees around {@code rectangle.getB()}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Rectangle2I.rotateBCDA(rectangle, angle, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 */
+	public static Rectangle2I rotateBCDA(final Rectangle2I rectangle, final double angle) {
+		return rotateBCDA(rectangle, angle, false);
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getC()}, {@code rectangle.getD()} and {@code rectangle.getA()} by {@code angle} degrees or radians around {@code rectangle.getB()}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Rectangle2I.rotateBCDA(rectangle, angle, isAngleInRadians, rectangle.getB());
+	 * }
+	 * </pre>
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 */
+	public static Rectangle2I rotateBCDA(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+		return rotateBCDA(rectangle, angle, isAngleInRadians, rectangle.getB());
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getB()}, {@code rectangle.getC()}, {@code rectangle.getD()} and {@code rectangle.getA()} by {@code angle} degrees or radians around {@code center}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If either {@code rectangle} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @param center a {@code Point2I} instance that represents the center of the rotation
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws IllegalArgumentException thrown if, and only if, {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} are specified in counterclockwise order
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
+	 */
+	public static Rectangle2I rotateBCDA(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center) {
+		final Point2I[] points = doRotate(angle, isAngleInRadians, center, rectangle.getB(), rectangle.getC(), rectangle.getD());
+		
+		final Point2I a = points[3];
+		final Point2I b = points[0];
+		final Point2I c = points[1];
+		final Point2I d = points[2];
+		
+		return new Rectangle2I(a, b, c, d);
+	}
+	
+	/**
 	 * Returns a {@code Rectangle2I} instance that is the union of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.

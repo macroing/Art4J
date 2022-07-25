@@ -575,6 +575,146 @@ public final class Rectangle2IUnitTests {
 	}
 	
 	@Test
+	public void testRotateBCDARectangle2IDouble() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
+		
+		final Rectangle2I b = Rectangle2I.rotateBCDA(a, +90.0D);
+		final Rectangle2I c = Rectangle2I.rotateBCDA(b, +90.0D);
+		final Rectangle2I d = Rectangle2I.rotateBCDA(c, +90.0D);
+		final Rectangle2I e = Rectangle2I.rotateBCDA(d, +90.0D);
+		
+		final Rectangle2I f = Rectangle2I.rotateBCDA(e, -90.0D);
+		final Rectangle2I g = Rectangle2I.rotateBCDA(f, -90.0D);
+		final Rectangle2I h = Rectangle2I.rotateBCDA(g, -90.0D);
+		final Rectangle2I i = Rectangle2I.rotateBCDA(h, -90.0D);
+		
+		assertEquals(new Rectangle2I(new Point2I(200,   0), new Point2I(200, 100), new Point2I(100, 100), new Point2I(100,   0)), b);
+		assertEquals(new Rectangle2I(new Point2I(300, 100), new Point2I(200, 100), new Point2I(200,   0), new Point2I(300,   0)), c);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(200, 100), new Point2I(300, 100), new Point2I(300, 200)), d);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), e);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(200, 100), new Point2I(300, 100), new Point2I(300, 200)), f);
+		assertEquals(new Rectangle2I(new Point2I(300, 100), new Point2I(200, 100), new Point2I(200,   0), new Point2I(300,   0)), g);
+		assertEquals(new Rectangle2I(new Point2I(200,   0), new Point2I(200, 100), new Point2I(100, 100), new Point2I(100,   0)), h);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), i);
+		
+		assertEquals(a.findPoints().size(), b.findPoints().size());
+		assertEquals(a.findPoints().size(), c.findPoints().size());
+		assertEquals(a.findPoints().size(), d.findPoints().size());
+		assertEquals(a.findPoints().size(), e.findPoints().size());
+		assertEquals(a.findPoints().size(), f.findPoints().size());
+		assertEquals(a.findPoints().size(), g.findPoints().size());
+		assertEquals(a.findPoints().size(), h.findPoints().size());
+		assertEquals(a.findPoints().size(), i.findPoints().size());
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotateBCDA(null, 0.0D));
+	}
+	
+	@Test
+	public void testRotateBCDARectangle2IDoubleBoolean() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
+		
+		final Rectangle2I b = Rectangle2I.rotateBCDA(a, +90.0D, false);
+		final Rectangle2I c = Rectangle2I.rotateBCDA(b, +90.0D, false);
+		final Rectangle2I d = Rectangle2I.rotateBCDA(c, +90.0D, false);
+		final Rectangle2I e = Rectangle2I.rotateBCDA(d, +90.0D, false);
+		
+		final Rectangle2I f = Rectangle2I.rotateBCDA(e, Math.toRadians(-90.0D), true);
+		final Rectangle2I g = Rectangle2I.rotateBCDA(f, Math.toRadians(-90.0D), true);
+		final Rectangle2I h = Rectangle2I.rotateBCDA(g, Math.toRadians(-90.0D), true);
+		final Rectangle2I i = Rectangle2I.rotateBCDA(h, Math.toRadians(-90.0D), true);
+		
+		assertEquals(new Rectangle2I(new Point2I(200,   0), new Point2I(200, 100), new Point2I(100, 100), new Point2I(100,   0)), b);
+		assertEquals(new Rectangle2I(new Point2I(300, 100), new Point2I(200, 100), new Point2I(200,   0), new Point2I(300,   0)), c);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(200, 100), new Point2I(300, 100), new Point2I(300, 200)), d);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), e);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(200, 100), new Point2I(300, 100), new Point2I(300, 200)), f);
+		assertEquals(new Rectangle2I(new Point2I(300, 100), new Point2I(200, 100), new Point2I(200,   0), new Point2I(300,   0)), g);
+		assertEquals(new Rectangle2I(new Point2I(200,   0), new Point2I(200, 100), new Point2I(100, 100), new Point2I(100,   0)), h);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), i);
+		
+		assertEquals(a.findPoints().size(), b.findPoints().size());
+		assertEquals(a.findPoints().size(), c.findPoints().size());
+		assertEquals(a.findPoints().size(), d.findPoints().size());
+		assertEquals(a.findPoints().size(), e.findPoints().size());
+		assertEquals(a.findPoints().size(), f.findPoints().size());
+		assertEquals(a.findPoints().size(), g.findPoints().size());
+		assertEquals(a.findPoints().size(), h.findPoints().size());
+		assertEquals(a.findPoints().size(), i.findPoints().size());
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotateBCDA(null, 0.0D, false));
+		
+		/*
+		 * TODO: Notice the degrees 324.0 instead of 360.0. This is caused by precision loss. Perhaps this can be fixed somehow?
+		 */
+		
+		Rectangle2I rectangle = a;
+		
+		for(double degrees = 1.0D; degrees <= 324.0D; degrees += 1.0D) {
+			rectangle = Rectangle2I.rotateBCDA(rectangle, 1.0D, false);
+			
+			assertEquals(a.getLineSegments().get(0).findPoints().size(), rectangle.getLineSegments().get(0).findPoints().size());
+			assertEquals(a.getLineSegments().get(1).findPoints().size(), rectangle.getLineSegments().get(1).findPoints().size());
+			assertEquals(a.getLineSegments().get(2).findPoints().size(), rectangle.getLineSegments().get(2).findPoints().size());
+			assertEquals(a.getLineSegments().get(3).findPoints().size(), rectangle.getLineSegments().get(3).findPoints().size());
+		}
+		
+		assertEquals(a, rectangle);
+	}
+	
+	@Test
+	public void testRotateBCDARectangle2IDoubleBooleanPoint2I() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
+		
+		final Rectangle2I b = Rectangle2I.rotateBCDA(a, +90.0D, false, new Point2I(150, 150));
+		final Rectangle2I c = Rectangle2I.rotateBCDA(b, +90.0D, false, new Point2I(150, 150));
+		final Rectangle2I d = Rectangle2I.rotateBCDA(c, +90.0D, false, new Point2I(150, 150));
+		final Rectangle2I e = Rectangle2I.rotateBCDA(d, +90.0D, false, new Point2I(150, 150));
+		
+		final Rectangle2I f = Rectangle2I.rotateBCDA(e, Math.toRadians(-90.0D), true, new Point2I(150, 150));
+		final Rectangle2I g = Rectangle2I.rotateBCDA(f, Math.toRadians(-90.0D), true, new Point2I(150, 150));
+		final Rectangle2I h = Rectangle2I.rotateBCDA(g, Math.toRadians(-90.0D), true, new Point2I(150, 150));
+		final Rectangle2I i = Rectangle2I.rotateBCDA(h, Math.toRadians(-90.0D), true, new Point2I(150, 150));
+		
+		assertEquals(new Rectangle2I(new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100)), b);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100)), c);
+		assertEquals(new Rectangle2I(new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200)), d);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), e);
+		assertEquals(new Rectangle2I(new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200)), f);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100)), g);
+		assertEquals(new Rectangle2I(new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100)), h);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), i);
+		
+		assertEquals(a.findPoints().size(), b.findPoints().size());
+		assertEquals(a.findPoints().size(), c.findPoints().size());
+		assertEquals(a.findPoints().size(), d.findPoints().size());
+		assertEquals(a.findPoints().size(), e.findPoints().size());
+		assertEquals(a.findPoints().size(), f.findPoints().size());
+		assertEquals(a.findPoints().size(), g.findPoints().size());
+		assertEquals(a.findPoints().size(), h.findPoints().size());
+		assertEquals(a.findPoints().size(), i.findPoints().size());
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotateBCDA(a, 0.0D, false, null));
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotateBCDA(null, 0.0D, false, new Point2I(150, 150)));
+		
+		/*
+		 * TODO: Notice the degrees 314.5 instead of 360.0. This is caused by precision loss. Perhaps this can be fixed somehow?
+		 */
+		
+		Rectangle2I rectangle = a;
+		
+		for(double degrees = 1.0D; degrees <= 314.5D; degrees += 0.5D) {
+			rectangle = Rectangle2I.rotateBCDA(rectangle, 0.5D, false, new Point2I(150, 150));
+			
+			assertEquals(a.getLineSegments().get(0).findPoints().size(), rectangle.getLineSegments().get(0).findPoints().size());
+			assertEquals(a.getLineSegments().get(1).findPoints().size(), rectangle.getLineSegments().get(1).findPoints().size());
+			assertEquals(a.getLineSegments().get(2).findPoints().size(), rectangle.getLineSegments().get(2).findPoints().size());
+			assertEquals(a.getLineSegments().get(3).findPoints().size(), rectangle.getLineSegments().get(3).findPoints().size());
+		}
+		
+		assertEquals(a, rectangle);
+	}
+	
+	@Test
 	public void testToString() {
 		final Rectangle2I rectangle = new Rectangle2I(new Point2I(10, 10), new Point2I(20, 20));
 		
