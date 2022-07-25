@@ -351,10 +351,14 @@ public final class Rectangle2I implements Shape2I {
 	 * <p>
 	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
 	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * Rectangle2I.rotateBCDCounterclockwise(rectangle, angle, false);
+	 * Rectangle2I.rotateBCD(rectangle, angle, false);
 	 * }
 	 * </pre>
 	 * 
@@ -363,8 +367,8 @@ public final class Rectangle2I implements Shape2I {
 	 * @return a new {@code Rectangle2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
 	 */
-	public static Rectangle2I rotateBCDCounterclockwise(final Rectangle2I rectangle, final double angle) {
-		return rotateBCDCounterclockwise(rectangle, angle, false);
+	public static Rectangle2I rotateBCD(final Rectangle2I rectangle, final double angle) {
+		return rotateBCD(rectangle, angle, false);
 	}
 	
 	/**
@@ -375,6 +379,10 @@ public final class Rectangle2I implements Shape2I {
 	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * The returned {@code Rectangle2I} instance may have a resolution that is different from the resolution of {@code rectangle}. However, the {@link LineSegment2I#findPoints()} method for all four {@link LineSegment2I} instances in both {@code Rectangle2I} instances will return the same number of {@link Point2I} instances.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
 	 * 
 	 * @param rectangle the {@code Rectangle2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
@@ -382,7 +390,7 @@ public final class Rectangle2I implements Shape2I {
 	 * @return a new {@code Rectangle2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
 	 */
-	public static Rectangle2I rotateBCDCounterclockwise(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
+	public static Rectangle2I rotateBCD(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians) {
 		final Point2I oldA = rectangle.getA();
 		final Point2I oldB = rectangle.getB();
 		final Point2I oldC = rectangle.getC();
@@ -391,7 +399,7 @@ public final class Rectangle2I implements Shape2I {
 		 * Rotate the old B-point around the old A-point:
 		 */
 		
-		final Point2I newB = Point2I.rotateCounterclockwise(oldB, angle, isAngleInRadians, oldA);
+		final Point2I newB = Point2I.rotate(oldB, angle, isAngleInRadians, oldA);
 		
 		final int oldDeltaABX = oldB.x - oldA.x;
 		final int oldDeltaABXAbs = Ints.abs(oldDeltaABX);
@@ -443,7 +451,7 @@ public final class Rectangle2I implements Shape2I {
 		 * Rotate the old C-point around the old B-point and update it with regards to the new B-point:
 		 */
 		
-		final Point2I newC = Point2I.rotateCounterclockwise(oldC, angle, isAngleInRadians, oldB);
+		final Point2I newC = Point2I.rotate(oldC, angle, isAngleInRadians, oldB);
 		
 		final int oldDeltaBCX = oldC.x - oldB.x;
 		final int oldDeltaBCXAbs = Ints.abs(oldDeltaBCX);

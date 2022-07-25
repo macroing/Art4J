@@ -222,18 +222,18 @@ public final class Point2IUnitTests {
 	}
 	
 	@Test
-	public void testRotateCounterclockwisePoint2IDouble() {
+	public void testRotatePoint2IDouble() {
 		final Point2I a = new Point2I(+9, +0);
 		
-		final Point2I b = Point2I.rotateCounterclockwise(a, +90.0D);
-		final Point2I c = Point2I.rotateCounterclockwise(b, +90.0D);
-		final Point2I d = Point2I.rotateCounterclockwise(c, +90.0D);
-		final Point2I e = Point2I.rotateCounterclockwise(d, +90.0D);
+		final Point2I b = Point2I.rotate(a, +90.0D);
+		final Point2I c = Point2I.rotate(b, +90.0D);
+		final Point2I d = Point2I.rotate(c, +90.0D);
+		final Point2I e = Point2I.rotate(d, +90.0D);
 		
-		final Point2I f = Point2I.rotateCounterclockwise(e, -90.0D);
-		final Point2I g = Point2I.rotateCounterclockwise(f, -90.0D);
-		final Point2I h = Point2I.rotateCounterclockwise(g, -90.0D);
-		final Point2I i = Point2I.rotateCounterclockwise(h, -90.0D);
+		final Point2I f = Point2I.rotate(e, -90.0D);
+		final Point2I g = Point2I.rotate(f, -90.0D);
+		final Point2I h = Point2I.rotate(g, -90.0D);
+		final Point2I i = Point2I.rotate(h, -90.0D);
 		
 		assertEquals(+0, b.x);
 		assertEquals(+9, b.y);
@@ -253,22 +253,22 @@ public final class Point2IUnitTests {
 		assertEquals(+9, i.x);
 		assertEquals(+0, i.y);
 		
-		assertThrows(NullPointerException.class, () -> Point2I.rotateCounterclockwise(null, 0.0D));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0D));
 	}
 	
 	@Test
-	public void testRotateCounterclockwisePoint2IDoubleBoolean() {
+	public void testRotatePoint2IDoubleBoolean() {
 		final Point2I a = new Point2I(+9, +0);
 		
-		final Point2I b = Point2I.rotateCounterclockwise(a, +90.0D, false);
-		final Point2I c = Point2I.rotateCounterclockwise(b, +90.0D, false);
-		final Point2I d = Point2I.rotateCounterclockwise(c, +90.0D, false);
-		final Point2I e = Point2I.rotateCounterclockwise(d, +90.0D, false);
+		final Point2I b = Point2I.rotate(a, +90.0D, false);
+		final Point2I c = Point2I.rotate(b, +90.0D, false);
+		final Point2I d = Point2I.rotate(c, +90.0D, false);
+		final Point2I e = Point2I.rotate(d, +90.0D, false);
 		
-		final Point2I f = Point2I.rotateCounterclockwise(e, Math.toRadians(-90.0D), true);
-		final Point2I g = Point2I.rotateCounterclockwise(f, Math.toRadians(-90.0D), true);
-		final Point2I h = Point2I.rotateCounterclockwise(g, Math.toRadians(-90.0D), true);
-		final Point2I i = Point2I.rotateCounterclockwise(h, Math.toRadians(-90.0D), true);
+		final Point2I f = Point2I.rotate(e, Math.toRadians(-90.0D), true);
+		final Point2I g = Point2I.rotate(f, Math.toRadians(-90.0D), true);
+		final Point2I h = Point2I.rotate(g, Math.toRadians(-90.0D), true);
+		final Point2I i = Point2I.rotate(h, Math.toRadians(-90.0D), true);
 		
 		assertEquals(+0, b.x);
 		assertEquals(+9, b.y);
@@ -288,31 +288,31 @@ public final class Point2IUnitTests {
 		assertEquals(+9, i.x);
 		assertEquals(+0, i.y);
 		
-		assertThrows(NullPointerException.class, () -> Point2I.rotateCounterclockwise(null, 0.0D, false));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0D, false));
 	}
 	
 	@Test
-	public void testRotateCounterclockwisePoint2IDoubleBooleanPoint2I() {
+	public void testRotatePoint2IDoubleBooleanPoint2I() {
 		final Point2I a = new Point2I(+0, +0);
 		final Point2I b = new Point2I(+9, +0);
 		
-		final Point2I c = Point2I.rotateCounterclockwise(b, +90.0D, false, a);
-		final Point2I d = Point2I.rotateCounterclockwise(c, +90.0D, false, a);
-		final Point2I e = Point2I.rotateCounterclockwise(d, +90.0D, false, a);
-		final Point2I f = Point2I.rotateCounterclockwise(e, +90.0D, false, a);
+		final Point2I c = Point2I.rotate(b, +90.0D, false, a);
+		final Point2I d = Point2I.rotate(c, +90.0D, false, a);
+		final Point2I e = Point2I.rotate(d, +90.0D, false, a);
+		final Point2I f = Point2I.rotate(e, +90.0D, false, a);
 		
-		final Point2I g = Point2I.rotateCounterclockwise(f, Math.toRadians(-90.0D), true, a);
-		final Point2I h = Point2I.rotateCounterclockwise(g, Math.toRadians(-90.0D), true, a);
-		final Point2I i = Point2I.rotateCounterclockwise(h, Math.toRadians(-90.0D), true, a);
-		final Point2I j = Point2I.rotateCounterclockwise(i, Math.toRadians(-90.0D), true, a);
+		final Point2I g = Point2I.rotate(f, Math.toRadians(-90.0D), true, a);
+		final Point2I h = Point2I.rotate(g, Math.toRadians(-90.0D), true, a);
+		final Point2I i = Point2I.rotate(h, Math.toRadians(-90.0D), true, a);
+		final Point2I j = Point2I.rotate(i, Math.toRadians(-90.0D), true, a);
 		
 		final Point2I k = new Point2I(+1, +1);
 		final Point2I l = new Point2I(+8, +1);
 		
-		final Point2I m = Point2I.rotateCounterclockwise(l, +90.0D, false, k);
-		final Point2I n = Point2I.rotateCounterclockwise(m, +90.0D, false, k);
-		final Point2I o = Point2I.rotateCounterclockwise(n, +90.0D, false, k);
-		final Point2I p = Point2I.rotateCounterclockwise(o, +90.0D, false, k);
+		final Point2I m = Point2I.rotate(l, +90.0D, false, k);
+		final Point2I n = Point2I.rotate(m, +90.0D, false, k);
+		final Point2I o = Point2I.rotate(n, +90.0D, false, k);
+		final Point2I p = Point2I.rotate(o, +90.0D, false, k);
 		
 		assertEquals(+0, c.x);
 		assertEquals(+9, c.y);
@@ -341,8 +341,8 @@ public final class Point2IUnitTests {
 		assertEquals(+8, p.x);
 		assertEquals(+1, p.y);
 		
-		assertThrows(NullPointerException.class, () -> Point2I.rotateCounterclockwise(new Point2I(), 0.0D, false, null));
-		assertThrows(NullPointerException.class, () -> Point2I.rotateCounterclockwise(null, 0.0D, false, new Point2I()));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(new Point2I(), 0.0D, false, null));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0D, false, new Point2I()));
 	}
 	
 	@Test

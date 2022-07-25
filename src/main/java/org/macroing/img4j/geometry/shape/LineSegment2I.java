@@ -256,10 +256,14 @@ public final class LineSegment2I implements Shape2I {
 	 * <p>
 	 * The returned {@code LineSegment2I} instance may have a length that is different from the length of {@code lineSegment}. However, the {@link #findPoints()} method will return the same number of {@link Point2I} instances for both.
 	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * LineSegment2I.rotateBCounterclockwise(lineSegment, angle, false);
+	 * LineSegment2I.rotateB(lineSegment, angle, false);
 	 * }
 	 * </pre>
 	 * 
@@ -268,8 +272,8 @@ public final class LineSegment2I implements Shape2I {
 	 * @return a new {@code LineSegment2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code lineSegment} is {@code null}
 	 */
-	public static LineSegment2I rotateBCounterclockwise(final LineSegment2I lineSegment, final double angle) {
-		return rotateBCounterclockwise(lineSegment, angle, false);
+	public static LineSegment2I rotateB(final LineSegment2I lineSegment, final double angle) {
+		return rotateB(lineSegment, angle, false);
 	}
 	
 	/**
@@ -280,6 +284,10 @@ public final class LineSegment2I implements Shape2I {
 	 * If {@code lineSegment} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * The returned {@code LineSegment2I} instance may have a length that is different from the length of {@code lineSegment}. However, the {@link #findPoints()} method will return the same number of {@link Point2I} instances for both.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
 	 * 
 	 * @param lineSegment the {@code LineSegment2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
@@ -287,10 +295,10 @@ public final class LineSegment2I implements Shape2I {
 	 * @return a new {@code LineSegment2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code lineSegment} is {@code null}
 	 */
-	public static LineSegment2I rotateBCounterclockwise(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
+	public static LineSegment2I rotateB(final LineSegment2I lineSegment, final double angle, final boolean isAngleInRadians) {
 		final Point2I a = lineSegment.getA();
 		final Point2I b = lineSegment.getB();
-		final Point2I c = Point2I.rotateCounterclockwise(b, angle, isAngleInRadians, a);
+		final Point2I c = Point2I.rotate(b, angle, isAngleInRadians, a);
 		
 		final int dABX = b.x - a.x;
 		final int dABY = b.y - a.y;

@@ -256,10 +256,14 @@ public final class Point2I {
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * Point2I.rotateCounterclockwise(point, angle, false);
+	 * Point2I.rotate(point, angle, false);
 	 * }
 	 * </pre>
 	 * 
@@ -268,8 +272,8 @@ public final class Point2I {
 	 * @return a new {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-	public static Point2I rotateCounterclockwise(final Point2I point, final double angle) {
-		return rotateCounterclockwise(point, angle, false);
+	public static Point2I rotate(final Point2I point, final double angle) {
+		return rotate(point, angle, false);
 	}
 	
 	/**
@@ -279,10 +283,14 @@ public final class Point2I {
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * Point2I.rotateCounterclockwise(point, angle, isAngleInRadians, new Point2I(0, 0));
+	 * Point2I.rotate(point, angle, isAngleInRadians, new Point2I(0, 0));
 	 * }
 	 * </pre>
 	 * 
@@ -292,8 +300,8 @@ public final class Point2I {
 	 * @return a new {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-	public static Point2I rotateCounterclockwise(final Point2I point, final double angle, final boolean isAngleInRadians) {
-		return rotateCounterclockwise(point, angle, isAngleInRadians, new Point2I(0, 0));
+	public static Point2I rotate(final Point2I point, final double angle, final boolean isAngleInRadians) {
+		return rotate(point, angle, isAngleInRadians, new Point2I(0, 0));
 	}
 	
 	/**
@@ -302,6 +310,10 @@ public final class Point2I {
 	 * Returns a new {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
 	 * 
 	 * @param point the {@code Point2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
@@ -310,7 +322,7 @@ public final class Point2I {
 	 * @return a new {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
 	 */
-	public static Point2I rotateCounterclockwise(final Point2I point, final double angle, final boolean isAngleInRadians, final Point2I center) {
+	public static Point2I rotate(final Point2I point, final double angle, final boolean isAngleInRadians, final Point2I center) {
 		final double a = isAngleInRadians ? angle : Doubles.toRadians(angle);
 		final double aCos = Doubles.cos(a);
 		final double aSin = Doubles.sin(a);
