@@ -115,4 +115,45 @@ public final class ParameterArguments {
 			return value;
 		}
 	}
+	
+	/**
+	 * Checks that {@code valueLHS * valueRHS} is in the range {@code [Math.min(rangeEndA, rangeEndB), Math.max(rangeEndA, rangeEndB)]}.
+	 * <p>
+	 * Returns {@code value}.
+	 * <p>
+	 * If either {@code nameLHS} or {@code nameRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the result of {@code valueLHS * valueRHS} overflows, is less than {@code Math.min(rangeEndA, rangeEndB)} or greater than {@code Math.max(rangeEndA, rangeEndB)}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param valueLHS the value on the left-hand side of the multiplication
+	 * @param valueRHS the value on the right-hand side of the multiplication
+	 * @param rangeEndA the minimum or maximum value allowed
+	 * @param rangeEndB the maximum or minimum value allowed
+	 * @param nameLHS the name of the variable {@code valueLHS} that will be part of the message of the {@code IllegalArgumentException}
+	 * @param nameRHS the name of the variable {@code valueRHS} that will be part of the message of the {@code IllegalArgumentException}
+	 * @return {@code value}
+	 * @throws IllegalArgumentException thrown if, and only if, the result of {@code valueLHS * valueRHS} overflows, is less than {@code Math.min(rangeEndA, rangeEndB)} or greater than {@code Math.max(rangeEndA, rangeEndB)}
+	 * @throws NullPointerException thrown if, and only if, either {@code nameLHS} or {@code nameRHS} are {@code null}
+	 */
+	public static int requireRangeMultiplyExact(final int valueLHS, final int valueRHS, final int rangeEndA, final int rangeEndB, final String nameLHS, final String nameRHS) {
+		Objects.requireNonNull(nameLHS, "nameLHS == null");
+		Objects.requireNonNull(nameRHS, "nameRHS == null");
+		
+		final int minimum = Math.min(rangeEndA, rangeEndB);
+		final int maximum = Math.max(rangeEndA, rangeEndB);
+		
+		final long valueLong = (long)(valueLHS) * (long)(valueRHS);
+		
+		final int value = (int)(valueLong);
+		
+		if(value != valueLong) {
+			throw new IllegalArgumentException(String.format("%s * %s overflows to %d", nameLHS, nameRHS, Integer.valueOf(value)));
+		} else if(value < minimum) {
+			throw new IllegalArgumentException(String.format("%s * %s < %d: %s * %s == %d", nameLHS, nameRHS, Integer.valueOf(minimum), nameLHS, nameRHS, Integer.valueOf(value)));
+		} else if(value > maximum) {
+			throw new IllegalArgumentException(String.format("%s * %s > %d: %s * %s == %d", nameLHS, nameRHS, Integer.valueOf(maximum), nameLHS, nameRHS, Integer.valueOf(value)));
+		} else {
+			return value;
+		}
+	}
 }

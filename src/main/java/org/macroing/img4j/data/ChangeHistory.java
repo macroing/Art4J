@@ -18,6 +18,7 @@
  */
 package org.macroing.img4j.data;
 
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -33,6 +34,7 @@ final class ChangeHistory {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	public ChangeHistory() {
 		this.hasBegun = new AtomicBoolean();
 		this.changesToRedo = new ArrayDeque<>();
@@ -40,6 +42,7 @@ final class ChangeHistory {
 		this.changes = new ArrayList<>();
 	}
 	
+//	TODO: Add Unit Tests!
 	public ChangeHistory(final ChangeHistory changeHistory) {
 		this.hasBegun = new AtomicBoolean(changeHistory.hasBegun.get());
 		this.changesToRedo = new ArrayDeque<>(changeHistory.changesToRedo);
@@ -49,6 +52,7 @@ final class ChangeHistory {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	public boolean add(final Change change) {
 		Objects.requireNonNull(change, "change == null");
 		
@@ -61,6 +65,7 @@ final class ChangeHistory {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	public boolean begin() {
 		if(this.hasBegun.compareAndSet(false, true)) {
 			this.changes.clear();
@@ -71,6 +76,7 @@ final class ChangeHistory {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	public boolean end() {
 		if(this.hasBegun.compareAndSet(true, false)) {
 			if(this.changes.size() > 0) {
@@ -87,6 +93,7 @@ final class ChangeHistory {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -106,11 +113,15 @@ final class ChangeHistory {
 		}
 	}
 	
+//	TODO: Add Unit Tests!
 	public boolean hasBegun() {
 		return this.hasBegun.get();
 	}
 	
+//	TODO: Add Unit Tests!
 	public boolean redo(final Data data) {
+		Objects.requireNonNull(data, "data == null");
+		
 		if(!this.changesToRedo.isEmpty()) {
 			final
 			Change change = this.changesToRedo.pop();
@@ -124,7 +135,10 @@ final class ChangeHistory {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	public boolean undo(final Data data) {
+		Objects.requireNonNull(data, "data == null");
+		
 		if(!this.changesToUndo.isEmpty()) {
 			final
 			Change change = this.changesToUndo.pop();
@@ -138,6 +152,7 @@ final class ChangeHistory {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Boolean.valueOf(this.hasBegun.get()), this.changesToRedo, this.changesToUndo, this.changes);

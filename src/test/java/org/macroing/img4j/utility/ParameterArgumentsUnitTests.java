@@ -64,4 +64,18 @@ public final class ParameterArgumentsUnitTests {
 		
 		assertEquals(0, ParameterArguments.requireRange(0, 0, 1, "value"));
 	}
+	
+	@Test
+	public void testRequireRangeMultiplyExact() {
+		assertThrows(NullPointerException.class, () -> ParameterArguments.requireRangeMultiplyExact(0, 0, 0, 0, "a", null));
+		assertThrows(NullPointerException.class, () -> ParameterArguments.requireRangeMultiplyExact(0, 0, 0, 0, null, "b"));
+		
+		assertThrows(IllegalArgumentException.class, () -> ParameterArguments.requireRangeMultiplyExact(0, 1, 1, 2, "a", "b"));
+		assertThrows(IllegalArgumentException.class, () -> ParameterArguments.requireRangeMultiplyExact(0, 1, 2, 1, "a", "b"));
+		assertThrows(IllegalArgumentException.class, () -> ParameterArguments.requireRangeMultiplyExact(3, 1, 1, 2, "a", "b"));
+		assertThrows(IllegalArgumentException.class, () -> ParameterArguments.requireRangeMultiplyExact(3, 1, 2, 1, "a", "b"));
+		assertThrows(IllegalArgumentException.class, () -> ParameterArguments.requireRangeMultiplyExact(Integer.MAX_VALUE, Integer.MAX_VALUE, 2, 1, "a", "b"));
+		
+		assertEquals(0, ParameterArguments.requireRangeMultiplyExact(0, 1, 0, 1, "a", "b"));
+	}
 }

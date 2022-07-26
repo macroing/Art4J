@@ -21,6 +21,7 @@ package org.macroing.img4j.data;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -44,16 +45,19 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData() {
 		this(1024, 768);
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final BufferedImage bufferedImage) {
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 		this.colors = DataBufferInt.class.cast(BufferedImages.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData().clone();
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final ColorARGBData colorARGBData) {
 		super(colorARGBData);
 		
@@ -62,6 +66,7 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final ColorARGBData colorARGBData, final boolean isIgnoringChangeHistory) {
 		super(colorARGBData, isIgnoringChangeHistory);
 		
@@ -70,28 +75,32 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
 		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[ParameterArguments.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
+		this.colors = new int[ParameterArguments.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
+//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
 		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[ParameterArguments.requireRange(resolutionX * resolutionY, 1, Integer.MAX_VALUE, "resolutionX * resolutionY")];
+		this.colors = new int[ParameterArguments.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public BufferedImage toBufferedImage(final boolean isRGB) {
 		final BufferedImage bufferedImage = new BufferedImage(this.resolutionX, this.resolutionY, isRGB ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
@@ -104,51 +113,61 @@ final class ColorARGBData extends Data {
 		return bufferedImage;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color3D getColor3D(final int index) {
 		return Color3D.fromIntARGB(getColorARGB(index));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color3D getColor3D(final int x, final int y) {
 		return Color3D.fromIntARGB(getColorARGB(x, y));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color3F getColor3F(final int index) {
 		return Color3F.fromIntARGB(getColorARGB(index));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color3F getColor3F(final int x, final int y) {
 		return Color3F.fromIntARGB(getColorARGB(x, y));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color4D getColor4D(final int index) {
 		return Color4D.fromIntARGB(getColorARGB(index));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color4D getColor4D(final int x, final int y) {
 		return Color4D.fromIntARGB(getColorARGB(x, y));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color4F getColor4F(final int index) {
 		return Color4F.fromIntARGB(getColorARGB(index));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Color4F getColor4F(final int x, final int y) {
 		return Color4F.fromIntARGB(getColorARGB(x, y));
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new ColorARGBData(this, isIgnoringChangeHistory);
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public Data draw(final Consumer<Graphics2D> graphics2DConsumer) {
 		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
@@ -171,11 +190,13 @@ final class ColorARGBData extends Data {
 		return this;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public DataFactory getDataFactory() {
 		return new ColorARGBDataFactory();
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -265,6 +286,7 @@ final class ColorARGBData extends Data {
 		return count > 0;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelNF convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -354,6 +376,7 @@ final class ColorARGBData extends Data {
 		return count > 0;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(!super.equals(object)) {
@@ -371,6 +394,7 @@ final class ColorARGBData extends Data {
 		}
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean rotate(final double angle, final boolean isAngleInRadians) {
 		if(Doubles.isZero(angle)) {
@@ -452,6 +476,7 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean rotate(final float angle, final boolean isAngleInRadians) {
 		if(Floats.isZero(angle)) {
@@ -533,6 +558,7 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean scale(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
@@ -573,6 +599,7 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
@@ -602,6 +629,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
@@ -633,6 +661,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int index) {
 		Objects.requireNonNull(color, "color == null");
@@ -662,6 +691,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
@@ -693,6 +723,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
@@ -722,6 +753,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
@@ -753,6 +785,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int index) {
 		Objects.requireNonNull(color, "color == null");
@@ -782,6 +815,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int x, final int y) {
 		Objects.requireNonNull(color, "color == null");
@@ -813,6 +847,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int index) {
 		if(index >= 0 && index < this.colors.length) {
@@ -840,6 +875,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int x, final int y) {
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
@@ -869,6 +905,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setContent(final Data data) {
 		Objects.requireNonNull(data, "data == null");
@@ -900,6 +937,7 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean setResolution(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
@@ -945,6 +983,7 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean swap(final int indexA, final int indexB) {
 		if(indexA < 0 || indexA >= this.colors.length) {
@@ -976,36 +1015,43 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int cache() {
 		return 0;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int getColorARGB(final int index) {
 		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int getColorARGB(final int x, final int y) {
 		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int getResolution() {
 		return this.colors.length;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int getResolutionX() {
 		return this.resolutionX;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int getResolutionY() {
 		return this.resolutionY;
 	}
 	
+//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY), Integer.valueOf(Arrays.hashCode(this.colors)));
@@ -1013,10 +1059,12 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	void updatePixel(final int color, final int index) {
 		this.colors[index] = color;
 	}
 	
+//	TODO: Add Unit Tests!
 	void updateState(final int resolutionX, final int resolutionY, final int[] colors) {
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
@@ -1032,6 +1080,7 @@ final class ColorARGBData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+//		TODO: Add Unit Tests!
 		public PixelChange(final int colorRedo, final int colorUndo, final int index) {
 			this.colorRedo = colorRedo;
 			this.colorUndo = colorUndo;
@@ -1040,6 +1089,7 @@ final class ColorARGBData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -1057,11 +1107,13 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public int hashCode() {
 			return Objects.hash(Integer.valueOf(this.colorRedo), Integer.valueOf(this.colorUndo), Integer.valueOf(this.index));
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public void redo(final Data data) {
 			if(data instanceof ColorARGBData) {
@@ -1071,6 +1123,7 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
 			if(data instanceof ColorARGBData) {
@@ -1093,6 +1146,7 @@ final class ColorARGBData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+//		TODO: Add Unit Tests!
 		public StateChange(final int resolutionXRedo, final int resolutionXUndo, final int resolutionYRedo, final int resolutionYUndo, final int[] colorsRedo, final int[] colorsUndo) {
 			this.resolutionXRedo = resolutionXRedo;
 			this.resolutionXUndo = resolutionXUndo;
@@ -1104,6 +1158,7 @@ final class ColorARGBData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -1127,11 +1182,13 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public int hashCode() {
 			return Objects.hash(Integer.valueOf(this.resolutionXRedo), Integer.valueOf(this.resolutionXUndo), Integer.valueOf(this.resolutionYRedo), Integer.valueOf(this.resolutionYUndo), Integer.valueOf(Arrays.hashCode(this.colorsRedo)), Integer.valueOf(Arrays.hashCode(this.colorsUndo)));
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public void redo(final Data data) {
 			if(data instanceof ColorARGBData) {
@@ -1141,6 +1198,7 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
+//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
 			if(data instanceof ColorARGBData) {
@@ -1153,6 +1211,7 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+//	TODO: Add Unit Tests!
 	private double[] doUnpackColorsAsDoubleArrayRGB() {
 		final double[] colors = new double[this.colors.length * 3];
 		
@@ -1165,6 +1224,7 @@ final class ColorARGBData extends Data {
 		return colors;
 	}
 	
+//	TODO: Add Unit Tests!
 	private float[] doUnpackColorsAsFloatArrayRGB() {
 		final float[] colors = new float[this.colors.length * 3];
 		

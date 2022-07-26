@@ -20,6 +20,7 @@ package org.macroing.img4j.data;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -52,6 +53,7 @@ public abstract class Data {
 	/**
 	 * Constructs a new {@code Data} instance.
 	 */
+//	TODO: Add Unit Tests!
 	protected Data() {
 		this.changeHistory = null;
 		this.rotationBounds = null;
@@ -65,6 +67,7 @@ public abstract class Data {
 	 * @param data the {@code Data} instance to copy
 	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	protected Data(final Data data) {
 		this.changeHistory = data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
 		this.rotationBounds = data.rotationBounds;
@@ -79,6 +82,7 @@ public abstract class Data {
 	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	protected Data(final Data data, final boolean isIgnoringChangeHistory) {
 		this.changeHistory = isIgnoringChangeHistory ? null : data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
 		this.rotationBounds = data.rotationBounds;
@@ -107,6 +111,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Color3D getColor3D(final double x, final double y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -168,6 +173,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Color3F getColor3F(final float x, final float y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -229,6 +235,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4D} at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Color4D getColor4D(final double x, final double y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -290,6 +297,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4F} at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Color4F getColor4F(final float x, final float y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -350,6 +358,7 @@ public abstract class Data {
 	 * 
 	 * @return a copy of this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Data copy() {
 		return copy(false);
 	}
@@ -387,6 +396,7 @@ public abstract class Data {
 	 * 
 	 * @return a {@code Rectangle2I} with the rotation bounds for this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final Rectangle2I getRotationBounds() {
 		if(this.rotationBounds != null) {
 			return this.rotationBounds;
@@ -414,6 +424,7 @@ public abstract class Data {
 	 * @return {@code true} if, and only if, the change history is enabled and {@code change} is added, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code change} is {@code null}
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean changeAdd(final Change change) {
 		Objects.requireNonNull(change, "change == null");
 		
@@ -435,6 +446,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean changeBegin() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -454,6 +466,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean changeEnd() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -500,6 +513,7 @@ public abstract class Data {
 	 * @param object the {@code Object} to compare to this {@code Data} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Data}, and they are equal, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -518,6 +532,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and a change has begun, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean hasChangeBegun() {
 		return this.changeHistory != null && this.changeHistory.hasBegun();
 	}
@@ -527,6 +542,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean isChangeHistoryEnabled() {
 		return this.changeHistory != null;
 	}
@@ -538,6 +554,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the redo operation was performed, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean redo() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -583,6 +600,7 @@ public abstract class Data {
 	 * @param scaleY the scale factor along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean scale(final double scaleX, final double scaleY) {
 		final int resolutionX = (int)(Doubles.ceil(getResolutionX() * scaleX));
 		final int resolutionY = (int)(Doubles.ceil(getResolutionY() * scaleY));
@@ -603,6 +621,7 @@ public abstract class Data {
 	 * @param scaleY the scale factor along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean scale(final float scaleX, final float scaleY) {
 		final int resolutionX = (int)(Floats.ceil(getResolutionX() * scaleX));
 		final int resolutionY = (int)(Floats.ceil(getResolutionY() * scaleY));
@@ -630,6 +649,7 @@ public abstract class Data {
 	 * 
 	 * @param isChangeHistoryEnabled the change history enabled state
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean setChangeHistoryEnabled(final boolean isChangeHistoryEnabled) {
 		if(isChangeHistoryEnabled && this.changeHistory == null) {
 			this.changeHistory = new ChangeHistory();
@@ -866,6 +886,7 @@ public abstract class Data {
 	 * @param resolutionX the new resolution along the X-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean setResolutionX(final int resolutionX) {
 		return setResolution(resolutionX, getResolutionY());
 	}
@@ -889,6 +910,7 @@ public abstract class Data {
 	 * @param resolutionY the new resolution along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean setResolutionY(final int resolutionY) {
 		return setResolution(getResolutionX(), resolutionY);
 	}
@@ -905,6 +927,7 @@ public abstract class Data {
 	 * @param rotationBounds a {@link Rectangle2I} instance, or {@code null} to reset the rotation bounds
 	 * @return {@code true} if, and only if, the rotation bounds were changed as a result of this method call, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean setRotationBounds(final Rectangle2I rotationBounds) {
 		final Rectangle2I oldRotationBounds = this.rotationBounds;
 		final Rectangle2I newRotationBounds =      rotationBounds;
@@ -938,6 +961,7 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the undo operation was performed, {@code false} otherwise
 	 */
+//	TODO: Add Unit Tests!
 	public final boolean undo() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -970,6 +994,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final int getColorARGB(final double x, final double y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1008,6 +1033,7 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	public final int getColorARGB(final float x, final float y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1082,6 +1108,7 @@ public abstract class Data {
 	 * 
 	 * @return a hash code for this {@code Data} instance
 	 */
+//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.changeHistory);
