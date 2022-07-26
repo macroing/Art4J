@@ -272,12 +272,12 @@ public final class Test2 {
 		final int distanceNewDA = Point2I.distance(newD, newA);
 		
 		if(distanceOldAB == distanceNewAB && distanceOldBC == distanceNewBC && distanceOldCD == distanceNewCD && distanceOldDA == distanceNewDA) {
-//			final int currentMaximumDepth = MAXIMUM_DEPTH.updateAndGet(maximumDepth -> maximumDepth < depth ? depth : maximumDepth);
-//			final int currentMinimumDepth = MINIMUM_DEPTH.updateAndGet(minimumDepth -> minimumDepth > depth && depth > 0 ? depth : minimumDepth);
+			final int currentMaximumDepth = MAXIMUM_DEPTH.updateAndGet(maximumDepth -> maximumDepth < depth ? depth : maximumDepth);
+			final int currentMinimumDepth = MINIMUM_DEPTH.updateAndGet(minimumDepth -> minimumDepth > depth && depth > 0 ? depth : minimumDepth);
 			
-//			if(currentMaximumDepth == depth || currentMinimumDepth == depth) {
-//				System.out.println("Depth " + currentMinimumDepth + " " + currentMaximumDepth);
-//			}
+			if(currentMaximumDepth == depth || currentMinimumDepth == depth) {
+				System.out.println("Depth " + currentMinimumDepth + " " + currentMaximumDepth);
+			}
 			
 			return new Rectangle2I(newA, newB, newC, newD);
 		}
