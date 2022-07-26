@@ -114,4 +114,11 @@ public final class ColorARGBDataFactoryUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create(1, 1, (Color4F)(null)));
 	}
+	
+	@Test
+	public void testForColorARGB() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		assertTrue(dataFactory instanceof ColorARGBDataFactory);
+	}
 }

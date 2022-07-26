@@ -114,4 +114,11 @@ public final class Color4FDataFactoryUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> color4FDataFactory.create(1, 1, (Color4F)(null)));
 	}
+	
+	@Test
+	public void testForColor4F() {
+		final DataFactory dataFactory = DataFactory.forColor4F();
+		
+		assertTrue(dataFactory instanceof Color4FDataFactory);
+	}
 }

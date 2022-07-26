@@ -59,7 +59,6 @@ public abstract class DataFactory {
 	 * 
 	 * @return a {@code Data} instance with a resolution of {@code 1024} and {@code 768}
 	 */
-//	TODO: Add Unit Tests!
 	public final Data create() {
 		return create(1024, 768);
 	}
@@ -194,7 +193,6 @@ public abstract class DataFactory {
 	 * 
 	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as {@code Color4D} instances
 	 */
-//	TODO: Add Unit Tests!
 	public static DataFactory forColor4D() {
 		return new Color4DDataFactory();
 	}
@@ -204,7 +202,6 @@ public abstract class DataFactory {
 	 * 
 	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as {@code Color4F} instances
 	 */
-//	TODO: Add Unit Tests!
 	public static DataFactory forColor4F() {
 		return new Color4FDataFactory();
 	}
@@ -214,7 +211,6 @@ public abstract class DataFactory {
 	 * 
 	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as packed {@code int} values with the format ARGB
 	 */
-//	TODO: Add Unit Tests!
 	public static DataFactory forColorARGB() {
 		return new ColorARGBDataFactory();
 	}

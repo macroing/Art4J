@@ -53,7 +53,6 @@ public abstract class Data {
 	/**
 	 * Constructs a new {@code Data} instance.
 	 */
-//	TODO: Add Unit Tests!
 	protected Data() {
 		this.changeHistory = null;
 		this.rotationBounds = null;
