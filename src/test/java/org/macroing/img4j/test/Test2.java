@@ -1,5 +1,7 @@
 package org.macroing.img4j.test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.LineSegment2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
@@ -7,6 +9,11 @@ import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Ints;
 
 public final class Test2 {
+	private static final AtomicInteger MAXIMUM_DEPTH = new AtomicInteger();
+	private static final AtomicInteger MINIMUM_DEPTH = new AtomicInteger(Integer.MAX_VALUE);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private Test2() {
 		
 	}
@@ -229,6 +236,10 @@ public final class Test2 {
 	}
 	
 	public static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center, final boolean isPreservingLength) {
+		return rotate(rectangle, angle, isAngleInRadians, center, isPreservingLength, 0);
+	}
+	
+	public static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center, final boolean isPreservingLength, final int depth) {
 		/*
 		final Point2I[] points = doRotate(angle, isAngleInRadians, center, isPreservingLength, rectangle.getA(), rectangle.getB(), rectangle.getC());
 		
@@ -261,6 +272,13 @@ public final class Test2 {
 		final int distanceNewDA = Point2I.distance(newD, newA);
 		
 		if(distanceOldAB == distanceNewAB && distanceOldBC == distanceNewBC && distanceOldCD == distanceNewCD && distanceOldDA == distanceNewDA) {
+//			final int currentMaximumDepth = MAXIMUM_DEPTH.updateAndGet(maximumDepth -> maximumDepth < depth ? depth : maximumDepth);
+//			final int currentMinimumDepth = MINIMUM_DEPTH.updateAndGet(minimumDepth -> minimumDepth > depth && depth > 0 ? depth : minimumDepth);
+			
+//			if(currentMaximumDepth == depth || currentMinimumDepth == depth) {
+//				System.out.println("Depth " + currentMinimumDepth + " " + currentMaximumDepth);
+//			}
+			
 			return new Rectangle2I(newA, newB, newC, newD);
 		}
 		/*
@@ -274,7 +292,11 @@ public final class Test2 {
 		
 //		return rectangle;
 		
-		return rotate(rectangle, angle + (angle >= 0.0D ? 0.01D : -0.01D), isAngleInRadians, center, isPreservingLength);
+//		0.48 is the value where the least recursion occurs, at least so far. But a better alternative needs to be found.
+		final double newAngleChange = isAngleInRadians ? Doubles.toRadians(0.48D) : 0.48D;
+		final double newAngle = angle >= 0.0D ? angle + newAngleChange : angle - newAngleChange;
+		
+		return rotate(rectangle, newAngle, isAngleInRadians, center, isPreservingLength, depth + 1);
 		
 //		return new Rectangle2I(updatedA, updatedB, updatedC, updatedD);
 	}
