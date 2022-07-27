@@ -55,6 +55,17 @@ public final class Ints {
 	}
 	
 	/**
+	 * Returns the floor modulus of the {@code int} arguments. 
+	 * 
+	 * @param x the dividend
+	 * @param y the divisor
+	 * @return the floor modulus of the {@code int} arguments
+	 */
+	public static int floorMod(final int x, final int y) {
+		return Math.floorMod(x, y);
+	}
+	
+	/**
 	 * Performs a linear interpolation operation on the supplied values.
 	 * <p>
 	 * Returns the result of the linear interpolation operation.

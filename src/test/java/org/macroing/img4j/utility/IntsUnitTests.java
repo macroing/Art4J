@@ -37,6 +37,14 @@ public final class IntsUnitTests {
 	}
 	
 	@Test
+	public void testFloorMod() {
+		assertEquals(+1, Ints.floorMod(+4, +3));
+		assertEquals(-2, Ints.floorMod(+4, -3));
+		assertEquals(+2, Ints.floorMod(-4, +3));
+		assertEquals(-1, Ints.floorMod(-4, -3));
+	}
+	
+	@Test
 	public void testLerpIntIntDouble() {
 //		Interpolation:
 		assertEquals(100, Ints.lerp(100, 200, +0.0D));

@@ -392,7 +392,7 @@ public final class Rectangle2I implements Shape2I {
 		 * A better approach needs to be found and implemented.
 		 */
 		
-		final double newAngleChangeDegrees = center.equals(oldA) || center.equals(oldB) || center.equals(oldC) || center.equals(oldB) ? 0.12D : 0.48D;
+		final double newAngleChangeDegrees = center.equals(oldA) | center.equals(oldB) | center.equals(oldC) | center.equals(oldB) ? 0.12D : 0.48D;
 		final double newAngleChange = isAngleInRadians ? Doubles.toRadians(newAngleChangeDegrees) : newAngleChangeDegrees;
 		final double newAngle = angle >= 0.0D ? angle + newAngleChange : angle - newAngleChange;
 		

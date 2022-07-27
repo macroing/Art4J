@@ -779,12 +779,12 @@ public final class Rectangle2IUnitTests {
 		assertEquals(a, rectangle);
 		
 		/*
-		 * TODO: Notice the degrees 142.5 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 * TODO: Notice the degrees 284.0 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
 		 */
 		
 		rectangle = a;
 		
-		for(double degrees = 1.0D; degrees <= 142.5D; degrees += 0.5D) {
+		for(double degrees = 1.0D; degrees <= 284.0D; degrees += 1.0D) {
 			if(degrees < 100.0D) {
 				rectangle = Rectangle2I.rotate(rectangle, 1.0D, false, new Point2I(150, 150));
 			} else {
@@ -799,11 +799,34 @@ public final class Rectangle2IUnitTests {
 		
 		assertEquals(a, rectangle);
 		
-		for(double degrees = 1.0D; degrees <= 142.5D; degrees += 0.5D) {
+		/*
+		 * TODO: Notice the degrees 284.0 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 */
+		
+		for(double degrees = 1.0D; degrees <= 284.0D; degrees += 1.0D) {
 			if(degrees < 100.0D) {
 				rectangle = Rectangle2I.rotate(rectangle, -1.0D, false, new Point2I(150, 150));
 			} else {
 				rectangle = Rectangle2I.rotate(rectangle, Math.toRadians(-1.0D), true, new Point2I(150, 150));
+			}
+			
+			assertEquals(a.getLineSegments().get(0).length(), rectangle.getLineSegments().get(0).length());
+			assertEquals(a.getLineSegments().get(1).length(), rectangle.getLineSegments().get(1).length());
+			assertEquals(a.getLineSegments().get(2).length(), rectangle.getLineSegments().get(2).length());
+			assertEquals(a.getLineSegments().get(3).length(), rectangle.getLineSegments().get(3).length());
+		}
+		
+		assertEquals(a, rectangle);
+		
+		/*
+		 * TODO: Notice the degrees 178.5 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 */
+		
+		for(double degrees = 1.0D; degrees <= 178.5D; degrees += 0.5D) {
+			if(degrees < 100.0D) {
+				rectangle = Rectangle2I.rotate(rectangle, 0.5D, false, rectangle.getA());
+			} else {
+				rectangle = Rectangle2I.rotate(rectangle, Math.toRadians(0.5D), true, rectangle.getA());
 			}
 			
 			assertEquals(a.getLineSegments().get(0).length(), rectangle.getLineSegments().get(0).length());
