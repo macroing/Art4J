@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.pixel;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.ParameterArguments;
 
@@ -64,17 +62,13 @@ public enum PixelTransformer {
 	 * @return {@code pixel} or a transformed version of it
 	 * @throws IllegalArgumentException thrown if, and only if, {@code resolution} is less than {@code 1}
 	 */
-//	TODO: Add Unit Tests!
 	public int transform(final int pixel, final int resolution) {
 		ParameterArguments.requireRange(resolution, 1, Integer.MAX_VALUE, "resolution");
 		
-		switch(this) {
-			case DEFAULT:
-				return pixel;
-			case WRAP_AROUND:
-				return Ints.floorMod(pixel, resolution);
-			default:
-				return pixel;
+		if(this == WRAP_AROUND) {
+			return Ints.floorMod(pixel, resolution);
 		}
+		
+		return pixel;
 	}
 }
