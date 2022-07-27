@@ -240,17 +240,6 @@ public final class Test2 {
 	}
 	
 	public static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center, final boolean isPreservingLength, final int depth) {
-		/*
-		final Point2I[] points = doRotate(angle, isAngleInRadians, center, isPreservingLength, rectangle.getA(), rectangle.getB(), rectangle.getC());
-		
-		final Point2I a = points[0];
-		final Point2I b = points[1];
-		final Point2I c = points[2];
-		final Point2I d = points[3];
-		
-		return new Rectangle2I(a, b, c, d);
-		*/
-		
 		final Point2I oldA = rectangle.getA();
 		final Point2I oldB = rectangle.getB();
 		final Point2I oldC = rectangle.getC();
