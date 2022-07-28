@@ -35,6 +35,7 @@ import org.macroing.img4j.kernel.ConvolutionKernelNF;
 import org.macroing.img4j.utility.BufferedImages;
 import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Floats;
+import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.ParameterArguments;
 
 final class Color4FData extends Data {
@@ -557,7 +558,7 @@ final class Color4FData extends Data {
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean scale(final int resolutionX, final int resolutionY) {
-		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
+		if(resolutionX < 1 || resolutionY < 1 || !Ints.canMultiplyExact(resolutionX, resolutionY)) {
 			return false;
 		}
 		
@@ -741,10 +742,9 @@ final class Color4FData extends Data {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setResolution(final int resolutionX, final int resolutionY) {
-		if(resolutionX < 1 || resolutionY < 1 || resolutionX * resolutionY < 1) {
+		if(resolutionX < 1 || resolutionY < 1 || !Ints.canMultiplyExact(resolutionX, resolutionY)) {
 			return false;
 		}
 		
@@ -793,7 +793,6 @@ final class Color4FData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean swap(final int indexA, final int indexB) {
 		if(indexA < 0 || indexA >= this.colors.length) {

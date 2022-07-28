@@ -62,6 +62,61 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testChangeAdd() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.changeAdd(new PixelChange(Color4D.BLACK, Color4D.WHITE, 1)));
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.changeAdd(new PixelChange(Color4D.BLACK, Color4D.WHITE, 1)));
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.changeAdd(new PixelChange(Color4D.BLACK, Color4D.WHITE, 1)));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.changeAdd(null));
+	}
+	
+	@Test
+	public void testChangeBegin() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.changeBegin());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4DData.changeBegin());
+		
+		assertFalse(color4DData.changeBegin());
+		
+		color4DData.changeEnd();
+		
+		assertTrue(color4DData.changeBegin());
+	}
+	
+	@Test
+	public void testChangeEnd() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.changeEnd());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.changeEnd());
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.changeEnd());
+		
+		assertFalse(color4DData.changeEnd());
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.changeEnd());
+	}
+	
+	@Test
 	public void testConstructor() {
 		final Color4DData color4DData = new Color4DData();
 		
@@ -500,6 +555,25 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testHasChangeBegun() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.hasChangeBegun());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.hasChangeBegun());
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.hasChangeBegun());
+		
+		color4DData.changeEnd();
+		
+		assertFalse(color4DData.hasChangeBegun());
+	}
+	
+	@Test
 	public void testHashCode() {
 		final Color4DData a = new Color4DData(100, 100);
 		final Color4DData b = new Color4DData(100, 100);
@@ -527,6 +601,21 @@ public final class Color4DDataUnitTests {
 		
 		assertEquals(a.hashCode(), a.hashCode());
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIsChangeHistoryEnabled() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.isChangeHistoryEnabled());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4DData.isChangeHistoryEnabled());
+		
+		color4DData.setChangeHistoryEnabled(false);
+		
+		assertFalse(color4DData.isChangeHistoryEnabled());
 	}
 	
 	@Test
@@ -600,6 +689,37 @@ public final class Color4DDataUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> pixelChange.redo(null));
 		assertThrows(NullPointerException.class, () -> pixelChange.undo(null));
+	}
+	
+	@Test
+	public void testRedoAndUndo() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.redo());
+		assertFalse(color4DData.undo());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.redo());
+		assertFalse(color4DData.undo());
+		
+		color4DData.setColor4D(Color4D.BLACK, 0);
+		
+		assertTrue(color4DData.undo());
+		assertTrue(color4DData.redo());
+	}
+	
+	@Test
+	public void testSetChangeHistoryEnabled() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(color4DData.setChangeHistoryEnabled(false));
+		
+		assertTrue(color4DData.setChangeHistoryEnabled(true));
+		
+		assertFalse(color4DData.setChangeHistoryEnabled(true));
+		
+		assertTrue(color4DData.setChangeHistoryEnabled(false));
 	}
 	
 	@Test
@@ -779,6 +899,102 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testSetResolution() {
+		final Color4DData color4DData = new Color4DData(1, 1, Color4D.BLACK);
+		
+		assertFalse(color4DData.setResolution(0, 1));
+		assertFalse(color4DData.setResolution(1, 0));
+		assertFalse(color4DData.setResolution(Integer.MAX_VALUE, 2));
+		assertFalse(color4DData.setResolution(2, Integer.MAX_VALUE));
+		assertFalse(color4DData.setResolution(1, 1));
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		
+		assertTrue(color4DData.setResolution(1, 2));
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+		
+		assertFalse(color4DData.undo());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4DData.setResolution(2, 1));
+		
+		assertEquals(2, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.setResolution(2, 2));
+		
+		color4DData.changeEnd();
+		
+		assertEquals(2, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1));
+	}
+	
+	@Test
+	public void testSetResolutionX() {
+		final Color4DData color4DData = new Color4DData(2, 2, Color4D.BLACK);
+		
+		assertFalse(color4DData.setResolutionX(0));
+		assertFalse(color4DData.setResolutionX(Integer.MAX_VALUE));
+		assertFalse(color4DData.setResolutionX(2));
+		
+		assertEquals(2, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+	}
+	
+	@Test
+	public void testSetResolutionY() {
+		final Color4DData color4DData = new Color4DData(2, 2, Color4D.BLACK);
+		
+		assertFalse(color4DData.setResolutionY(0));
+		assertFalse(color4DData.setResolutionY(Integer.MAX_VALUE));
+		assertFalse(color4DData.setResolutionY(2));
+		
+		assertEquals(2, color4DData.getResolutionX());
+		assertEquals(2, color4DData.getResolutionY());
+	}
+	
+	@Test
 	public void testStateChangeConstructor() {
 		final StateChange stateChange = new StateChange(new Color4D[] {Color4D.BLACK}, new Color4D[] {Color4D.WHITE}, 1, 1, 1, 1);
 		
@@ -887,6 +1103,52 @@ public final class Color4DDataUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> stateChange.redo(null));
 		assertThrows(NullPointerException.class, () -> stateChange.undo(null));
+	}
+	
+	@Test
+	public void testSwap() {
+		final
+		Color4DData color4DData = new Color4DData(2, 1);
+		color4DData.setColor4D(Color4D.BLUE, 0);
+		color4DData.setColor4D(Color4D.CYAN, 1);
+		
+		assertFalse(color4DData.swap(-1, +0));
+		assertFalse(color4DData.swap(+2, +0));
+		assertFalse(color4DData.swap(+0, -1));
+		assertFalse(color4DData.swap(+0, +2));
+		
+		assertTrue(color4DData.swap(0, 1));
+		
+		assertEquals(Color4D.CYAN, color4DData.getColor4D(0));
+		assertEquals(Color4D.BLUE, color4DData.getColor4D(1));
+		
+		assertFalse(color4DData.undo());
+		
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4DData.swap(0, 1));
+		
+		assertEquals(Color4D.BLUE, color4DData.getColor4D(0));
+		assertEquals(Color4D.CYAN, color4DData.getColor4D(1));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(Color4D.CYAN, color4DData.getColor4D(0));
+		assertEquals(Color4D.BLUE, color4DData.getColor4D(1));
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.swap(0, 1));
+		
+		color4DData.changeEnd();
+		
+		assertEquals(Color4D.BLUE, color4DData.getColor4D(0));
+		assertEquals(Color4D.CYAN, color4DData.getColor4D(1));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(Color4D.CYAN, color4DData.getColor4D(0));
+		assertEquals(Color4D.BLUE, color4DData.getColor4D(1));
 	}
 	
 	@Test

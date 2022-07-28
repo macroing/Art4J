@@ -29,8 +29,6 @@ import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
-import org.macroing.img4j.geometry.Point2I;
-import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
 import org.macroing.img4j.utility.Doubles;
@@ -46,7 +44,6 @@ import org.macroing.img4j.utility.Floats;
  */
 public abstract class Data {
 	private ChangeHistory changeHistory;
-	private Rectangle2I rotationBounds;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -55,7 +52,6 @@ public abstract class Data {
 	 */
 	protected Data() {
 		this.changeHistory = null;
-		this.rotationBounds = null;
 	}
 	
 	/**
@@ -68,7 +64,6 @@ public abstract class Data {
 	 */
 	protected Data(final Data data) {
 		this.changeHistory = data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
-		this.rotationBounds = data.rotationBounds;
 	}
 	
 	/**
@@ -82,7 +77,6 @@ public abstract class Data {
 	 */
 	protected Data(final Data data, final boolean isIgnoringChangeHistory) {
 		this.changeHistory = isIgnoringChangeHistory ? null : data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
-		this.rotationBounds = data.rotationBounds;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -388,28 +382,6 @@ public abstract class Data {
 	public abstract DataFactory getDataFactory();
 	
 	/**
-	 * Returns a {@link Rectangle2I} with the rotation bounds for this {@code Data} instance.
-	 * 
-	 * @return a {@code Rectangle2I} with the rotation bounds for this {@code Data} instance
-	 */
-//	TODO: Add Unit Tests!
-	public final Rectangle2I getRotationBounds() {
-		if(this.rotationBounds != null) {
-			return this.rotationBounds;
-		}
-		
-		final int resolutionX = getResolutionX();
-		final int resolutionY = getResolutionY();
-		
-		final Point2I a = new Point2I(-resolutionX / 2, -resolutionY / 2);
-		final Point2I b = new Point2I(-resolutionX / 2, +resolutionY / 2);
-		final Point2I c = new Point2I(+resolutionX / 2, +resolutionY / 2);
-		final Point2I d = new Point2I(+resolutionX / 2, -resolutionY / 2);
-		
-		return new Rectangle2I(a, b, c, d);
-	}
-	
-	/**
 	 * Performs a change add operation.
 	 * <p>
 	 * Returns {@code true} if, and only if, the change history is enabled and {@code change} is added, {@code false} otherwise.
@@ -420,7 +392,6 @@ public abstract class Data {
 	 * @return {@code true} if, and only if, the change history is enabled and {@code change} is added, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code change} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean changeAdd(final Change change) {
 		Objects.requireNonNull(change, "change == null");
 		
@@ -442,7 +413,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean changeBegin() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -462,7 +432,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean changeEnd() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -527,7 +496,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled and a change has begun, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean hasChangeBegun() {
 		return this.changeHistory != null && this.changeHistory.hasBegun();
 	}
@@ -537,7 +505,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean isChangeHistoryEnabled() {
 		return this.changeHistory != null;
 	}
@@ -549,7 +516,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the redo operation was performed, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean redo() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		
@@ -644,7 +610,6 @@ public abstract class Data {
 	 * 
 	 * @param isChangeHistoryEnabled the change history enabled state
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean setChangeHistoryEnabled(final boolean isChangeHistoryEnabled) {
 		if(isChangeHistoryEnabled && this.changeHistory == null) {
 			this.changeHistory = new ChangeHistory();
@@ -881,7 +846,6 @@ public abstract class Data {
 	 * @param resolutionX the new resolution along the X-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean setResolutionX(final int resolutionX) {
 		return setResolution(resolutionX, getResolutionY());
 	}
@@ -905,35 +869,8 @@ public abstract class Data {
 	 * @param resolutionY the new resolution along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean setResolutionY(final int resolutionY) {
 		return setResolution(getResolutionX(), resolutionY);
-	}
-	
-	/**
-	 * Sets the rotation bounds for this {@code Data} instance to {@code rotationBounds}.
-	 * <p>
-	 * Returns {@code true} if, and only if, the rotation bounds were changed as a result of this method call, {@code false} otherwise.
-	 * <p>
-	 * This method allows {@code rotationBounds} to be {@code null}.
-	 * <p>
-	 * If {@code null} is supplied, the rotation bounds will be reset.
-	 * 
-	 * @param rotationBounds a {@link Rectangle2I} instance, or {@code null} to reset the rotation bounds
-	 * @return {@code true} if, and only if, the rotation bounds were changed as a result of this method call, {@code false} otherwise
-	 */
-//	TODO: Add Unit Tests!
-	public final boolean setRotationBounds(final Rectangle2I rotationBounds) {
-		final Rectangle2I oldRotationBounds = this.rotationBounds;
-		final Rectangle2I newRotationBounds =      rotationBounds;
-		
-		if(Objects.equals(oldRotationBounds, newRotationBounds)) {
-			return false;
-		}
-		
-		this.rotationBounds = newRotationBounds;
-		
-		return true;
 	}
 	
 	/**
@@ -956,7 +893,6 @@ public abstract class Data {
 	 * 
 	 * @return {@code true} if, and only if, the undo operation was performed, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean undo() {
 		final ChangeHistory changeHistory = this.changeHistory;
 		

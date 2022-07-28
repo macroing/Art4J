@@ -40,6 +40,21 @@ public final class Ints {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns {@code true} if, and only if, {@code valueLHS * valueRHS} does not overflow, {@code false} otherwise.
+	 * 
+	 * @param valueLHS the value on the left-hand side of the multiplication
+	 * @param valueRHS the value on the right-hand side of the multiplication
+	 * @return {@code true} if, and only if, {@code valueLHS * valueRHS} does not overflow, {@code false} otherwise
+	 */
+	public static boolean canMultiplyExact(final int valueLHS, final int valueRHS) {
+		final long valueLong = (long)(valueLHS) * (long)(valueRHS);
+		
+		final int value = (int)(valueLong);
+		
+		return value == valueLong;
+	}
+	
+	/**
 	 * Returns the absolute version of {@code value}.
 	 * <p>
 	 * If the argument is not negative, the argument is returned. If the argument is negative, the negation of the argument is returned.

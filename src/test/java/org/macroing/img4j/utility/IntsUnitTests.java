@@ -19,6 +19,8 @@
 package org.macroing.img4j.utility;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +36,13 @@ public final class IntsUnitTests {
 	public void testAbs() {
 		assertEquals(1, Ints.abs(+1));
 		assertEquals(1, Ints.abs(-1));
+	}
+	
+	@Test
+	public void testCanMultiplyExact() {
+		assertTrue(Ints.canMultiplyExact(1, 2));
+		
+		assertFalse(Ints.canMultiplyExact(Integer.MAX_VALUE, Integer.MAX_VALUE));
 	}
 	
 	@Test
