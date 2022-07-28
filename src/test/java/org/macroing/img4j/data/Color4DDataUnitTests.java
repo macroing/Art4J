@@ -20,6 +20,7 @@ package org.macroing.img4j.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -88,6 +89,59 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testConstructorColor4DData() {
+		final
+		Color4DData color4DData = new Color4DData(1024, 768);
+		color4DData.setChangeHistoryEnabled(true);
+		color4DData.setColor4D(Color4D.BLACK, 0);
+		color4DData.undo();
+		color4DData.redo();
+		
+		final Color4DData color4DDataCopyA = new Color4DData(color4DData);
+		
+		assertEquals(color4DData, color4DDataCopyA);
+		
+		color4DData.undo();
+		color4DData.setChangeHistoryEnabled(false);
+		color4DData.setColor4D(Color4D.BLACK, 0);
+		
+		final Color4DData color4DDataCopyB = new Color4DData(color4DData);
+		
+		assertEquals(color4DData, color4DDataCopyB);
+		
+		assertThrows(NullPointerException.class, () -> new Color4DData((Color4DData)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor4DDataBoolean() {
+		final
+		Color4DData color4DData = new Color4DData(1024, 768);
+		color4DData.setChangeHistoryEnabled(true);
+		color4DData.setColor4D(Color4D.BLACK, 0);
+		color4DData.undo();
+		color4DData.redo();
+		
+		final Color4DData color4DDataCopyA = new Color4DData(color4DData, false);
+		final Color4DData color4DDataCopyB = new Color4DData(color4DData, true);
+		
+		assertEquals(color4DData, color4DDataCopyA);
+		
+		assertNotEquals(color4DData, color4DDataCopyB);
+		
+		color4DData.undo();
+		color4DData.setChangeHistoryEnabled(false);
+		color4DData.setColor4D(Color4D.BLACK, 0);
+		
+		final Color4DData color4DDataCopyC = new Color4DData(color4DData, false);
+		final Color4DData color4DDataCopyD = new Color4DData(color4DData, true);
+		
+		assertEquals(color4DData, color4DDataCopyC);
+		assertEquals(color4DData, color4DDataCopyD);
+		
+		assertThrows(NullPointerException.class, () -> new Color4DData((Color4DData)(null), false));
+	}
+	
+	@Test
 	public void testConstructorIntInt() {
 		final Color4DData color4DData = new Color4DData(1024, 768);
 		
@@ -143,6 +197,76 @@ public final class Color4DDataUnitTests {
 		assertThrows(IllegalArgumentException.class, () -> new Color4DData(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4F.RED));
 		
 		assertThrows(NullPointerException.class, () -> new Color4DData(1, 1, (Color4F)(null)));
+	}
+	
+	@Test
+	public void testEquals() {
+		final Data a = new Color4DData(400, 400);
+		final Data b = new Color4DData(400, 400);
+		final Data c = new Color4DData(800, 200);
+		final Data d = new Color4DData(200, 800);
+		final Data e = new Color4FData(400, 400);
+		final Data f = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setColor4D(Color4D.BLACK, 0);
+		b.setColor4D(Color4D.BLACK, 0);
+		
+		a.undo();
+		b.undo();
+		
+		a.redo();
+		b.redo();
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		
+		a.undo();
+		b.undo();
+		
+		a.setChangeHistoryEnabled(false);
+		b.setChangeHistoryEnabled(false);
+		
+		a.setColor4D(Color4D.BLACK, 0);
+		b.setColor4D(Color4D.BLACK, 0);
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
 	}
 	
 	@Test

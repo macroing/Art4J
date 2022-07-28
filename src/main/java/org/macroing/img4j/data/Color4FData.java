@@ -54,7 +54,6 @@ final class Color4FData extends Data {
 		this.resolutionY = bufferedImage.getHeight();
 	}
 	
-//	TODO: Add Unit Tests!
 	public Color4FData(final Color4FData color4FData) {
 		super(color4FData);
 		
@@ -63,7 +62,6 @@ final class Color4FData extends Data {
 		this.resolutionY = color4FData.resolutionY;
 	}
 	
-//	TODO: Add Unit Tests!
 	public Color4FData(final Color4FData color4FData, final boolean isIgnoringChangeHistory) {
 		super(color4FData, isIgnoringChangeHistory);
 		
@@ -352,7 +350,6 @@ final class Color4FData extends Data {
 		return count > 0;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(!super.equals(object)) {
@@ -361,9 +358,7 @@ final class Color4FData extends Data {
 			return false;
 		} else if(!Arrays.equals(this.colors, Color4FData.class.cast(object).colors)) {
 			return false;
-		} else if(this.resolutionX != Color4FData.class.cast(object).resolutionX) {
-			return false;
-		} else if(this.resolutionY != Color4FData.class.cast(object).resolutionY) {
+		} else if(this.resolutionX != Color4FData.class.cast(object).resolutionX | this.resolutionY != Color4FData.class.cast(object).resolutionY) {
 			return false;
 		} else {
 			return true;

@@ -66,7 +66,6 @@ public abstract class Data {
 	 * @param data the {@code Data} instance to copy
 	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	protected Data(final Data data) {
 		this.changeHistory = data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
 		this.rotationBounds = data.rotationBounds;
@@ -81,7 +80,6 @@ public abstract class Data {
 	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	protected Data(final Data data, final boolean isIgnoringChangeHistory) {
 		this.changeHistory = isIgnoringChangeHistory ? null : data.changeHistory != null ? new ChangeHistory(data.changeHistory) : null;
 		this.rotationBounds = data.rotationBounds;
@@ -512,7 +510,6 @@ public abstract class Data {
 	 * @param object the {@code Object} to compare to this {@code Data} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Data}, and they are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {

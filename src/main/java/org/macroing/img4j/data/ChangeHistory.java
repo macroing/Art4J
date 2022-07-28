@@ -19,35 +19,31 @@
 package org.macroing.img4j.data;
 
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 final class ChangeHistory {
 	private final AtomicBoolean hasBegun;
-	private final Deque<Change> changesToRedo;
-	private final Deque<Change> changesToUndo;
 	private final List<Change> changes;
+	private final List<Change> changesToRedo;
+	private final List<Change> changesToUndo;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	public ChangeHistory() {
 		this.hasBegun = new AtomicBoolean();
-		this.changesToRedo = new ArrayDeque<>();
-		this.changesToUndo = new ArrayDeque<>();
 		this.changes = new ArrayList<>();
+		this.changesToRedo = new ArrayList<>();
+		this.changesToUndo = new ArrayList<>();
 	}
 	
-//	TODO: Add Unit Tests!
 	public ChangeHistory(final ChangeHistory changeHistory) {
 		this.hasBegun = new AtomicBoolean(changeHistory.hasBegun.get());
-		this.changesToRedo = new ArrayDeque<>(changeHistory.changesToRedo);
-		this.changesToUndo = new ArrayDeque<>(changeHistory.changesToUndo);
 		this.changes = new ArrayList<>(changeHistory.changes);
+		this.changesToRedo = new ArrayList<>(changeHistory.changesToRedo);
+		this.changesToUndo = new ArrayList<>(changeHistory.changesToUndo);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +79,7 @@ final class ChangeHistory {
 				final Change change = this.changes.size() == 1 ? this.changes.get(0) : new CombinedChange(this.changes);
 				
 				this.changesToRedo.clear();
-				this.changesToUndo.push(change);
+				this.changesToUndo.add(change);
 				this.changes.clear();
 			}
 			
@@ -113,21 +109,19 @@ final class ChangeHistory {
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	public boolean hasBegun() {
 		return this.hasBegun.get();
 	}
 	
-//	TODO: Add Unit Tests!
 	public boolean redo(final Data data) {
 		Objects.requireNonNull(data, "data == null");
 		
 		if(!this.changesToRedo.isEmpty()) {
 			final
-			Change change = this.changesToRedo.pop();
+			Change change = this.changesToRedo.remove(this.changesToRedo.size() - 1);
 			change.redo(data);
 			
-			this.changesToUndo.push(change);
+			this.changesToUndo.add(change);
 			
 			return true;
 		}
@@ -135,16 +129,15 @@ final class ChangeHistory {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	public boolean undo(final Data data) {
 		Objects.requireNonNull(data, "data == null");
 		
 		if(!this.changesToUndo.isEmpty()) {
 			final
-			Change change = this.changesToUndo.pop();
+			Change change = this.changesToUndo.remove(this.changesToUndo.size() - 1);
 			change.undo(data);
 			
-			this.changesToRedo.push(change);
+			this.changesToRedo.add(change);
 			
 			return true;
 		}
