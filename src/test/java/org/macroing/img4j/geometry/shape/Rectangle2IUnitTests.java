@@ -846,6 +846,69 @@ public final class Rectangle2IUnitTests {
 	}
 	
 	@Test
+	public void testTranslate() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(-5, -5), new Point2I(+5, -5), new Point2I(+5, +5), new Point2I(-5, +5));
+		final Rectangle2I b = Rectangle2I.translate(a, new Point2I(+0, +0));
+		final Rectangle2I c = Rectangle2I.translate(a, new Point2I(+4, +0));
+		final Rectangle2I d = Rectangle2I.translate(a, new Point2I(+0, +4));
+		final Rectangle2I e = Rectangle2I.translate(a, new Point2I(-4, +0));
+		final Rectangle2I f = Rectangle2I.translate(a, new Point2I(+0, -4));
+		
+		assertTrue(a == b);
+		
+		assertEquals(new Rectangle2I(new Point2I(-1, -5), new Point2I(+9, -5), new Point2I(+9, +5), new Point2I(-1, +5)), c);
+		assertEquals(new Rectangle2I(new Point2I(-5, -1), new Point2I(+5, -1), new Point2I(+5, +9), new Point2I(-5, +9)), d);
+		assertEquals(new Rectangle2I(new Point2I(-9, -5), new Point2I(+1, -5), new Point2I(+1, +5), new Point2I(-9, +5)), e);
+		assertEquals(new Rectangle2I(new Point2I(-5, -9), new Point2I(+5, -9), new Point2I(+5, +1), new Point2I(-5, +1)), f);
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.translate(a, null));
+		assertThrows(NullPointerException.class, () -> Rectangle2I.translate(null, new Point2I(0, 0)));
+	}
+	
+	@Test
+	public void testTranslateToOrigin() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(+0, +0), new Point2I(+9, +0), new Point2I(+9, +9), new Point2I(+0, +9));
+		final Rectangle2I b = Rectangle2I.translateToOrigin(a);
+		final Rectangle2I c = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(- 1, + 9), new Point2I(+ 8, + 0), new Point2I(+17, + 9), new Point2I(+ 8, +18)));
+		final Rectangle2I d = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 8, +18), new Point2I(- 1, + 9), new Point2I(+ 8, + 0), new Point2I(+17, + 9)));
+		final Rectangle2I e = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+17, + 9), new Point2I(+ 8, +18), new Point2I(- 1, + 9), new Point2I(+ 8, + 0)));
+		final Rectangle2I f = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 8, + 0), new Point2I(+17, + 9), new Point2I(+ 8, +18), new Point2I(- 1, + 9)));
+		final Rectangle2I g = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 1, + 9), new Point2I(+10, + 0), new Point2I(+19, + 9), new Point2I(+10, +18)));
+		final Rectangle2I h = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+10, +18), new Point2I(+ 1, + 9), new Point2I(+10, + 0), new Point2I(+19, + 9)));
+		final Rectangle2I i = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+19, + 9), new Point2I(+10, +18), new Point2I(+ 1, + 9), new Point2I(+10, + 0)));
+		final Rectangle2I j = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+10, + 0), new Point2I(+19, + 9), new Point2I(+10, +18), new Point2I(+ 1, + 9)));
+		final Rectangle2I k = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 9, - 1), new Point2I(+ 0, + 8), new Point2I(+ 9, +17), new Point2I(+18, + 8)));
+		final Rectangle2I l = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+18, + 8), new Point2I(+ 9, - 1), new Point2I(+ 0, + 8), new Point2I(+ 9, +17)));
+		final Rectangle2I m = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 9, +17), new Point2I(+18, + 8), new Point2I(+ 9, - 1), new Point2I(+ 0, + 8)));
+		final Rectangle2I n = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 0, + 8), new Point2I(+ 9, +17), new Point2I(+18, + 8), new Point2I(+ 9, - 1)));
+		final Rectangle2I o = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 9, + 1), new Point2I(+ 0, +10), new Point2I(+ 9, +19), new Point2I(+18, +10)));
+		final Rectangle2I p = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+18, +10), new Point2I(+ 9, + 1), new Point2I(+ 0, +10), new Point2I(+ 9, +19)));
+		final Rectangle2I q = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 9, +19), new Point2I(+18, +10), new Point2I(+ 9, + 1), new Point2I(+ 0, +10)));
+		final Rectangle2I r = Rectangle2I.translateToOrigin(new Rectangle2I(new Point2I(+ 0, +10), new Point2I(+ 9, +19), new Point2I(+18, +10), new Point2I(+ 9, + 1)));
+		
+		assertTrue(a == b);
+		
+		assertEquals(new Rectangle2I(new Point2I(+ 0, + 9), new Point2I(+ 9, + 0), new Point2I(+18, + 9), new Point2I(+ 9, +18)), c);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, +18), new Point2I(+ 0, + 9), new Point2I(+ 9, + 0), new Point2I(+18, + 9)), d);
+		assertEquals(new Rectangle2I(new Point2I(+18, + 9), new Point2I(+ 9, +18), new Point2I(+ 0, + 9), new Point2I(+ 9, + 0)), e);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, + 0), new Point2I(+18, + 9), new Point2I(+ 9, +18), new Point2I(+ 0, + 9)), f);
+		assertEquals(new Rectangle2I(new Point2I(+ 0, + 9), new Point2I(+ 9, + 0), new Point2I(+18, + 9), new Point2I(+ 9, +18)), g);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, +18), new Point2I(+ 0, + 9), new Point2I(+ 9, + 0), new Point2I(+18, + 9)), h);
+		assertEquals(new Rectangle2I(new Point2I(+18, + 9), new Point2I(+ 9, +18), new Point2I(+ 0, + 9), new Point2I(+ 9, + 0)), i);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, + 0), new Point2I(+18, + 9), new Point2I(+ 9, +18), new Point2I(+ 0, + 9)), j);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, + 0), new Point2I(+ 0, + 9), new Point2I(+ 9, +18), new Point2I(+18, + 9)), k);
+		assertEquals(new Rectangle2I(new Point2I(+18, + 9), new Point2I(+ 9, + 0), new Point2I(+ 0, + 9), new Point2I(+ 9, +18)), l);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, +18), new Point2I(+18, + 9), new Point2I(+ 9, + 0), new Point2I(+ 0, + 9)), m);
+		assertEquals(new Rectangle2I(new Point2I(+ 0, + 9), new Point2I(+ 9, +18), new Point2I(+18, + 9), new Point2I(+ 9, + 0)), n);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, + 0), new Point2I(+ 0, + 9), new Point2I(+ 9, +18), new Point2I(+18, + 9)), o);
+		assertEquals(new Rectangle2I(new Point2I(+18, + 9), new Point2I(+ 9, + 0), new Point2I(+ 0, + 9), new Point2I(+ 9, +18)), p);
+		assertEquals(new Rectangle2I(new Point2I(+ 9, +18), new Point2I(+18, + 9), new Point2I(+ 9, + 0), new Point2I(+ 0, + 9)), q);
+		assertEquals(new Rectangle2I(new Point2I(+ 0, + 9), new Point2I(+ 9, +18), new Point2I(+18, + 9), new Point2I(+ 9, + 0)), r);
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.translateToOrigin(null));
+	}
+	
+	@Test
 	public void testUnion() {
 		final Rectangle2I a = new Rectangle2I(new Point2I(10, 10), new Point2I(20, 20));
 		final Rectangle2I b = new Rectangle2I(new Point2I(20, 20), new Point2I(30, 30));

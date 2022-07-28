@@ -598,6 +598,122 @@ public final class Rectangle2I implements Shape2I {
 	}
 	
 	/**
+	 * Translates {@code rectangle} by {@code point}.
+	 * <p>
+	 * Returns {@code rectangle} or a new {@code Rectangle2I} instance with the result of the translation.
+	 * <p>
+	 * If either {@code rectangle} or {@code point} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to translate
+	 * @param point the {@link Point2I} instance to translate {@code rectangle} with
+	 * @return {@code rectangle} or a new {@code Rectangle2I} instance with the result of the translation
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code point} are {@code null}
+	 */
+	public static Rectangle2I translate(final Rectangle2I rectangle, final Point2I point) {
+		Objects.requireNonNull(rectangle, "rectangle == null");
+		Objects.requireNonNull(point, "point == null");
+		
+		if(point.x == 0 && point.y == 0) {
+			return rectangle;
+		}
+		
+		final Point2I oldA = rectangle.getA();
+		final Point2I oldB = rectangle.getB();
+		final Point2I oldC = rectangle.getC();
+		final Point2I oldD = rectangle.getD();
+		
+		final Point2I newA = new Point2I(oldA.x + point.x, oldA.y + point.y);
+		final Point2I newB = new Point2I(oldB.x + point.x, oldB.y + point.y);
+		final Point2I newC = new Point2I(oldC.x + point.x, oldC.y + point.y);
+		final Point2I newD = new Point2I(oldD.x + point.x, oldD.y + point.y);
+		
+		return new Rectangle2I(newA, newB, newC, newD);
+	}
+	
+	/**
+	 * Translates {@code rectangle} to origin.
+	 * <p>
+	 * Returns {@code rectangle} or a new {@code Rectangle2I} instance with the result of the translation.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to translate to origin
+	 * @return {@code rectangle} or a new {@code Rectangle2I} instance with the result of the translation
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 */
+	public static Rectangle2I translateToOrigin(final Rectangle2I rectangle) {
+		Objects.requireNonNull(rectangle, "rectangle == null");
+		
+		final Point2I oldA = rectangle.getA();
+		final Point2I oldB = rectangle.getB();
+		final Point2I oldC = rectangle.getC();
+		final Point2I oldD = rectangle.getD();
+		
+		boolean hasTranslatedX = false;
+		boolean hasTranslatedY = false;
+		
+		int currentAX = oldA.x;
+		int currentAY = oldA.y;
+		int currentBX = oldB.x;
+		int currentBY = oldB.y;
+		int currentCX = oldC.x;
+		int currentCY = oldC.y;
+		int currentDX = oldD.x;
+		int currentDY = oldD.y;
+		
+		if(currentAX < 0 || currentBX < 0 || currentCX < 0 || currentDX < 0) {
+			final int deltaX = 0 - Ints.min(currentAX, currentBX, currentCX, currentDX);
+			
+			currentAX += deltaX;
+			currentBX += deltaX;
+			currentCX += deltaX;
+			currentDX += deltaX;
+			
+			hasTranslatedX = true;
+		} else if(currentAX > 0 && currentBX > 0 && currentCX > 0 && currentDX > 0) {
+			final int deltaX = Ints.min(currentAX, currentBX, currentCX, currentDX);
+			
+			currentAX -= deltaX;
+			currentBX -= deltaX;
+			currentCX -= deltaX;
+			currentDX -= deltaX;
+			
+			hasTranslatedX = true;
+		}
+		
+		if(currentAY < 0 || currentBY < 0 || currentCY < 0 || currentDY < 0) {
+			final int deltaY = 0 - Ints.min(currentAY, currentBY, currentCY, currentDY);
+			
+			currentAY += deltaY;
+			currentBY += deltaY;
+			currentCY += deltaY;
+			currentDY += deltaY;
+			
+			hasTranslatedY = true;
+		} else if(currentAY > 0 && currentBY > 0 && currentCY > 0 && currentDY > 0) {
+			final int deltaY = Ints.min(currentAY, currentBY, currentCY, currentDY);
+			
+			currentAY -= deltaY;
+			currentBY -= deltaY;
+			currentCY -= deltaY;
+			currentDY -= deltaY;
+			
+			hasTranslatedY = true;
+		}
+		
+		if(hasTranslatedX || hasTranslatedY) {
+			final Point2I newA = new Point2I(currentAX, currentAY);
+			final Point2I newB = new Point2I(currentBX, currentBY);
+			final Point2I newC = new Point2I(currentCX, currentCY);
+			final Point2I newD = new Point2I(currentDX, currentDY);
+			
+			return new Rectangle2I(newA, newB, newC, newD);
+		}
+		
+		return rectangle;
+	}
+	
+	/**
 	 * Returns a {@code Rectangle2I} instance that is the union of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.

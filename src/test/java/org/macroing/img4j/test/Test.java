@@ -54,7 +54,7 @@ public final class Test {
 		image.fillShapeColor4D(new Circle2I(new Point2I(100, 100), 50), Color4D.RED);
 		image.convolveColor4D(ConvolutionKernelND.EMBOSS_3);
 		image.rotate(45.0D);
-//		image.rotate(45.0D);
+		image.rotate(45.0D);
 		image.save("./generated/Image.png");
 		
 		final long b = System.currentTimeMillis();

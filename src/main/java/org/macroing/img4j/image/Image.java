@@ -2535,6 +2535,26 @@ public final class Image {
 	}
 	
 	/**
+	 * Sets the resolution of this {@code Image} instance to {@code resolutionX} and {@code resolutionY}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
+	 * <p>
+	 * If {@code resolutionX == image.getResolutionX()} and {@code resolutionY == image.getResolutionY()}, the resolution will not be changed
+	 * 
+	 * @param resolutionX the new resolution along the X-axis
+	 * @param resolutionY the new resolution along the Y-axis
+	 * @return this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public Image setResolution(final int resolutionX, final int resolutionY) {
+		this.data.setResolution(resolutionX, resolutionY);
+		
+		return this;
+	}
+	
+	/**
 	 * Returns a {@link Rectangle2I} with the bounds of this {@code Image} instance.
 	 * 
 	 * @return a {@code Rectangle2I} with the bounds of this {@code Image} instance
