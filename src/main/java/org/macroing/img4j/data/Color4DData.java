@@ -140,13 +140,11 @@ final class Color4DData extends Data {
 		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? new Color4F(this.colors[y * this.resolutionX + x]) : Color4F.TRANSPARENT;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new Color4DData(this, isIgnoringChangeHistory);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Data draw(final Consumer<Graphics2D> graphics2DConsumer) {
 		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
@@ -159,9 +157,15 @@ final class Color4DData extends Data {
 		
 		final Color4D[] colors = Arrays.stream(DataBufferInt.class.cast(bufferedImage.getRaster().getDataBuffer()).getData()).mapToObj(colorARGB -> Color4D.fromIntARGB(colorARGB)).toArray(Color4D[]::new);
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(colors, this.colors, this.resolutionX, this.resolutionX, this.resolutionY, this.resolutionY));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = colors;
@@ -199,8 +203,6 @@ final class Color4DData extends Data {
 		final Color4D[] oldColors = this.colors;
 		final Color4D[] newColors = this.colors.clone();
 		
-		final boolean hasChangeBegun = changeBegin();
-		
 		int count = 0;
 		
 		for(final int index : indices) {
@@ -247,12 +249,17 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(hasChangeBegun) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			if(count > 0) {
 				changeAdd(new StateChange(newColors, oldColors, resolutionX, resolutionX, resolutionY, resolutionY));
 			}
 			
-			changeEnd();
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		if(count > 0) {
@@ -287,8 +294,6 @@ final class Color4DData extends Data {
 		final Color4D[] oldColors = this.colors;
 		final Color4D[] newColors = this.colors.clone();
 		
-		final boolean hasChangeBegun = changeBegin();
-		
 		int count = 0;
 		
 		for(final int index : indices) {
@@ -335,12 +340,17 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(hasChangeBegun) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			if(count > 0) {
 				changeAdd(new StateChange(newColors, oldColors, resolutionX, resolutionX, resolutionY, resolutionY));
 			}
 			
-			changeEnd();
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		if(count > 0) {
@@ -356,9 +366,11 @@ final class Color4DData extends Data {
 			return false;
 		} else if(!(object instanceof Color4DData)) {
 			return false;
-		} else if(!Arrays.equals(this.colors, Color4DData.class.cast(object).colors)) {
+		} else if(this.resolutionX != Color4DData.class.cast(object).resolutionX) {
 			return false;
-		} else if(this.resolutionX != Color4DData.class.cast(object).resolutionX | this.resolutionY != Color4DData.class.cast(object).resolutionY) {
+		} else if(this.resolutionY != Color4DData.class.cast(object).resolutionY) {
+			return false;
+		} else if(!Arrays.equals(this.colors, Color4DData.class.cast(object).colors)) {
 			return false;
 		} else {
 			return true;
@@ -435,9 +447,15 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -517,9 +535,15 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -558,9 +582,15 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -689,9 +719,15 @@ final class Color4DData extends Data {
 			final int oldResolutionX = this.resolutionX;
 			final int oldResolutionY = this.resolutionY;
 			
-			if(changeBegin()) {
+			final boolean hasChangeBegun = hasChangeBegun();
+			final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+			
+			if(hasChangeBegun || hasChangeBegunNow) {
 				changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
-				changeEnd();
+				
+				if(hasChangeBegunNow) {
+					changeEnd();
+				}
 			}
 			
 			this.colors = newColors;
@@ -738,9 +774,15 @@ final class Color4DData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newColors, oldColors, newResolutionX, oldResolutionX, newResolutionY, oldResolutionY));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -825,7 +867,6 @@ final class Color4DData extends Data {
 		return this.resolutionY;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(Arrays.hashCode(this.colors)), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY));
@@ -833,13 +874,19 @@ final class Color4DData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	void updatePixel(final Color4D color, final int index) {
+		Objects.requireNonNull(color, "color == null");
+		
+		ParameterArguments.requireRange(index, 0, this.colors.length - 1, "index");
+		
 		this.colors[index] = color;
 	}
 	
-//	TODO: Add Unit Tests!
 	void updateState(final Color4D[] colors, final int resolutionX, final int resolutionY) {
+		ParameterArguments.requireNonNullArray(colors, "colors");
+		ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		
 		this.colors = colors.clone();
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
@@ -847,23 +894,29 @@ final class Color4DData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final class PixelChange implements Change {
+	static final class PixelChange implements Change {
 		private final Color4D colorRedo;
 		private final Color4D colorUndo;
 		private final int index;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		public PixelChange(final Color4D colorRedo, final Color4D colorUndo, final int index) {
-			this.colorRedo = colorRedo;
-			this.colorUndo = colorUndo;
-			this.index = index;
+			this.colorRedo = Objects.requireNonNull(colorRedo, "colorRedo == null");
+			this.colorUndo = Objects.requireNonNull(colorUndo, "colorUndo == null");
+			this.index = ParameterArguments.requireRange(index, 0, Integer.MAX_VALUE, "index");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
+		public Color4D getColorRedo() {
+			return this.colorRedo;
+		}
+		
+		public Color4D getColorUndo() {
+			return this.colorUndo;
+		}
+		
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -881,15 +934,19 @@ final class Color4DData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
+		public int getIndex() {
+			return this.index;
+		}
+		
 		@Override
 		public int hashCode() {
 			return Objects.hash(this.colorRedo, this.colorUndo, Integer.valueOf(this.index));
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void redo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof Color4DData) {
 				final
 				Color4DData color4DData = Color4DData.class.cast(data);
@@ -897,9 +954,10 @@ final class Color4DData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof Color4DData) {
 				final
 				Color4DData color4DData = Color4DData.class.cast(data);
@@ -910,7 +968,7 @@ final class Color4DData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final class StateChange implements Change {
+	static final class StateChange implements Change {
 		private final Color4D[] colorsRedo;
 		private final Color4D[] colorsUndo;
 		private final int resolutionXRedo;
@@ -920,19 +978,25 @@ final class Color4DData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		public StateChange(final Color4D[] colorsRedo, final Color4D[] colorsUndo, final int resolutionXRedo, final int resolutionXUndo, final int resolutionYRedo, final int resolutionYUndo) {
-			this.colorsRedo = colorsRedo.clone();
-			this.colorsUndo = colorsUndo.clone();
-			this.resolutionXRedo = resolutionXRedo;
-			this.resolutionXUndo = resolutionXUndo;
-			this.resolutionYRedo = resolutionYRedo;
-			this.resolutionYUndo = resolutionYUndo;
+			this.colorsRedo = ParameterArguments.requireNonNullArray(colorsRedo, "colorsRedo").clone();
+			this.colorsUndo = ParameterArguments.requireNonNullArray(colorsUndo, "colorsUndo").clone();
+			this.resolutionXRedo = ParameterArguments.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
+			this.resolutionXUndo = ParameterArguments.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
+			this.resolutionYRedo = ParameterArguments.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
+			this.resolutionYUndo = ParameterArguments.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
+		public Color4D[] getColorsRedo() {
+			return this.colorsRedo.clone();
+		}
+		
+		public Color4D[] getColorsUndo() {
+			return this.colorsUndo.clone();
+		}
+		
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -956,15 +1020,31 @@ final class Color4DData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
+		public int getResolutionXRedo() {
+			return this.resolutionXRedo;
+		}
+		
+		public int getResolutionXUndo() {
+			return this.resolutionXUndo;
+		}
+		
+		public int getResolutionYRedo() {
+			return this.resolutionYRedo;
+		}
+		
+		public int getResolutionYUndo() {
+			return this.resolutionYUndo;
+		}
+		
 		@Override
 		public int hashCode() {
 			return Objects.hash(Integer.valueOf(Arrays.hashCode(this.colorsRedo)), Integer.valueOf(Arrays.hashCode(this.colorsUndo)), Integer.valueOf(this.resolutionXRedo), Integer.valueOf(this.resolutionXUndo), Integer.valueOf(this.resolutionYRedo), Integer.valueOf(this.resolutionYUndo));
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void redo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof Color4DData) {
 				final
 				Color4DData color4DData = Color4DData.class.cast(data);
@@ -972,9 +1052,10 @@ final class Color4DData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof Color4DData) {
 				final
 				Color4DData color4DData = Color4DData.class.cast(data);

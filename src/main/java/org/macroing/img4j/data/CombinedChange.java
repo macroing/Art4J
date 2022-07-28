@@ -18,7 +18,6 @@
  */
 package org.macroing.img4j.data;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,14 +29,16 @@ final class CombinedChange implements Change {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	public CombinedChange(final List<Change> changes) {
 		this.changes = new ArrayList<>(ParameterArguments.requireNonNullList(changes, "changes"));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
+	public List<Change> getChanges() {
+		return new ArrayList<>(this.changes);
+	}
+	
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -51,23 +52,24 @@ final class CombinedChange implements Change {
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.changes);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public void redo(final Data data) {
+		Objects.requireNonNull(data, "data == null");
+		
 		for(final Change change : this.changes) {
 			change.redo(data);
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public void undo(final Data data) {
+		Objects.requireNonNull(data, "data == null");
+		
 		for(int i = this.changes.size() - 1; i >= 0; i--) {
 			this.changes.get(i).undo(data);
 		}

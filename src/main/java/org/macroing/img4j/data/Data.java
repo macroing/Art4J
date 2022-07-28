@@ -355,7 +355,6 @@ public abstract class Data {
 	 * 
 	 * @return a copy of this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final Data copy() {
 		return copy(false);
 	}
@@ -1104,7 +1103,6 @@ public abstract class Data {
 	 * 
 	 * @return a hash code for this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.changeHistory);

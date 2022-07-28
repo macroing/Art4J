@@ -145,7 +145,6 @@ final class ChangeHistory {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Boolean.valueOf(this.hasBegun.get()), this.changesToRedo, this.changesToUndo, this.changes);

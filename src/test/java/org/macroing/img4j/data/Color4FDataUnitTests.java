@@ -18,6 +18,7 @@
  */
 package org.macroing.img4j.data;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -33,6 +34,8 @@ import org.macroing.img4j.color.Color3I;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
+import org.macroing.img4j.data.Color4FData.PixelChange;
+import org.macroing.img4j.data.Color4FData.StateChange;
 
 @SuppressWarnings("static-method")
 public final class Color4FDataUnitTests {
@@ -200,13 +203,83 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testCopy() {
+		final
+		Color4FData color4FData = new Color4FData(1024, 768);
+		color4FData.setChangeHistoryEnabled(true);
+		color4FData.setColor4F(Color4F.BLACK, 0);
+		color4FData.undo();
+		color4FData.redo();
+		
+		final Data dataCopyA = color4FData.copy();
+		
+		assertTrue(dataCopyA instanceof Color4FData);
+		
+		final Color4FData color4FDataCopyA = Color4FData.class.cast(dataCopyA);
+		
+		assertEquals(color4FData, color4FDataCopyA);
+		
+		color4FData.undo();
+		color4FData.setChangeHistoryEnabled(false);
+		color4FData.setColor4F(Color4F.BLACK, 0);
+		
+		final Data dataCopyB = color4FData.copy();
+		
+		assertTrue(dataCopyB instanceof Color4FData);
+		
+		final Color4FData color4FDataCopyB = Color4FData.class.cast(dataCopyB);
+		
+		assertEquals(color4FData, color4FDataCopyB);
+	}
+	
+	@Test
+	public void testCopyBoolean() {
+		final
+		Color4FData color4FData = new Color4FData(1024, 768);
+		color4FData.setChangeHistoryEnabled(true);
+		color4FData.setColor4F(Color4F.BLACK, 0);
+		color4FData.undo();
+		color4FData.redo();
+		
+		final Data dataCopyA = color4FData.copy(false);
+		final Data dataCopyB = color4FData.copy(true);
+		
+		assertTrue(dataCopyA instanceof Color4FData);
+		assertTrue(dataCopyB instanceof Color4FData);
+		
+		final Color4FData color4DDataCopyA = Color4FData.class.cast(dataCopyA);
+		final Color4FData color4DDataCopyB = Color4FData.class.cast(dataCopyB);
+		
+		assertEquals(color4FData, color4DDataCopyA);
+		
+		assertNotEquals(color4FData, color4DDataCopyB);
+		
+		color4FData.undo();
+		color4FData.setChangeHistoryEnabled(false);
+		color4FData.setColor4F(Color4F.BLACK, 0);
+		
+		final Data dataCopyC = color4FData.copy(false);
+		final Data dataCopyD = color4FData.copy(true);
+		
+		assertTrue(dataCopyC instanceof Color4FData);
+		assertTrue(dataCopyD instanceof Color4FData);
+		
+		final Color4FData color4FDataCopyC = Color4FData.class.cast(dataCopyC);
+		final Color4FData color4FDataCopyD = Color4FData.class.cast(dataCopyD);
+		
+		assertEquals(color4FData, color4FDataCopyC);
+		assertEquals(color4FData, color4FDataCopyD);
+	}
+	
+	@Test
 	public void testEquals() {
 		final Data a = new Color4FData(400, 400);
 		final Data b = new Color4FData(400, 400);
-		final Data c = new Color4FData(800, 200);
-		final Data d = new Color4FData(200, 800);
-		final Data e = new Color4DData(400, 400);
-		final Data f = null;
+		final Data c = new Color4FData(400, 200);
+		final Data d = new Color4FData(200, 400);
+		final Data e = new Color4FData(400, 400, Color4F.GREEN);
+		final Data f = new Color4DData(400, 400);
+		final Data g = null;
 		
 		assertEquals(a, a);
 		assertEquals(a, b);
@@ -220,6 +293,8 @@ public final class Color4FDataUnitTests {
 		assertNotEquals(e, a);
 		assertNotEquals(a, f);
 		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
 		
 		a.setChangeHistoryEnabled(true);
 		b.setChangeHistoryEnabled(true);
@@ -245,6 +320,8 @@ public final class Color4FDataUnitTests {
 		assertNotEquals(e, a);
 		assertNotEquals(a, f);
 		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
 		
 		a.undo();
 		b.undo();
@@ -267,6 +344,29 @@ public final class Color4FDataUnitTests {
 		assertNotEquals(e, a);
 		assertNotEquals(a, f);
 		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setResolution(500, 500);
+		b.setResolution(500, 500);
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
 	}
 	
 	@Test
@@ -397,6 +497,109 @@ public final class Color4FDataUnitTests {
 		final Color4FData color4FData = new Color4FData(2, 4);
 		
 		assertEquals(4, color4FData.getResolutionY());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final Color4FData a = new Color4FData(100, 100);
+		final Color4FData b = new Color4FData(100, 100);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setColor4F(Color4F.BLACK, 0);
+		b.setColor4F(Color4F.BLACK, 0);
+		
+		a.undo();
+		b.undo();
+		
+		a.redo();
+		b.redo();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+		
+		a.setResolution(200, 200);
+		b.setResolution(200, 200);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testPixelChangeConstructor() {
+		final PixelChange pixelChange = new PixelChange(Color4F.BLACK, Color4F.WHITE, 1);
+		
+		assertEquals(Color4F.BLACK, pixelChange.getColorRedo());
+		assertEquals(Color4F.WHITE, pixelChange.getColorUndo());
+		
+		assertEquals(1, pixelChange.getIndex());
+		
+		assertThrows(NullPointerException.class, () -> new PixelChange(Color4F.BLACK, null, 0));
+		assertThrows(NullPointerException.class, () -> new PixelChange(null, Color4F.BLACK, 0));
+		
+		assertThrows(IllegalArgumentException.class, () -> new PixelChange(Color4F.BLACK, Color4F.BLACK, -1));
+	}
+	
+	@Test
+	public void testPixelChangeEquals() {
+		final PixelChange a = new PixelChange(Color4F.BLACK, Color4F.WHITE, 1);
+		final PixelChange b = new PixelChange(Color4F.BLACK, Color4F.WHITE, 1);
+		final PixelChange c = new PixelChange(Color4F.BLACK, Color4F.WHITE, 2);
+		final PixelChange d = new PixelChange(Color4F.BLACK, Color4F.BLACK, 1);
+		final PixelChange e = new PixelChange(Color4F.WHITE, Color4F.WHITE, 1);
+		final PixelChange f = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+	}
+	
+	@Test
+	public void testPixelChangeHashCode() {
+		final PixelChange a = new PixelChange(Color4F.BLACK, Color4F.WHITE, 1);
+		final PixelChange b = new PixelChange(Color4F.BLACK, Color4F.WHITE, 1);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testPixelChangeRedoAndUndo() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		final PixelChange pixelChange = new PixelChange(Color4F.BLACK, Color4F.WHITE, 0);
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		pixelChange.redo(color4DData);
+		pixelChange.redo(color4FData);
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(0));
+		
+		pixelChange.undo(color4DData);
+		pixelChange.undo(color4FData);
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> pixelChange.redo(null));
+		assertThrows(NullPointerException.class, () -> pixelChange.undo(null));
 	}
 	
 	@Test
@@ -576,6 +779,117 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testStateChangeConstructor() {
+		final StateChange stateChange = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		
+		assertArrayEquals(new Color4F[] {Color4F.BLACK}, stateChange.getColorsRedo());
+		assertArrayEquals(new Color4F[] {Color4F.WHITE}, stateChange.getColorsUndo());
+		
+		assertEquals(1, stateChange.getResolutionXRedo());
+		assertEquals(1, stateChange.getResolutionXUndo());
+		assertEquals(1, stateChange.getResolutionYRedo());
+		assertEquals(1, stateChange.getResolutionYUndo());
+		
+		assertThrows(NullPointerException.class, () -> new StateChange(new Color4F[] {null}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1));
+		assertThrows(NullPointerException.class, () -> new StateChange(null, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1));
+		assertThrows(NullPointerException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {null}, 1, 1, 1, 1));
+		assertThrows(NullPointerException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, null, 1, 1, 1, 1));
+		
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 0));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 0, 1));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 0, 1, 1));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 0, 1, 1, 1));
+	}
+	
+	@Test
+	public void testStateChangeEquals() {
+		final StateChange a = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		final StateChange b = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		final StateChange c = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 2);
+		final StateChange d = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 2, 1);
+		final StateChange e = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 2, 1, 1);
+		final StateChange f = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 2, 1, 1, 1);
+		final StateChange g = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.BLACK}, 1, 1, 1, 1);
+		final StateChange h = new StateChange(new Color4F[] {Color4F.WHITE}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		final StateChange i = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		assertNotEquals(a, h);
+		assertNotEquals(h, a);
+		assertNotEquals(a, i);
+		assertNotEquals(i, a);
+	}
+	
+	@Test
+	public void testStateChangeHashCode() {
+		final StateChange a = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		final StateChange b = new StateChange(new Color4F[] {Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 1, 1, 1, 1);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testStateChangeRedoAndUndo() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		final StateChange stateChange = new StateChange(new Color4F[] {Color4F.BLACK, Color4F.BLACK, Color4F.BLACK, Color4F.BLACK}, new Color4F[] {Color4F.WHITE}, 2, 1, 2, 1);
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(1, color4FData.getResolutionX());
+		assertEquals(1, color4FData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		stateChange.redo(color4DData);
+		stateChange.redo(color4FData);
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(2, color4FData.getResolutionX());
+		assertEquals(2, color4FData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(0));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(1));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(2));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(3));
+		
+		stateChange.undo(color4DData);
+		stateChange.undo(color4FData);
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(1, color4FData.getResolutionX());
+		assertEquals(1, color4FData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> stateChange.redo(null));
+		assertThrows(NullPointerException.class, () -> stateChange.undo(null));
+	}
+	
+	@Test
 	public void testToBufferedImageBoolean() {
 		final BufferedImage bufferedImageARGBExpected = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		final BufferedImage bufferedImageRGBExpected = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
@@ -607,5 +921,47 @@ public final class Color4FDataUnitTests {
 				assertEquals(bufferedImageRGBExpected.getRGB(x, y), bufferedImageRGB.getRGB(x, y));
 			}
 		}
+	}
+	
+	@Test
+	public void testUpdatePixel() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.updatePixel(Color4F.BLACK, 0);
+		
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> color4FData.updatePixel(null, 0));
+		
+		assertThrows(IllegalArgumentException.class, () -> color4FData.updatePixel(Color4F.BLACK, -1));
+		assertThrows(IllegalArgumentException.class, () -> color4FData.updatePixel(Color4F.BLACK, +1));
+	}
+	
+	@Test
+	public void testUpdateState() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		assertEquals(1, color4FData.getResolutionX());
+		assertEquals(1, color4FData.getResolutionY());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.updateState(new Color4F[] {Color4F.BLACK, Color4F.BLACK, Color4F.BLACK, Color4F.BLACK}, 2, 2);
+		
+		assertEquals(2, color4FData.getResolutionX());
+		assertEquals(2, color4FData.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(0));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(1));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(2));
+		assertEquals(Color4F.BLACK, color4FData.getColor4F(3));
+		
+		assertThrows(NullPointerException.class, () -> color4FData.updateState(new Color4F[] {null}, 1, 1));
+		assertThrows(NullPointerException.class, () -> color4FData.updateState(null, 1, 1));
+		
+		assertThrows(IllegalArgumentException.class, () -> color4FData.updateState(new Color4F[] {Color4F.BLACK}, 1, 0));
+		assertThrows(IllegalArgumentException.class, () -> color4FData.updateState(new Color4F[] {Color4F.BLACK}, 0, 1));
 	}
 }

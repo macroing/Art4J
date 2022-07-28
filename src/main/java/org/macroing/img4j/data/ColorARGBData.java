@@ -180,9 +180,15 @@ final class ColorARGBData extends Data {
 		
 		final int[] colors = DataBufferInt.class.cast(bufferedImage.getRaster().getDataBuffer()).getData();
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(this.resolutionX, this.resolutionX, this.resolutionY, this.resolutionY, colors, this.colors));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = colors;
@@ -222,8 +228,6 @@ final class ColorARGBData extends Data {
 		final int[] newColors = this.colors.clone();
 		
 		final double[] colors = doUnpackColorsAsDoubleArrayRGB();
-		
-		final boolean hasChangeBegun = changeBegin();
 		
 		int count = 0;
 		
@@ -271,12 +275,17 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(hasChangeBegun) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			if(count > 0) {
 				changeAdd(new StateChange(resolutionX, resolutionX, resolutionY, resolutionY, newColors, oldColors));
 			}
 			
-			changeEnd();
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		if(count > 0) {
@@ -312,8 +321,6 @@ final class ColorARGBData extends Data {
 		final int[] newColors = this.colors.clone();
 		
 		final float[] colors = doUnpackColorsAsFloatArrayRGB();
-		
-		final boolean hasChangeBegun = changeBegin();
 		
 		int count = 0;
 		
@@ -361,12 +368,17 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(hasChangeBegun) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			if(count > 0) {
 				changeAdd(new StateChange(resolutionX, resolutionX, resolutionY, resolutionY, newColors, oldColors));
 			}
 			
-			changeEnd();
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		if(count > 0) {
@@ -464,9 +476,15 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -546,9 +564,15 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -587,9 +611,15 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
@@ -602,249 +632,49 @@ final class ColorARGBData extends Data {
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int index) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(index >= 0 && index < this.colors.length) {
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int x, final int y) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
-			final int index = y * this.resolutionX + x;
-			
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int index) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(index >= 0 && index < this.colors.length) {
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int x, final int y) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
-			final int index = y * this.resolutionX + x;
-			
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(index >= 0 && index < this.colors.length) {
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int x, final int y) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
-			final int index = y * this.resolutionX + x;
-			
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int index) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(index >= 0 && index < this.colors.length) {
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
 //	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int x, final int y) {
-		Objects.requireNonNull(color, "color == null");
-		
-		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
-			final int index = y * this.resolutionX + x;
-			
-			final int newColor = color.toIntARGB();
-			final int oldColor = this.colors[index];
-			
-			if(newColor != oldColor) {
-				final boolean hasChangeBegun = hasChangeBegun();
-				final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
-				
-				if(hasChangeBegun || hasChangeBegunNow) {
-					changeAdd(new PixelChange(newColor, oldColor, index));
-					
-					if(hasChangeBegunNow) {
-						changeEnd();
-					}
-				}
-				
-				this.colors[index] = newColor;
-			}
-			
-			return true;
-		}
-		
-		return false;
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
 //	TODO: Add Unit Tests!
@@ -922,9 +752,15 @@ final class ColorARGBData extends Data {
 			final int oldResolutionX = this.resolutionX;
 			final int oldResolutionY = this.resolutionY;
 			
-			if(changeBegin()) {
+			final boolean hasChangeBegun = hasChangeBegun();
+			final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+			
+			if(hasChangeBegun || hasChangeBegunNow) {
 				changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
-				changeEnd();
+				
+				if(hasChangeBegunNow) {
+					changeEnd();
+				}
 			}
 			
 			this.colors = newColors;
@@ -971,9 +807,15 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-		if(changeBegin()) {
+		final boolean hasChangeBegun = hasChangeBegun();
+		final boolean hasChangeBegunNow = !hasChangeBegun && changeBegin();
+		
+		if(hasChangeBegun || hasChangeBegunNow) {
 			changeAdd(new StateChange(newResolutionX, oldResolutionX, newResolutionY, oldResolutionY, newColors, oldColors));
-			changeEnd();
+			
+			if(hasChangeBegunNow) {
+				changeEnd();
+			}
 		}
 		
 		this.colors = newColors;
