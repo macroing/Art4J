@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,8 @@ import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.data.Color4FData.PixelChange;
 import org.macroing.img4j.data.Color4FData.StateChange;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
+import org.macroing.img4j.kernel.ConvolutionKernelNF;
 
 @SuppressWarnings("static-method")
 public final class Color4FDataUnitTests {
@@ -258,6 +261,124 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testConvolveConvolutionKernelNDIntArray() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[0]));
+		assertFalse(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(color4FData.undo());
+		
+		color4FData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(color4FData.undo());
+		
+		color4FData.changeBegin();
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		
+		color4FData.changeEnd();
+		
+		assertFalse(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.setChangeHistoryEnabled(false);
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertFalse(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.changeBegin();
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		color4FData.changeEnd();
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> color4FData.convolve(ConvolutionKernelND.IDENTITY_3, null));
+		assertThrows(NullPointerException.class, () -> color4FData.convolve((ConvolutionKernelND)(null), new int[1]));
+	}
+	
+	@Test
+	public void testConvolveConvolutionKernelNFIntArray() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[0]));
+		assertFalse(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(color4FData.undo());
+		
+		color4FData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(color4FData.undo());
+		
+		color4FData.changeBegin();
+		
+		assertFalse(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		
+		color4FData.changeEnd();
+		
+		assertFalse(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.setChangeHistoryEnabled(false);
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertFalse(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.setChangeHistoryEnabled(true);
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.changeBegin();
+		
+		assertTrue(color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		color4FData.changeEnd();
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> color4FData.convolve(ConvolutionKernelNF.IDENTITY_3, null));
+		assertThrows(NullPointerException.class, () -> color4FData.convolve((ConvolutionKernelNF)(null), new int[1]));
+	}
+	
+	@Test
 	public void testCopy() {
 		final
 		Color4FData color4FData = new Color4FData(1024, 768);
@@ -324,6 +445,51 @@ public final class Color4FDataUnitTests {
 		
 		assertEquals(color4FData, color4FDataCopyC);
 		assertEquals(color4FData, color4FDataCopyD);
+	}
+	
+	@Test
+	public void testDrawConsumerGraphics2D() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		assertEquals(Color4F.WHITE, color4FData.getColor4F(0));
+		
+		color4FData.draw(graphics2D -> {
+			graphics2D.setColor(Color.RED);
+			graphics2D.fillRect(0, 0, 1, 1);
+		});
+		
+		assertEquals(Color4F.RED, color4FData.getColor4F(0));
+		
+		assertFalse(color4FData.undo());
+		
+		assertEquals(Color4F.RED, color4FData.getColor4F(0));
+		
+		color4FData.setChangeHistoryEnabled(true);
+		color4FData.draw(graphics2D -> {
+			graphics2D.setColor(Color.GREEN);
+			graphics2D.fillRect(0, 0, 1, 1);
+		});
+		
+		assertEquals(Color4F.GREEN, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.RED, color4FData.getColor4F(0));
+		
+		color4FData.changeBegin();
+		color4FData.draw(graphics2D -> {
+			graphics2D.setColor(Color.BLUE);
+			graphics2D.fillRect(0, 0, 1, 1);
+		});
+		color4FData.changeEnd();
+		
+		assertEquals(Color4F.BLUE, color4FData.getColor4F(0));
+		
+		assertTrue(color4FData.undo());
+		
+		assertEquals(Color4F.RED, color4FData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> color4FData.draw(null));
 	}
 	
 	@Test
@@ -896,6 +1062,107 @@ public final class Color4FDataUnitTests {
 		assertEquals(Color4F.GREEN, color4FData.getColor4F(0, 0));
 		
 		assertThrows(NullPointerException.class, () -> color4FData.setColor4F(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColorARGBIntInt() {
+		final Color4FData color4FData = new Color4FData(1, 1, Color4F.WHITE);
+		
+		assertTrue(color4FData.setColorARGB(Color4I.RED_A_R_G_B, 0));
+		
+		assertEquals(Color4I.RED_A_R_G_B, color4FData.getColorARGB(0));
+	}
+	
+	@Test
+	public void testSetColorARGBIntIntInt() {
+		final Color4FData color4FData = new Color4FData(1, 1, Color4F.WHITE);
+		
+		assertTrue(color4FData.setColorARGB(Color4I.RED_A_R_G_B, 0, 0));
+		
+		assertEquals(Color4I.RED_A_R_G_B, color4FData.getColorARGB(0, 0));
+	}
+	
+	@Test
+	public void testSetContent() {
+		final Color4FData a = new Color4FData(1, 1, Color4F.WHITE);
+		final Color4FData b = new Color4FData(1, 1, Color4F.BLACK);
+		final Color4FData c = new Color4FData(2, 2, Color4F.BLACK);
+		final Color4DData d = new Color4DData(3, 3, Color4D.GREEN);
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.WHITE, a.getColor4F(0));
+		
+		assertTrue(a.setContent(b));
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		assertFalse(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		a.setChangeHistoryEnabled(true);
+		
+		assertTrue(a.setContent(c));
+		
+		assertEquals(2, a.getResolutionX());
+		assertEquals(2, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		assertEquals(Color4F.BLACK, a.getColor4F(1));
+		assertEquals(Color4F.BLACK, a.getColor4F(2));
+		assertEquals(Color4F.BLACK, a.getColor4F(3));
+		
+		assertTrue(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		a.changeBegin();
+		
+		assertTrue(a.setContent(c));
+		
+		a.changeEnd();
+		
+		assertEquals(2, a.getResolutionX());
+		assertEquals(2, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		assertEquals(Color4F.BLACK, a.getColor4F(1));
+		assertEquals(Color4F.BLACK, a.getColor4F(2));
+		assertEquals(Color4F.BLACK, a.getColor4F(3));
+		
+		assertTrue(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		assertFalse(a.setContent(d));
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		assertFalse(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4F.BLACK, a.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> a.setContent(null));
 	}
 	
 	@Test

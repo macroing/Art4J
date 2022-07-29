@@ -46,19 +46,16 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData() {
 		this(1024, 768);
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final BufferedImage bufferedImage) {
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 		this.colors = DataBufferInt.class.cast(BufferedImages.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData().clone();
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final ColorARGBData colorARGBData) {
 		super(colorARGBData);
 		
@@ -67,7 +64,6 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final ColorARGBData colorARGBData, final boolean isIgnoringChangeHistory) {
 		super(colorARGBData, isIgnoringChangeHistory);
 		
@@ -76,12 +72,10 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
 		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
@@ -90,7 +84,6 @@ final class ColorARGBData extends Data {
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
-//	TODO: Add Unit Tests!
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
 		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
@@ -114,49 +107,41 @@ final class ColorARGBData extends Data {
 		return bufferedImage;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color3D getColor3D(final int index) {
 		return Color3D.fromIntARGB(getColorARGB(index));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color3D getColor3D(final int x, final int y) {
 		return Color3D.fromIntARGB(getColorARGB(x, y));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color3F getColor3F(final int index) {
 		return Color3F.fromIntARGB(getColorARGB(index));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color3F getColor3F(final int x, final int y) {
 		return Color3F.fromIntARGB(getColorARGB(x, y));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color4D getColor4D(final int index) {
 		return Color4D.fromIntARGB(getColorARGB(index));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color4D getColor4D(final int x, final int y) {
 		return Color4D.fromIntARGB(getColorARGB(x, y));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color4F getColor4F(final int index) {
 		return Color4F.fromIntARGB(getColorARGB(index));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Color4F getColor4F(final int x, final int y) {
 		return Color4F.fromIntARGB(getColorARGB(x, y));
@@ -197,7 +182,6 @@ final class ColorARGBData extends Data {
 		return this;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public DataFactory getDataFactory() {
 		return new ColorARGBDataFactory();
@@ -858,37 +842,31 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int cache() {
 		return 0;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int getColorARGB(final int index) {
 		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int getColorARGB(final int x, final int y) {
 		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? this.colors[y * this.resolutionX + x] : Color4I.TRANSPARENT_A_R_G_B;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int getResolution() {
 		return this.colors.length;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int getResolutionX() {
 		return this.resolutionX;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int getResolutionY() {
 		return this.resolutionY;

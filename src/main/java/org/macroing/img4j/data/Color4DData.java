@@ -270,7 +270,6 @@ final class Color4DData extends Data {
 		return count > 0;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelNF convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -691,19 +690,16 @@ final class Color4DData extends Data {
 		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int index) {
 		return setColor4D(Color4D.fromIntARGB(colorARGB), index);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int x, final int y) {
 		return setColor4D(Color4D.fromIntARGB(colorARGB), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setContent(final Data data) {
 		Objects.requireNonNull(data, "data == null");
@@ -868,7 +864,7 @@ final class Color4DData extends Data {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(Arrays.hashCode(this.colors)), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY));
+		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY), Integer.valueOf(Arrays.hashCode(this.colors)));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
