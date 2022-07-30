@@ -18,6 +18,7 @@
  */
 package org.macroing.img4j.data;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -28,12 +29,15 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color3I;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
+import org.macroing.img4j.data.ColorARGBData.PixelChange;
+import org.macroing.img4j.data.ColorARGBData.StateChange;
 
 @SuppressWarnings("static-method")
 public final class ColorARGBDataUnitTests {
@@ -53,6 +57,61 @@ public final class ColorARGBDataUnitTests {
 		colorARGBData.setColorARGB(Color4I.toIntARGB(0, 0, 0, 255), 3);
 		
 		assertEquals(0, colorARGBData.cache());
+	}
+	
+	@Test
+	public void testChangeAdd() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.changeAdd(new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1)));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.changeAdd(new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1)));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.changeAdd(new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1)));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.changeAdd(null));
+	}
+	
+	@Test
+	public void testChangeBegin() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.changeBegin());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.changeBegin());
+		
+		assertFalse(colorARGBData.changeBegin());
+		
+		colorARGBData.changeEnd();
+		
+		assertTrue(colorARGBData.changeBegin());
+	}
+	
+	@Test
+	public void testChangeEnd() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.changeEnd());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.changeEnd());
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.changeEnd());
+		
+		assertFalse(colorARGBData.changeEnd());
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.changeEnd());
 	}
 	
 	@Test
@@ -311,6 +370,104 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final Data a = new ColorARGBData(400, 400);
+		final Data b = new ColorARGBData(400, 400);
+		final Data c = new ColorARGBData(400, 200);
+		final Data d = new ColorARGBData(200, 400);
+		final Data e = new ColorARGBData(400, 400, Color4D.GREEN);
+		final Data f = new Color4DData(400, 400);
+		final Data g = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		
+		a.undo();
+		b.undo();
+		
+		a.redo();
+		b.redo();
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		
+		a.undo();
+		b.undo();
+		
+		a.setChangeHistoryEnabled(false);
+		b.setChangeHistoryEnabled(false);
+		
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setResolution(500, 500);
+		b.setResolution(500, 500);
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+	}
+	
+	@Test
 	public void testGetColor3DInt() {
 		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
 		
@@ -441,6 +598,479 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testHasChangeBegun() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.hasChangeBegun());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.hasChangeBegun());
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.hasChangeBegun());
+		
+		colorARGBData.changeEnd();
+		
+		assertFalse(colorARGBData.hasChangeBegun());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final ColorARGBData a = new ColorARGBData(100, 100);
+		final ColorARGBData b = new ColorARGBData(100, 100);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+		
+		a.setChangeHistoryEnabled(true);
+		b.setChangeHistoryEnabled(true);
+		
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		
+		a.undo();
+		b.undo();
+		
+		a.redo();
+		b.redo();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+		
+		a.setResolution(200, 200);
+		b.setResolution(200, 200);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIsChangeHistoryEnabled() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.isChangeHistoryEnabled());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.isChangeHistoryEnabled());
+		
+		colorARGBData.setChangeHistoryEnabled(false);
+		
+		assertFalse(colorARGBData.isChangeHistoryEnabled());
+	}
+	
+	@Test
+	public void testPixelChangeConstructor() {
+		final PixelChange pixelChange = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, pixelChange.getColorRedo());
+		assertEquals(Color4I.WHITE_A_R_G_B, pixelChange.getColorUndo());
+		
+		assertEquals(1, pixelChange.getIndex());
+		
+		assertThrows(IllegalArgumentException.class, () -> new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, -1));
+	}
+	
+	@Test
+	public void testPixelChangeEquals() {
+		final PixelChange a = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		final PixelChange b = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		final PixelChange c = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 2);
+		final PixelChange d = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, 1);
+		final PixelChange e = new PixelChange(Color4I.WHITE_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		final PixelChange f = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+	}
+	
+	@Test
+	public void testPixelChangeHashCode() {
+		final PixelChange a = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		final PixelChange b = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 1);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testPixelChangeRedoAndUndo() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		final PixelChange pixelChange = new PixelChange(Color4I.BLACK_A_R_G_B, Color4I.WHITE_A_R_G_B, 0);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		pixelChange.redo(colorARGBData);
+		pixelChange.redo(color4DData);
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		pixelChange.undo(colorARGBData);
+		pixelChange.undo(color4DData);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		assertThrows(NullPointerException.class, () -> pixelChange.redo(null));
+		assertThrows(NullPointerException.class, () -> pixelChange.undo(null));
+	}
+	
+	@Test
+	public void testRedoAndUndo() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.redo());
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.redo());
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		
+		assertTrue(colorARGBData.undo());
+		assertTrue(colorARGBData.redo());
+	}
+	
+	@Test
+	public void testSetChangeHistoryEnabled() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.setChangeHistoryEnabled(false));
+		
+		assertTrue(colorARGBData.setChangeHistoryEnabled(true));
+		
+		assertFalse(colorARGBData.setChangeHistoryEnabled(true));
+		
+		assertTrue(colorARGBData.setChangeHistoryEnabled(false));
+	}
+	
+	@Test
+	public void testSetColor3DColor3DInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor3D(Color3D.RED, 0));
+		
+		assertEquals(Color3D.RED, colorARGBData.getColor3D(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor3D(null, 0));
+	}
+	
+	@Test
+	public void testSetColor3DColor3DIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor3D(Color3D.RED, 0, 0));
+		
+		assertEquals(Color3D.RED, colorARGBData.getColor3D(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor3D(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColor3FColor3FInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor3F(Color3F.RED, 0));
+		
+		assertEquals(Color3F.RED, colorARGBData.getColor3F(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor3F(null, 0));
+	}
+	
+	@Test
+	public void testSetColor3FColor3FIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor3F(Color3F.RED, 0, 0));
+		
+		assertEquals(Color3F.RED, colorARGBData.getColor3F(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor3F(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColor4DColor4DInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor4D(Color4D.RED, 0));
+		
+		assertEquals(Color4D.RED, colorARGBData.getColor4D(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor4D(null, 0));
+	}
+	
+	@Test
+	public void testSetColor4DColor4DIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor4D(Color4D.RED, 0, 0));
+		
+		assertEquals(Color4D.RED, colorARGBData.getColor4D(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor4D(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColor4FColor4FInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor4F(Color4F.RED, 0));
+		
+		assertEquals(Color4F.RED, colorARGBData.getColor4F(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor4F(null, 0));
+	}
+	
+	@Test
+	public void testSetColor4FColor4FIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColor4F(Color4F.RED, 0, 0));
+		
+		assertEquals(Color4F.RED, colorARGBData.getColor4F(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.setColor4F(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColorARGBIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, 0));
+		assertTrue(colorARGBData.setColorARGB(Color4I.WHITE_A_R_G_B, 0));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, -1));
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, +1));
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.WHITE_A_R_G_B, 0));
+		
+		assertFalse(colorARGBData.undo());
+		assertFalse(colorARGBData.redo());
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, 0));
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.changeBegin());
+		assertTrue(colorARGBData.setColorARGB(Color4I.GREEN_A_R_G_B, 0));
+		assertTrue(colorARGBData.changeEnd());
+		
+		assertEquals(Color4I.GREEN_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.GREEN_A_R_G_B, colorARGBData.getColorARGB(0));
+	}
+	
+	@Test
+	public void testSetColorARGBIntIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, 0, 0));
+		assertTrue(colorARGBData.setColorARGB(Color4I.WHITE_A_R_G_B, 0, 0));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, -1, +0));
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, +0, -1));
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, +1, +0));
+		assertFalse(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, +0, +1));
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.WHITE_A_R_G_B, 0, 0));
+		
+		assertFalse(colorARGBData.undo());
+		assertFalse(colorARGBData.redo());
+		
+		assertTrue(colorARGBData.setColorARGB(Color4I.RED_A_R_G_B, 0, 0));
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.changeBegin());
+		assertTrue(colorARGBData.setColorARGB(Color4I.GREEN_A_R_G_B, 0, 0));
+		assertTrue(colorARGBData.changeEnd());
+		
+		assertEquals(Color4I.GREEN_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.RED_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+		
+		assertTrue(colorARGBData.redo());
+		
+		assertEquals(Color4I.GREEN_A_R_G_B, colorARGBData.getColorARGB(0, 0));
+	}
+	
+	@Test
+	public void testStateChangeConstructor() {
+		final StateChange stateChange = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		
+		assertArrayEquals(new int[] {Color4I.BLACK_A_R_G_B}, stateChange.getColorsRedo());
+		assertArrayEquals(new int[] {Color4I.WHITE_A_R_G_B}, stateChange.getColorsUndo());
+		
+		assertEquals(1, stateChange.getResolutionXRedo());
+		assertEquals(1, stateChange.getResolutionXUndo());
+		assertEquals(1, stateChange.getResolutionYRedo());
+		assertEquals(1, stateChange.getResolutionYUndo());
+		
+		assertThrows(NullPointerException.class, () -> new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, null));
+		assertThrows(NullPointerException.class, () -> new StateChange(1, 1, 1, 1, null, new int[] {Color4I.WHITE_A_R_G_B}));
+		
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(1, 1, 1, 0, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B}));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(1, 1, 0, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B}));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(1, 0, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B}));
+		assertThrows(IllegalArgumentException.class, () -> new StateChange(0, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B}));
+	}
+	
+	@Test
+	public void testStateChangeEquals() {
+		final StateChange a = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange b = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange c = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.BLACK_A_R_G_B});
+		final StateChange d = new StateChange(1, 1, 1, 1, new int[] {Color4I.WHITE_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange e = new StateChange(1, 1, 1, 2, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange f = new StateChange(1, 1, 2, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange g = new StateChange(1, 2, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange h = new StateChange(2, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange i = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+		assertNotEquals(a, h);
+		assertNotEquals(h, a);
+		assertNotEquals(a, i);
+		assertNotEquals(i, a);
+	}
+	
+	@Test
+	public void testStateChangeHashCode() {
+		final StateChange a = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		final StateChange b = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testStateChangeRedoAndUndo() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		final StateChange stateChange = new StateChange(2, 1, 2, 1, new int[] {Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, color4DData.getColorARGB(0));
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		stateChange.redo(colorARGBData);
+		stateChange.redo(color4DData);
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(3));
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		stateChange.undo(colorARGBData);
+		stateChange.undo(color4DData);
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(1, color4DData.getResolutionX());
+		assertEquals(1, color4DData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
+		
+		assertThrows(NullPointerException.class, () -> stateChange.redo(null));
+		assertThrows(NullPointerException.class, () -> stateChange.undo(null));
+	}
+	
+	@Test
 	public void testToBufferedImageBoolean() {
 		final BufferedImage bufferedImageARGBExpected = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		final BufferedImage bufferedImageRGBExpected = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
@@ -472,5 +1102,44 @@ public final class ColorARGBDataUnitTests {
 				assertEquals(bufferedImageRGBExpected.getRGB(x, y), bufferedImageRGB.getRGB(x, y));
 			}
 		}
+	}
+	
+	@Test
+	public void testUpdatePixel() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.updatePixel(Color4I.BLACK_A_R_G_B, 0);
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertThrows(IllegalArgumentException.class, () -> colorARGBData.updatePixel(Color4I.BLACK_A_R_G_B, -1));
+		assertThrows(IllegalArgumentException.class, () -> colorARGBData.updatePixel(Color4I.BLACK_A_R_G_B, +1));
+	}
+	
+	@Test
+	public void testUpdateState() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.updateState(2, 2, new int[] {Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B, Color4I.BLACK_A_R_G_B});
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, colorARGBData.getColorARGB(3));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.updateState(1, 1, null));
+		
+		assertThrows(IllegalArgumentException.class, () -> colorARGBData.updateState(1, 0, new int[] {Color4I.BLACK_A_R_G_B}));
+		assertThrows(IllegalArgumentException.class, () -> colorARGBData.updateState(0, 1, new int[] {Color4I.BLACK_A_R_G_B}));
 	}
 }

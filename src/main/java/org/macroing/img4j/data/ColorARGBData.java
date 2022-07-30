@@ -370,7 +370,6 @@ final class ColorARGBData extends Data {
 		return count > 0;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(!super.equals(object)) {
@@ -611,55 +610,46 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int index) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3D(final Color3D color, final int x, final int y) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int index) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor3F(final Color3F color, final int x, final int y) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4D(final Color4D color, final int x, final int y) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int index) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColor4F(final Color4F color, final int x, final int y) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int index) {
 		if(index >= 0 && index < this.colors.length) {
@@ -687,7 +677,6 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setColorARGB(final int colorARGB, final int x, final int y) {
 		if(x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY) {
@@ -869,7 +858,6 @@ final class ColorARGBData extends Data {
 		return this.resolutionY;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(Integer.valueOf(super.hashCode()), Integer.valueOf(this.resolutionX), Integer.valueOf(this.resolutionY), Integer.valueOf(Arrays.hashCode(this.colors)));
@@ -877,13 +865,18 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	void updatePixel(final int color, final int index) {
+		ParameterArguments.requireRange(index, 0, this.colors.length - 1, "index");
+		
 		this.colors[index] = color;
 	}
 	
-//	TODO: Add Unit Tests!
 	void updateState(final int resolutionX, final int resolutionY, final int[] colors) {
+		ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		
+		Objects.requireNonNull(colors, "colors");
+		
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
 		this.colors = colors.clone();
@@ -891,23 +884,21 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final class PixelChange implements Change {
+	static final class PixelChange implements Change {
 		private final int colorRedo;
 		private final int colorUndo;
 		private final int index;
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		public PixelChange(final int colorRedo, final int colorUndo, final int index) {
 			this.colorRedo = colorRedo;
 			this.colorUndo = colorUndo;
-			this.index = index;
+			this.index = ParameterArguments.requireRange(index, 0, Integer.MAX_VALUE, "index");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -925,15 +916,27 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
+		public int getColorRedo() {
+			return this.colorRedo;
+		}
+		
+		public int getColorUndo() {
+			return this.colorUndo;
+		}
+		
+		public int getIndex() {
+			return this.index;
+		}
+		
 		@Override
 		public int hashCode() {
 			return Objects.hash(Integer.valueOf(this.colorRedo), Integer.valueOf(this.colorUndo), Integer.valueOf(this.index));
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void redo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof ColorARGBData) {
 				final
 				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
@@ -941,9 +944,10 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof ColorARGBData) {
 				final
 				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
@@ -954,7 +958,7 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private static final class StateChange implements Change {
+	static final class StateChange implements Change {
 		private final int resolutionXRedo;
 		private final int resolutionXUndo;
 		private final int resolutionYRedo;
@@ -964,19 +968,17 @@ final class ColorARGBData extends Data {
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		public StateChange(final int resolutionXRedo, final int resolutionXUndo, final int resolutionYRedo, final int resolutionYUndo, final int[] colorsRedo, final int[] colorsUndo) {
-			this.resolutionXRedo = resolutionXRedo;
-			this.resolutionXUndo = resolutionXUndo;
-			this.resolutionYRedo = resolutionYRedo;
-			this.resolutionYUndo = resolutionYUndo;
-			this.colorsRedo = colorsRedo.clone();
-			this.colorsUndo = colorsUndo.clone();
+			this.resolutionXRedo = ParameterArguments.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
+			this.resolutionXUndo = ParameterArguments.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
+			this.resolutionYRedo = ParameterArguments.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
+			this.resolutionYUndo = ParameterArguments.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
+			this.colorsRedo = Objects.requireNonNull(colorsRedo, "colorsRedo == null").clone();
+			this.colorsUndo = Objects.requireNonNull(colorsUndo, "colorsUndo == null").clone();
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public boolean equals(final Object object) {
 			if(object == this) {
@@ -1000,15 +1002,39 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
+		public int getResolutionXRedo() {
+			return this.resolutionXRedo;
+		}
+		
+		public int getResolutionXUndo() {
+			return this.resolutionXUndo;
+		}
+		
+		public int getResolutionYRedo() {
+			return this.resolutionYRedo;
+		}
+		
+		public int getResolutionYUndo() {
+			return this.resolutionYUndo;
+		}
+		
 		@Override
 		public int hashCode() {
 			return Objects.hash(Integer.valueOf(this.resolutionXRedo), Integer.valueOf(this.resolutionXUndo), Integer.valueOf(this.resolutionYRedo), Integer.valueOf(this.resolutionYUndo), Integer.valueOf(Arrays.hashCode(this.colorsRedo)), Integer.valueOf(Arrays.hashCode(this.colorsUndo)));
 		}
 		
-//		TODO: Add Unit Tests!
+		public int[] getColorsRedo() {
+			return this.colorsRedo.clone();
+		}
+		
+		public int[] getColorsUndo() {
+			return this.colorsUndo.clone();
+		}
+		
 		@Override
 		public void redo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof ColorARGBData) {
 				final
 				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
@@ -1016,9 +1042,10 @@ final class ColorARGBData extends Data {
 			}
 		}
 		
-//		TODO: Add Unit Tests!
 		@Override
 		public void undo(final Data data) {
+			Objects.requireNonNull(data, "data == null");
+			
 			if(data instanceof ColorARGBData) {
 				final
 				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
