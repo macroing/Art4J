@@ -94,7 +94,6 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public BufferedImage toBufferedImage(final boolean isRGB) {
 		final BufferedImage bufferedImage = new BufferedImage(this.resolutionX, this.resolutionY, isRGB ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
@@ -147,13 +146,11 @@ final class ColorARGBData extends Data {
 		return Color4F.fromIntARGB(getColorARGB(x, y));
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
 		return new ColorARGBData(this, isIgnoringChangeHistory);
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public Data draw(final Consumer<Graphics2D> graphics2DConsumer) {
 		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
