@@ -38,6 +38,8 @@ import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.data.ColorARGBData.PixelChange;
 import org.macroing.img4j.data.ColorARGBData.StateChange;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
+import org.macroing.img4j.kernel.ConvolutionKernelNF;
 
 @SuppressWarnings("static-method")
 public final class ColorARGBDataUnitTests {
@@ -253,6 +255,124 @@ public final class ColorARGBDataUnitTests {
 		assertThrows(IllegalArgumentException.class, () -> new ColorARGBData(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4F.RED));
 		
 		assertThrows(NullPointerException.class, () -> new ColorARGBData(1, 1, (Color4F)(null)));
+	}
+	
+	@Test
+	public void testConvolveConvolutionKernelNDIntArray() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[0]));
+		assertFalse(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.changeBegin();
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		
+		colorARGBData.changeEnd();
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.setChangeHistoryEnabled(false);
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, new int[] {0}));
+		
+		colorARGBData.changeEnd();
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.convolve(ConvolutionKernelND.IDENTITY_3, null));
+		assertThrows(NullPointerException.class, () -> colorARGBData.convolve((ConvolutionKernelND)(null), new int[1]));
+	}
+	
+	@Test
+	public void testConvolveConvolutionKernelNFIntArray() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[0]));
+		assertFalse(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.changeBegin();
+		
+		assertFalse(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {-1, -1, +2, +2}));
+		
+		colorARGBData.changeEnd();
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.setChangeHistoryEnabled(false);
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, new int[] {0}));
+		
+		colorARGBData.changeEnd();
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.convolve(ConvolutionKernelNF.IDENTITY_3, null));
+		assertThrows(NullPointerException.class, () -> colorARGBData.convolve((ConvolutionKernelNF)(null), new int[1]));
 	}
 	
 	@Test
@@ -958,6 +1078,193 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testSetContent() {
+		final ColorARGBData a = new ColorARGBData(1, 1);
+		final ColorARGBData b = new ColorARGBData(1, 1);
+		final ColorARGBData c = new ColorARGBData(2, 2);
+		
+		final Color4DData d = new Color4DData(3, 3, Color4D.GREEN);
+		
+		a.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		c.setColorARGB(Color4I.BLACK_A_R_G_B, 0);
+		c.setColorARGB(Color4I.BLACK_A_R_G_B, 1);
+		c.setColorARGB(Color4I.BLACK_A_R_G_B, 2);
+		c.setColorARGB(Color4I.BLACK_A_R_G_B, 3);
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, a.getColorARGB(0));
+		
+		assertTrue(a.setContent(b));
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		assertFalse(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		a.setChangeHistoryEnabled(true);
+		
+		assertTrue(a.setContent(c));
+		
+		assertEquals(2, a.getResolutionX());
+		assertEquals(2, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(3));
+		
+		assertTrue(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		a.changeBegin();
+		
+		assertTrue(a.setContent(c));
+		
+		a.changeEnd();
+		
+		assertEquals(2, a.getResolutionX());
+		assertEquals(2, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(3));
+		
+		assertTrue(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		assertFalse(a.setContent(d));
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		assertFalse(a.undo());
+		
+		assertEquals(1, a.getResolutionX());
+		assertEquals(1, a.getResolutionY());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, a.getColorARGB(0));
+		
+		assertThrows(NullPointerException.class, () -> a.setContent(null));
+	}
+	
+	@Test
+	public void testSetResolution() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		
+		assertFalse(colorARGBData.setResolution(0, 1));
+		assertFalse(colorARGBData.setResolution(1, 0));
+		assertFalse(colorARGBData.setResolution(Integer.MAX_VALUE, 2));
+		assertFalse(colorARGBData.setResolution(2, Integer.MAX_VALUE));
+		assertFalse(colorARGBData.setResolution(1, 1));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.setResolution(1, 2));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.setResolution(2, 1));
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.setResolution(2, 2));
+		
+		colorARGBData.changeEnd();
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(3));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(1));
+	}
+	
+	@Test
+	public void testSetResolutionX() {
+		final ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		
+		assertFalse(colorARGBData.setResolutionX(0));
+		assertFalse(colorARGBData.setResolutionX(Integer.MAX_VALUE));
+		assertFalse(colorARGBData.setResolutionX(2));
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+	}
+	
+	@Test
+	public void testSetResolutionY() {
+		final ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		
+		assertFalse(colorARGBData.setResolutionY(0));
+		assertFalse(colorARGBData.setResolutionY(Integer.MAX_VALUE));
+		assertFalse(colorARGBData.setResolutionY(2));
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+	}
+	
+	@Test
 	public void testStateChangeConstructor() {
 		final StateChange stateChange = new StateChange(1, 1, 1, 1, new int[] {Color4I.BLACK_A_R_G_B}, new int[] {Color4I.WHITE_A_R_G_B});
 		
@@ -1068,6 +1375,52 @@ public final class ColorARGBDataUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> stateChange.redo(null));
 		assertThrows(NullPointerException.class, () -> stateChange.undo(null));
+	}
+	
+	@Test
+	public void testSwap() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 1);
+		colorARGBData.setColorARGB(Color4I.BLUE_A_R_G_B, 0);
+		colorARGBData.setColorARGB(Color4I.CYAN_A_R_G_B, 1);
+		
+		assertFalse(colorARGBData.swap(-1, +0));
+		assertFalse(colorARGBData.swap(+2, +0));
+		assertFalse(colorARGBData.swap(+0, -1));
+		assertFalse(colorARGBData.swap(+0, +2));
+		
+		assertTrue(colorARGBData.swap(0, 1));
+		
+		assertEquals(Color4I.CYAN_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.BLUE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertFalse(colorARGBData.undo());
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.swap(0, 1));
+		
+		assertEquals(Color4I.BLUE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.CYAN_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.CYAN_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.BLUE_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.swap(0, 1));
+		
+		colorARGBData.changeEnd();
+		
+		assertEquals(Color4I.BLUE_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.CYAN_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(Color4I.CYAN_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.BLUE_A_R_G_B, colorARGBData.getColorARGB(1));
 	}
 	
 	@Test

@@ -184,7 +184,6 @@ final class ColorARGBData extends Data {
 		return new ColorARGBDataFactory();
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -277,7 +276,6 @@ final class ColorARGBData extends Data {
 		return count > 0;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelNF convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -706,7 +704,6 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setContent(final Data data) {
 		Objects.requireNonNull(data, "data == null");
@@ -744,7 +741,6 @@ final class ColorARGBData extends Data {
 		return false;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean setResolution(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || !Ints.canMultiplyExact(resolutionX, resolutionY)) {
@@ -796,7 +792,6 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean swap(final int indexA, final int indexB) {
 		if(indexA < 0 || indexA >= this.colors.length) {
@@ -1056,7 +1051,6 @@ final class ColorARGBData extends Data {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	private double[] doUnpackColorsAsDoubleArrayRGB() {
 		final double[] colors = new double[this.colors.length * 3];
 		
@@ -1069,7 +1063,6 @@ final class ColorARGBData extends Data {
 		return colors;
 	}
 	
-//	TODO: Add Unit Tests!
 	private float[] doUnpackColorsAsFloatArrayRGB() {
 		final float[] colors = new float[this.colors.length * 3];
 		
