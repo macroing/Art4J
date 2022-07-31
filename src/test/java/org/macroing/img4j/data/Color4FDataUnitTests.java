@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color3I;
@@ -591,6 +592,31 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3DDoubleDouble() {
+		final
+		Color4FData color4FData = new Color4FData(2, 2);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 1.0F), 0);
+		color4FData.setColor4F(new Color4F(1.0F, 0.0F, 1.0F, 1.0F), 1);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 1.0F), 2);
+		color4FData.setColor4F(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), 3);
+		
+		assertEquals(new Color3D(0.25D, 0.25D, 0.25D), color4FData.getColor3D(0.5D, 0.5D));
+		
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), color4FData.getColor3D(0.0D, 0.5D));
+		assertEquals(new Color3D(0.5D, 0.0D, 0.5D), color4FData.getColor3D(0.5D, 0.0D));
+		
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), color4FData.getColor3D(0.0D, 0.0D));
+		assertEquals(new Color3D(1.0D, 0.0D, 1.0D), color4FData.getColor3D(1.0D, 0.0D));
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), color4FData.getColor3D(0.0D, 1.0D));
+		assertEquals(new Color3D(0.0D, 1.0D, 0.0D), color4FData.getColor3D(1.0D, 1.0D));
+		
+		assertEquals(Color3D.BLACK, color4FData.getColor3D(-0.1D, +0.0D));
+		assertEquals(Color3D.BLACK, color4FData.getColor3D(+0.0D, -0.1D));
+		assertEquals(Color3D.BLACK, color4FData.getColor3D(+2.0D, +0.0D));
+		assertEquals(Color3D.BLACK, color4FData.getColor3D(+0.0D, +2.0D));
+	}
+	
+	@Test
 	public void testGetColor3DInt() {
 		final Color4FData color4FData = new Color4FData(1, 1);
 		
@@ -608,6 +634,31 @@ public final class Color4FDataUnitTests {
 		assertEquals(Color3D.WHITE, color4FData.getColor3D(+0, +0));
 		assertEquals(Color3D.BLACK, color4FData.getColor3D(+1, +0));
 		assertEquals(Color3D.BLACK, color4FData.getColor3D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor3FFloatFloat() {
+		final
+		Color4FData color4FData = new Color4FData(2, 2);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 1.0F), 0);
+		color4FData.setColor4F(new Color4F(1.0F, 0.0F, 1.0F, 1.0F), 1);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 1.0F), 2);
+		color4FData.setColor4F(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), 3);
+		
+		assertEquals(new Color3F(0.25F, 0.25F, 0.25F), color4FData.getColor3F(0.5F, 0.5F));
+		
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), color4FData.getColor3F(0.0F, 0.5F));
+		assertEquals(new Color3F(0.5F, 0.0F, 0.5F), color4FData.getColor3F(0.5F, 0.0F));
+		
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), color4FData.getColor3F(0.0F, 0.0F));
+		assertEquals(new Color3F(1.0F, 0.0F, 1.0F), color4FData.getColor3F(1.0F, 0.0F));
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), color4FData.getColor3F(0.0F, 1.0F));
+		assertEquals(new Color3F(0.0F, 1.0F, 0.0F), color4FData.getColor3F(1.0F, 1.0F));
+		
+		assertEquals(Color3F.BLACK, color4FData.getColor3F(-0.1F, +0.0F));
+		assertEquals(Color3F.BLACK, color4FData.getColor3F(+0.0F, -0.1F));
+		assertEquals(Color3F.BLACK, color4FData.getColor3F(+2.0F, +0.0F));
+		assertEquals(Color3F.BLACK, color4FData.getColor3F(+0.0F, +2.0F));
 	}
 	
 	@Test
@@ -631,6 +682,31 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DDoubleDouble() {
+		final
+		Color4FData color4FData = new Color4FData(2, 2);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), 0);
+		color4FData.setColor4F(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), 1);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), 2);
+		color4FData.setColor4F(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), 3);
+		
+		assertEquals(new Color4D(0.25D, 0.25D, 0.25D, 0.25D), color4FData.getColor4D(0.5D, 0.5D));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4FData.getColor4D(0.0D, 0.5D));
+		assertEquals(new Color4D(0.5D, 0.0D, 0.5D, 0.0D), color4FData.getColor4D(0.5D, 0.0D));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4FData.getColor4D(0.0D, 0.0D));
+		assertEquals(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), color4FData.getColor4D(1.0D, 0.0D));
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4FData.getColor4D(0.0D, 1.0D));
+		assertEquals(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), color4FData.getColor4D(1.0D, 1.0D));
+		
+		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(-0.1D, +0.0D));
+		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(+0.0D, -0.1D));
+		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(+2.0D, +0.0D));
+		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(+0.0D, +2.0D));
+	}
+	
+	@Test
 	public void testGetColor4DInt() {
 		final Color4FData color4FData = new Color4FData(1, 1);
 		
@@ -648,6 +724,31 @@ public final class Color4FDataUnitTests {
 		assertEquals(Color4D.WHITE, color4FData.getColor4D(+0, +0));
 		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(+1, +0));
 		assertEquals(Color4D.TRANSPARENT, color4FData.getColor4D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4FFloatFloat() {
+		final
+		Color4FData color4FData = new Color4FData(2, 2);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), 0);
+		color4FData.setColor4F(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), 1);
+		color4FData.setColor4F(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), 2);
+		color4FData.setColor4F(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), 3);
+		
+		assertEquals(new Color4F(0.25F, 0.25F, 0.25F, 0.25F), color4FData.getColor4F(0.5F, 0.5F));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4FData.getColor4F(0.0F, 0.5F));
+		assertEquals(new Color4F(0.5F, 0.0F, 0.5F, 0.0F), color4FData.getColor4F(0.5F, 0.0F));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4FData.getColor4F(0.0F, 0.0F));
+		assertEquals(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), color4FData.getColor4F(1.0F, 0.0F));
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4FData.getColor4F(0.0F, 1.0F));
+		assertEquals(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), color4FData.getColor4F(1.0F, 1.0F));
+		
+		assertEquals(Color4F.TRANSPARENT, color4FData.getColor4F(-0.1F, +0.0F));
+		assertEquals(Color4F.TRANSPARENT, color4FData.getColor4F(+0.0F, -0.1F));
+		assertEquals(Color4F.TRANSPARENT, color4FData.getColor4F(+2.0F, +0.0F));
+		assertEquals(Color4F.TRANSPARENT, color4FData.getColor4F(+0.0F, +2.0F));
 	}
 	
 	@Test

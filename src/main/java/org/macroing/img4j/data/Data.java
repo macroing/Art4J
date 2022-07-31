@@ -224,7 +224,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4D} at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4D getColor4D(final double x, final double y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -286,7 +285,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4F} at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4F getColor4F(final float x, final float y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();

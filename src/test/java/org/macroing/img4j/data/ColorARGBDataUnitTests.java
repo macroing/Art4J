@@ -588,6 +588,31 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3DDoubleDouble() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0, 255), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255, 255), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0, 255), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color3D(0.25D, 0.25D, 0.25D), colorARGBData.getColor3D(0.5D, 0.5D));
+		
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), colorARGBData.getColor3D(0.0D, 0.5D));
+		assertEquals(new Color3D(0.5D, 0.0D, 0.5D), colorARGBData.getColor3D(0.5D, 0.0D));
+		
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), colorARGBData.getColor3D(0.0D, 0.0D));
+		assertEquals(new Color3D(1.0D, 0.0D, 1.0D), colorARGBData.getColor3D(1.0D, 0.0D));
+		assertEquals(new Color3D(0.0D, 0.0D, 0.0D), colorARGBData.getColor3D(0.0D, 1.0D));
+		assertEquals(new Color3D(0.0D, 1.0D, 0.0D), colorARGBData.getColor3D(1.0D, 1.0D));
+		
+		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(-0.1D, +0.0D));
+		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(+0.0D, -0.1D));
+		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(+2.0D, +0.0D));
+		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(+0.0D, +2.0D));
+	}
+	
+	@Test
 	public void testGetColor3DInt() {
 		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
 		
@@ -605,6 +630,31 @@ public final class ColorARGBDataUnitTests {
 		assertEquals(Color3D.WHITE, colorARGBData.getColor3D(+0, +0));
 		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(+1, +0));
 		assertEquals(Color3D.BLACK, colorARGBData.getColor3D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor3FFloatFloat() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0, 255), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255, 255), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0, 255), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color3F(0.25F, 0.25F, 0.25F), colorARGBData.getColor3F(0.5F, 0.5F));
+		
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), colorARGBData.getColor3F(0.0F, 0.5F));
+		assertEquals(new Color3F(0.5F, 0.0F, 0.5F), colorARGBData.getColor3F(0.5F, 0.0F));
+		
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), colorARGBData.getColor3F(0.0F, 0.0F));
+		assertEquals(new Color3F(1.0F, 0.0F, 1.0F), colorARGBData.getColor3F(1.0F, 0.0F));
+		assertEquals(new Color3F(0.0F, 0.0F, 0.0F), colorARGBData.getColor3F(0.0F, 1.0F));
+		assertEquals(new Color3F(0.0F, 1.0F, 0.0F), colorARGBData.getColor3F(1.0F, 1.0F));
+		
+		assertEquals(Color3F.BLACK, colorARGBData.getColor3F(-0.1F, +0.0F));
+		assertEquals(Color3F.BLACK, colorARGBData.getColor3F(+0.0F, -0.1F));
+		assertEquals(Color3F.BLACK, colorARGBData.getColor3F(+2.0F, +0.0F));
+		assertEquals(Color3F.BLACK, colorARGBData.getColor3F(+0.0F, +2.0F));
 	}
 	
 	@Test
@@ -628,6 +678,31 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DDoubleDouble() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4D(0.25D, 0.25D, 0.25D, 0.25D), colorARGBData.getColor4D(0.5D, 0.5D));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), colorARGBData.getColor4D(0.0D, 0.5D));
+		assertEquals(new Color4D(0.5D, 0.0D, 0.5D, 0.0D), colorARGBData.getColor4D(0.5D, 0.0D));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), colorARGBData.getColor4D(0.0D, 0.0D));
+		assertEquals(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), colorARGBData.getColor4D(1.0D, 0.0D));
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), colorARGBData.getColor4D(0.0D, 1.0D));
+		assertEquals(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), colorARGBData.getColor4D(1.0D, 1.0D));
+		
+		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(-0.1D, +0.0D));
+		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(+0.0D, -0.1D));
+		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(+2.0D, +0.0D));
+		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(+0.0D, +2.0D));
+	}
+	
+	@Test
 	public void testGetColor4DInt() {
 		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
 		
@@ -645,6 +720,31 @@ public final class ColorARGBDataUnitTests {
 		assertEquals(Color4D.WHITE, colorARGBData.getColor4D(+0, +0));
 		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(+1, +0));
 		assertEquals(Color4D.TRANSPARENT, colorARGBData.getColor4D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4FFloatFloat() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4F(0.25F, 0.25F, 0.25F, 0.25F), colorARGBData.getColor4F(0.5F, 0.5F));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), colorARGBData.getColor4F(0.0F, 0.5F));
+		assertEquals(new Color4F(0.5F, 0.0F, 0.5F, 0.0F), colorARGBData.getColor4F(0.5F, 0.0F));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), colorARGBData.getColor4F(0.0F, 0.0F));
+		assertEquals(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), colorARGBData.getColor4F(1.0F, 0.0F));
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), colorARGBData.getColor4F(0.0F, 1.0F));
+		assertEquals(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), colorARGBData.getColor4F(1.0F, 1.0F));
+		
+		assertEquals(Color4F.TRANSPARENT, colorARGBData.getColor4F(-0.1F, +0.0F));
+		assertEquals(Color4F.TRANSPARENT, colorARGBData.getColor4F(+0.0F, -0.1F));
+		assertEquals(Color4F.TRANSPARENT, colorARGBData.getColor4F(+2.0F, +0.0F));
+		assertEquals(Color4F.TRANSPARENT, colorARGBData.getColor4F(+0.0F, +2.0F));
 	}
 	
 	@Test
