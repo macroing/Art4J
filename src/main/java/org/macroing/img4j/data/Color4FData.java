@@ -552,7 +552,6 @@ final class Color4FData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean scale(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || !Ints.canMultiplyExact(resolutionX, resolutionY)) {

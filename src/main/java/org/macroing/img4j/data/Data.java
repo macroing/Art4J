@@ -20,7 +20,6 @@ package org.macroing.img4j.data;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -557,7 +556,6 @@ public abstract class Data {
 	 * @param scaleY the scale factor along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean scale(final double scaleX, final double scaleY) {
 		final int resolutionX = (int)(Doubles.ceil(getResolutionX() * scaleX));
 		final int resolutionY = (int)(Doubles.ceil(getResolutionY() * scaleY));
@@ -578,7 +576,6 @@ public abstract class Data {
 	 * @param scaleY the scale factor along the Y-axis
 	 * @return {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public final boolean scale(final float scaleX, final float scaleY) {
 		final int resolutionX = (int)(Floats.ceil(getResolutionX() * scaleX));
 		final int resolutionY = (int)(Floats.ceil(getResolutionY() * scaleY));
@@ -921,7 +918,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final int getColorARGB(final double x, final double y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -960,7 +956,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final int getColorARGB(final float x, final float y) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();

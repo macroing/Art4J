@@ -768,6 +768,56 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColorARGBDoubleDouble() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(Color4I.toIntARGB(64, 64, 64, 64), colorARGBData.getColorARGB(0.5D, 0.5D));
+		
+		assertEquals(Color4I.toIntARGB(  0, 0,   0, 0), colorARGBData.getColorARGB(0.0D, 0.5D));
+		assertEquals(Color4I.toIntARGB(128, 0, 128, 0), colorARGBData.getColorARGB(0.5D, 0.0D));
+		
+		assertEquals(Color4I.toIntARGB(  0,   0,   0,   0), colorARGBData.getColorARGB(0.0D, 0.0D));
+		assertEquals(Color4I.toIntARGB(255,   0, 255,   0), colorARGBData.getColorARGB(1.0D, 0.0D));
+		assertEquals(Color4I.toIntARGB(  0,   0,   0,   0), colorARGBData.getColorARGB(0.0D, 1.0D));
+		assertEquals(Color4I.toIntARGB(  0, 255,   0, 255), colorARGBData.getColorARGB(1.0D, 1.0D));
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(-0.1D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+0.0D, -0.1D));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+2.0D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+0.0D, +2.0D));
+	}
+	
+	@Test
+	public void testGetColorARGBFloatFloat() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(2, 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		colorARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(Color4I.toIntARGB(64, 64, 64, 64), colorARGBData.getColorARGB(0.5F, 0.5F));
+		
+		assertEquals(Color4I.toIntARGB(  0, 0,   0, 0), colorARGBData.getColorARGB(0.0F, 0.5F));
+		assertEquals(Color4I.toIntARGB(128, 0, 128, 0), colorARGBData.getColorARGB(0.5F, 0.0F));
+		
+		assertEquals(Color4I.toIntARGB(  0,   0,   0,   0), colorARGBData.getColorARGB(0.0F, 0.0F));
+		assertEquals(Color4I.toIntARGB(255,   0, 255,   0), colorARGBData.getColorARGB(1.0F, 0.0F));
+		assertEquals(Color4I.toIntARGB(  0,   0,   0,   0), colorARGBData.getColorARGB(0.0F, 1.0F));
+		assertEquals(Color4I.toIntARGB(  0, 255,   0, 255), colorARGBData.getColorARGB(1.0F, 1.0F));
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(-0.1F, +0.0F));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+0.0F, -0.1F));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+2.0F, +0.0F));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(+0.0F, +2.0F));
+	}
+	
+	@Test
 	public void testGetColorARGBInt() {
 		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
 		
@@ -968,6 +1018,128 @@ public final class ColorARGBDataUnitTests {
 		
 		assertTrue(colorARGBData.undo());
 		assertTrue(colorARGBData.redo());
+	}
+	
+	@Test
+	public void testScaleDoubleDouble() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		colorARGBData.setColorARGB(Color4I.TRANSPARENT_A_R_G_B, 0);
+		
+		assertFalse(colorARGBData.scale(0.0D, 1.0D));
+		assertFalse(colorARGBData.scale(1.0D, 0.0D));
+		assertFalse(colorARGBData.scale(1.0D, 1.0D));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.scale(1.0D, 2.0D));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+	}
+	
+	@Test
+	public void testScaleFloatFloat() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		colorARGBData.setColorARGB(Color4I.TRANSPARENT_A_R_G_B, 0);
+		
+		assertFalse(colorARGBData.scale(0.0F, 1.0F));
+		assertFalse(colorARGBData.scale(1.0F, 0.0F));
+		assertFalse(colorARGBData.scale(1.0F, 1.0F));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.scale(1.0F, 2.0F));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+	}
+	
+	@Test
+	public void testScaleIntInt() {
+		final
+		ColorARGBData colorARGBData = new ColorARGBData(1, 1);
+		colorARGBData.setColorARGB(Color4I.TRANSPARENT_A_R_G_B, 0);
+		
+		assertFalse(colorARGBData.scale(0, 1));
+		assertFalse(colorARGBData.scale(1, 0));
+		assertFalse(colorARGBData.scale(Integer.MAX_VALUE, 2));
+		assertFalse(colorARGBData.scale(2, Integer.MAX_VALUE));
+		assertFalse(colorARGBData.scale(1, 1));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		
+		assertTrue(colorARGBData.scale(1, 2));
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertFalse(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		colorARGBData.setChangeHistoryEnabled(true);
+		
+		assertTrue(colorARGBData.scale(2, 1));
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(1, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+		
+		colorARGBData.changeBegin();
+		
+		assertTrue(colorARGBData.scale(2, 2));
+		
+		colorARGBData.changeEnd();
+		
+		assertEquals(2, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(2));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(3));
+		
+		assertTrue(colorARGBData.undo());
+		
+		assertEquals(1, colorARGBData.getResolutionX());
+		assertEquals(2, colorARGBData.getResolutionY());
+		
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(0));
+		assertEquals(Color4I.TRANSPARENT_A_R_G_B, colorARGBData.getColorARGB(1));
 	}
 	
 	@Test

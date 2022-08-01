@@ -179,7 +179,6 @@ final class Color4DData extends Data {
 		return new Color4DDataFactory();
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean convolve(final ConvolutionKernelND convolutionKernel, final int[] indices) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
@@ -553,7 +552,6 @@ final class Color4DData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean scale(final int resolutionX, final int resolutionY) {
 		if(resolutionX < 1 || resolutionY < 1 || !Ints.canMultiplyExact(resolutionX, resolutionY)) {
