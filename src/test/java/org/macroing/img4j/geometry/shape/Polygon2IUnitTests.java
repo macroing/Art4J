@@ -189,6 +189,19 @@ public final class Polygon2IUnitTests {
 	}
 	
 	@Test
+	public void testFindPointClosestTo() {
+		final Polygon2I polygon = new Polygon2I(new Point2I(20, 20), new Point2I(20, 30), new Point2I(30, 30), new Point2I(30, 20));
+		
+		assertEquals(new Point2I(25, 25), polygon.findPointClosestTo(new Point2I(25, 25)));
+		assertEquals(new Point2I(20, 25), polygon.findPointClosestTo(new Point2I(10, 25)));
+		assertEquals(new Point2I(25, 30), polygon.findPointClosestTo(new Point2I(25, 40)));
+		assertEquals(new Point2I(30, 25), polygon.findPointClosestTo(new Point2I(40, 25)));
+		assertEquals(new Point2I(25, 20), polygon.findPointClosestTo(new Point2I(25, 10)));
+		
+		assertThrows(NullPointerException.class, () -> polygon.findPointClosestTo(null));
+	}
+	
+	@Test
 	public void testFindPointsBoolean() {
 		final Polygon2I polygon = new Polygon2I(new Point2I(1, 0), new Point2I(3, 0), new Point2I(4, 1), new Point2I(3, 2), new Point2I(1, 2), new Point2I(0, 1));
 		
@@ -291,10 +304,30 @@ public final class Polygon2IUnitTests {
 	}
 	
 	@Test
+	public void testIntersects() {
+		final Polygon2I a = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		final Polygon2I b = new Polygon2I(new Point2I(20, 20), new Point2I(30, 20), new Point2I(30, 30), new Point2I(20, 30));
+		final Polygon2I c = new Polygon2I(new Point2I(30, 30), new Point2I(40, 30), new Point2I(40, 40), new Point2I(30, 40));
+		
+		assertTrue(a.intersects(b));
+		
+		assertFalse(a.intersects(c));
+		
+		assertThrows(NullPointerException.class, () -> a.intersects(null));
+	}
+	
+	@Test
 	public void testMax() {
 		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
 		
 		assertEquals(new Point2I(20, 20), polygon.max());
+	}
+	
+	@Test
+	public void testMidpoint() {
+		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		assertEquals(new Point2I(15, 15), polygon.midpoint());
 	}
 	
 	@Test

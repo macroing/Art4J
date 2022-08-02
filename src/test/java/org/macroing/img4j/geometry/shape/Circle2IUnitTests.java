@@ -178,6 +178,19 @@ public final class Circle2IUnitTests {
 	}
 	
 	@Test
+	public void testFindPointClosestTo() {
+		final Circle2I circle = new Circle2I(new Point2I(0, 0), 8);
+		
+		assertEquals(new Point2I(+0, +0), circle.findPointClosestTo(new Point2I(+0, +0)));
+		assertEquals(new Point2I(-8, +0), circle.findPointClosestTo(new Point2I(-9, +0)));
+		assertEquals(new Point2I(+8, +0), circle.findPointClosestTo(new Point2I(+9, +0)));
+		assertEquals(new Point2I(+0, -8), circle.findPointClosestTo(new Point2I(+0, -9)));
+		assertEquals(new Point2I(+0, +8), circle.findPointClosestTo(new Point2I(+0, +9)));
+		
+		assertThrows(NullPointerException.class, () -> circle.findPointClosestTo(null));
+	}
+	
+	@Test
 	public void testFindPoints() {
 		final Circle2I circle = new Circle2I();
 		
@@ -305,10 +318,30 @@ public final class Circle2IUnitTests {
 	}
 	
 	@Test
+	public void testIntersects() {
+		final Circle2I a = new Circle2I(new Point2I(20, 20), 10);
+		final Circle2I b = new Circle2I(new Point2I(30, 20), 10);
+		final Circle2I c = new Circle2I(new Point2I(50, 20), 10);
+		
+		assertTrue(a.intersects(b));
+		
+		assertFalse(a.intersects(c));
+		
+		assertThrows(NullPointerException.class, () -> a.intersects(null));
+	}
+	
+	@Test
 	public void testMax() {
 		final Circle2I circle = new Circle2I(new Point2I(20, 20), 10);
 		
 		assertEquals(new Point2I(30, 30), circle.max());
+	}
+	
+	@Test
+	public void testMidpoint() {
+		final Circle2I circle = new Circle2I(new Point2I(20, 20), 10);
+		
+		assertEquals(new Point2I(20, 20), circle.midpoint());
 	}
 	
 	@Test

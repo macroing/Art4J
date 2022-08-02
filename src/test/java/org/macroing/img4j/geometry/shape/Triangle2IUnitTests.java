@@ -150,6 +150,18 @@ public final class Triangle2IUnitTests {
 	}
 	
 	@Test
+	public void testFindPointClosestTo() {
+		final Triangle2I triangle = new Triangle2I(new Point2I(20, 20), new Point2I(30, 20), new Point2I(30, 30));
+		
+		assertEquals(new Point2I(25, 25), triangle.findPointClosestTo(new Point2I(25, 25)));
+		assertEquals(new Point2I(25, 20), triangle.findPointClosestTo(new Point2I(25, 10)));
+		assertEquals(new Point2I(30, 25), triangle.findPointClosestTo(new Point2I(35, 25)));
+		assertEquals(new Point2I(25, 25), triangle.findPointClosestTo(new Point2I(24, 26)));
+		
+		assertThrows(NullPointerException.class, () -> triangle.findPointClosestTo(null));
+	}
+	
+	@Test
 	public void testFindPointsBoolean() {
 		final Triangle2I triangle = new Triangle2I(new Point2I(0, 0), new Point2I(3, 0), new Point2I(3, 3));
 		
@@ -253,10 +265,30 @@ public final class Triangle2IUnitTests {
 	}
 	
 	@Test
+	public void testIntersects() {
+		final Triangle2I a = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
+		final Triangle2I b = new Triangle2I(new Point2I(20, 20), new Point2I(30, 20), new Point2I(30, 30));
+		final Triangle2I c = new Triangle2I(new Point2I(30, 30), new Point2I(40, 30), new Point2I(40, 40));
+		
+		assertTrue(a.intersects(b));
+		
+		assertFalse(a.intersects(c));
+		
+		assertThrows(NullPointerException.class, () -> a.intersects(null));
+	}
+	
+	@Test
 	public void testMax() {
 		final Triangle2I triangle = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
 		
 		assertEquals(new Point2I(20, 20), triangle.max());
+	}
+	
+	@Test
+	public void testMidpoint() {
+		final Triangle2I triangle = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
+		
+		assertEquals(new Point2I(15, 15), triangle.midpoint());
 	}
 	
 	@Test

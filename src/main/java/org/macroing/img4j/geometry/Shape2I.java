@@ -19,8 +19,11 @@
 package org.macroing.img4j.geometry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import org.macroing.img4j.utility.Doubles;
 
 /**
  * A {@code Shape2I} represents a 2-dimensional shape that operates on {@code int}-based data types.
@@ -152,6 +155,52 @@ public interface Shape2I {
 	}
 	
 	/**
+	 * Returns a {@link Point2I} instance that represents the closest point to {@code point} and is contained in this {@code Shape2I} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param point a {@code Point2I} instance
+	 * @return a {@code Point2I} instance that represents the closest point to {@code point} and is contained in this {@code Shape2I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	default Point2I findPointClosestTo(final Point2I point) {
+		Objects.requireNonNull(point, "point == null");
+		
+		final double aX = point.x;
+		final double aY = point.y;
+		
+		Point2I closestPoint = null;
+		
+		double closestDistance = Double.MAX_VALUE;
+		
+		for(final Point2I currentPoint : findPoints()) {
+			final double bX = currentPoint.x;
+			final double bY = currentPoint.y;
+			
+			final double dX = bX - aX;
+			final double dY = bY - aY;
+			
+			final double distance = Doubles.sqrt(dX * dX + dY * dY);
+			
+			if(closestPoint == null || distance < closestDistance) {
+				closestDistance = distance;
+				closestPoint = currentPoint;
+			}
+		}
+		
+		return Objects.requireNonNull(closestPoint);
+	}
+	
+	/**
+	 * Returns a {@link Point2I} instance that represents the midpoint of {@link #max()} and {@link #min()} for this {@code Shape2I} instance.
+	 * 
+	 * @return a {@code Point2I} instance that represents the midpoint of {@code  max()} and {@code  min()} for this {@code Shape2I} instance
+	 */
+	default Point2I midpoint() {
+		return Point2I.midpoint(max(), min());
+	}
+	
+	/**
 	 * Returns {@code true} if, and only if, {@code point} is contained in this {@code Shape2I} instance, {@code false} otherwise.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
@@ -169,6 +218,19 @@ public interface Shape2I {
 	 */
 	default boolean contains(final Point2I point) {
 		return contains(point, false);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, this {@code Shape2I} instance intersects {@code shape}, {@code false} otherwise.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@code Shape2I} to perform an intersection test against
+	 * @return {@code true} if, and only if, this {@code Shape2I} instance intersects {@code shape}, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	default boolean intersects(final Shape2I shape) {
+		return !Collections.disjoint(findPoints(), shape.findPoints());
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

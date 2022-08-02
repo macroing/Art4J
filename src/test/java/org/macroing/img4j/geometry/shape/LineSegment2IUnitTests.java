@@ -109,6 +109,19 @@ public final class LineSegment2IUnitTests {
 	}
 	
 	@Test
+	public void testFindPointClosestTo() {
+		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(20, 20), new Point2I(30, 20));
+		
+		assertEquals(new Point2I(25, 20), lineSegment.findPointClosestTo(new Point2I(25, 20)));
+		assertEquals(new Point2I(20, 20), lineSegment.findPointClosestTo(new Point2I(15, 20)));
+		assertEquals(new Point2I(30, 20), lineSegment.findPointClosestTo(new Point2I(35, 20)));
+		assertEquals(new Point2I(25, 20), lineSegment.findPointClosestTo(new Point2I(25, 10)));
+		assertEquals(new Point2I(25, 20), lineSegment.findPointClosestTo(new Point2I(25, 30)));
+		
+		assertThrows(NullPointerException.class, () -> lineSegment.findPointClosestTo(null));
+	}
+	
+	@Test
 	public void testFindPointsBoolean() {
 		final LineSegment2I lineSegmentA = new LineSegment2I(new Point2I(10, 10), new Point2I(15, 10));
 		final LineSegment2I lineSegmentB = new LineSegment2I(new Point2I(10, 10), new Point2I(10, 15));
@@ -228,6 +241,19 @@ public final class LineSegment2IUnitTests {
 	}
 	
 	@Test
+	public void testIntersects() {
+		final LineSegment2I a = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
+		final LineSegment2I b = new LineSegment2I(new Point2I(20, 10), new Point2I(30, 10));
+		final LineSegment2I c = new LineSegment2I(new Point2I(30, 10), new Point2I(40, 10));
+		
+		assertTrue(a.intersects(b));
+		
+		assertFalse(a.intersects(c));
+		
+		assertThrows(NullPointerException.class, () -> a.intersects(null));
+	}
+	
+	@Test
 	public void testLength() {
 		final LineSegment2I a = new LineSegment2I(new Point2I(0, 0), new Point2I(4, 0));
 		final LineSegment2I b = new LineSegment2I(new Point2I(0, 0), new Point2I(0, 4));
@@ -248,6 +274,13 @@ public final class LineSegment2IUnitTests {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
 		assertEquals(new Point2I(20, 10), lineSegment.max());
+	}
+	
+	@Test
+	public void testMidpoint() {
+		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
+		
+		assertEquals(new Point2I(15, 10), lineSegment.midpoint());
 	}
 	
 	@Test
