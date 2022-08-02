@@ -1027,6 +1027,566 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testRotateDoubleBoolean() {
+		final
+		Color4DData color4DData = new Color4DData(5, 5, Color4D.WHITE);
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.rotate(+0.0D, false));
+		assertFalse(color4DData.rotate(-0.0D, false));
+		
+		assertFalse(color4DData.rotate(+360.0D, false));
+		assertFalse(color4DData.rotate(-360.0D, false));
+		
+		assertFalse(color4DData.rotate(Math.toRadians(+360.0D), true));
+		assertFalse(color4DData.rotate(Math.toRadians(-360.0D), true));
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 4));
+		
+		assertTrue(color4DData.rotate(45.0D, false));
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 2));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(6, 3));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 6));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 6));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 4));
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.rotate(45.0D, false));
+		
+		color4DData.changeEnd();
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 2));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(6, 3));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 6));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 6));
+		
+		assertTrue(color4DData.undo());
+		
+		color4DData.setChangeHistoryEnabled(false);
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(4, 4));
+		
+		assertTrue(color4DData.rotate(45.0D, false));
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 0));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 0));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 1));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 1));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 2));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 2));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(0, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 3));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(6, 3));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(1, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 4));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(5, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 4));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(2, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 5));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(4, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 5));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(0, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(1, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(2, 6));
+		assertEquals(Color4D.WHITE,       color4DData.getColor4D(3, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(4, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(5, 6));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(6, 6));
+		
+		assertFalse(color4DData.undo());
+	}
+	
+	@Test
+	public void testRotateFloatBoolean() {
+		final
+		Color4DData color4DData = new Color4DData(5, 5, Color4F.WHITE);
+		color4DData.setChangeHistoryEnabled(true);
+		
+		assertFalse(color4DData.rotate(+0.0F, false));
+		assertFalse(color4DData.rotate(-0.0F, false));
+		
+		assertFalse(color4DData.rotate(+360.0F, false));
+		assertFalse(color4DData.rotate(-360.0F, false));
+		
+		assertFalse(color4DData.rotate((float)(Math.toRadians(+360.0F)), true));
+		assertFalse(color4DData.rotate((float)(Math.toRadians(-360.0F)), true));
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 4));
+		
+		assertTrue(color4DData.rotate(45.0F, false));
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 2));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(6, 3));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 6));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 6));
+		
+		assertTrue(color4DData.undo());
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 4));
+		
+		color4DData.changeBegin();
+		
+		assertTrue(color4DData.rotate(45.0F, false));
+		
+		color4DData.changeEnd();
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 2));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(6, 3));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 6));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 6));
+		
+		assertTrue(color4DData.undo());
+		
+		color4DData.setChangeHistoryEnabled(false);
+		
+		assertEquals(5, color4DData.getResolutionX());
+		assertEquals(5, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(4, 4));
+		
+		assertTrue(color4DData.rotate(45.0F, false));
+		
+		assertEquals(7, color4DData.getResolutionX());
+		assertEquals(7, color4DData.getResolutionY());
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 0));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 0));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 1));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 1));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 2));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 2));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(0, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 3));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(6, 3));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(1, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 4));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(5, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 4));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(2, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 5));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(4, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 5));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(0, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(1, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(2, 6));
+		assertEquals(Color4F.WHITE,       color4DData.getColor4F(3, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(4, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(5, 6));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 6));
+		
+		assertFalse(color4DData.undo());
+	}
+	
+	@Test
 	public void testScaleDoubleDouble() {
 		final Color4DData color4DData = new Color4DData(1, 1, Color4D.TRANSPARENT);
 		

@@ -21,7 +21,6 @@ package org.macroing.img4j.data;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -31,6 +30,8 @@ import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
+import org.macroing.img4j.geometry.Point2I;
+import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
 import org.macroing.img4j.utility.BufferedImages;
@@ -385,7 +386,6 @@ final class ColorARGBData extends Data {
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean rotate(final double angle, final boolean isAngleInRadians) {
 		if(Doubles.isZero(angle)) {
@@ -393,65 +393,42 @@ final class ColorARGBData extends Data {
 		}
 		
 		final double angleDegrees = isAngleInRadians ? Doubles.toDegrees(angle) : angle;
+		final double angleRadians = isAngleInRadians ? angle : Doubles.toRadians(angle);
 		
 		if(Doubles.equals(angleDegrees, +360.0D) || Doubles.equals(angleDegrees, -360.0D)) {
 			return false;
 		}
 		
-		final double angleRadians = isAngleInRadians ? angle : Doubles.toRadians(angle);
-		final double angleRadiansCos = Doubles.cos(angleRadians);
-		final double angleRadiansSin = Doubles.sin(angleRadians);
-		
-		final double directionAX = -this.resolutionX * 0.5D;
-		final double directionAY = -this.resolutionY * 0.5D;
-		
-		final double rectangleAAX = directionAX;
-		final double rectangleAAY = directionAY;
-		final double rectangleABX = directionAX;
-		final double rectangleABY = directionAY + this.resolutionY;
-		final double rectangleACX = directionAX + this.resolutionX;
-		final double rectangleACY = directionAY + this.resolutionY;
-		final double rectangleADX = directionAX + this.resolutionX;
-		final double rectangleADY = directionAY;
-		
-		final double rectangleBAX = rectangleAAX * angleRadiansCos - rectangleAAY * angleRadiansSin;
-		final double rectangleBAY = rectangleAAY * angleRadiansCos + rectangleAAX * angleRadiansSin;
-		final double rectangleBBX = rectangleABX * angleRadiansCos - rectangleABY * angleRadiansSin;
-		final double rectangleBBY = rectangleABY * angleRadiansCos + rectangleABX * angleRadiansSin;
-		final double rectangleBCX = rectangleACX * angleRadiansCos - rectangleACY * angleRadiansSin;
-		final double rectangleBCY = rectangleACY * angleRadiansCos + rectangleACX * angleRadiansSin;
-		final double rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
-		final double rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
-		
-		final double minimumX = Doubles.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final double minimumY = Doubles.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		final double maximumX = Doubles.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final double maximumY = Doubles.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		
-		final int newResolutionX = (int)(maximumX - minimumX);
-		final int newResolutionY = (int)(maximumY - minimumY);
-		
 		final int oldResolutionX = this.resolutionX;
 		final int oldResolutionY = this.resolutionY;
+		
+		final Rectangle2I rotationBounds = new Rectangle2I(new Point2I(0, 0), new Point2I(oldResolutionX - 1, 0), new Point2I(oldResolutionX - 1, oldResolutionY - 1), new Point2I(0, oldResolutionY - 1));
+		
+		final Point2I rotationBoundsMin = rotationBounds.min();
+		final Point2I rotationBoundsMax = rotationBounds.max();
+		final Point2I rotationBoundsMid = Point2I.midpoint(rotationBoundsMin, rotationBoundsMax);
+		
+		final Rectangle2I rotationBoundsRotated = Rectangle2I.rotate(rotationBounds, angleRadians, true, rotationBoundsMid);
+		final Rectangle2I rotationBoundsTranslated = Rectangle2I.translateToOrigin(rotationBoundsRotated);
+		
+		final Point2I rotationBoundsRotatedMin = rotationBoundsRotated.min();
+		final Point2I rotationBoundsRotatedMax = rotationBoundsRotated.max();
+		final Point2I rotationBoundsRotatedMid = Point2I.midpoint(rotationBoundsRotatedMin, rotationBoundsRotatedMax);
+		
+		final Point2I rotationBoundsTranslatedMax = rotationBoundsTranslated.max();
+		
+		final int newResolutionX = rotationBoundsTranslatedMax.x + 1;
+		final int newResolutionY = rotationBoundsTranslatedMax.y + 1;
 		
 		final int[] newColors = new int[newResolutionX * newResolutionY];
 		final int[] oldColors = this.colors;
 		
-		final double directionBX = Doubles.abs(Doubles.min(minimumX, 0.0D));
-		final double directionBY = Doubles.abs(Doubles.min(minimumY, 0.0D));
-		
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
-				final double aX = x - directionBX;
-				final double aY = y - directionBY;
+				final Point2I pointTranslated = new Point2I(x + rotationBoundsRotatedMin.x, y + rotationBoundsRotatedMin.y);
+				final Point2I pointRotated = Point2I.rotate(pointTranslated, -angleRadians, true, rotationBoundsRotatedMid);
 				
-				final double bX = aX * angleRadiansCos - aY * -angleRadiansSin;
-				final double bY = aY * angleRadiansCos + aX * -angleRadiansSin;
-				
-				final int cX = (int)(bX - directionAX - 0.5D);
-				final int cY = (int)(bY - directionAY - 0.5D);
-				
-				newColors[y * newResolutionX + x] = getColorARGB(cX, cY);
+				newColors[y * newResolutionX + x] = getColorARGB(pointRotated.x, pointRotated.y);
 			}
 		}
 		
@@ -473,7 +450,6 @@ final class ColorARGBData extends Data {
 		return true;
 	}
 	
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean rotate(final float angle, final boolean isAngleInRadians) {
 		if(Floats.isZero(angle)) {
@@ -481,65 +457,42 @@ final class ColorARGBData extends Data {
 		}
 		
 		final float angleDegrees = isAngleInRadians ? Floats.toDegrees(angle) : angle;
+		final float angleRadians = isAngleInRadians ? angle : Floats.toRadians(angle);
 		
 		if(Floats.equals(angleDegrees, +360.0F) || Floats.equals(angleDegrees, -360.0F)) {
 			return false;
 		}
 		
-		final float angleRadians = isAngleInRadians ? angle : Floats.toRadians(angle);
-		final float angleRadiansCos = Floats.cos(angleRadians);
-		final float angleRadiansSin = Floats.sin(angleRadians);
-		
-		final float directionAX = -this.resolutionX * 0.5F;
-		final float directionAY = -this.resolutionY * 0.5F;
-		
-		final float rectangleAAX = directionAX;
-		final float rectangleAAY = directionAY;
-		final float rectangleABX = directionAX;
-		final float rectangleABY = directionAY + this.resolutionY;
-		final float rectangleACX = directionAX + this.resolutionX;
-		final float rectangleACY = directionAY + this.resolutionY;
-		final float rectangleADX = directionAX + this.resolutionX;
-		final float rectangleADY = directionAY;
-		
-		final float rectangleBAX = rectangleAAX * angleRadiansCos - rectangleAAY * angleRadiansSin;
-		final float rectangleBAY = rectangleAAY * angleRadiansCos + rectangleAAX * angleRadiansSin;
-		final float rectangleBBX = rectangleABX * angleRadiansCos - rectangleABY * angleRadiansSin;
-		final float rectangleBBY = rectangleABY * angleRadiansCos + rectangleABX * angleRadiansSin;
-		final float rectangleBCX = rectangleACX * angleRadiansCos - rectangleACY * angleRadiansSin;
-		final float rectangleBCY = rectangleACY * angleRadiansCos + rectangleACX * angleRadiansSin;
-		final float rectangleBDX = rectangleADX * angleRadiansCos - rectangleADY * angleRadiansSin;
-		final float rectangleBDY = rectangleADY * angleRadiansCos + rectangleADX * angleRadiansSin;
-		
-		final float minimumX = Floats.min(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final float minimumY = Floats.min(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		final float maximumX = Floats.max(rectangleBAX, rectangleBBX, rectangleBCX, rectangleBDX);
-		final float maximumY = Floats.max(rectangleBAY, rectangleBBY, rectangleBCY, rectangleBDY);
-		
-		final int newResolutionX = (int)(maximumX - minimumX);
-		final int newResolutionY = (int)(maximumY - minimumY);
-		
 		final int oldResolutionX = this.resolutionX;
 		final int oldResolutionY = this.resolutionY;
+		
+		final Rectangle2I rotationBounds = new Rectangle2I(new Point2I(0, 0), new Point2I(oldResolutionX - 1, 0), new Point2I(oldResolutionX - 1, oldResolutionY - 1), new Point2I(0, oldResolutionY - 1));
+		
+		final Point2I rotationBoundsMin = rotationBounds.min();
+		final Point2I rotationBoundsMax = rotationBounds.max();
+		final Point2I rotationBoundsMid = Point2I.midpoint(rotationBoundsMin, rotationBoundsMax);
+		
+		final Rectangle2I rotationBoundsRotated = Rectangle2I.rotate(rotationBounds, angleRadians, true, rotationBoundsMid);
+		final Rectangle2I rotationBoundsTranslated = Rectangle2I.translateToOrigin(rotationBoundsRotated);
+		
+		final Point2I rotationBoundsRotatedMin = rotationBoundsRotated.min();
+		final Point2I rotationBoundsRotatedMax = rotationBoundsRotated.max();
+		final Point2I rotationBoundsRotatedMid = Point2I.midpoint(rotationBoundsRotatedMin, rotationBoundsRotatedMax);
+		
+		final Point2I rotationBoundsTranslatedMax = rotationBoundsTranslated.max();
+		
+		final int newResolutionX = rotationBoundsTranslatedMax.x + 1;
+		final int newResolutionY = rotationBoundsTranslatedMax.y + 1;
 		
 		final int[] newColors = new int[newResolutionX * newResolutionY];
 		final int[] oldColors = this.colors;
 		
-		final float directionBX = Floats.abs(Floats.min(minimumX, 0.0F));
-		final float directionBY = Floats.abs(Floats.min(minimumY, 0.0F));
-		
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
-				final float aX = x - directionBX;
-				final float aY = y - directionBY;
+				final Point2I pointTranslated = new Point2I(x + rotationBoundsRotatedMin.x, y + rotationBoundsRotatedMin.y);
+				final Point2I pointRotated = Point2I.rotate(pointTranslated, -angleRadians, true, rotationBoundsRotatedMid);
 				
-				final float bX = aX * angleRadiansCos - aY * -angleRadiansSin;
-				final float bY = aY * angleRadiansCos + aX * -angleRadiansSin;
-				
-				final int cX = (int)(bX - directionAX - 0.5F);
-				final int cY = (int)(bY - directionAY - 0.5F);
-				
-				newColors[y * newResolutionX + x] = getColorARGB(cX, cY);
+				newColors[y * newResolutionX + x] = getColorARGB(pointRotated.x, pointRotated.y);
 			}
 		}
 		

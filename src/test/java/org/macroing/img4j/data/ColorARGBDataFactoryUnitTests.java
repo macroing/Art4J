@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.image.BufferedImage;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 
