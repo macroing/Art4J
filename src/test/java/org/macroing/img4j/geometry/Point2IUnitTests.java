@@ -351,6 +351,253 @@ public final class Point2IUnitTests {
 	}
 	
 	@Test
+	public void testRotatePoint2IDoubleDoublePoint2I() {
+		final Point2I a = new Point2I(+0, +0);
+		final Point2I b = new Point2I(+9, +0);
+		
+		final Point2I c = Point2I.rotate(b, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), a);
+		final Point2I d = Point2I.rotate(c, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), a);
+		final Point2I e = Point2I.rotate(d, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), a);
+		final Point2I f = Point2I.rotate(e, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), a);
+		
+		final Point2I g = Point2I.rotate(f, Math.cos(Math.toRadians(-90.0D)), Math.sin(Math.toRadians(-90.0D)), a);
+		final Point2I h = Point2I.rotate(g, Math.cos(Math.toRadians(-90.0D)), Math.sin(Math.toRadians(-90.0D)), a);
+		final Point2I i = Point2I.rotate(h, Math.cos(Math.toRadians(-90.0D)), Math.sin(Math.toRadians(-90.0D)), a);
+		final Point2I j = Point2I.rotate(i, Math.cos(Math.toRadians(-90.0D)), Math.sin(Math.toRadians(-90.0D)), a);
+		
+		final Point2I k = new Point2I(+1, +1);
+		final Point2I l = new Point2I(+8, +1);
+		
+		final Point2I m = Point2I.rotate(l, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), k);
+		final Point2I n = Point2I.rotate(m, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), k);
+		final Point2I o = Point2I.rotate(n, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), k);
+		final Point2I p = Point2I.rotate(o, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), k);
+		
+		final Point2I q = Point2I.rotate(k, Math.cos(Math.toRadians(+90.0D)), Math.sin(Math.toRadians(+90.0D)), k);
+		
+		assertEquals(+0, c.x);
+		assertEquals(+9, c.y);
+		assertEquals(-9, d.x);
+		assertEquals(+0, d.y);
+		assertEquals(-0, e.x);
+		assertEquals(-9, e.y);
+		assertEquals(+9, f.x);
+		assertEquals(+0, f.y);
+		
+		assertEquals(-0, g.x);
+		assertEquals(-9, g.y);
+		assertEquals(-9, h.x);
+		assertEquals(+0, h.y);
+		assertEquals(+0, i.x);
+		assertEquals(+9, i.y);
+		assertEquals(+9, j.x);
+		assertEquals(+0, j.y);
+		
+		assertEquals(+1, m.x);
+		assertEquals(+8, m.y);
+		assertEquals(-6, n.x);
+		assertEquals(+1, n.y);
+		assertEquals(+1, o.x);
+		assertEquals(-6, o.y);
+		assertEquals(+8, p.x);
+		assertEquals(+1, p.y);
+		
+		assertEquals(+1, q.x);
+		assertEquals(+1, q.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(new Point2I(), 0.0D, 0.0D, null));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0D, 0.0D, new Point2I()));
+	}
+	
+	@Test
+	public void testRotatePoint2IFloat() {
+		final Point2I a = new Point2I(+9, +0);
+		
+		final Point2I b = Point2I.rotate(a, +90.0F);
+		final Point2I c = Point2I.rotate(b, +90.0F);
+		final Point2I d = Point2I.rotate(c, +90.0F);
+		final Point2I e = Point2I.rotate(d, +90.0F);
+		
+		final Point2I f = Point2I.rotate(e, -90.0F);
+		final Point2I g = Point2I.rotate(f, -90.0F);
+		final Point2I h = Point2I.rotate(g, -90.0F);
+		final Point2I i = Point2I.rotate(h, -90.0F);
+		
+		assertEquals(+0, b.x);
+		assertEquals(+9, b.y);
+		assertEquals(-9, c.x);
+		assertEquals(+0, c.y);
+		assertEquals(-0, d.x);
+		assertEquals(-9, d.y);
+		assertEquals(+9, e.x);
+		assertEquals(+0, e.y);
+		
+		assertEquals(-0, f.x);
+		assertEquals(-9, f.y);
+		assertEquals(-9, g.x);
+		assertEquals(+0, g.y);
+		assertEquals(+0, h.x);
+		assertEquals(+9, h.y);
+		assertEquals(+9, i.x);
+		assertEquals(+0, i.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0F));
+	}
+	
+	@Test
+	public void testRotatePoint2IFloatBoolean() {
+		final Point2I a = new Point2I(+9, +0);
+		
+		final Point2I b = Point2I.rotate(a, +90.0F, false);
+		final Point2I c = Point2I.rotate(b, +90.0F, false);
+		final Point2I d = Point2I.rotate(c, +90.0F, false);
+		final Point2I e = Point2I.rotate(d, +90.0F, false);
+		
+		final Point2I f = Point2I.rotate(e, (float)(Math.toRadians(-90.0F)), true);
+		final Point2I g = Point2I.rotate(f, (float)(Math.toRadians(-90.0F)), true);
+		final Point2I h = Point2I.rotate(g, (float)(Math.toRadians(-90.0F)), true);
+		final Point2I i = Point2I.rotate(h, (float)(Math.toRadians(-90.0F)), true);
+		
+		assertEquals(+0, b.x);
+		assertEquals(+9, b.y);
+		assertEquals(-9, c.x);
+		assertEquals(+0, c.y);
+		assertEquals(-0, d.x);
+		assertEquals(-9, d.y);
+		assertEquals(+9, e.x);
+		assertEquals(+0, e.y);
+		
+		assertEquals(-0, f.x);
+		assertEquals(-9, f.y);
+		assertEquals(-9, g.x);
+		assertEquals(+0, g.y);
+		assertEquals(+0, h.x);
+		assertEquals(+9, h.y);
+		assertEquals(+9, i.x);
+		assertEquals(+0, i.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0F, false));
+	}
+	
+	@Test
+	public void testRotatePoint2IFloatBooleanPoint2I() {
+		final Point2I a = new Point2I(+0, +0);
+		final Point2I b = new Point2I(+9, +0);
+		
+		final Point2I c = Point2I.rotate(b, +90.0F, false, a);
+		final Point2I d = Point2I.rotate(c, +90.0F, false, a);
+		final Point2I e = Point2I.rotate(d, +90.0F, false, a);
+		final Point2I f = Point2I.rotate(e, +90.0F, false, a);
+		
+		final Point2I g = Point2I.rotate(f, (float)(Math.toRadians(-90.0F)), true, a);
+		final Point2I h = Point2I.rotate(g, (float)(Math.toRadians(-90.0F)), true, a);
+		final Point2I i = Point2I.rotate(h, (float)(Math.toRadians(-90.0F)), true, a);
+		final Point2I j = Point2I.rotate(i, (float)(Math.toRadians(-90.0F)), true, a);
+		
+		final Point2I k = new Point2I(+1, +1);
+		final Point2I l = new Point2I(+8, +1);
+		
+		final Point2I m = Point2I.rotate(l, +90.0F, false, k);
+		final Point2I n = Point2I.rotate(m, +90.0F, false, k);
+		final Point2I o = Point2I.rotate(n, +90.0F, false, k);
+		final Point2I p = Point2I.rotate(o, +90.0F, false, k);
+		
+		final Point2I q = Point2I.rotate(k, +90.0F, false, k);
+		
+		assertEquals(+0, c.x);
+		assertEquals(+9, c.y);
+		assertEquals(-9, d.x);
+		assertEquals(+0, d.y);
+		assertEquals(-0, e.x);
+		assertEquals(-9, e.y);
+		assertEquals(+9, f.x);
+		assertEquals(+0, f.y);
+		
+		assertEquals(-0, g.x);
+		assertEquals(-9, g.y);
+		assertEquals(-9, h.x);
+		assertEquals(+0, h.y);
+		assertEquals(+0, i.x);
+		assertEquals(+9, i.y);
+		assertEquals(+9, j.x);
+		assertEquals(+0, j.y);
+		
+		assertEquals(+1, m.x);
+		assertEquals(+8, m.y);
+		assertEquals(-6, n.x);
+		assertEquals(+1, n.y);
+		assertEquals(+1, o.x);
+		assertEquals(-6, o.y);
+		assertEquals(+8, p.x);
+		assertEquals(+1, p.y);
+		
+		assertEquals(+1, q.x);
+		assertEquals(+1, q.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(new Point2I(), 0.0F, false, null));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0F, false, new Point2I()));
+	}
+	
+	@Test
+	public void testRotatePoint2IFloatFloatPoint2I() {
+		final Point2I a = new Point2I(+0, +0);
+		final Point2I b = new Point2I(+9, +0);
+		
+		final Point2I c = Point2I.rotate(b, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), a);
+		final Point2I d = Point2I.rotate(c, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), a);
+		final Point2I e = Point2I.rotate(d, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), a);
+		final Point2I f = Point2I.rotate(e, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), a);
+		
+		final Point2I g = Point2I.rotate(f, (float)(Math.cos((float)(Math.toRadians(-90.0F)))), (float)(Math.sin((float)(Math.toRadians(-90.0F)))), a);
+		final Point2I h = Point2I.rotate(g, (float)(Math.cos((float)(Math.toRadians(-90.0F)))), (float)(Math.sin((float)(Math.toRadians(-90.0F)))), a);
+		final Point2I i = Point2I.rotate(h, (float)(Math.cos((float)(Math.toRadians(-90.0F)))), (float)(Math.sin((float)(Math.toRadians(-90.0F)))), a);
+		final Point2I j = Point2I.rotate(i, (float)(Math.cos((float)(Math.toRadians(-90.0F)))), (float)(Math.sin((float)(Math.toRadians(-90.0F)))), a);
+		
+		final Point2I k = new Point2I(+1, +1);
+		final Point2I l = new Point2I(+8, +1);
+		
+		final Point2I m = Point2I.rotate(l, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), k);
+		final Point2I n = Point2I.rotate(m, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), k);
+		final Point2I o = Point2I.rotate(n, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), k);
+		final Point2I p = Point2I.rotate(o, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), k);
+		
+		final Point2I q = Point2I.rotate(k, (float)(Math.cos((float)(Math.toRadians(+90.0F)))), (float)(Math.sin((float)(Math.toRadians(+90.0F)))), k);
+		
+		assertEquals(+0, c.x);
+		assertEquals(+9, c.y);
+		assertEquals(-9, d.x);
+		assertEquals(+0, d.y);
+		assertEquals(-0, e.x);
+		assertEquals(-9, e.y);
+		assertEquals(+9, f.x);
+		assertEquals(+0, f.y);
+		
+		assertEquals(-0, g.x);
+		assertEquals(-9, g.y);
+		assertEquals(-9, h.x);
+		assertEquals(+0, h.y);
+		assertEquals(+0, i.x);
+		assertEquals(+9, i.y);
+		assertEquals(+9, j.x);
+		assertEquals(+0, j.y);
+		
+		assertEquals(+1, m.x);
+		assertEquals(+8, m.y);
+		assertEquals(-6, n.x);
+		assertEquals(+1, n.y);
+		assertEquals(+1, o.x);
+		assertEquals(-6, o.y);
+		assertEquals(+8, p.x);
+		assertEquals(+1, p.y);
+		
+		assertEquals(+1, q.x);
+		assertEquals(+1, q.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(new Point2I(), 0.0F, 0.0F, null));
+		assertThrows(NullPointerException.class, () -> Point2I.rotate(null, 0.0F, 0.0F, new Point2I()));
+	}
+	
+	@Test
 	public void testToString() {
 		final Point2I point = new Point2I(1, 2);
 		

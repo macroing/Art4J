@@ -839,6 +839,118 @@ public final class Rectangle2IUnitTests {
 	}
 	
 	@Test
+	public void testRotateRectangle2IFloatBooleanPoint2I() {
+		final Rectangle2I a = new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200));
+		
+		final Rectangle2I b = Rectangle2I.rotate(a, +90.0F, false, new Point2I(150, 150));
+		final Rectangle2I c = Rectangle2I.rotate(b, +90.0F, false, new Point2I(150, 150));
+		final Rectangle2I d = Rectangle2I.rotate(c, +90.0F, false, new Point2I(150, 150));
+		final Rectangle2I e = Rectangle2I.rotate(d, +90.0F, false, new Point2I(150, 150));
+		
+		final Rectangle2I f = Rectangle2I.rotate(e, (float)(Math.toRadians(-90.0F)), true, new Point2I(150, 150));
+		final Rectangle2I g = Rectangle2I.rotate(f, (float)(Math.toRadians(-90.0F)), true, new Point2I(150, 150));
+		final Rectangle2I h = Rectangle2I.rotate(g, (float)(Math.toRadians(-90.0F)), true, new Point2I(150, 150));
+		final Rectangle2I i = Rectangle2I.rotate(h, (float)(Math.toRadians(-90.0F)), true, new Point2I(150, 150));
+		
+		assertEquals(new Rectangle2I(new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100)), b);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100)), c);
+		assertEquals(new Rectangle2I(new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200)), d);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), e);
+		assertEquals(new Rectangle2I(new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200)), f);
+		assertEquals(new Rectangle2I(new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100), new Point2I(200, 100)), g);
+		assertEquals(new Rectangle2I(new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200), new Point2I(100, 100)), h);
+		assertEquals(new Rectangle2I(new Point2I(100, 100), new Point2I(200, 100), new Point2I(200, 200), new Point2I(100, 200)), i);
+		
+		assertEquals(a.findPoints().size(), b.findPoints().size());
+		assertEquals(a.findPoints().size(), c.findPoints().size());
+		assertEquals(a.findPoints().size(), d.findPoints().size());
+		assertEquals(a.findPoints().size(), e.findPoints().size());
+		assertEquals(a.findPoints().size(), f.findPoints().size());
+		assertEquals(a.findPoints().size(), g.findPoints().size());
+		assertEquals(a.findPoints().size(), h.findPoints().size());
+		assertEquals(a.findPoints().size(), i.findPoints().size());
+		
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotate(a, 0.0F, false, null));
+		assertThrows(NullPointerException.class, () -> Rectangle2I.rotate(null, 0.0F, false, new Point2I(150, 150)));
+		
+		/*
+		 * TODO: Notice the degrees 314.5 instead of 360.0. This is caused by precision loss. Perhaps this can be fixed somehow?
+		 */
+		
+		Rectangle2I rectangle = a;
+		
+		for(float degrees = 1.0F; degrees <= 314.5F; degrees += 0.5F) {
+			rectangle = Rectangle2I.rotate(rectangle, 0.5F, false, new Point2I(150, 150));
+			
+			assertEquals(a.getLineSegments().get(0).findPoints().size(), rectangle.getLineSegments().get(0).findPoints().size());
+			assertEquals(a.getLineSegments().get(1).findPoints().size(), rectangle.getLineSegments().get(1).findPoints().size());
+			assertEquals(a.getLineSegments().get(2).findPoints().size(), rectangle.getLineSegments().get(2).findPoints().size());
+			assertEquals(a.getLineSegments().get(3).findPoints().size(), rectangle.getLineSegments().get(3).findPoints().size());
+		}
+		
+		assertEquals(a, rectangle);
+		
+		/*
+		 * TODO: Notice the degrees 284.0 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 */
+		
+		rectangle = a;
+		
+		for(float degrees = 1.0F; degrees <= 284.0F; degrees += 1.0F) {
+			if(degrees < 100.0F) {
+				rectangle = Rectangle2I.rotate(rectangle, 1.0F, false, new Point2I(150, 150));
+			} else {
+				rectangle = Rectangle2I.rotate(rectangle, (float)(Math.toRadians(1.0F)), true, new Point2I(150, 150));
+			}
+			
+			assertEquals(a.getLineSegments().get(0).length(), rectangle.getLineSegments().get(0).length());
+			assertEquals(a.getLineSegments().get(1).length(), rectangle.getLineSegments().get(1).length());
+			assertEquals(a.getLineSegments().get(2).length(), rectangle.getLineSegments().get(2).length());
+			assertEquals(a.getLineSegments().get(3).length(), rectangle.getLineSegments().get(3).length());
+		}
+		
+		assertEquals(a, rectangle);
+		
+		/*
+		 * TODO: Notice the degrees 284.0 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 */
+		
+		for(float degrees = 1.0F; degrees <= 284.0F; degrees += 1.0F) {
+			if(degrees < 100.0F) {
+				rectangle = Rectangle2I.rotate(rectangle, -1.0F, false, new Point2I(150, 150));
+			} else {
+				rectangle = Rectangle2I.rotate(rectangle, (float)(Math.toRadians(-1.0F)), true, new Point2I(150, 150));
+			}
+			
+			assertEquals(a.getLineSegments().get(0).length(), rectangle.getLineSegments().get(0).length());
+			assertEquals(a.getLineSegments().get(1).length(), rectangle.getLineSegments().get(1).length());
+			assertEquals(a.getLineSegments().get(2).length(), rectangle.getLineSegments().get(2).length());
+			assertEquals(a.getLineSegments().get(3).length(), rectangle.getLineSegments().get(3).length());
+		}
+		
+		assertEquals(a, rectangle);
+		
+		/*
+		 * TODO: Notice the degrees 178.5 instead of 360.0. This is caused by precision loss. One reason is the angle increment or decrement before the recursive call. Perhaps this can be fixed somehow?
+		 */
+		
+		for(float degrees = 1.0F; degrees <= 178.5F; degrees += 0.5F) {
+			if(degrees < 100.0F) {
+				rectangle = Rectangle2I.rotate(rectangle, 0.5F, false, rectangle.getA());
+			} else {
+				rectangle = Rectangle2I.rotate(rectangle, (float)(Math.toRadians(0.5F)), true, rectangle.getA());
+			}
+			
+			assertEquals(a.getLineSegments().get(0).length(), rectangle.getLineSegments().get(0).length());
+			assertEquals(a.getLineSegments().get(1).length(), rectangle.getLineSegments().get(1).length());
+			assertEquals(a.getLineSegments().get(2).length(), rectangle.getLineSegments().get(2).length());
+			assertEquals(a.getLineSegments().get(3).length(), rectangle.getLineSegments().get(3).length());
+		}
+		
+		assertEquals(a, rectangle);
+	}
+	
+	@Test
 	public void testToString() {
 		final Rectangle2I rectangle = new Rectangle2I(new Point2I(10, 10), new Point2I(20, 20));
 		

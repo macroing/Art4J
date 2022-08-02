@@ -25,6 +25,7 @@ import java.util.Objects;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
 import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
 
 /**
@@ -361,6 +362,10 @@ public final class Rectangle2I implements Shape2I {
 	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
 	 */
 	public static Rectangle2I rotate(final Rectangle2I rectangle, final double angle, final boolean isAngleInRadians, final Point2I center) {
+		final double angleRadians = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double angleCos = Doubles.cos(angleRadians);
+		final double angleSin = Doubles.sin(angleRadians);
+		
 		final Point2I oldA = rectangle.getA();
 		final Point2I oldB = rectangle.getB();
 		final Point2I oldC = rectangle.getC();
@@ -371,10 +376,10 @@ public final class Rectangle2I implements Shape2I {
 		final int distanceOldCD = Point2I.distance(oldC, oldD);
 		final int distanceOldDA = Point2I.distance(oldD, oldA);
 		
-		final Point2I newA = Point2I.rotate(oldA, angle, isAngleInRadians, center);
-		final Point2I newB = Point2I.rotate(oldB, angle, isAngleInRadians, center);
-		final Point2I newC = Point2I.rotate(oldC, angle, isAngleInRadians, center);
-		final Point2I newD = Point2I.rotate(oldD, angle, isAngleInRadians, center);
+		final Point2I newA = Point2I.rotate(oldA, angleCos, angleSin, center);
+		final Point2I newB = Point2I.rotate(oldB, angleCos, angleSin, center);
+		final Point2I newC = Point2I.rotate(oldC, angleCos, angleSin, center);
+		final Point2I newD = Point2I.rotate(oldD, angleCos, angleSin, center);
 		
 		final int distanceNewAB = Point2I.distance(newA, newB);
 		final int distanceNewBC = Point2I.distance(newB, newC);
@@ -395,6 +400,67 @@ public final class Rectangle2I implements Shape2I {
 		final double newAngleChangeDegrees = center.equals(oldA) | center.equals(oldB) | center.equals(oldC) | center.equals(oldB) ? 0.12D : 0.48D;
 		final double newAngleChange = isAngleInRadians ? Doubles.toRadians(newAngleChangeDegrees) : newAngleChangeDegrees;
 		final double newAngle = angle >= 0.0D ? angle + newAngleChange : angle - newAngleChange;
+		
+		return rotate(rectangle, newAngle, isAngleInRadians, center);
+	}
+	
+	/**
+	 * Rotates {@code rectangle.getA()}, {@code rectangle.getB()}, {@code rectangle.getC()} and {@code rectangle.getD()} by {@code angle} degrees or radians around {@code center}.
+	 * <p>
+	 * Returns a new {@code Rectangle2I} instance with the result of the rotation.
+	 * <p>
+	 * If either {@code rectangle} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points up, the rotation is counterclockwise.
+	 * <p>
+	 * If the coordinate system used is configured such that the X-axis points from left to right and the Y-axis points down, the rotation is clockwise.
+	 * 
+	 * @param rectangle the {@code Rectangle2I} instance to rotate
+	 * @param angle the rotation angle in degrees or radians
+	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
+	 * @param center a {@code Point2I} instance that represents the center of the rotation
+	 * @return a new {@code Rectangle2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code center} are {@code null}
+	 */
+	public static Rectangle2I rotate(final Rectangle2I rectangle, final float angle, final boolean isAngleInRadians, final Point2I center) {
+		final float angleRadians = isAngleInRadians ? angle : Floats.toRadians(angle);
+		final float angleCos = Floats.cos(angleRadians);
+		final float angleSin = Floats.sin(angleRadians);
+		
+		final Point2I oldA = rectangle.getA();
+		final Point2I oldB = rectangle.getB();
+		final Point2I oldC = rectangle.getC();
+		final Point2I oldD = rectangle.getD();
+		
+		final int distanceOldAB = Point2I.distance(oldA, oldB);
+		final int distanceOldBC = Point2I.distance(oldB, oldC);
+		final int distanceOldCD = Point2I.distance(oldC, oldD);
+		final int distanceOldDA = Point2I.distance(oldD, oldA);
+		
+		final Point2I newA = Point2I.rotate(oldA, angleCos, angleSin, center);
+		final Point2I newB = Point2I.rotate(oldB, angleCos, angleSin, center);
+		final Point2I newC = Point2I.rotate(oldC, angleCos, angleSin, center);
+		final Point2I newD = Point2I.rotate(oldD, angleCos, angleSin, center);
+		
+		final int distanceNewAB = Point2I.distance(newA, newB);
+		final int distanceNewBC = Point2I.distance(newB, newC);
+		final int distanceNewCD = Point2I.distance(newC, newD);
+		final int distanceNewDA = Point2I.distance(newD, newA);
+		
+//		TODO: Using & instead of && to get full code coverage. Should this be fixed?
+		if(distanceOldAB == distanceNewAB & distanceOldBC == distanceNewBC & distanceOldCD == distanceNewCD & distanceOldDA == distanceNewDA) {
+			return new Rectangle2I(newA, newB, newC, newD);
+		}
+		
+		/*
+		 * The maximum recursion depth for the value 0.48 seems to be 7, given that angle is 1.0 degrees.
+		 * Values that are less than or greater than 0.48 require a maximum recursion depth that is greater than 7.
+		 * A better approach needs to be found and implemented.
+		 */
+		
+		final float newAngleChangeDegrees = center.equals(oldA) | center.equals(oldB) | center.equals(oldC) | center.equals(oldB) ? 0.12F : 0.48F;
+		final float newAngleChange = isAngleInRadians ? Floats.toRadians(newAngleChangeDegrees) : newAngleChangeDegrees;
+		final float newAngle = angle >= 0.0F ? angle + newAngleChange : angle - newAngleChange;
 		
 		return rotate(rectangle, newAngle, isAngleInRadians, center);
 	}

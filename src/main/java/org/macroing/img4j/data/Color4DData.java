@@ -385,6 +385,8 @@ final class Color4DData extends Data {
 		
 		final double angleDegrees = isAngleInRadians ? Doubles.toDegrees(angle) : angle;
 		final double angleRadians = isAngleInRadians ? angle : Doubles.toRadians(angle);
+		final double angleCos = Doubles.cos(angleRadians);
+		final double angleSin = Doubles.sin(angleRadians);
 		
 		if(Doubles.equals(angleDegrees, +360.0D) || Doubles.equals(angleDegrees, -360.0D)) {
 			return false;
@@ -417,7 +419,7 @@ final class Color4DData extends Data {
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
 				final Point2I pointTranslated = new Point2I(x + rotationBoundsRotatedMin.x, y + rotationBoundsRotatedMin.y);
-				final Point2I pointRotated = Point2I.rotate(pointTranslated, -angleRadians, true, rotationBoundsRotatedMid);
+				final Point2I pointRotated = Point2I.rotate(pointTranslated, angleCos, -angleSin, rotationBoundsRotatedMid);
 				
 				newColors[y * newResolutionX + x] = getColor4D(pointRotated.x, pointRotated.y);
 			}
@@ -449,11 +451,12 @@ final class Color4DData extends Data {
 		
 		final float angleDegrees = isAngleInRadians ? Floats.toDegrees(angle) : angle;
 		final float angleRadians = isAngleInRadians ? angle : Floats.toRadians(angle);
+		final float angleCos = Floats.cos(angleRadians);
+		final float angleSin = Floats.sin(angleRadians);
 		
 		if(Floats.equals(angleDegrees, +360.0F) || Floats.equals(angleDegrees, -360.0F)) {
 			return false;
 		}
-		
 		
 		final int oldResolutionX = this.resolutionX;
 		final int oldResolutionY = this.resolutionY;
@@ -482,7 +485,7 @@ final class Color4DData extends Data {
 		for(int y = 0; y < newResolutionY; y++) {
 			for(int x = 0; x < newResolutionX; x++) {
 				final Point2I pointTranslated = new Point2I(x + rotationBoundsRotatedMin.x, y + rotationBoundsRotatedMin.y);
-				final Point2I pointRotated = Point2I.rotate(pointTranslated, -angleRadians, true, rotationBoundsRotatedMid);
+				final Point2I pointRotated = Point2I.rotate(pointTranslated, angleCos, -angleSin, rotationBoundsRotatedMid);
 				
 				newColors[y * newResolutionX + x] = getColor4D(pointRotated.x, pointRotated.y);
 			}
