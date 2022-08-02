@@ -20,8 +20,11 @@ package org.macroing.img4j.data;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Objects;
 import java.util.function.Consumer;
+
+import javax.imageio.ImageIO;
 
 import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
@@ -544,6 +547,35 @@ public abstract class Data {
 	public abstract boolean rotate(final float angle, final boolean isAngleInRadians);
 	
 	/**
+	 * Saves this {@code Data} instance to the file represented by {@code file} using the informal format name {@code formatName}.
+	 * <p>
+	 * Returns {@code true} if, and only if, this {@code Data} instance was saved to {@code file}, {@code false} otherwise.
+	 * <p>
+	 * If either {@code file} or {@code formatName} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param file a {@code File} that represents the file to save to
+	 * @param formatName the informal format name, such as {@code "png"}
+	 * @return {@code true} if, and only if, this {@code Data} instance was saved to {@code file}, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code formatName} are {@code null}
+	 */
+	public final boolean save(final File file, final String formatName) {
+		Objects.requireNonNull(file, "file == null");
+		Objects.requireNonNull(formatName, "formatName == null");
+		
+		try {
+			final File parentFile = file.getParentFile();
+			
+			if(parentFile != null && !parentFile.isDirectory()) {
+				parentFile.mkdirs();
+			}
+			
+			return ImageIO.write(toBufferedImage(doIsJPEG(formatName)), formatName, file);
+		} catch(final Exception e) {
+			return false;
+		}
+	}
+	
+	/**
 	 * Scales this {@code Data} instance to a new resolution given the scale factors {@code scaleX} and {@code scaleY}.
 	 * <p>
 	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
@@ -1033,5 +1065,11 @@ public abstract class Data {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.changeHistory);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static boolean doIsJPEG(final String formatName) {
+		return formatName.matches("^\\.?[Jj][Pp][Ee]?[Gg]$");
 	}
 }

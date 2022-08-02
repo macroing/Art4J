@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
@@ -1584,6 +1585,33 @@ public final class Color4DDataUnitTests {
 		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(6, 6));
 		
 		assertFalse(color4DData.undo());
+	}
+	
+	@Test
+	public void testSave() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File fileA = new File(directory, "Color4DData.jpg");
+		final File fileB = new File(directory, "Color4DData.png");
+		
+		final File fileC = new File("Color4DData.txt");
+		final File fileD = new File("");
+		
+		assertTrue(color4DData.save(fileA, "jpg"));
+		assertTrue(color4DData.save(fileB, "png"));
+		
+		assertFalse(color4DData.save(fileC, "txt"));
+		assertFalse(color4DData.save(fileD, "png"));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.save(new File("./generated/Color4DData.png"), null));
+		assertThrows(NullPointerException.class, () -> color4DData.save(null, "png"));
+		
+		fileA.delete();
+		fileB.delete();
+		
+		directory.delete();
 	}
 	
 	@Test

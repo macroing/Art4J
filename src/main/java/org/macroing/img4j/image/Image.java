@@ -21,7 +21,6 @@ package org.macroing.img4j.image;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
@@ -30,8 +29,6 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
-
-import javax.imageio.ImageIO;
 
 import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
@@ -2129,120 +2126,6 @@ public final class Image {
 	}
 	
 	/**
-	 * Saves this {@code Image} instance to the file represented by {@code file} using the informal format name {@code "png"}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code file} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.save(file, "png");
-	 * }
-	 * </pre>
-	 * 
-	 * @param file a {@code File} that represents the file to save to
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
-	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
-	 */
-//	TODO: Add Unit Tests!
-	public Image save(final File file) {
-		return save(file, "png");
-	}
-	
-	/**
-	 * Saves this {@code Image} instance to the file represented by {@code file} using the informal format name {@code formatName}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code file} or {@code formatName} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
-	 * 
-	 * @param file a {@code File} that represents the file to save to
-	 * @param formatName the informal format name, such as {@code "png"}
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code formatName} are {@code null}
-	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
-	 */
-//	TODO: Add Unit Tests!
-	public Image save(final File file, final String formatName) {
-		Objects.requireNonNull(file, "file == null");
-		Objects.requireNonNull(formatName, "formatName == null");
-		
-		try {
-			final File parentFile = file.getParentFile();
-			
-			if(parentFile != null && !parentFile.isDirectory()) {
-				parentFile.mkdirs();
-			}
-			
-			ImageIO.write(toBufferedImage(doIsJPEG(formatName)), formatName, file);
-			
-			return this;
-		} catch(final IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-	
-	/**
-	 * Saves this {@code Image} instance to the file represented by the pathname {@code pathname} using the informal format name {@code "png"}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code pathname} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.save(pathname, "png");
-	 * }
-	 * </pre>
-	 * 
-	 * @param pathname a {@code String} that represents the pathname of the file to save to
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
-	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
-	 */
-//	TODO: Add Unit Tests!
-	public Image save(final String pathname) {
-		return save(pathname, "png");
-	}
-	
-	/**
-	 * Saves this {@code Image} instance to the file represented by the pathname {@code pathname} using the informal format name {@code formatName}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code pathname} or {@code formatName} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.save(new File(pathname), formatName);
-	 * }
-	 * </pre>
-	 * 
-	 * @param pathname a {@code String} that represents the pathname of the file to save to
-	 * @param formatName the informal format name, such as {@code "png"}
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code pathname} or {@code formatName} are {@code null}
-	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
-	 */
-//	TODO: Add Unit Tests!
-	public Image save(final String pathname, final String formatName) {
-		return save(new File(pathname), formatName);
-	}
-	
-	/**
 	 * Sets the color of the pixel at {@code point} in this {@code Image} instance to {@code color}.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -2617,6 +2500,93 @@ public final class Image {
 //	TODO: Add Unit Tests!
 	public boolean redo() {
 		return this.data.redo();
+	}
+	
+	/**
+	 * Saves this {@code Image} instance to the file represented by {@code file} using the informal format name {@code "png"}.
+	 * <p>
+	 * Returns {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise.
+	 * <p>
+	 * If {@code file} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.save(file, "png");
+	 * }
+	 * </pre>
+	 * 
+	 * @param file a {@code File} that represents the file to save to
+	 * @return {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public boolean save(final File file) {
+		return save(file, "png");
+	}
+	
+	/**
+	 * Saves this {@code Image} instance to the file represented by {@code file} using the informal format name {@code formatName}.
+	 * <p>
+	 * Returns {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise.
+	 * <p>
+	 * If either {@code file} or {@code formatName} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param file a {@code File} that represents the file to save to
+	 * @param formatName the informal format name, such as {@code "png"}
+	 * @return {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code formatName} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public boolean save(final File file, final String formatName) {
+		return this.data.save(file, formatName);
+	}
+	
+	/**
+	 * Saves this {@code Image} instance to the file represented by the pathname {@code pathname} using the informal format name {@code "png"}.
+	 * <p>
+	 * Returns {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise.
+	 * <p>
+	 * If {@code pathname} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.save(pathname, "png");
+	 * }
+	 * </pre>
+	 * 
+	 * @param pathname a {@code String} that represents the pathname of the file to save to
+	 * @return {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public boolean save(final String pathname) {
+		return save(pathname, "png");
+	}
+	
+	/**
+	 * Saves this {@code Image} instance to the file represented by the pathname {@code pathname} using the informal format name {@code formatName}.
+	 * <p>
+	 * Returns {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise.
+	 * <p>
+	 * If either {@code pathname} or {@code formatName} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.save(new File(pathname), formatName);
+	 * }
+	 * </pre>
+	 * 
+	 * @param pathname a {@code String} that represents the pathname of the file to save to
+	 * @param formatName the informal format name, such as {@code "png"}
+	 * @return {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code pathname} or {@code formatName} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public boolean save(final String pathname, final String formatName) {
+		return save(new File(pathname), formatName);
 	}
 	
 	/**
@@ -3075,12 +3045,5 @@ public final class Image {
 				}
 			}
 		}
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	TODO: Add Unit Tests!
-	private static boolean doIsJPEG(final String formatName) {
-		return formatName.matches("^\\.?[Jj][Pp][Ee]?[Gg]$");
 	}
 }
