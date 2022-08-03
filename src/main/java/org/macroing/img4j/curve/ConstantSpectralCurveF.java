@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.curve;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 /**
  * A {@code ConstantSpectralCurveF} is an implementation of {@link SpectralCurveF} that returns a constant value.
  * <p>
@@ -38,12 +36,20 @@ public final class ConstantSpectralCurveF extends SpectralCurveF {
 	 * 
 	 * @param amplitude the constant value to use
 	 */
-//	TODO: Add Unit Tests!
 	public ConstantSpectralCurveF(final float amplitude) {
 		this.amplitude = amplitude;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns the amplitude associated with this {@code ConstantSpectralCurveF} instance.
+	 * 
+	 * @return the amplitude associated with this {@code ConstantSpectralCurveF} instance
+	 */
+	public float getAmplitude() {
+		return this.amplitude;
+	}
 	
 	/**
 	 * Returns a sample based on the wavelength {@code lambda} in nanometers.
@@ -53,7 +59,6 @@ public final class ConstantSpectralCurveF extends SpectralCurveF {
 	 * @param lambda the wavelength in nanometers
 	 * @return a sample based on the wavelength {@code lambda} in nanometers
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public float sample(final float lambda) {
 		return this.amplitude;

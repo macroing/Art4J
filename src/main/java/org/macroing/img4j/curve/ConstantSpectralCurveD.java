@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.curve;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 /**
  * A {@code ConstantSpectralCurveD} is an implementation of {@link SpectralCurveD} that returns a constant value.
  * <p>
@@ -38,12 +36,20 @@ public final class ConstantSpectralCurveD extends SpectralCurveD {
 	 * 
 	 * @param amplitude the constant value to use
 	 */
-//	TODO: Add Unit Tests!
 	public ConstantSpectralCurveD(final double amplitude) {
 		this.amplitude = amplitude;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns the amplitude associated with this {@code ConstantSpectralCurveD} instance.
+	 * 
+	 * @return the amplitude associated with this {@code ConstantSpectralCurveD} instance
+	 */
+	public double getAmplitude() {
+		return this.amplitude;
+	}
 	
 	/**
 	 * Returns a sample based on the wavelength {@code lambda} in nanometers.
@@ -53,7 +59,6 @@ public final class ConstantSpectralCurveD extends SpectralCurveD {
 	 * @param lambda the wavelength in nanometers
 	 * @return a sample based on the wavelength {@code lambda} in nanometers
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public double sample(final double lambda) {
 		return this.amplitude;
