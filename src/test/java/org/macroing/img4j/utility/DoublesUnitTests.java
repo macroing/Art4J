@@ -56,6 +56,11 @@ public final class DoublesUnitTests {
 	}
 	
 	@Test
+	public void testExp() {
+		assertEquals(Math.exp(0.5D), Doubles.exp(0.5D));
+	}
+	
+	@Test
 	public void testFloor() {
 		assertEquals(Math.floor(0.5D), Doubles.floor(0.5D));
 	}

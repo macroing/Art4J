@@ -33,6 +33,13 @@ package org.macroing.img4j.utility;
  * @author J&#246;rgen Lundgren
  */
 public final class Doubles {
+	/**
+	 * The {@code double} value that is closer than any other to pi, the ratio of the circumference of a circle to its diameter.
+	 */
+	public static final double PI = Math.PI;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private Doubles() {
 		
 	}
@@ -123,6 +130,26 @@ public final class Doubles {
 	 */
 	public static double cos(final double angleRadians) {
 		return Math.cos(angleRadians);
+	}
+	
+	/**
+	 * Returns Euler's number {@code e} raised to the power of {@code exponent}.
+	 * <p>
+	 * Special cases:
+	 * <ul>
+	 * <li>If the argument is NaN, the result is NaN.</li>
+	 * <li>If the argument is positive infinity, then the result is positive infinity.</li>
+	 * <li>If the argument is negative infinity, then the result is positive zero.</li>
+	 * </ul>
+	 * <p>
+	 * The computed result must be within 1 ulp of the exact result. Results must be semi-monotonic.
+	 * 
+	 * @param exponent the exponent to raise {@code e} to
+	 * @return Euler's number {@code e} raised to the power of {@code exponent}
+	 * @see Math#exp(double)
+	 */
+	public static double exp(final double exponent) {
+		return Math.exp(exponent);
 	}
 	
 	/**

@@ -56,6 +56,11 @@ public final class FloatsUnitTests {
 	}
 	
 	@Test
+	public void testExp() {
+		assertEquals((float)(Math.exp(0.5F)), Floats.exp(0.5F));
+	}
+	
+	@Test
 	public void testFloor() {
 		assertEquals((float)(Math.floor(0.5F)), Floats.floor(0.5F));
 	}

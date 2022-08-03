@@ -16,6 +16,7 @@ Supported Features
 ------------------
  - `org.macroing.img4j.color` provides the Color API.
  - `org.macroing.img4j.data` provides the Data API.
+ - `org.macroing.img4j.filter` provides the Filter API.
  - `org.macroing.img4j.geometry` provides the Geometry API.
  - `org.macroing.img4j.geometry.shape` provides the Geometry Shape API.
  - `org.macroing.img4j.image` provides the Image API.
@@ -35,6 +36,7 @@ The following table describes the different APIs and their current status in the
 | ------------------ | ------- | --------- | --------------------------------- |
 | Color API          | 100.0%  | 100.0%    | org.macroing.img4j.color          |
 | Data API           | 100.0%  | 100.0%    | org.macroing.img4j.data           |
+| Filter API         | 100.0%  | 100.0%    | org.macroing.img4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.img4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.img4j.geometry.shape |
 | Image API          | 100.0%  |  20.6%    | org.macroing.img4j.image          |
