@@ -252,7 +252,7 @@ public final class Image {
 	/**
 	 * Constructs a new {@code Image} instance filled with {@code Color4D.WHITE}.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
@@ -263,7 +263,7 @@ public final class Image {
 	 * 
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 */
 	public Image(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
@@ -272,7 +272,7 @@ public final class Image {
 	/**
 	 * Constructs a new {@code Image} instance filled with {@code color}.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -286,7 +286,7 @@ public final class Image {
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4D} to fill with
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4D color) {
@@ -296,7 +296,7 @@ public final class Image {
 	/**
 	 * Constructs a new {@code Image} instance filled with {@code color} using {@code dataFactory}.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * If either {@code color} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
@@ -304,7 +304,7 @@ public final class Image {
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4D} to fill with
 	 * @param dataFactory a {@link DataFactory} instance
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code dataFactory} are {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4D color, final DataFactory dataFactory) {
@@ -314,7 +314,7 @@ public final class Image {
 	/**
 	 * Constructs a new {@code Image} instance filled with {@code color}.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -328,7 +328,7 @@ public final class Image {
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4F} to fill with
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4F color) {
@@ -338,7 +338,7 @@ public final class Image {
 	/**
 	 * Constructs a new {@code Image} instance filled with {@code color} using {@code dataFactory}.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
 	 * <p>
 	 * If either {@code color} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
@@ -346,7 +346,7 @@ public final class Image {
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4F} to fill with
 	 * @param dataFactory a {@link DataFactory} instance
-	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code dataFactory} are {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4F color, final DataFactory dataFactory) {
@@ -2032,7 +2032,6 @@ public final class Image {
 	 * @param angle an angle in degrees
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image rotate(final double angle) {
 		return rotate(angle, false);
 	}
@@ -2050,7 +2049,6 @@ public final class Image {
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image rotate(final double angle, final boolean isAngleInRadians) {
 		this.data.rotate(angle, isAngleInRadians);
 		
@@ -2076,7 +2074,6 @@ public final class Image {
 	 * @param angle an angle in degrees
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image rotate(final float angle) {
 		return rotate(angle, false);
 	}
@@ -2094,9 +2091,65 @@ public final class Image {
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image rotate(final float angle, final boolean isAngleInRadians) {
 		this.data.rotate(angle, isAngleInRadians);
+		
+		return this;
+	}
+	
+	/**
+	 * Scales this {@code Image} instance to a new resolution given the scale factors {@code scaleX} and {@code scaleY}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code scaleX} or {@code scaleY} are less than or equal to {@code 0.0D}, the resolution will not be changed.
+	 * <p>
+	 * If both {@code scaleX} and {@code scaleY} are equal to {@code 1.0D}, the resolution will not be changed.
+	 * 
+	 * @param scaleX the scale factor along the X-axis
+	 * @param scaleY the scale factor along the Y-axis
+	 * @return this {@code Image} instance
+	 */
+	public Image scale(final double scaleX, final double scaleY) {
+		this.data.scale(scaleX, scaleY);
+		
+		return this;
+	}
+	
+	/**
+	 * Scales this {@code Image} instance to a new resolution given the scale factors {@code scaleX} and {@code scaleY}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code scaleX} or {@code scaleY} are less than or equal to {@code 0.0F}, the resolution will not be changed.
+	 * <p>
+	 * If both {@code scaleX} and {@code scaleY} are equal to {@code 1.0F}, the resolution will not be changed.
+	 * 
+	 * @param scaleX the scale factor along the X-axis
+	 * @param scaleY the scale factor along the Y-axis
+	 * @return this {@code Image} instance
+	 */
+	public Image scale(final float scaleX, final float scaleY) {
+		this.data.scale(scaleX, scaleY);
+		
+		return this;
+	}
+	
+	/**
+	 * Scales this {@code Image} instance to {@code resolutionX} and {@code resolutionY}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, the resolution will not be changed.
+	 * <p>
+	 * If {@code resolutionX == image.getResolutionX()} and {@code resolutionY == image.getResolutionY()}, the resolution will not be changed.
+	 * 
+	 * @param resolutionX the new resolution along the X-axis
+	 * @param resolutionY the new resolution along the Y-axis
+	 * @return this {@code Image} instance
+	 */
+	public Image scale(final int resolutionX, final int resolutionY) {
+		this.data.scale(resolutionX, resolutionY);
 		
 		return this;
 	}
@@ -2450,17 +2503,66 @@ public final class Image {
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, the resolution will not be changed.
 	 * <p>
-	 * If {@code resolutionX == image.getResolutionX()} and {@code resolutionY == image.getResolutionY()}, the resolution will not be changed
+	 * If {@code resolutionX == image.getResolutionX()} and {@code resolutionY == image.getResolutionY()}, the resolution will not be changed.
 	 * 
 	 * @param resolutionX the new resolution along the X-axis
 	 * @param resolutionY the new resolution along the Y-axis
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image setResolution(final int resolutionX, final int resolutionY) {
 		this.data.setResolution(resolutionX, resolutionY);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the X-resolution of this {@code Image} instance to {@code resolutionX}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code resolutionX} is less than {@code 1} or {@code resolutionX * image.getResolutionY()} overflows, the resolution will not be changed.
+	 * <p>
+	 * If {@code resolutionX == image.getResolutionX()}, the resolution will not be changed.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.setResolution(resolutionX, image.getResolutionY());
+	 * }
+	 * </pre>
+	 * 
+	 * @param resolutionX the new resolution along the X-axis
+	 * @return this {@code Image} instance
+	 */
+	public Image setResolutionX(final int resolutionX) {
+		this.data.setResolutionX(resolutionX);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the Y-resolution of this {@code Image} instance to {@code resolutionY}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code resolutionY} is less than {@code 1} or {@code image.getResolutionX() * resolutionY} overflows, the resolution will not be changed.
+	 * <p>
+	 * If {@code resolutionY == image.getResolutionY()}, the resolution will not be changed.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.setResolution(image.getResolutionX(), resolutionY);
+	 * }
+	 * </pre>
+	 * 
+	 * @param resolutionY the new resolution along the Y-axis
+	 * @return this {@code Image} instance
+	 */
+	public Image setResolutionY(final int resolutionY) {
+		this.data.setResolutionY(resolutionY);
 		
 		return this;
 	}
@@ -2470,7 +2572,6 @@ public final class Image {
 	 * 
 	 * @return a {@code Rectangle2I} with the bounds of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Rectangle2I getBounds() {
 		return new Rectangle2I(new Point2I(), new Point2I(getResolutionX() - 1, getResolutionY() - 1));
 	}
@@ -2480,7 +2581,6 @@ public final class Image {
 	 * 
 	 * @return a {@code String} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new Image(%d, %d)", Integer.valueOf(getResolutionX()), Integer.valueOf(getResolutionY()));
@@ -2494,7 +2594,6 @@ public final class Image {
 	 * @param object the {@code Object} to compare to this {@code Image} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Image}, and they are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -2513,7 +2612,6 @@ public final class Image {
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public boolean isChangeHistoryEnabled() {
 		return this.data.isChangeHistoryEnabled();
 	}
@@ -2525,7 +2623,6 @@ public final class Image {
 	 * 
 	 * @return {@code true} if, and only if, the redo operation was performed, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public boolean redo() {
 		return this.data.redo();
 	}
@@ -2636,7 +2733,6 @@ public final class Image {
 	 * 
 	 * @return {@code true} if, and only if, the undo operation was performed, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public boolean undo() {
 		return this.data.undo();
 	}

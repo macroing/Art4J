@@ -620,7 +620,7 @@ public abstract class Data {
 	 * <p>
 	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, the resolution will not be changed.
 	 * <p>
 	 * If {@code resolutionX == data.getResolutionX()} and {@code resolutionY == data.getResolutionY()}, the resolution will not be changed.
 	 * 
@@ -845,7 +845,7 @@ public abstract class Data {
 	 * <p>
 	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
 	 * <p>
-	 * If either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}, the resolution will not be changed.
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, the resolution will not be changed.
 	 * <p>
 	 * If {@code resolutionX == data.getResolutionX()} and {@code resolutionY == data.getResolutionY()}, the resolution will not be changed.
 	 * 
@@ -860,7 +860,7 @@ public abstract class Data {
 	 * <p>
 	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
 	 * <p>
-	 * If either {@code resolutionX} or {@code resolutionX * data.getResolutionY()} are less than {@code 1}, the resolution will not be changed.
+	 * If {@code resolutionX} is less than {@code 1} or {@code resolutionX * data.getResolutionY()} overflows, the resolution will not be changed.
 	 * <p>
 	 * If {@code resolutionX == data.getResolutionX()}, the resolution will not be changed.
 	 * <p>
@@ -883,7 +883,7 @@ public abstract class Data {
 	 * <p>
 	 * Returns {@code true} if, and only if, the resolution is changed as a result of this operation, {@code false} otherwise.
 	 * <p>
-	 * If either {@code resolutionY} or {@code data.getResolutionX() * resolutionY} are less than {@code 1}, the resolution will not be changed.
+	 * If {@code resolutionY} is less than {@code 1} or {@code data.getResolutionX() * resolutionY} overflows, the resolution will not be changed.
 	 * <p>
 	 * If {@code resolutionY == data.getResolutionY()}, the resolution will not be changed.
 	 * <p>

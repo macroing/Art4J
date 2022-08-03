@@ -20,6 +20,7 @@ package org.macroing.img4j.image;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,6 +34,7 @@ import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
+import org.macroing.img4j.geometry.shape.Rectangle2I;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -164,6 +166,32 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4F.WHITE, null));
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4F)(null), DataFactory.forColorARGB()));
+	}
+	
+	@Test
+	public void testEquals() {
+		final Image a = new Image(1, 1);
+		final Image b = new Image(1, 1);
+		final Image c = new Image(2, 2);
+		final Image d = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+	}
+	
+	@Test
+	public void testGetBounds() {
+		final Image a = new Image(1, 1);
+		final Image b = new Image(9, 9);
+		
+		assertEquals(new Rectangle2I(new Point2I(0, 0), new Point2I(0, 0), new Point2I(0, 0), new Point2I(0, 0)), a.getBounds());
+		assertEquals(new Rectangle2I(new Point2I(0, 0), new Point2I(8, 0), new Point2I(8, 8), new Point2I(0, 8)), b.getBounds());
 	}
 	
 	@Test
@@ -396,6 +424,90 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testIsChangeHistoryEnabled() {
+		final Image image = new Image(1, 1);
+		
+		assertFalse(image.isChangeHistoryEnabled());
+	}
+	
+	@Test
+	public void testRedo() {
+		final Image image = new Image(1, 1);
+		
+		assertFalse(image.redo());
+	}
+	
+	@Test
+	public void testRotateDouble() {
+		final
+		Image image = new Image(5, 5);
+		image.rotate(45.0D);
+		
+		assertEquals(7, image.getResolutionX());
+		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testRotateDoubleBoolean() {
+		final
+		Image image = new Image(5, 5);
+		image.rotate(45.0D, false);
+		
+		assertEquals(7, image.getResolutionX());
+		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testRotateFloat() {
+		final
+		Image image = new Image(5, 5);
+		image.rotate(45.0F);
+		
+		assertEquals(7, image.getResolutionX());
+		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testRotateFloatBoolean() {
+		final
+		Image image = new Image(5, 5);
+		image.rotate(45.0F, false);
+		
+		assertEquals(7, image.getResolutionX());
+		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testScaleDoubleDouble() {
+		final
+		Image image = new Image(1, 1);
+		image.scale(2.0D, 2.0D);
+		
+		assertEquals(2, image.getResolutionX());
+		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
+	public void testScaleFloatFloat() {
+		final
+		Image image = new Image(1, 1);
+		image.scale(2.0F, 2.0F);
+		
+		assertEquals(2, image.getResolutionX());
+		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
+	public void testScaleIntInt() {
+		final
+		Image image = new Image(1, 1);
+		image.scale(2, 2);
+		
+		assertEquals(2, image.getResolutionX());
+		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
 	public void testSetChangeHistoryEnabled() {
 		final Image image = new Image();
 		
@@ -573,5 +685,49 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(new Point2I(0, 0)));
 		
 		assertThrows(NullPointerException.class, () -> image.setColorARGB(Color4I.RED_A_R_G_B, null));
+	}
+	
+	@Test
+	public void testSetResolution() {
+		final
+		Image image = new Image(1, 1);
+		image.setResolution(2, 2);
+		
+		assertEquals(2, image.getResolutionX());
+		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
+	public void testSetResolutionX() {
+		final
+		Image image = new Image(1, 1);
+		image.setResolutionX(2);
+		
+		assertEquals(2, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+	}
+	
+	@Test
+	public void testSetResolutionY() {
+		final
+		Image image = new Image(1, 1);
+		image.setResolutionY(2);
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
+	public void testToString() {
+		final Image image = new Image(1, 1);
+		
+		assertEquals("new Image(1, 1)", image.toString());
+	}
+	
+	@Test
+	public void testUndo() {
+		final Image image = new Image(1, 1);
+		
+		assertFalse(image.undo());
 	}
 }
