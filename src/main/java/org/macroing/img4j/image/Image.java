@@ -67,7 +67,6 @@ public final class Image {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Image() {
 		this(1024, 768);
 	}
@@ -87,7 +86,6 @@ public final class Image {
 	 * @param bufferedImage a {@code BufferedImage} instance
 	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final BufferedImage bufferedImage) {
 		this(bufferedImage, DataFactory.forColorARGB());
 	}
@@ -101,7 +99,6 @@ public final class Image {
 	 * @param dataFactory a {@link DataFactory} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code bufferedImage} or {@code dataFactory} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final BufferedImage bufferedImage, final DataFactory dataFactory) {
 		this.data = dataFactory.create(bufferedImage);
 	}
@@ -268,7 +265,6 @@ public final class Image {
 	 * @param resolutionY the resolution along the Y-axis
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
 	}
@@ -293,7 +289,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final int resolutionX, final int resolutionY, final Color4D color) {
 		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
 	}
@@ -312,7 +307,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code dataFactory} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final int resolutionX, final int resolutionY, final Color4D color, final DataFactory dataFactory) {
 		this.data = dataFactory.create(resolutionX, resolutionY, color);
 	}
@@ -337,7 +331,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final int resolutionX, final int resolutionY, final Color4F color) {
 		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
 	}
@@ -356,7 +349,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code dataFactory} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final int resolutionX, final int resolutionY, final Color4F color, final DataFactory dataFactory) {
 		this.data = dataFactory.create(resolutionX, resolutionY, color);
 	}
@@ -411,7 +403,6 @@ public final class Image {
 	 * @return the {@code Color3D} at {@code point} in this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Color3D getColor3D(final Point2I point) {
 		return getColor3D(point.x, point.y);
 	}
@@ -429,7 +420,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3D getColor3D(final double x, final double y) {
 		return this.data.getColor3D(x, y);
 	}
@@ -442,7 +432,6 @@ public final class Image {
 	 * @param index the index of the pixel
 	 * @return the {@code Color3D} at {@code index} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3D getColor3D(final int index) {
 		return this.data.getColor3D(index);
 	}
@@ -458,7 +447,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3D getColor3D(final int x, final int y) {
 		return this.data.getColor3D(x, y);
 	}
@@ -483,7 +471,6 @@ public final class Image {
 	 * @return the {@code Color3F} at {@code point} in this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Color3F getColor3F(final Point2I point) {
 		return getColor3F(point.x, point.y);
 	}
@@ -501,7 +488,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3F getColor3F(final float x, final float y) {
 		return this.data.getColor3F(x, y);
 	}
@@ -514,7 +500,6 @@ public final class Image {
 	 * @param index the index of the pixel
 	 * @return the {@code Color3F} at {@code index} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3F getColor3F(final int index) {
 		return this.data.getColor3F(index);
 	}
@@ -530,7 +515,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color3F getColor3F(final int x, final int y) {
 		return this.data.getColor3F(x, y);
 	}
@@ -555,7 +539,6 @@ public final class Image {
 	 * @return the {@code Color4D} at {@code point} in this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Color4D getColor4D(final Point2I point) {
 		return getColor4D(point.x, point.y);
 	}
@@ -573,7 +556,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4D} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4D getColor4D(final double x, final double y) {
 		return this.data.getColor4D(x, y);
 	}
@@ -586,7 +568,6 @@ public final class Image {
 	 * @param index the index of the pixel
 	 * @return the {@code Color4D} at {@code index} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4D getColor4D(final int index) {
 		return this.data.getColor4D(index);
 	}
@@ -602,7 +583,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4D} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4D getColor4D(final int x, final int y) {
 		return this.data.getColor4D(x, y);
 	}
@@ -627,7 +607,6 @@ public final class Image {
 	 * @return the {@code Color4F} at {@code point} in this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Color4F getColor4F(final Point2I point) {
 		return getColor4F(point.x, point.y);
 	}
@@ -645,7 +624,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4F} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4F getColor4F(final float x, final float y) {
 		return this.data.getColor4F(x, y);
 	}
@@ -658,7 +636,6 @@ public final class Image {
 	 * @param index the index of the pixel
 	 * @return the {@code Color4F} at {@code index} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4F getColor4F(final int index) {
 		return this.data.getColor4F(index);
 	}
@@ -674,7 +651,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4F} at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Color4F getColor4F(final int x, final int y) {
 		return this.data.getColor4F(x, y);
 	}
@@ -2148,7 +2124,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3D(final Color3D color, final Point2I point) {
 		return setColor3D(color, point.x, point.y);
 	}
@@ -2167,7 +2142,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3D(final Color3D color, final int index) {
 		this.data.setColor3D(Objects.requireNonNull(color, "color == null"), index);
 		
@@ -2191,7 +2165,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3D(final Color3D color, final int x, final int y) {
 		this.data.setColor3D(Objects.requireNonNull(color, "color == null"), x, y);
 		
@@ -2221,7 +2194,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3F(final Color3F color, final Point2I point) {
 		return setColor3F(color, point.x, point.y);
 	}
@@ -2240,7 +2212,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3F(final Color3F color, final int index) {
 		this.data.setColor3F(Objects.requireNonNull(color, "color == null"), index);
 		
@@ -2264,7 +2235,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor3F(final Color3F color, final int x, final int y) {
 		this.data.setColor3F(Objects.requireNonNull(color, "color == null"), x, y);
 		
@@ -2294,7 +2264,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4D(final Color4D color, final Point2I point) {
 		return setColor4D(color, point.x, point.y);
 	}
@@ -2313,7 +2282,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4D(final Color4D color, final int index) {
 		this.data.setColor4D(Objects.requireNonNull(color, "color == null"), index);
 		
@@ -2337,7 +2305,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4D(final Color4D color, final int x, final int y) {
 		this.data.setColor4D(Objects.requireNonNull(color, "color == null"), x, y);
 		
@@ -2367,7 +2334,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4F(final Color4F color, final Point2I point) {
 		return setColor4F(color, point.x, point.y);
 	}
@@ -2386,7 +2352,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4F(final Color4F color, final int index) {
 		this.data.setColor4F(Objects.requireNonNull(color, "color == null"), index);
 		
@@ -2410,9 +2375,72 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image setColor4F(final Color4F color, final int x, final int y) {
 		this.data.setColor4F(Objects.requireNonNull(color, "color == null"), x, y);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code point} in this {@code Image} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.setColorARGB(colorARGB, point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorARGB the color to set
+	 * @param point the {@link Point2I} that contains the X- and Y-components of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public Image setColorARGB(final int colorARGB, final Point2I point) {
+		return setColorARGB(colorARGB, point.x, point.y);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Image} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, nothing will happen.
+	 * 
+	 * @param colorARGB the color to set
+	 * @param index the index of the pixel
+	 * @return this {@code Image} instance
+	 */
+	public Image setColorARGB(final int colorARGB, final int index) {
+		this.data.setColorARGB(colorARGB, index);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Image} instance to {@code colorARGB}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * 
+	 * @param colorARGB the color to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return this {@code Image} instance
+	 */
+	public Image setColorARGB(final int colorARGB, final int x, final int y) {
+		this.data.setColorARGB(colorARGB, x, y);
 		
 		return this;
 	}
@@ -2597,7 +2625,6 @@ public final class Image {
 	 * @param isChangeHistoryEnabled the change history enabled state
 	 * @return {@code true} if, and only if, the change history enabled state was changed, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	public boolean setChangeHistoryEnabled(final boolean isChangeHistoryEnabled) {
 		return this.data.setChangeHistoryEnabled(isChangeHistoryEnabled);
 	}
@@ -2621,7 +2648,6 @@ public final class Image {
 	 * 
 	 * @return the number of pixels that were cached as a result of this operation
 	 */
-//	TODO: Add Unit Tests!
 	public int cache() {
 		return this.data.cache();
 	}
@@ -2646,7 +2672,6 @@ public final class Image {
 	 * @return the color at {@code point} in this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public int getColorARGB(final Point2I point) {
 		return getColorARGB(point.x, point.y);
 	}
@@ -2664,8 +2689,24 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getColorARGB(final double x, final double y) {
+		return this.data.getColorARGB(x, y);
+	}
+	
+	/**
+	 * Returns the color at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0F} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0F} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT_A_R_G_B} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColorARGB(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the color at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public int getColorARGB(final float x, final float y) {
 		return this.data.getColorARGB(x, y);
 	}
 	
@@ -2677,7 +2718,6 @@ public final class Image {
 	 * @param index the index of the pixel
 	 * @return the color at {@code index} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getColorARGB(final int index) {
 		return this.data.getColorARGB(index);
 	}
@@ -2693,7 +2733,6 @@ public final class Image {
 	 * @param y the Y-component of the pixel
 	 * @return the color at {@code x} and {@code y} in this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getColorARGB(final int x, final int y) {
 		return this.data.getColorARGB(x, y);
 	}
@@ -2703,7 +2742,6 @@ public final class Image {
 	 * 
 	 * @return the resolution of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getResolution() {
 		return this.data.getResolution();
 	}
@@ -2713,7 +2751,6 @@ public final class Image {
 	 * 
 	 * @return the resolution along the X-axis of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getResolutionX() {
 		return this.data.getResolutionX();
 	}
@@ -2723,7 +2760,6 @@ public final class Image {
 	 * 
 	 * @return the resolution along the Y-axis of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int getResolutionY() {
 		return this.data.getResolutionY();
 	}
@@ -2733,7 +2769,6 @@ public final class Image {
 	 * 
 	 * @return a hash code for this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.data);
