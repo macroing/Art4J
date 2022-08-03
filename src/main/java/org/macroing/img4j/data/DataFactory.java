@@ -68,6 +68,7 @@ public abstract class DataFactory {
 	 * If {@code bufferedImage} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param bufferedImage a {@code BufferedImage} instance
+	 * @return a {@code Data} instance from {@code bufferedImage}
 	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
 	 */
 	public abstract Data create(final BufferedImage bufferedImage);
@@ -129,7 +130,7 @@ public abstract class DataFactory {
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
 	 * 
 	 * @param uRL a {@code URL} that represents the URL to read from
-	 * @return a new {@code Image} instance
+	 * @return a new {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code uRL} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
@@ -148,6 +149,7 @@ public abstract class DataFactory {
 	 * 
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
+	 * @return a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY}
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 */
 	public abstract Data create(final int resolutionX, final int resolutionY);
@@ -162,6 +164,7 @@ public abstract class DataFactory {
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4D} to fill with
+	 * @return a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
@@ -177,6 +180,7 @@ public abstract class DataFactory {
 	 * @param resolutionX the resolution along the X-axis
 	 * @param resolutionY the resolution along the Y-axis
 	 * @param color the {@link Color4F} to fill with
+	 * @return a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX}, {@code resolutionY} or {@code resolutionX * resolutionY} are less than {@code 1}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */

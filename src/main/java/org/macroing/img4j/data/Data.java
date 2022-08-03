@@ -632,8 +632,11 @@ public abstract class Data {
 	
 	/**
 	 * Sets the change history enabled state to {@code isChangeHistoryEnabled}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the change history enabled state was changed, {@code false} otherwise.
 	 * 
 	 * @param isChangeHistoryEnabled the change history enabled state
+	 * @return {@code true} if, and only if, the change history enabled state was changed, {@code false} otherwise
 	 */
 	public final boolean setChangeHistoryEnabled(final boolean isChangeHistoryEnabled) {
 		if(isChangeHistoryEnabled && this.changeHistory == null) {

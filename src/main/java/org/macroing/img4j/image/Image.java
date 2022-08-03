@@ -2591,8 +2591,11 @@ public final class Image {
 	
 	/**
 	 * Sets the change history enabled state to {@code isChangeHistoryEnabled}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the change history enabled state was changed, {@code false} otherwise.
 	 * 
 	 * @param isChangeHistoryEnabled the change history enabled state
+	 * @return {@code true} if, and only if, the change history enabled state was changed, {@code false} otherwise
 	 */
 //	TODO: Add Unit Tests!
 	public boolean setChangeHistoryEnabled(final boolean isChangeHistoryEnabled) {
