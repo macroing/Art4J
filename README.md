@@ -15,12 +15,14 @@ ant
 Supported Features
 ------------------
  - `org.macroing.img4j.color` provides the Color API.
+ - `org.macroing.img4j.curve` provides the Curve API.
  - `org.macroing.img4j.data` provides the Data API.
  - `org.macroing.img4j.filter` provides the Filter API.
  - `org.macroing.img4j.geometry` provides the Geometry API.
  - `org.macroing.img4j.geometry.shape` provides the Geometry Shape API.
  - `org.macroing.img4j.image` provides the Image API.
  - `org.macroing.img4j.kernel` provides the Kernel API.
+ - `org.macroing.img4j.noise` provides the Noise API.
  - `org.macroing.img4j.pixel` provides the Pixel API.
  - `org.macroing.img4j.utility` provides the Utility API.
 
@@ -35,12 +37,14 @@ The following table describes the different APIs and their current status in the
 | Name               | Javadoc | Unit Test | Package                           |
 | ------------------ | ------- | --------- | --------------------------------- |
 | Color API          | 100.0%  | 100.0%    | org.macroing.img4j.color          |
+| Curve API          | 100.0%  |   0.0%    | org.macroing.img4j.curve          |
 | Data API           | 100.0%  | 100.0%    | org.macroing.img4j.data           |
 | Filter API         | 100.0%  | 100.0%    | org.macroing.img4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.img4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.img4j.geometry.shape |
 | Image API          | 100.0%  |  20.6%    | org.macroing.img4j.image          |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.img4j.kernel         |
+| Noise API          | 100.0%  |   0.0%    | org.macroing.img4j.noise          |
 | Pixel API          | 100.0%  | 100.0%    | org.macroing.img4j.pixel          |
 | Utility API        | 100.0%  | 100.0%    | org.macroing.img4j.utility        |
 
