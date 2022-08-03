@@ -23,6 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
@@ -62,6 +66,35 @@ public final class ColorARGBDataFactoryUnitTests {
 		assertEquals(1, data.getResolutionY());
 		
 		assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create((BufferedImage)(null)));
+	}
+	
+	@Test
+	public void testCreateFile() {
+		final ColorARGBDataFactory colorARGBDataFactory = new ColorARGBDataFactory();
+		
+		final Data dataA = colorARGBDataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "ColorARGBData.png");
+		
+		dataA.save(file, "png");
+		
+		final Data dataB = colorARGBDataFactory.create(file);
+		
+		assertTrue(dataB instanceof ColorARGBData);
+		
+		assertEquals(1, dataB.getResolution());
+		assertEquals(1, dataB.getResolutionX());
+		assertEquals(1, dataB.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create((File)(null)));
+		
+		assertThrows(UncheckedIOException.class, () -> colorARGBDataFactory.create(new File(directory, "ColorARGBData.jpg")));
+		
+		file.delete();
+		
+		directory.delete();
 	}
 	
 	@Test
@@ -114,6 +147,70 @@ public final class ColorARGBDataFactoryUnitTests {
 		assertThrows(IllegalArgumentException.class, () -> colorARGBDataFactory.create(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4F.WHITE));
 		
 		assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create(1, 1, (Color4F)(null)));
+	}
+	
+	@Test
+	public void testCreateString() {
+		final ColorARGBDataFactory colorARGBDataFactory = new ColorARGBDataFactory();
+		
+		final Data dataA = colorARGBDataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "ColorARGBData.png");
+		
+		dataA.save(file, "png");
+		
+		final Data dataB = colorARGBDataFactory.create(file.getAbsolutePath());
+		
+		assertTrue(dataB instanceof ColorARGBData);
+		
+		assertEquals(1, dataB.getResolution());
+		assertEquals(1, dataB.getResolutionX());
+		assertEquals(1, dataB.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create((String)(null)));
+		
+		assertThrows(UncheckedIOException.class, () -> colorARGBDataFactory.create(file.getAbsolutePath() + ".jpg"));
+		
+		file.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testCreateURL() {
+		try {
+			final ColorARGBDataFactory colorARGBDataFactory = new ColorARGBDataFactory();
+			
+			final Data dataA = colorARGBDataFactory.create(1, 1);
+			
+			final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+			
+			final File file = new File(directory, "ColorARGBData.png");
+			
+			final URL uRL = file.toURI().toURL();
+			
+			dataA.save(file, "png");
+			
+			final Data dataB = colorARGBDataFactory.create(uRL);
+			
+			assertTrue(dataB instanceof ColorARGBData);
+			
+			assertEquals(1, dataB.getResolution());
+			assertEquals(1, dataB.getResolutionX());
+			assertEquals(1, dataB.getResolutionY());
+			
+			assertThrows(NullPointerException.class, () -> colorARGBDataFactory.create((URL)(null)));
+			
+			assertThrows(UncheckedIOException.class, () -> colorARGBDataFactory.create(new File(directory, "ColorARGBData.jpg").toURI().toURL()));
+			
+			file.delete();
+			
+			directory.delete();
+		} catch(final MalformedURLException e) {
+			
+		}
 	}
 	
 	@Test
