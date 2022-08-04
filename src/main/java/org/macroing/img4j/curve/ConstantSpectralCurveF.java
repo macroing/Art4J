@@ -21,7 +21,7 @@ package org.macroing.img4j.curve;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code ConstantSpectralCurveF} is an implementation of {@link SpectralCurveF} that returns a constant value.

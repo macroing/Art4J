@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.Randoms;
+import org.macroing.java.util.Randoms;
 
 /**
  * A {@code Color3I} represents a color with three {@code int}-based components.

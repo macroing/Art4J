@@ -21,7 +21,7 @@ package org.macroing.img4j.filter;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code MitchellFilter2D} is an implementation of {@link Filter2D} that represents a Mitchell filter.

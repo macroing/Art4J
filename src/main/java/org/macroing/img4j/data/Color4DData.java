@@ -33,11 +33,11 @@ import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
-import org.macroing.img4j.utility.BufferedImages;
 import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
 import org.macroing.img4j.utility.ParameterArguments;
+import org.macroing.java.awt.image.BufferedImages;
 
 final class Color4DData extends Data {
 	private Color4D[] colors;

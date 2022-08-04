@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Randoms;
+import org.macroing.java.util.Randoms;
 
 /**
  * A {@code ConvolutionKernelNF} is a convolution kernel with N x N {@code float}-based elements in N rows and N columns.

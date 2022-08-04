@@ -12,6 +12,7 @@
 	<property name="project.directory.binary" location="bin"/>
 	<property name="project.directory.distribution" location="${project.directory.root}/distribution"/>
 	<property name="project.directory.distribution.current" location="${project.directory.distribution}/${project.name}"/>
+	<property name="project.directory.library" location="lib"/>
 	<property name="project.directory.resources" location="src/main/resources"/>
 	<property name="project.directory.source" location="src/main/java"/>
 	
@@ -26,8 +27,12 @@
 		<mkdir dir="${project.directory.distribution.current}"/>
 		<mkdir dir="${project.directory.source}"/>
 		
+		<path id="library.path">
+			<fileset dir="${project.directory.library}" includes="**/*.jar"/>
+		</path>
+		
 		<!--Perform Java compilation.-->
-		<javac debug="true" debuglevel="lines,vars,source" destdir="${project.directory.binary}" encoding="UTF-8" includeAntRuntime="false" source="${java.source}" sourcepath="" srcdir="${project.directory.source}" target="${java.target}">
+		<javac classpathref="library.path" debug="true" debuglevel="lines,vars,source" destdir="${project.directory.binary}" encoding="UTF-8" includeAntRuntime="false" source="${java.source}" sourcepath="" srcdir="${project.directory.source}" target="${java.target}">
 			<compilerarg value="-Xlint:all"/>
 			
 			<include name="org/macroing/img4j/**"/>
@@ -58,6 +63,7 @@
 		<!--Generate Javadocs.-->
 		<javadoc access="protected" author="true" charset="UTF-8" destdir="${project.directory.distribution.current}/doc" docencoding="UTF-8" encoding="UTF-8" linksource="false" use="true" useexternalfile="yes" version="true" windowtitle="${project.name} API">
 			<classpath>
+				<path refid="library.path"/>
 				<pathelement location="${project.directory.binary}"/>
 			</classpath>
 			
@@ -71,6 +77,11 @@
 			<fileset dir="." includes="COPYING"/>
 			<fileset dir="." includes="COPYING.LESSER"/>
 			<fileset dir="." includes="README.md"/>
+		</copy>
+		
+		<!--Copy the libraries.-->
+		<copy todir="${project.directory.distribution.current}/lib">
+			<fileset dir="${project.directory.library}" excludes=""/>
 		</copy>
 		
 		<!--Copy the source code.-->

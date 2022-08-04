@@ -41,8 +41,8 @@ import org.macroing.img4j.geometry.Shape2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
-import org.macroing.img4j.utility.IntTernaryOperator;
-import org.macroing.img4j.utility.IntTriPredicate;
+import org.macroing.java.util.function.IntTernaryOperator;
+import org.macroing.java.util.function.IntTriPredicate;
 
 /**
  * An {@code Image} represents an image that can be drawn to and saved to disk.
@@ -1243,7 +1243,7 @@ public final class Image {
 	 * }
 	 * </pre>
 	 * 
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
@@ -1259,8 +1259,8 @@ public final class Image {
 	 * <p>
 	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
@@ -1546,7 +1546,7 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
 	 */
@@ -1572,8 +1572,8 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
@@ -1600,7 +1600,7 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
@@ -1620,8 +1620,8 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */

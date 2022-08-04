@@ -24,8 +24,8 @@ import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.Randoms;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
+import org.macroing.java.util.Randoms;
 
 /**
  * A {@code Color4F} represents a color with four {@code float}-based components.

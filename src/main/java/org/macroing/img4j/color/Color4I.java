@@ -25,7 +25,7 @@ import java.util.Objects;
 import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.Randoms;
+import org.macroing.java.util.Randoms;
 
 /**
  * A {@code Color4I} represents a color with four {@code int}-based components.

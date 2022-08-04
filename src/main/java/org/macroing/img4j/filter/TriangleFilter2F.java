@@ -21,7 +21,7 @@ package org.macroing.img4j.filter;
 import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code TriangleFilter2F} is an implementation of {@link Filter2F} that represents a triangle filter.

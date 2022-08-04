@@ -21,7 +21,7 @@ package org.macroing.img4j.curve;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * An {@code IrregularSpectralCurveD} is an implementation of {@link SpectralCurveD} that contains irregular spectral data.

@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.utility.Floats;
 import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code RegularSpectralCurveF} is an implementation of {@link SpectralCurveF} that contains regular spectral data.

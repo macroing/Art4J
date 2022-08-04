@@ -23,7 +23,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.Strings;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code RegularSpectralCurveD} is an implementation of {@link SpectralCurveD} that contains regular spectral data.
