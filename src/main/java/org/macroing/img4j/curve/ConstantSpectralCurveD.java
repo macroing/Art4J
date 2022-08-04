@@ -18,6 +18,11 @@
  */
 package org.macroing.img4j.curve;
 
+import java.util.Objects;
+
+import org.macroing.img4j.utility.Doubles;
+import org.macroing.img4j.utility.Strings;
+
 /**
  * A {@code ConstantSpectralCurveD} is an implementation of {@link SpectralCurveD} that returns a constant value.
  * <p>
@@ -43,6 +48,37 @@ public final class ConstantSpectralCurveD extends SpectralCurveD {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code String} representation of this {@code ConstantSpectralCurveD} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code ConstantSpectralCurveD} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new ConstantSpectralCurveD(%s)", Strings.toNonScientificNotationJava(this.amplitude));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code ConstantSpectralCurveD} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code ConstantSpectralCurveD}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code ConstantSpectralCurveD} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code ConstantSpectralCurveD}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof ConstantSpectralCurveD)) {
+			return false;
+		} else if(!Doubles.equals(this.amplitude, ConstantSpectralCurveD.class.cast(object).amplitude)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
 	 * Returns the amplitude associated with this {@code ConstantSpectralCurveD} instance.
 	 * 
 	 * @return the amplitude associated with this {@code ConstantSpectralCurveD} instance
@@ -62,5 +98,15 @@ public final class ConstantSpectralCurveD extends SpectralCurveD {
 	@Override
 	public double sample(final double lambda) {
 		return this.amplitude;
+	}
+	
+	/**
+	 * Returns a hash code for this {@code ConstantSpectralCurveD} instance.
+	 * 
+	 * @return a hash code for this {@code ConstantSpectralCurveD} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Double.valueOf(this.amplitude));
 	}
 }

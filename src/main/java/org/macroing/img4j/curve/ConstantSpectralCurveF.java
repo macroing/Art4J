@@ -18,6 +18,11 @@
  */
 package org.macroing.img4j.curve;
 
+import java.util.Objects;
+
+import org.macroing.img4j.utility.Floats;
+import org.macroing.img4j.utility.Strings;
+
 /**
  * A {@code ConstantSpectralCurveF} is an implementation of {@link SpectralCurveF} that returns a constant value.
  * <p>
@@ -43,6 +48,37 @@ public final class ConstantSpectralCurveF extends SpectralCurveF {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code String} representation of this {@code ConstantSpectralCurveF} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code ConstantSpectralCurveF} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new ConstantSpectralCurveF(%s)", Strings.toNonScientificNotationJava(this.amplitude));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code ConstantSpectralCurveF} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code ConstantSpectralCurveF}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code ConstantSpectralCurveF} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code ConstantSpectralCurveF}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof ConstantSpectralCurveF)) {
+			return false;
+		} else if(!Floats.equals(this.amplitude, ConstantSpectralCurveF.class.cast(object).amplitude)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
 	 * Returns the amplitude associated with this {@code ConstantSpectralCurveF} instance.
 	 * 
 	 * @return the amplitude associated with this {@code ConstantSpectralCurveF} instance
@@ -62,5 +98,15 @@ public final class ConstantSpectralCurveF extends SpectralCurveF {
 	@Override
 	public float sample(final float lambda) {
 		return this.amplitude;
+	}
+	
+	/**
+	 * Returns a hash code for this {@code ConstantSpectralCurveF} instance.
+	 * 
+	 * @return a hash code for this {@code ConstantSpectralCurveF} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Float.valueOf(this.amplitude));
 	}
 }

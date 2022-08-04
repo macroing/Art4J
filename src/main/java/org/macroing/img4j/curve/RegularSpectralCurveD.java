@@ -18,9 +18,12 @@
  */
 package org.macroing.img4j.curve;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
+import java.util.Arrays;
+import java.util.Objects;
 
+import org.macroing.img4j.utility.Doubles;
 import org.macroing.img4j.utility.Ints;
+import org.macroing.img4j.utility.Strings;
 
 /**
  * A {@code RegularSpectralCurveD} is an implementation of {@link SpectralCurveD} that contains regular spectral data.
@@ -51,7 +54,6 @@ public final class RegularSpectralCurveD extends SpectralCurveD {
 	 * @param spectrum an array with spectral data
 	 * @throws NullPointerException thrown if, and only if, {@code spectrum} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public RegularSpectralCurveD(final double lambdaMin, final double lambdaMax, final double[] spectrum) {
 		this.lambdaMin = lambdaMin;
 		this.lambdaMax = lambdaMax;
@@ -63,12 +65,64 @@ public final class RegularSpectralCurveD extends SpectralCurveD {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code String} representation of this {@code RegularSpectralCurveD} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code RegularSpectralCurveD} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new RegularSpectralCurveD(%s, %s, %s)", Strings.toNonScientificNotationJava(this.lambdaMin), Strings.toNonScientificNotationJava(this.lambdaMax), Strings.toNonScientificNotationJava(this.spectrum));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code RegularSpectralCurveD} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code RegularSpectralCurveD}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code RegularSpectralCurveD} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code RegularSpectralCurveD}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof RegularSpectralCurveD)) {
+			return false;
+		} else if(!Doubles.equals(this.lambdaMax, RegularSpectralCurveD.class.cast(object).lambdaMax)) {
+			return false;
+		} else if(!Doubles.equals(this.lambdaMin, RegularSpectralCurveD.class.cast(object).lambdaMin)) {
+			return false;
+		} else if(!Arrays.equals(this.spectrum, RegularSpectralCurveD.class.cast(object).spectrum)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Returns the maximum wavelength in nanometers.
+	 * 
+	 * @return the maximum wavelength in nanometers
+	 */
+	public double getLambdaMax() {
+		return this.lambdaMax;
+	}
+	
+	/**
+	 * Returns the minimum wavelength in nanometers.
+	 * 
+	 * @return the minimum wavelength in nanometers
+	 */
+	public double getLambdaMin() {
+		return this.lambdaMin;
+	}
+	
+	/**
 	 * Returns a sample based on the wavelength {@code lambda} in nanometers.
 	 * 
 	 * @param lambda the wavelength in nanometers
 	 * @return a sample based on the wavelength {@code lambda} in nanometers
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public double sample(final double lambda) {
 		if(lambda < this.lambdaMin || lambda > this.lambdaMax) {
@@ -85,5 +139,26 @@ public final class RegularSpectralCurveD extends SpectralCurveD {
 		final double sample = (1.0D - deltaX) * this.spectrum[index0] + deltaX * this.spectrum[index1];
 		
 		return sample;
+	}
+	
+	/**
+	 * Returns a {@code double[]} with the spectral data of this {@code RegularSpectralCurveD} instance.
+	 * <p>
+	 * Modifications to the {@code double[]} will not affect this {@code RegularSpectralCurveD} instance.
+	 * 
+	 * @return a {@code double[]} with the spectral data of this {@code RegularSpectralCurveD} instance
+	 */
+	public double[] getSpectrum() {
+		return this.spectrum.clone();
+	}
+	
+	/**
+	 * Returns a hash code for this {@code RegularSpectralCurveD} instance.
+	 * 
+	 * @return a hash code for this {@code RegularSpectralCurveD} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Double.valueOf(this.lambdaMax), Double.valueOf(this.lambdaMin), Integer.valueOf(Arrays.hashCode(this.spectrum)));
 	}
 }

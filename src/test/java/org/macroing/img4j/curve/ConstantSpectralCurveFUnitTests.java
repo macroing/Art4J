@@ -19,6 +19,7 @@
 package org.macroing.img4j.curve;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -38,6 +39,23 @@ public final class ConstantSpectralCurveFUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final ConstantSpectralCurveF a = new ConstantSpectralCurveF(1.0F);
+		final ConstantSpectralCurveF b = new ConstantSpectralCurveF(1.0F);
+		final ConstantSpectralCurveF c = new ConstantSpectralCurveF(2.0F);
+		final ConstantSpectralCurveF d = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+	}
+	
+	@Test
 	public void testGetAmplitude() {
 		final ConstantSpectralCurveF constantSpectralCurveF = new ConstantSpectralCurveF(1.0F);
 		
@@ -45,9 +63,25 @@ public final class ConstantSpectralCurveFUnitTests {
 	}
 	
 	@Test
+	public void testHashCode() {
+		final ConstantSpectralCurveF a = new ConstantSpectralCurveF(1.0F);
+		final ConstantSpectralCurveF b = new ConstantSpectralCurveF(1.0F);
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
 	public void testSample() {
 		final ConstantSpectralCurveF constantSpectralCurveF = new ConstantSpectralCurveF(1.0F);
 		
 		assertEquals(1.0F, constantSpectralCurveF.sample(0.5F));
+	}
+	
+	@Test
+	public void testToString() {
+		final ConstantSpectralCurveF constantSpectralCurveF = new ConstantSpectralCurveF(1.0F);
+		
+		assertEquals("new ConstantSpectralCurveF(1.0F)", constantSpectralCurveF.toString());
 	}
 }

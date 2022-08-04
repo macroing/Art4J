@@ -20,6 +20,7 @@ package org.macroing.img4j.curve;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,6 +48,26 @@ public final class IrregularSpectralCurveDUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final IrregularSpectralCurveD a = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D});
+		final IrregularSpectralCurveD b = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D});
+		final IrregularSpectralCurveD c = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {2.0D});
+		final IrregularSpectralCurveD d = new IrregularSpectralCurveD(new double[] {2.0D}, new double[] {1.0D});
+		final IrregularSpectralCurveD e = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+	}
+	
+	@Test
 	public void testGetAmplitudes() {
 		final double[] amplitudes = new double[] {1.0D, 2.0D, 3.0D};
 		final double[] wavelengths = new double[] {4.0D, 5.0D, 6.0D};
@@ -71,6 +92,15 @@ public final class IrregularSpectralCurveDUnitTests {
 	}
 	
 	@Test
+	public void testHashCode() {
+		final IrregularSpectralCurveD a = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D});
+		final IrregularSpectralCurveD b = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D});
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
 	public void testSample() {
 		assertEquals(0.0D, new IrregularSpectralCurveD(new double[] {}, new double[] {}).sample(0.0D));
 		assertEquals(1.0D, new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D}).sample(0.0D));
@@ -78,5 +108,12 @@ public final class IrregularSpectralCurveDUnitTests {
 		assertEquals(2.0D, new IrregularSpectralCurveD(new double[] {1.0D, 2.0D}, new double[] {1.0D, 2.0D}).sample(3.0D));
 		assertEquals(3.0D, new IrregularSpectralCurveD(new double[] {1.0D, 2.0D, 3.0D, 4.0D, 5.0D}, new double[] {1.0D, 2.0D, 3.0D, 4.0D, 5.0D}).sample(3.0D));
 		assertEquals(5.0D, new IrregularSpectralCurveD(new double[] {1.0D, 2.0D, 3.0D, 4.0D, 5.0D}, new double[] {1.0D, 2.0D, 3.0D, 4.0D, 5.0D}).sample(5.0D));
+	}
+	
+	@Test
+	public void testToString() {
+		final IrregularSpectralCurveD irregularSpectralCurveD = new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D});
+		
+		assertEquals("new IrregularSpectralCurveD(new double[] {1.0D}, new double[] {1.0D})", irregularSpectralCurveD.toString());
 	}
 }

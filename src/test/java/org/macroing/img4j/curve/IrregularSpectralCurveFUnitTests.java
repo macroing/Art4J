@@ -20,6 +20,7 @@ package org.macroing.img4j.curve;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,6 +48,26 @@ public final class IrregularSpectralCurveFUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final IrregularSpectralCurveF a = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F});
+		final IrregularSpectralCurveF b = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F});
+		final IrregularSpectralCurveF c = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {2.0F});
+		final IrregularSpectralCurveF d = new IrregularSpectralCurveF(new float[] {2.0F}, new float[] {1.0F});
+		final IrregularSpectralCurveF e = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+	}
+	
+	@Test
 	public void testGetAmplitudes() {
 		final float[] amplitudes = new float[] {1.0F, 2.0F, 3.0F};
 		final float[] wavelengths = new float[] {4.0F, 5.0F, 6.0F};
@@ -71,6 +92,15 @@ public final class IrregularSpectralCurveFUnitTests {
 	}
 	
 	@Test
+	public void testHashCode() {
+		final IrregularSpectralCurveF a = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F});
+		final IrregularSpectralCurveF b = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F});
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
 	public void testSample() {
 		assertEquals(0.0F, new IrregularSpectralCurveF(new float[] {}, new float[] {}).sample(0.0F));
 		assertEquals(1.0F, new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F}).sample(0.0F));
@@ -78,5 +108,12 @@ public final class IrregularSpectralCurveFUnitTests {
 		assertEquals(2.0F, new IrregularSpectralCurveF(new float[] {1.0F, 2.0F}, new float[] {1.0F, 2.0F}).sample(3.0F));
 		assertEquals(3.0F, new IrregularSpectralCurveF(new float[] {1.0F, 2.0F, 3.0F, 4.0F, 5.0F}, new float[] {1.0F, 2.0F, 3.0F, 4.0F, 5.0F}).sample(3.0F));
 		assertEquals(5.0F, new IrregularSpectralCurveF(new float[] {1.0F, 2.0F, 3.0F, 4.0F, 5.0F}, new float[] {1.0F, 2.0F, 3.0F, 4.0F, 5.0F}).sample(5.0F));
+	}
+	
+	@Test
+	public void testToString() {
+		final IrregularSpectralCurveF irregularSpectralCurveF = new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F});
+		
+		assertEquals("new IrregularSpectralCurveF(new float[] {1.0F}, new float[] {1.0F})", irregularSpectralCurveF.toString());
 	}
 }

@@ -18,6 +18,11 @@
  */
 package org.macroing.img4j.curve;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+import org.macroing.img4j.utility.Strings;
+
 /**
  * An {@code IrregularSpectralCurveF} is an implementation of {@link SpectralCurveF} that contains irregular spectral data.
  * <p>
@@ -130,6 +135,39 @@ public final class IrregularSpectralCurveF extends SpectralCurveF {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code String} representation of this {@code IrregularSpectralCurveF} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code IrregularSpectralCurveF} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new IrregularSpectralCurveF(%s, %s)", Strings.toNonScientificNotationJava(this.amplitudes), Strings.toNonScientificNotationJava(this.wavelengths));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code IrregularSpectralCurveF} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code IrregularSpectralCurveF}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code IrregularSpectralCurveF} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code IrregularSpectralCurveF}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof IrregularSpectralCurveF)) {
+			return false;
+		} else if(!Arrays.equals(this.amplitudes, IrregularSpectralCurveF.class.cast(object).amplitudes)) {
+			return false;
+		} else if(!Arrays.equals(this.wavelengths, IrregularSpectralCurveF.class.cast(object).wavelengths)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
 	 * Returns a sample based on the wavelength {@code lambda} in nanometers.
 	 * 
 	 * @param lambda the wavelength in nanometers
@@ -175,5 +213,15 @@ public final class IrregularSpectralCurveF extends SpectralCurveF {
 	 */
 	public float[] getWavelengths() {
 		return this.wavelengths.clone();
+	}
+	
+	/**
+	 * Returns a hash code for this {@code IrregularSpectralCurveF} instance.
+	 * 
+	 * @return a hash code for this {@code IrregularSpectralCurveF} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Integer.valueOf(Arrays.hashCode(this.amplitudes)), Integer.valueOf(Arrays.hashCode(this.wavelengths)));
 	}
 }

@@ -91,6 +91,5 @@ public abstract class SpectralCurveD {
 	 * @param lambda the wavelength in nanometers
 	 * @return a sample based on the wavelength {@code lambda} in nanometers
 	 */
-//	TODO: Add Unit Tests!
 	public abstract double sample(final double lambda);
 }
