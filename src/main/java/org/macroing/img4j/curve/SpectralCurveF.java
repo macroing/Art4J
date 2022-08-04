@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.curve;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.ColorSpaceF;
 
@@ -52,7 +50,6 @@ public abstract class SpectralCurveF {
 	 * 
 	 * @return a {@code Color3F} instance in RGB-color space
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3F toColorRGB() {
 		return ColorSpaceF.getDefault().convertXYZToRGB(toColorXYZ());
 	}
@@ -62,7 +59,6 @@ public abstract class SpectralCurveF {
 	 * 
 	 * @return a {@code Color3F} instance in XYZ-color space
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3F toColorXYZ() {
 		float x = 0.0F;
 		float y = 0.0F;

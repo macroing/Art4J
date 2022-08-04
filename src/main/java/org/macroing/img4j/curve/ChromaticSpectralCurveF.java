@@ -18,9 +18,11 @@
  */
 package org.macroing.img4j.curve;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
+import java.util.Objects;
 
 import org.macroing.img4j.color.Color3F;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code ChromaticSpectralCurveF} is an implementation of {@link SpectralCurveF} that contains chromaticity pairs.
@@ -45,6 +47,8 @@ public final class ChromaticSpectralCurveF extends SpectralCurveF {
 	
 	private final float m1;
 	private final float m2;
+	private final float x;
+	private final float y;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -67,16 +71,68 @@ public final class ChromaticSpectralCurveF extends SpectralCurveF {
 	/**
 	 * Constructs a new {@code ChromaticSpectralCurveF} instance given the chromaticity pair of {@code x} and {@code y}.
 	 * 
-	 * @param x the X of the chromaticity pair
-	 * @param y the Y of the chromaticity pair
+	 * @param x the X-component of the chromaticity pair
+	 * @param y the Y-component of the chromaticity pair
 	 */
-//	TODO: Add Unit Tests!
 	public ChromaticSpectralCurveF(final float x, final float y) {
 		this.m1 = (-1.3515F -  1.7703F * x +  5.9114F * y) / (0.0241F + 0.2562F * x - 0.7341F * y);
 		this.m2 = (+0.03F   - 31.4424F * x + 30.0717F * y) / (0.0241F + 0.2562F * x - 0.7341F * y);
+		this.x = x;
+		this.y = y;
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a {@code String} representation of this {@code ChromaticSpectralCurveF} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code ChromaticSpectralCurveF} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new ChromaticSpectralCurveF(%s, %s)", Strings.toNonScientificNotationJava(this.x), Strings.toNonScientificNotationJava(this.y));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code ChromaticSpectralCurveF} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code ChromaticSpectralCurveF}, and they are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code ChromaticSpectralCurveF} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code ChromaticSpectralCurveF}, and they are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof ChromaticSpectralCurveF)) {
+			return false;
+		} else if(!Floats.equals(this.x, ChromaticSpectralCurveF.class.cast(object).x)) {
+			return false;
+		} else if(!Floats.equals(this.y, ChromaticSpectralCurveF.class.cast(object).y)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Returns the X-component of the chromaticity pair that is associated with this {@code ChromaticSpectralCurveF} instance.
+	 * 
+	 * @return the X-component of the chromaticity pair that is associated with this {@code ChromaticSpectralCurveF} instance
+	 */
+	public float getX() {
+		return this.x;
+	}
+	
+	/**
+	 * Returns the Y-component of the chromaticity pair that is associated with this {@code ChromaticSpectralCurveF} instance.
+	 * 
+	 * @return the Y-component of the chromaticity pair that is associated with this {@code ChromaticSpectralCurveF} instance
+	 */
+	public float getY() {
+		return this.y;
+	}
 	
 	/**
 	 * Returns a sample based on the wavelength {@code lambda} in nanometers.
@@ -84,10 +140,19 @@ public final class ChromaticSpectralCurveF extends SpectralCurveF {
 	 * @param lambda the wavelength in nanometers
 	 * @return a sample based on the wavelength {@code lambda} in nanometers
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public float sample(final float lambda) {
 		return K_S0_SPECTRAL_CURVE.sample(lambda) + this.m1 * K_S1_SPECTRAL_CURVE.sample(lambda) + this.m2 * K_S2_SPECTRAL_CURVE.sample(lambda);
+	}
+	
+	/**
+	 * Returns a hash code for this {@code ChromaticSpectralCurveF} instance.
+	 * 
+	 * @return a hash code for this {@code ChromaticSpectralCurveF} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Float.valueOf(this.x), Float.valueOf(this.y));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,12 +160,11 @@ public final class ChromaticSpectralCurveF extends SpectralCurveF {
 	/**
 	 * Returns a {@link Color3F} given {@code x} and {@code y} in XYZ-color space.
 	 * 
-	 * @param x the X of the chromaticity pair
-	 * @param y the Y of the chromaticity pair
+	 * @param x the X-component of the chromaticity pair
+	 * @param y the Y-component of the chromaticity pair
 	 * @return a {@code Color3F} given {@code x} and {@code y} in XYZ-color space
 	 */
-//	TODO: Add Unit Tests!
-	public static Color3F getColorXYZ(final float x, final float y) {
+	public static Color3F toColorXYZ(final float x, final float y) {
 		final float m1 = (-1.3515F - 1.7703F  * x +  5.9114F * y) / (0.0241F + 0.2562F * x - 0.7341F * y);
 		final float m2 = (+0.03F   - 31.4424F * x + 30.0717F * y) / (0.0241F + 0.2562F * x - 0.7341F * y);
 		
