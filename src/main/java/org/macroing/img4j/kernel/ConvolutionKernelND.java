@@ -21,7 +21,7 @@ package org.macroing.img4j.kernel;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 import org.macroing.java.util.Randoms;
 
 /**

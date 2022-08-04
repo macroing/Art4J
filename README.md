@@ -24,7 +24,6 @@ Supported Features
  - `org.macroing.img4j.kernel` provides the Kernel API.
  - `org.macroing.img4j.noise` provides the Noise API.
  - `org.macroing.img4j.pixel` provides the Pixel API.
- - `org.macroing.img4j.utility` provides the Utility API.
 
 Documentation
 -------------
@@ -46,7 +45,6 @@ The following table describes the different APIs and their current status in the
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.img4j.kernel         |
 | Noise API          | 100.0%  |   0.0%    | org.macroing.img4j.noise          |
 | Pixel API          | 100.0%  | 100.0%    | org.macroing.img4j.pixel          |
-| Utility API        | 100.0%  | 100.0%    | org.macroing.img4j.utility        |
 
 Dependencies
 ------------

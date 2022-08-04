@@ -24,9 +24,9 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 
 /**
  * A {@code Rectangle2I} is an implementation of {@link Shape2I} that represents a rectangle.

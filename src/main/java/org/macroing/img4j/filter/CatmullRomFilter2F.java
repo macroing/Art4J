@@ -20,7 +20,7 @@ package org.macroing.img4j.filter;
 
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Floats;
+import org.macroing.java.lang.Floats;
 
 /**
  * A {@code CatmullRomFilter2F} is an implementation of {@link Filter2F} that represents a Catmull-Rom filter.

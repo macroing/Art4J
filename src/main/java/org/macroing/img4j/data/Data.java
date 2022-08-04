@@ -33,8 +33,8 @@ import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
 
 /**
  * A {@code Data} contains data for an image.

@@ -18,7 +18,7 @@
  */
 package org.macroing.img4j.color;
 
-import org.macroing.img4j.utility.Floats;
+import org.macroing.java.lang.Floats;
 
 /**
  * A {@code ColorSpaceF} represents a color space that performs conversions for the color types {@link Color3F} and {@link Color4F}.

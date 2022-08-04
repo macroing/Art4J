@@ -18,7 +18,7 @@
  */
 package org.macroing.img4j.noise;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 
 /**
  * A class that consists exclusively of static methods that performs Perlin noise-based operations using the data type {@code double}.

@@ -18,7 +18,7 @@
  */
 package org.macroing.img4j.color;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 
 /**
  * A {@code ColorSpaceD} represents a color space that performs conversions for the color types {@link Color3D} and {@link Color4D}.

@@ -18,8 +18,7 @@
  */
 package org.macroing.img4j.pixel;
 
-import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.ParameterArguments;
+import org.macroing.java.lang.Ints;
 
 /**
  * A {@code PixelTransformer} transforms a pixel when it is outside the boundaries of an image.
@@ -63,7 +62,7 @@ public enum PixelTransformer {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code resolution} is less than {@code 1}
 	 */
 	public int transform(final int pixel, final int resolution) {
-		ParameterArguments.requireRange(resolution, 1, Integer.MAX_VALUE, "resolution");
+		Ints.requireRange(resolution, 1, Integer.MAX_VALUE, "resolution");
 		
 		if(this == WRAP_AROUND) {
 			return Ints.floorMod(pixel, resolution);

@@ -18,8 +18,8 @@
  */
 package org.macroing.img4j.noise;
 
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 
 /**
  * A class that consists exclusively of static methods that performs Simplex noise-based operations using the data type {@code float}.

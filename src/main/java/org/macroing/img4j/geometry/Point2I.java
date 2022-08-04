@@ -20,8 +20,8 @@ package org.macroing.img4j.geometry;
 
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
 
 /**
  * A {@code Point2I} represents a point with two {@code int}-based components.

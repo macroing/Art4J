@@ -20,7 +20,7 @@ package org.macroing.img4j.filter;
 
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
 
 /**

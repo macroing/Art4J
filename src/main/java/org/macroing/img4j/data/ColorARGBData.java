@@ -34,11 +34,10 @@ import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.ParameterArguments;
 import org.macroing.java.awt.image.BufferedImages;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 
 final class ColorARGBData extends Data {
 	private int resolutionX;
@@ -78,17 +77,17 @@ final class ColorARGBData extends Data {
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
-		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[ParameterArguments.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
+		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new int[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
-		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[ParameterArguments.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
+		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new int[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
 		Arrays.fill(this.colors, color.toIntARGB());
 	}
@@ -817,14 +816,14 @@ final class ColorARGBData extends Data {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	void updatePixel(final int color, final int index) {
-		ParameterArguments.requireRange(index, 0, this.colors.length - 1, "index");
+		Ints.requireRange(index, 0, this.colors.length - 1, "index");
 		
 		this.colors[index] = color;
 	}
 	
 	void updateState(final int resolutionX, final int resolutionY, final int[] colors) {
-		ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
 		
 		Objects.requireNonNull(colors, "colors");
 		
@@ -845,7 +844,7 @@ final class ColorARGBData extends Data {
 		public PixelChange(final int colorRedo, final int colorUndo, final int index) {
 			this.colorRedo = colorRedo;
 			this.colorUndo = colorUndo;
-			this.index = ParameterArguments.requireRange(index, 0, Integer.MAX_VALUE, "index");
+			this.index = Ints.requireRange(index, 0, Integer.MAX_VALUE, "index");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -920,10 +919,10 @@ final class ColorARGBData extends Data {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		public StateChange(final int resolutionXRedo, final int resolutionXUndo, final int resolutionYRedo, final int resolutionYUndo, final int[] colorsRedo, final int[] colorsUndo) {
-			this.resolutionXRedo = ParameterArguments.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
-			this.resolutionXUndo = ParameterArguments.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
-			this.resolutionYRedo = ParameterArguments.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
-			this.resolutionYUndo = ParameterArguments.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
+			this.resolutionXRedo = Ints.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
+			this.resolutionXUndo = Ints.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
+			this.resolutionYRedo = Ints.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
+			this.resolutionYUndo = Ints.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
 			this.colorsRedo = Objects.requireNonNull(colorsRedo, "colorsRedo == null").clone();
 			this.colorsUndo = Objects.requireNonNull(colorsUndo, "colorsUndo == null").clone();
 		}

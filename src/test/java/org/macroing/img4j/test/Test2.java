@@ -23,8 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.LineSegment2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Ints;
 
 public final class Test2 {
 	private static final AtomicInteger MAXIMUM_DEPTH = new AtomicInteger();

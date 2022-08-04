@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
 import org.macroing.java.util.Randoms;
 

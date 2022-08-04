@@ -22,7 +22,7 @@ import java.util.Objects;
 
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 
 public final class RotationTest {
 	private RotationTest() {

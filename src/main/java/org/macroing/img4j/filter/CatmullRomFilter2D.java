@@ -20,7 +20,7 @@ package org.macroing.img4j.filter;
 
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 
 /**
  * A {@code CatmullRomFilter2D} is an implementation of {@link Filter2D} that represents a Catmull-Rom filter.

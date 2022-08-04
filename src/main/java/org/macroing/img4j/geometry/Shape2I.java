@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Doubles;
+import org.macroing.java.lang.Doubles;
 
 /**
  * A {@code Shape2I} represents a 2-dimensional shape that operates on {@code int}-based data types.

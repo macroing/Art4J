@@ -21,8 +21,8 @@ package org.macroing.img4j.curve;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
 
 /**

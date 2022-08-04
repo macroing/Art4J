@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.macroing.img4j.utility.Ints;
+import org.macroing.java.lang.Ints;
 import org.macroing.java.util.Randoms;
 
 /**

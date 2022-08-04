@@ -33,11 +33,10 @@ import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
-import org.macroing.img4j.utility.Doubles;
-import org.macroing.img4j.utility.Floats;
-import org.macroing.img4j.utility.Ints;
-import org.macroing.img4j.utility.ParameterArguments;
 import org.macroing.java.awt.image.BufferedImages;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 
 final class Color4DData extends Data {
 	private Color4D[] colors;
@@ -77,9 +76,9 @@ final class Color4DData extends Data {
 	}
 	
 	public Color4DData(final int resolutionX, final int resolutionY, final Color4D color) {
-		this.resolutionX = ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new Color4D[ParameterArguments.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
+		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		this.colors = new Color4D[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
 		Arrays.fill(this.colors, Objects.requireNonNull(color, "color == null"));
 	}
@@ -827,15 +826,16 @@ final class Color4DData extends Data {
 	void updatePixel(final Color4D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
 		
-		ParameterArguments.requireRange(index, 0, this.colors.length - 1, "index");
+		Ints.requireRange(index, 0, this.colors.length - 1, "index");
 		
 		this.colors[index] = color;
 	}
 	
 	void updateState(final Color4D[] colors, final int resolutionX, final int resolutionY) {
-		ParameterArguments.requireNonNullArray(colors, "colors");
-		ParameterArguments.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		ParameterArguments.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
+		org.macroing.java.util.Arrays.requireNonNull(colors, "colors");
+		
+		Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
+		Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
 		
 		this.colors = colors.clone();
 		this.resolutionX = resolutionX;
@@ -854,7 +854,7 @@ final class Color4DData extends Data {
 		public PixelChange(final Color4D colorRedo, final Color4D colorUndo, final int index) {
 			this.colorRedo = Objects.requireNonNull(colorRedo, "colorRedo == null");
 			this.colorUndo = Objects.requireNonNull(colorUndo, "colorUndo == null");
-			this.index = ParameterArguments.requireRange(index, 0, Integer.MAX_VALUE, "index");
+			this.index = Ints.requireRange(index, 0, Integer.MAX_VALUE, "index");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -929,12 +929,12 @@ final class Color4DData extends Data {
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		public StateChange(final Color4D[] colorsRedo, final Color4D[] colorsUndo, final int resolutionXRedo, final int resolutionXUndo, final int resolutionYRedo, final int resolutionYUndo) {
-			this.colorsRedo = ParameterArguments.requireNonNullArray(colorsRedo, "colorsRedo").clone();
-			this.colorsUndo = ParameterArguments.requireNonNullArray(colorsUndo, "colorsUndo").clone();
-			this.resolutionXRedo = ParameterArguments.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
-			this.resolutionXUndo = ParameterArguments.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
-			this.resolutionYRedo = ParameterArguments.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
-			this.resolutionYUndo = ParameterArguments.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
+			this.colorsRedo = org.macroing.java.util.Arrays.requireNonNull(colorsRedo, "colorsRedo").clone();
+			this.colorsUndo = org.macroing.java.util.Arrays.requireNonNull(colorsUndo, "colorsUndo").clone();
+			this.resolutionXRedo = Ints.requireRange(resolutionXRedo, 1, Integer.MAX_VALUE, "resolutionXRedo");
+			this.resolutionXUndo = Ints.requireRange(resolutionXUndo, 1, Integer.MAX_VALUE, "resolutionXUndo");
+			this.resolutionYRedo = Ints.requireRange(resolutionYRedo, 1, Integer.MAX_VALUE, "resolutionYRedo");
+			this.resolutionYUndo = Ints.requireRange(resolutionYUndo, 1, Integer.MAX_VALUE, "resolutionYUndo");
 		}
 		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
