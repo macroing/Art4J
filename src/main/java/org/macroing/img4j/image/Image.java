@@ -41,6 +41,8 @@ import org.macroing.img4j.geometry.Shape2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
+import org.macroing.img4j.utility.IntTernaryOperator;
+import org.macroing.img4j.utility.IntTriPredicate;
 
 /**
  * An {@code Image} represents an image that can be drawn to and saved to disk.
@@ -1241,12 +1243,12 @@ public final class Image {
 	 * }
 	 * </pre>
 	 * 
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillColorARGB(final PixelOperator pixelOperator) {
+	public Image fillColorARGB(final IntTernaryOperator pixelOperator) {
 		return fillColorARGB(pixelOperator, (colorARGB, x, y) -> true);
 	}
 	
@@ -1257,13 +1259,13 @@ public final class Image {
 	 * <p>
 	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillColorARGB(final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+	public Image fillColorARGB(final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -1276,8 +1278,8 @@ public final class Image {
 			for(int x = 0; x < resolutionX; x++) {
 				final int oldColorARGB = getColorARGB(x, y);
 				
-				if(pixelFilter.isAccepted(oldColorARGB, x, y)) {
-					final int newColorARGB = pixelOperator.apply(oldColorARGB, x, y);
+				if(pixelFilter.test(oldColorARGB, x, y)) {
+					final int newColorARGB = pixelOperator.applyAsInt(oldColorARGB, x, y);
 					
 					this.data.setColorARGB(newColorARGB, x, y);
 				}
@@ -1544,12 +1546,12 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final Point2I point, final PixelOperator pixelOperator) {
+	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator pixelOperator) {
 		return fillRegionColorARGB(point, pixelOperator, (colorARGB, x, y) -> true);
 	}
 	
@@ -1570,13 +1572,13 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final Point2I point, final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
 		return fillRegionColorARGB(point.x, point.y, pixelOperator, pixelFilter);
 	}
 	
@@ -1598,12 +1600,12 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final int x, final int y, final PixelOperator pixelOperator) {
+	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator pixelOperator) {
 		return fillRegionColorARGB(x, y, pixelOperator, (currentColorARGB, currentX, currentY) -> true);
 	}
 	
@@ -1618,13 +1620,13 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link PixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link PixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator an {@link IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter an {@link IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter) {
+	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
 		this.data.changeBegin();
 		
 		doFillRegionColorARGB(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
@@ -2872,46 +2874,6 @@ public final class Image {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	/**
-	 * This {@code PixelFilter} interface is used by the {@link Image} class to decide what pixels to operate on.
-	 * 
-	 * @since 1.0.0
-	 * @author J&#246;rgen Lundgren
-	 */
-	public static interface PixelFilter {
-		/**
-		 * Returns {@code true} if, and only if, the pixel represented by {@code x} and {@code y} is accepted, {@code false} otherwise.
-		 * 
-		 * @param colorARGB the current color of the pixel
-		 * @param x the X-component of the pixel
-		 * @param y the Y-component of the pixel
-		 * @return {@code true} if, and only if, the pixel represented by {@code x} and {@code y} is accepted, {@code false} otherwise
-		 */
-		boolean isAccepted(final int colorARGB, final int x, final int y);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	/**
-	 * This {@code PixelOperator} interface is used by the {@link Image} class when operating on a given pixel.
-	 * 
-	 * @since 1.0.0
-	 * @author J&#246;rgen Lundgren
-	 */
-	public static interface PixelOperator {
-		/**
-		 * Returns a color for the pixel at {@code x} and {@code y}.
-		 * 
-		 * @param colorARGB the current color of the pixel
-		 * @param x the X-component of the pixel
-		 * @param y the Y-component of the pixel
-		 * @return a color, which may be {@code colorARGB} itself, or a transformed version of it
-		 */
-		int apply(final int colorARGB, final int x, final int y);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 //	TODO: Add Unit Tests!
 	private int[] doFilterColor4D(final BiPredicate<Color4D, Point2I> filter) {
 		final int resolutionX = getResolutionX();
@@ -3115,7 +3077,7 @@ public final class Image {
 	}
 	
 //	TODO: Add Unit Tests!
-	private void doFillRegionColorARGB(final int x, final int y, final PixelOperator pixelOperator, final PixelFilter pixelFilter, final int oldColorARGB) {
+	private void doFillRegionColorARGB(final int x, final int y, final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3144,8 +3106,8 @@ public final class Image {
 				
 				final int colorARGB = getColorARGB(currentX, currentY);
 				
-				if(pixelFilter.isAccepted(colorARGB, currentX, currentY)) {
-					this.data.setColorARGB(pixelOperator.apply(colorARGB, currentX, currentY), currentX, currentY);
+				if(pixelFilter.test(colorARGB, currentX, currentY)) {
+					this.data.setColorARGB(pixelOperator.applyAsInt(colorARGB, currentX, currentY), currentX, currentY);
 				}
 				
 				isFilled[currentY * resolutionX + currentX] = true;
