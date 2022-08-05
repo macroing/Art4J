@@ -111,6 +111,10 @@ public final class PerlinNoiseF {
 	 * @return a {@code float} with noise computed by the Perlin algorithm using the coordinates X, Y and Z
 	 */
 	public static float noiseXYZ(final float x, final float y, final float z) {
+		if(!Float.isFinite(x) || !Float.isFinite(y) || !Float.isFinite(z)) {
+			return 0.0F;
+		}
+		
 		final float floorX = Floats.floor(x);
 		final float floorY = Floats.floor(y);
 		final float floorZ = Floats.floor(z);

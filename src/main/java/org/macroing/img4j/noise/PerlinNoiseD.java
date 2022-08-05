@@ -111,6 +111,10 @@ public final class PerlinNoiseD {
 	 * @return a {@code double} with noise computed by the Perlin algorithm using the coordinates X, Y and Z
 	 */
 	public static double noiseXYZ(final double x, final double y, final double z) {
+		if(!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z)) {
+			return 0.0D;
+		}
+		
 		final double floorX = Doubles.floor(x);
 		final double floorY = Doubles.floor(y);
 		final double floorZ = Doubles.floor(z);
