@@ -207,6 +207,245 @@ public final class Color4I {
 	}
 	
 	/**
+	 * Constructs a new {@code Color4I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3D color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3D color, final double a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3F color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3F color, final float a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3I color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3I} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color3I color, final int a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color4D color) {
+		this(color.r, color.g, color.b, color.a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4I(final Color4F color) {
+		this(color.r, color.g, color.b, color.a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(grayscale, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
+	public Color4I(final double grayscale) {
+		this(grayscale, 1.0D);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(grayscale, grayscale, grayscale, a);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 * @param a the value of the alpha component
+	 */
+	public Color4I(final double grayscale, final double a) {
+		this(grayscale, grayscale, grayscale, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(r, g, b, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
+	public Color4I(final double r, final double g, final double b) {
+		this(r, g, b, 1.0D);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I((int)(r * 255.0D + 0.5D), (int)(g * 255.0D + 0.5D), (int)(b * 255.0D + 0.5D), (int)(a * 255.0D + 0.5D));
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 */
+	public Color4I(final double r, final double g, final double b, final double a) {
+		this((int)(r * 255.0D + 0.5D), (int)(g * 255.0D + 0.5D), (int)(b * 255.0D + 0.5D), (int)(a * 255.0D + 0.5D));
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(grayscale, 1.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
+	public Color4I(final float grayscale) {
+		this(grayscale, 1.0F);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(grayscale, grayscale, grayscale, a);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 * @param a the value of the alpha component
+	 */
+	public Color4I(final float grayscale, final float a) {
+		this(grayscale, grayscale, grayscale, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I(r, g, b, 1.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
+	public Color4I(final float r, final float g, final float b) {
+		this(r, g, b, 1.0F);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color4I((int)(r * 255.0F + 0.5F), (int)(g * 255.0F + 0.5F), (int)(b * 255.0F + 0.5F), (int)(a * 255.0F + 0.5F));
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 * @param a the value of the alpha component
+	 */
+	public Color4I(final float r, final float g, final float b, final float a) {
+		this((int)(r * 255.0F + 0.5F), (int)(g * 255.0F + 0.5F), (int)(b * 255.0F + 0.5F), (int)(a * 255.0F + 0.5F));
+	}
+	
+	/**
 	 * Constructs a new {@code Color4I} instance that represents gray.
 	 * <p>
 	 * Calling this constructor is equivalent to the following:

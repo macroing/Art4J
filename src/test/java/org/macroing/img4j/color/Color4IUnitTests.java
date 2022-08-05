@@ -273,6 +273,182 @@ public final class Color4IUnitTests {
 	}
 	
 	@Test
+	public void testConstructorColor3D() {
+		final Color4I color = new Color4I(new Color3D(1.0D, 1.0D, 1.0D));
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3D)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor3DDouble() {
+		final Color4I color = new Color4I(new Color3D(1.0D, 1.0D, 1.0D), 0.0D);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3D)(null), 0.0D));
+	}
+	
+	@Test
+	public void testConstructorColor3F() {
+		final Color4I color = new Color4I(new Color3F(1.0F, 1.0F, 1.0F));
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3F)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor3FFloat() {
+		final Color4I color = new Color4I(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3F)(null), 0.0F));
+	}
+	
+	@Test
+	public void testConstructorColor3I() {
+		final Color4I color = new Color4I(new Color3I(255, 255, 255));
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3I)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor3IInt() {
+		final Color4I color = new Color4I(new Color3I(255, 255, 255), 0);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color3I)(null), 0));
+	}
+	
+	@Test
+	public void testConstructorColor4D() {
+		final Color4I color = new Color4I(new Color4D(1.0D, 1.0D, 1.0D, 0.0D));
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color4D)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor4F() {
+		final Color4I color = new Color4I(new Color4F(1.0F, 1.0F, 1.0F, 0.0F));
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4I((Color4F)(null)));
+	}
+	
+	@Test
+	public void testConstructorDouble() {
+		final Color4I color = new Color4I(1.0D);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+	}
+	
+	@Test
+	public void testConstructorDoubleDouble() {
+		final Color4I color = new Color4I(1.0D, 0.0D);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+	}
+	
+	@Test
+	public void testConstructorDoubleDoubleDouble() {
+		final Color4I color = new Color4I(0.0D, 0.5D, 1.0D);
+		
+		assertEquals(  0, color.r);
+		assertEquals(128, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+	}
+	
+	@Test
+	public void testConstructorDoubleDoubleDoubleDouble() {
+		final Color4I color = new Color4I(0.0D, 0.5D, 1.0D, 2.0D);
+		
+		assertEquals(  0, color.r);
+		assertEquals(128, color.g);
+		assertEquals(255, color.b);
+		assertEquals(510, color.a);
+	}
+	
+	@Test
+	public void testConstructorFloat() {
+		final Color4I color = new Color4I(1.0F);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+	}
+	
+	@Test
+	public void testConstructorFloatFloat() {
+		final Color4I color = new Color4I(1.0F, 0.0F);
+		
+		assertEquals(255, color.r);
+		assertEquals(255, color.g);
+		assertEquals(255, color.b);
+		assertEquals(  0, color.a);
+	}
+	
+	@Test
+	public void testConstructorFloatFloatFloat() {
+		final Color4I color = new Color4I(0.0F, 0.5F, 1.0F);
+		
+		assertEquals(  0, color.r);
+		assertEquals(128, color.g);
+		assertEquals(255, color.b);
+		assertEquals(255, color.a);
+	}
+	
+	@Test
+	public void testConstructorFloatFloatFloatFloat() {
+		final Color4I color = new Color4I(0.0F, 0.5F, 1.0F, 2.0F);
+		
+		assertEquals(  0, color.r);
+		assertEquals(128, color.g);
+		assertEquals(255, color.b);
+		assertEquals(510, color.a);
+	}
+	
+	@Test
 	public void testConstructorInt() {
 		final Color4I color = new Color4I(255);
 		

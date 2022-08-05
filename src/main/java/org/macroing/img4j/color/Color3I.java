@@ -133,6 +133,134 @@ public final class Color3I {
 	}
 	
 	/**
+	 * Constructs a new {@code Color3I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3I(final Color3D color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3I(final Color3F color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3I(final Color4D color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3I(final Color4F color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3I(final Color4I color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3I(grayscale, grayscale, grayscale);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
+	public Color3I(final double grayscale) {
+		this(grayscale, grayscale, grayscale);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3I((int)(r * 255.0D + 0.5D), (int)(g * 255.0D + 0.5D), (int)(b * 255.0D + 0.5D));
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
+	public Color3I(final double r, final double g, final double b) {
+		this((int)(r * 255.0D + 0.5D), (int)(g * 255.0D + 0.5D), (int)(b * 255.0D + 0.5D));
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3I(grayscale, grayscale, grayscale);
+	 * }
+	 * </pre>
+	 * 
+	 * @param grayscale the value of the red, green and blue components
+	 */
+	public Color3I(final float grayscale) {
+		this(grayscale, grayscale, grayscale);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3I} instance.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Color3I((int)(r * 255.0F + 0.5F), (int)(g * 255.0F + 0.5F), (int)(b * 255.0F + 0.5F));
+	 * }
+	 * </pre>
+	 * 
+	 * @param r the value of the red component
+	 * @param g the value of the green component
+	 * @param b the value of the blue component
+	 */
+	public Color3I(final float r, final float g, final float b) {
+		this((int)(r * 255.0F + 0.5F), (int)(g * 255.0F + 0.5F), (int)(b * 255.0F + 0.5F));
+	}
+	
+	/**
 	 * Constructs a new {@code Color3I} instance that represents gray.
 	 * <p>
 	 * Calling this constructor is equivalent to the following:
