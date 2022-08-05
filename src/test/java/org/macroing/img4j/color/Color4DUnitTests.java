@@ -249,6 +249,30 @@ public final class Color4DUnitTests {
 	}
 	
 	@Test
+	public void testConstructorColor3I() {
+		final Color4D color = new Color4D(new Color3I(255, 255, 255));
+		
+		assertEquals(1.0D, color.r);
+		assertEquals(1.0D, color.g);
+		assertEquals(1.0D, color.b);
+		assertEquals(1.0D, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4D((Color3I)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor3IInt() {
+		final Color4D color = new Color4D(new Color3I(255, 255, 255), 0);
+		
+		assertEquals(1.0D, color.r);
+		assertEquals(1.0D, color.g);
+		assertEquals(1.0D, color.b);
+		assertEquals(0.0D, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4D((Color3I)(null), 0));
+	}
+	
+	@Test
 	public void testConstructorColor4F() {
 		final Color4D color = new Color4D(new Color4F(1.0F, 1.0F, 1.0F, 0.0F));
 		
@@ -258,6 +282,18 @@ public final class Color4DUnitTests {
 		assertEquals(0.0D, color.a);
 		
 		assertThrows(NullPointerException.class, () -> new Color4D((Color4F)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor4I() {
+		final Color4D color = new Color4D(new Color4I(255, 255, 255, 0));
+		
+		assertEquals(1.0D, color.r);
+		assertEquals(1.0D, color.g);
+		assertEquals(1.0D, color.b);
+		assertEquals(0.0D, color.a);
+		
+		assertThrows(NullPointerException.class, () -> new Color4D((Color4I)(null)));
 	}
 	
 	@Test

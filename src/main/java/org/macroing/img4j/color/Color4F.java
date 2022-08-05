@@ -200,11 +200,48 @@ public final class Color4F {
 	 * <p>
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
+	 * @param color a {@link Color3I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4F(final Color3I color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4F} instance from {@code color} and {@code a}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color3I} instance
+	 * @param a the value of the alpha component
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4F(final Color3I color, final int a) {
+		this(color.r, color.g, color.b, a);
+	}
+	
+	/**
+	 * Constructs a new {@code Color4F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
 	 * @param color a {@link Color4D} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Color4F(final Color4D color) {
 		this((float)(color.r), (float)(color.g), (float)(color.b), (float)(color.a));
+	}
+	
+	/**
+	 * Constructs a new {@code Color4F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color4F(final Color4I color) {
+		this(color.r, color.g, color.b, color.a);
 	}
 	
 	/**

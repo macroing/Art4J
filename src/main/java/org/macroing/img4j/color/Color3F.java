@@ -151,6 +151,18 @@ public final class Color3F {
 	 * <p>
 	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
+	 * @param color a {@link Color3I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3F(final Color3I color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
 	 * @param color a {@link Color4D} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
@@ -167,6 +179,18 @@ public final class Color3F {
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Color3F(final Color4F color) {
+		this(color.r, color.g, color.b);
+	}
+	
+	/**
+	 * Constructs a new {@code Color3F} instance from {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@link Color4I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Color3F(final Color4I color) {
 		this(color.r, color.g, color.b);
 	}
 	

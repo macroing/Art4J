@@ -189,6 +189,17 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testConstructorColor3I() {
+		final Color3D color = new Color3D(new Color3I(255, 255, 255));
+		
+		assertEquals(1.0D, color.r);
+		assertEquals(1.0D, color.g);
+		assertEquals(1.0D, color.b);
+		
+		assertThrows(NullPointerException.class, () -> new Color3D((Color3I)(null)));
+	}
+	
+	@Test
 	public void testConstructorColor4D() {
 		final Color3D color = new Color3D(new Color4D(1.0D, 1.0D, 1.0D));
 		
@@ -208,6 +219,17 @@ public final class Color3DUnitTests {
 		assertEquals(1.0D, color.b);
 		
 		assertThrows(NullPointerException.class, () -> new Color3D((Color4F)(null)));
+	}
+	
+	@Test
+	public void testConstructorColor4I() {
+		final Color3D color = new Color3D(new Color4I(255, 255, 255));
+		
+		assertEquals(1.0D, color.r);
+		assertEquals(1.0D, color.g);
+		assertEquals(1.0D, color.b);
+		
+		assertThrows(NullPointerException.class, () -> new Color3D((Color4I)(null)));
 	}
 	
 	@Test
