@@ -245,7 +245,7 @@ public final class Color3D {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Color3D(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D);
+	 * new Color3D(r / 255.0D, g / 255.0D, b / 255.0D);
 	 * }
 	 * </pre>
 	 * 
@@ -254,7 +254,7 @@ public final class Color3D {
 	 * @param b the value of the blue component
 	 */
 	public Color3D(final int r, final int g, final int b) {
-		this(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D);
+		this(r / 255.0D, g / 255.0D, b / 255.0D);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

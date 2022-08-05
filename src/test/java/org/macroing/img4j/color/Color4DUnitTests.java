@@ -358,22 +358,22 @@ public final class Color4DUnitTests {
 	
 	@Test
 	public void testConstructorIntIntInt() {
-		final Color4D color = new Color4D(0, 255, 300);
+		final Color4D color = new Color4D(0, 255, 255 * 2);
 		
 		assertEquals(0.0D, color.r);
 		assertEquals(1.0D, color.g);
-		assertEquals(1.0D, color.b);
+		assertEquals(2.0D, color.b);
 		assertEquals(1.0D, color.a);
 	}
 	
 	@Test
 	public void testConstructorIntIntIntInt() {
-		final Color4D color = new Color4D(0, 255, 300, 400);
+		final Color4D color = new Color4D(0, 255, 255 * 2, 255 * 3);
 		
 		assertEquals(0.0D, color.r);
 		assertEquals(1.0D, color.g);
-		assertEquals(1.0D, color.b);
-		assertEquals(1.0D, color.a);
+		assertEquals(2.0D, color.b);
+		assertEquals(3.0D, color.a);
 	}
 	
 	@Test

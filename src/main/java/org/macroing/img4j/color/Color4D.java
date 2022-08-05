@@ -367,7 +367,7 @@ public final class Color4D {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Color4D(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D, Ints.saturate(a) / 255.0D);
+	 * new Color4D(r / 255.0D, g / 255.0D, b / 255.0D, a / 255.0D);
 	 * }
 	 * </pre>
 	 * 
@@ -377,7 +377,7 @@ public final class Color4D {
 	 * @param a the value of the alpha component
 	 */
 	public Color4D(final int r, final int g, final int b, final int a) {
-		this(Ints.saturate(r) / 255.0D, Ints.saturate(g) / 255.0D, Ints.saturate(b) / 255.0D, Ints.saturate(a) / 255.0D);
+		this(r / 255.0D, g / 255.0D, b / 255.0D, a / 255.0D);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

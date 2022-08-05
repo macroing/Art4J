@@ -358,22 +358,22 @@ public final class Color4FUnitTests {
 	
 	@Test
 	public void testConstructorIntIntInt() {
-		final Color4F color = new Color4F(0, 255, 300);
+		final Color4F color = new Color4F(0, 255, 255 * 2);
 		
 		assertEquals(0.0F, color.r);
 		assertEquals(1.0F, color.g);
-		assertEquals(1.0F, color.b);
+		assertEquals(2.0F, color.b);
 		assertEquals(1.0F, color.a);
 	}
 	
 	@Test
 	public void testConstructorIntIntIntInt() {
-		final Color4F color = new Color4F(0, 255, 300, 400);
+		final Color4F color = new Color4F(0, 255, 255 * 2, 255 * 3);
 		
 		assertEquals(0.0F, color.r);
 		assertEquals(1.0F, color.g);
-		assertEquals(1.0F, color.b);
-		assertEquals(1.0F, color.a);
+		assertEquals(2.0F, color.b);
+		assertEquals(3.0F, color.a);
 	}
 	
 	@Test

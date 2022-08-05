@@ -261,11 +261,11 @@ public final class Color3DUnitTests {
 	
 	@Test
 	public void testConstructorIntIntInt() {
-		final Color3D color = new Color3D(0, 255, 300);
+		final Color3D color = new Color3D(0, 255, 255 * 2);
 		
 		assertEquals(0.0D, color.r);
 		assertEquals(1.0D, color.g);
-		assertEquals(1.0D, color.b);
+		assertEquals(2.0D, color.b);
 	}
 	
 	@Test

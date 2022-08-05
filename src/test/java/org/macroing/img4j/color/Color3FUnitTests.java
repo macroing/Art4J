@@ -261,11 +261,11 @@ public final class Color3FUnitTests {
 	
 	@Test
 	public void testConstructorIntIntInt() {
-		final Color3F color = new Color3F(0, 255, 300);
+		final Color3F color = new Color3F(0, 255, 255 * 2);
 		
 		assertEquals(0.0F, color.r);
 		assertEquals(1.0F, color.g);
-		assertEquals(1.0F, color.b);
+		assertEquals(2.0F, color.b);
 	}
 	
 	@Test
