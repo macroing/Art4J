@@ -43,7 +43,8 @@ public final class RotationApplication extends Application {
 	@Override
 	public void start(final Stage stage) {
 		final AtomicReference<LineSegment2I> lineSegment = new AtomicReference<>(new LineSegment2I(new Point2I(400, 400), new Point2I(600, 400)));
-		final AtomicReference<Rectangle2I> rectangle = new AtomicReference<>(new Rectangle2I(new Point2I(400, 400), new Point2I(600, 400), new Point2I(600, 600), new Point2I(400, 600)));
+		final AtomicReference<Rectangle2I> rectangleA = new AtomicReference<>(new Rectangle2I(new Point2I(400, 400), new Point2I(600, 400), new Point2I(600, 600), new Point2I(400, 600)));
+		final AtomicReference<Rectangle2I> rectangleB = new AtomicReference<>(new Rectangle2I(new Point2I(200, 200), new Point2I(400, 200), new Point2I(400, 400), new Point2I(200, 400)));
 		
 		final Canvas canvas = new Canvas(1024.0D, 768.0D);
 		
@@ -65,16 +66,25 @@ public final class RotationApplication extends Application {
 			public void handle(final long now) {
 				final LineSegment2I updatedLineSegment = lineSegment.updateAndGet(currentLineSegment -> LineSegment2I.rotateB(currentLineSegment, -1.0D));
 				
-				final Rectangle2I updatedRectangle = rectangle.updateAndGet(currentRectangle -> Rectangle2I.rotate(currentRectangle, 1.0D, false, new Point2I(500, 500)));
+				final Rectangle2I updatedRectangleA = rectangleA.updateAndGet(currentRectangle -> Rectangle2I.rotateABCD(currentRectangle, 1.0D, false));
+				final Rectangle2I updatedRectangleB = rectangleB.updateAndGet(currentRectangle -> Rectangle2I.rotate(currentRectangle, 1.0D, false, new Point2I(300, 300)));
 				
 				graphicsContext.clearRect(0.0D, 0.0D, 1024.0D, 768.0D);
 				graphicsContext.setFill(Color.RED);
 				graphicsContext.beginPath();
-				graphicsContext.moveTo(updatedRectangle.getA().x, updatedRectangle.getA().y);
-				graphicsContext.lineTo(updatedRectangle.getB().x, updatedRectangle.getB().y);
-				graphicsContext.lineTo(updatedRectangle.getC().x, updatedRectangle.getC().y);
-				graphicsContext.lineTo(updatedRectangle.getD().x, updatedRectangle.getD().y);
-				graphicsContext.lineTo(updatedRectangle.getA().x, updatedRectangle.getA().y);
+				graphicsContext.moveTo(updatedRectangleA.getA().x, updatedRectangleA.getA().y);
+				graphicsContext.lineTo(updatedRectangleA.getB().x, updatedRectangleA.getB().y);
+				graphicsContext.lineTo(updatedRectangleA.getC().x, updatedRectangleA.getC().y);
+				graphicsContext.lineTo(updatedRectangleA.getD().x, updatedRectangleA.getD().y);
+				graphicsContext.lineTo(updatedRectangleA.getA().x, updatedRectangleA.getA().y);
+				graphicsContext.fill();
+				graphicsContext.setFill(Color.GREEN);
+				graphicsContext.beginPath();
+				graphicsContext.moveTo(updatedRectangleB.getA().x, updatedRectangleB.getA().y);
+				graphicsContext.lineTo(updatedRectangleB.getB().x, updatedRectangleB.getB().y);
+				graphicsContext.lineTo(updatedRectangleB.getC().x, updatedRectangleB.getC().y);
+				graphicsContext.lineTo(updatedRectangleB.getD().x, updatedRectangleB.getD().y);
+				graphicsContext.lineTo(updatedRectangleB.getA().x, updatedRectangleB.getA().y);
 				graphicsContext.fill();
 				graphicsContext.setStroke(Color.BLACK);
 				graphicsContext.beginPath();
