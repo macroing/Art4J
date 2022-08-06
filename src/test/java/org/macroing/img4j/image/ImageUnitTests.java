@@ -25,6 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.UncheckedIOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 import org.macroing.img4j.color.Color3D;
@@ -32,6 +36,7 @@ import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
 import org.macroing.img4j.color.Color4I;
+import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
@@ -49,6 +54,14 @@ public final class ImageUnitTests {
 		final Image image = new Image();
 		
 		assertEquals(0, image.cache());
+	}
+	
+	@Test
+	public void testCopy() {
+		final Image a = new Image();
+		final Image b = a.copy();
+		
+		assertEquals(a, b);
 	}
 	
 	@Test
@@ -86,6 +99,85 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> new Image(bufferedImage, null));
 		assertThrows(NullPointerException.class, () -> new Image((BufferedImage)(null), DataFactory.forColorARGB()));
+	}
+	
+	@Test
+	public void testConstructorData() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create();
+		
+		final Image a = new Image(data);
+		final Image b = new Image(data);
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> new Image((Data)(null)));
+	}
+	
+	@Test
+	public void testConstructorFile() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "Image.png");
+		
+		data.save(file, "png");
+		
+		final Image image = new Image(file);
+		
+		assertEquals(1, image.getResolution());
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> new Image((File)(null)));
+		
+		assertThrows(UncheckedIOException.class, () -> new Image(new File(directory, "Image.jpg")));
+		
+		file.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testConstructorFileDataFactory() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "Image.png");
+		
+		data.save(file, "png");
+		
+		final Image image = new Image(file, dataFactory);
+		
+		assertEquals(1, image.getResolution());
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> new Image(file, null));
+		assertThrows(NullPointerException.class, () -> new Image((File)(null), dataFactory));
+		
+		assertThrows(UncheckedIOException.class, () -> new Image(new File(directory, "Image.jpg"), dataFactory));
+		
+		file.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testConstructorImage() {
+		final Image a = new Image();
+		final Image b = new Image(a);
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> new Image((Image)(null)));
 	}
 	
 	@Test
@@ -166,6 +258,128 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4F.WHITE, null));
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4F)(null), DataFactory.forColorARGB()));
+	}
+	
+	@Test
+	public void testConstructorString() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "Image.png");
+		
+		data.save(file, "png");
+		
+		final Image image = new Image(file.getAbsolutePath());
+		
+		assertEquals(1, image.getResolution());
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> new Image((String)(null)));
+		
+		assertThrows(UncheckedIOException.class, () -> new Image(file.getAbsolutePath() + ".jpg"));
+		
+		file.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testConstructorStringDataFactory() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File file = new File(directory, "Image.png");
+		
+		data.save(file, "png");
+		
+		final Image image = new Image(file.getAbsolutePath(), dataFactory);
+		
+		assertEquals(1, image.getResolution());
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> new Image(file.getAbsolutePath(), null));
+		assertThrows(NullPointerException.class, () -> new Image((String)(null), dataFactory));
+		
+		assertThrows(UncheckedIOException.class, () -> new Image(file.getAbsolutePath() + ".jpg", dataFactory));
+		
+		file.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testConstructorURL() {
+		try {
+			final DataFactory dataFactory = DataFactory.forColorARGB();
+			
+			final Data data = dataFactory.create(1, 1);
+			
+			final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+			
+			final File file = new File(directory, "Image.png");
+			
+			final URL uRL = file.toURI().toURL();
+			
+			data.save(file, "png");
+			
+			final Image image = new Image(uRL);
+			
+			assertEquals(1, image.getResolution());
+			assertEquals(1, image.getResolutionX());
+			assertEquals(1, image.getResolutionY());
+			
+			assertThrows(NullPointerException.class, () -> new Image((URL)(null)));
+			
+			assertThrows(UncheckedIOException.class, () -> new Image(new File(directory, "Image.jpg").toURI().toURL()));
+			
+			file.delete();
+			
+			directory.delete();
+		} catch(final MalformedURLException e) {
+			
+		}
+	}
+	
+	@Test
+	public void testConstructorURLDataFactory() {
+		try {
+			final DataFactory dataFactory = DataFactory.forColorARGB();
+			
+			final Data data = dataFactory.create(1, 1);
+			
+			final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+			
+			final File file = new File(directory, "Image.png");
+			
+			final URL uRL = file.toURI().toURL();
+			
+			data.save(file, "png");
+			
+			final Image image = new Image(uRL, dataFactory);
+			
+			assertEquals(1, image.getResolution());
+			assertEquals(1, image.getResolutionX());
+			assertEquals(1, image.getResolutionY());
+			
+			assertThrows(NullPointerException.class, () -> new Image(uRL, null));
+			assertThrows(NullPointerException.class, () -> new Image((URL)(null), dataFactory));
+			
+			assertThrows(UncheckedIOException.class, () -> new Image(new File(directory, "Image.jpg").toURI().toURL(), dataFactory));
+			
+			file.delete();
+			
+			directory.delete();
+		} catch(final MalformedURLException e) {
+			
+		}
 	}
 	
 	@Test
@@ -478,6 +692,102 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testSaveFile() {
+		final Image image = new Image(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File fileA = new File(directory, "Image.png");
+		
+		final File fileB = new File("");
+		
+		assertTrue(image.save(fileA));
+		
+		assertFalse(image.save(fileB));
+		
+		assertThrows(NullPointerException.class, () -> image.save((File)(null)));
+		
+		fileA.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testSaveFileString() {
+		final Image image = new Image(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File fileA = new File(directory, "Image.jpg");
+		final File fileB = new File(directory, "Image.png");
+		
+		final File fileC = new File("Image.txt");
+		final File fileD = new File("");
+		
+		assertTrue(image.save(fileA, "jpg"));
+		assertTrue(image.save(fileB, "png"));
+		
+		assertFalse(image.save(fileC, "txt"));
+		assertFalse(image.save(fileD, "png"));
+		
+		assertThrows(NullPointerException.class, () -> image.save(new File("./generated/Image.png"), null));
+		assertThrows(NullPointerException.class, () -> image.save((File)(null), "png"));
+		
+		fileA.delete();
+		fileB.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testSaveString() {
+		final Image image = new Image(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File fileA = new File(directory, "Image.png");
+		
+		final File fileB = new File("");
+		
+		assertTrue(image.save(fileA.getAbsolutePath()));
+		
+		assertFalse(image.save(fileB.getAbsolutePath()));
+		
+		assertThrows(NullPointerException.class, () -> image.save((String)(null)));
+		
+		fileA.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testSaveStringString() {
+		final Image image = new Image(1, 1);
+		
+		final File directory = new File(String.format("./generated/%s", Long.toString(System.currentTimeMillis())));
+		
+		final File fileA = new File(directory, "Image.jpg");
+		final File fileB = new File(directory, "Image.png");
+		
+		final File fileC = new File("Image.txt");
+		final File fileD = new File("");
+		
+		assertTrue(image.save(fileA.getAbsolutePath(), "jpg"));
+		assertTrue(image.save(fileB.getAbsolutePath(), "png"));
+		
+		assertFalse(image.save(fileC.getAbsolutePath(), "txt"));
+		assertFalse(image.save(fileD.getAbsolutePath(), "png"));
+		
+		assertThrows(NullPointerException.class, () -> image.save(new File("./generated/Image.png").getAbsolutePath(), null));
+		assertThrows(NullPointerException.class, () -> image.save((String)(null), "png"));
+		
+		fileA.delete();
+		fileB.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
 	public void testScaleDoubleDouble() {
 		final
 		Image image = new Image(1, 1);
@@ -715,6 +1025,30 @@ public final class ImageUnitTests {
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(2, image.getResolutionY());
+	}
+	
+	@Test
+	public void testToBufferedImage() {
+		final Image image = new Image();
+		
+		final BufferedImage bufferedImage = image.toBufferedImage();
+		
+		assertEquals(image.getResolutionX(), bufferedImage.getWidth());
+		assertEquals(image.getResolutionY(), bufferedImage.getHeight());
+		
+		assertEquals(BufferedImage.TYPE_INT_ARGB, bufferedImage.getType());
+	}
+	
+	@Test
+	public void testToBufferedImageBoolean() {
+		final Image image = new Image();
+		
+		final BufferedImage bufferedImage = image.toBufferedImage(true);
+		
+		assertEquals(image.getResolutionX(), bufferedImage.getWidth());
+		assertEquals(image.getResolutionY(), bufferedImage.getHeight());
+		
+		assertEquals(BufferedImage.TYPE_INT_RGB, bufferedImage.getType());
 	}
 	
 	@Test

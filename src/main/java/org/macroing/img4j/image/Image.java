@@ -113,7 +113,6 @@ public final class Image {
 	 * @param data the {@link Data} instance to copy
 	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final Data data) {
 		this.data = data.copy();
 	}
@@ -136,7 +135,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final File file) {
 		this(file, DataFactory.forColorARGB());
 	}
@@ -153,7 +151,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code dataFactory} are {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final File file, final DataFactory dataFactory) {
 		this.data = dataFactory.create(file);
 	}
@@ -166,7 +163,6 @@ public final class Image {
 	 * @param image an {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code image} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final Image image) {
 		this(image.data);
 	}
@@ -189,7 +185,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final String pathname) {
 		this(pathname, DataFactory.forColorARGB());
 	}
@@ -206,7 +201,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code pathname} or {@code dataFactory} are {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final String pathname, final DataFactory dataFactory) {
 		this.data = dataFactory.create(pathname);
 	}
@@ -229,7 +223,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code uRL} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final URL uRL) {
 		this(uRL, DataFactory.forColorARGB());
 	}
@@ -246,7 +239,6 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code uRL} or {@code dataFactory} are {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public Image(final URL uRL, final DataFactory dataFactory) {
 		this.data = dataFactory.create(uRL);
 	}
@@ -369,7 +361,6 @@ public final class Image {
 	 * 
 	 * @return a {@code BufferedImage} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public BufferedImage toBufferedImage() {
 		return toBufferedImage(false);
 	}
@@ -380,7 +371,6 @@ public final class Image {
 	 * @param isRGB {@code true} if, and only if, {@code BufferedImage.TYPE_INT_RGB} should be used instead of {@code BufferedImage.TYPE_INT_ARGB}, {@code false} otherwise
 	 * @return a {@code BufferedImage} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public BufferedImage toBufferedImage(final boolean isRGB) {
 		return this.data.toBufferedImage(isRGB);
 	}
@@ -760,7 +750,6 @@ public final class Image {
 	 * 
 	 * @return a copy of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image copy() {
 		return new Image(this);
 	}
@@ -2647,7 +2636,6 @@ public final class Image {
 	 * @return {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code file} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public boolean save(final File file) {
 		return save(file, "png");
 	}
@@ -2664,7 +2652,6 @@ public final class Image {
 	 * @return {@code true} if, and only if, this {@code Image} instance was saved to {@code file}, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, either {@code file} or {@code formatName} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public boolean save(final File file, final String formatName) {
 		return this.data.save(file, formatName);
 	}
@@ -2687,7 +2674,6 @@ public final class Image {
 	 * @return {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code pathname} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public boolean save(final String pathname) {
 		return save(pathname, "png");
 	}
@@ -2711,7 +2697,6 @@ public final class Image {
 	 * @return {@code true} if, and only if, this {@code Image} instance was saved to the file, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, either {@code pathname} or {@code formatName} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public boolean save(final String pathname, final String formatName) {
 		return save(new File(pathname), formatName);
 	}
