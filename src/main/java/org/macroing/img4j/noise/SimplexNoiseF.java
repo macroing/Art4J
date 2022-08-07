@@ -60,7 +60,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractal algorithm using the coordinate X
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractalX(final float x, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float result = 0.0F;
 		
@@ -89,7 +88,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractal algorithm using the coordinates X and Y
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractalXY(final float x, final float y, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float result = 0.0F;
 		
@@ -119,7 +117,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractal algorithm using the coordinates X, Y and Z
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractalXYZ(final float x, final float y, final float z, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float result = 0.0F;
 		
@@ -150,7 +147,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractal algorithm using the coordinates X, Y, Z and W
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractalXYZW(final float x, final float y, final float z, final float w, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float result = 0.0F;
 		
@@ -214,7 +210,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractional Brownian motion (fBm) algorithm using the coordinates X and Y
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractionalBrownianMotionXY(final float x, final float y, final float frequency, final float gain, final float minimum, final float maximum, final int octaves) {
 		float currentAmplitude = 1.0F;
 		float maximumAmplitude = 0.0F;
@@ -251,7 +246,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractional Brownian motion (fBm) algorithm using the coordinates X, Y and Z
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractionalBrownianMotionXYZ(final float x, final float y, final float z, final float frequency, final float gain, final float minimum, final float maximum, final int octaves) {
 		float currentAmplitude = 1.0F;
 		float maximumAmplitude = 0.0F;
@@ -289,7 +283,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based fractional Brownian motion (fBm) algorithm using the coordinates X, Y, Z and W
 	 */
-//	TODO: Add Unit Tests!
 	public static float fractionalBrownianMotionXYZW(final float x, final float y, final float z, final float w, final float frequency, final float gain, final float minimum, final float maximum, final int octaves) {
 		float currentAmplitude = 1.0F;
 		float maximumAmplitude = 0.0F;
@@ -319,8 +312,11 @@ public final class SimplexNoiseF {
 	 * @param x the X-coordinate
 	 * @return a {@code float} with noise computed by the Simplex algorithm using the coordinate X
 	 */
-//	TODO: Add Unit Tests!
 	public static float noiseX(final float x) {
+		if(!Float.isFinite(x)) {
+			return 0.0F;
+		}
+		
 		final int i0 = doFastFloorToInt(x);
 		final int i1 = i0 + 1;
 		
@@ -358,8 +354,11 @@ public final class SimplexNoiseF {
 	 * @param y the Y-coordinate
 	 * @return a {@code float} with noise computed by the Simplex algorithm using the coordinates X and Y
 	 */
-//	TODO: Add Unit Tests!
 	public static float noiseXY(final float x, final float y) {
+		if(!Float.isFinite(x) || !Float.isFinite(y)) {
+			return 0.0F;
+		}
+		
 		final float s = (x + y) * SIMPLEX_F2;
 		
 		final int i = doFastFloorToInt(x + s);
@@ -405,8 +404,11 @@ public final class SimplexNoiseF {
 	 * @param z the Z-coordinate
 	 * @return a {@code float} with noise computed by the Simplex algorithm using the coordinates X, Y and Z
 	 */
-//	TODO: Add Unit Tests!
 	public static float noiseXYZ(final float x, final float y, final float z) {
+		if(!Float.isFinite(x) || !Float.isFinite(y) || !Float.isFinite(z)) {
+			return 0.0F;
+		}
+		
 		final float s = (x + y + z) * SIMPLEX_F3;
 		
 		final int i = doFastFloorToInt(x + s);
@@ -517,8 +519,11 @@ public final class SimplexNoiseF {
 	 * @param w the W-coordinate
 	 * @return a {@code float} with noise computed by the Simplex algorithm using the coordinates X, Y, Z and W
 	 */
-//	TODO: Add Unit Tests!
 	public static float noiseXYZW(final float x, final float y, final float z, final float w) {
+		if(!Float.isFinite(x) || !Float.isFinite(y) || !Float.isFinite(z) || !Float.isFinite(w)) {
+			return 0.0F;
+		}
+		
 		final float s = (x + y + z + w) * SIMPLEX_F4;
 		
 		final int i = doFastFloorToInt(x + s);
@@ -644,7 +649,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based turbulence algorithm using the coordinate X
 	 */
-//	TODO: Add Unit Tests!
 	public static float turbulenceX(final float x, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float currentAmplitude = amplitude;
 		float currentFrequency = frequency;
@@ -673,7 +677,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based turbulence algorithm using the coordinates X and Y
 	 */
-//	TODO: Add Unit Tests!
 	public static float turbulenceXY(final float x, final float y, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float currentAmplitude = amplitude;
 		float currentFrequency = frequency;
@@ -703,7 +706,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based turbulence algorithm using the coordinates X, Y and Z
 	 */
-//	TODO: Add Unit Tests!
 	public static float turbulenceXYZ(final float x, final float y, final float z, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float currentAmplitude = amplitude;
 		float currentFrequency = frequency;
@@ -734,7 +736,6 @@ public final class SimplexNoiseF {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code float} with noise computed by a Simplex-based turbulence algorithm using the coordinates X, Y, Z and W
 	 */
-//	TODO: Add Unit Tests!
 	public static float turbulenceXYZW(final float x, final float y, final float z, final float w, final float amplitude, final float frequency, final float gain, final float lacunarity, final int octaves) {
 		float currentAmplitude = amplitude;
 		float currentFrequency = frequency;
