@@ -35,6 +35,38 @@ public final class Color3DUnitTests {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
+	public void testAddAndMultiplyColor3DColor3DColor3D() {
+		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = new Color3D(3.0D, 4.0D, 5.0D);
+		final Color3D d = Color3D.addAndMultiply(a, b, c);
+		
+		assertEquals( 7.0D, d.r);
+		assertEquals(14.0D, d.g);
+		assertEquals(23.0D, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(a, b, null));
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(a, null, c));
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(null, b, c));
+	}
+	
+	@Test
+	public void testAddAndMultiplyColor3DColor3DColor3DDouble() {
+		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = new Color3D(3.0D, 4.0D, 5.0D);
+		final Color3D d = Color3D.addAndMultiply(a, b, c, 2.0D);
+		
+		assertEquals(13.0D, d.r);
+		assertEquals(26.0D, d.g);
+		assertEquals(43.0D, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(a, b, null, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(a, null, c, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addAndMultiply(null, b, c, 2.0D));
+	}
+	
+	@Test
 	public void testAddColor3DColor3D() {
 		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
 		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
@@ -58,6 +90,82 @@ public final class Color3DUnitTests {
 		assertEquals(5.0D, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3D.add(null, 2.0D));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3DColor3DColor3DColor3DDoubleDouble() {
+		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = new Color3D(3.0D, 4.0D, 5.0D);
+		final Color3D d = new Color3D(4.0D, 5.0D, 6.0D);
+		final Color3D e = Color3D.addMultiplyAndDivide(a, b, c, d, 2.0D, 2.0D);
+		
+		assertEquals( 25.0D, e.r);
+		assertEquals( 62.0D, e.g);
+		assertEquals(123.0D, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, b, c, null, 2.0D, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, b, null, d, 2.0D, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, null, c, d, 2.0D, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(null, b, c, d, 2.0D, 2.0D));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3DColor3DColor3DDouble() {
+		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = new Color3D(3.0D, 4.0D, 5.0D);
+		final Color3D d = Color3D.addMultiplyAndDivide(a, b, c, 2.0D);
+		
+		assertEquals( 4.0D, d.r);
+		assertEquals( 8.0D, d.g);
+		assertEquals(13.0D, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, b, null, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, null, c, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(null, b, c, 2.0D));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3DColor3DColor3DDoubleDouble() {
+		final Color3D a = new Color3D(1.0D, 2.0D, 3.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = new Color3D(3.0D, 4.0D, 5.0D);
+		final Color3D d = Color3D.addMultiplyAndDivide(a, b, c, 2.0D, 2.0D);
+		
+		assertEquals( 7.0D, d.r);
+		assertEquals(14.0D, d.g);
+		assertEquals(23.0D, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, b, null, 2.0D, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(a, null, c, 2.0D, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.addMultiplyAndDivide(null, b, c, 2.0D, 2.0D));
+	}
+	
+	@Test
+	public void testAddSample() {
+		final Color3D a = new Color3D(0.0D, 0.0D, 0.0D);
+		final Color3D b = new Color3D(0.5D, 0.5D, 0.5D);
+		final Color3D c = new Color3D(1.0D, 1.0D, 1.0D);
+		final Color3D d = new Color3D(1.5D, 1.5D, 1.5D);
+		final Color3D e = Color3D.addSample(a, c, 2);
+		final Color3D f = Color3D.addSample(e, b, 3);
+		final Color3D g = Color3D.addSample(f, d, 4);
+		
+		assertEquals(0.5D, e.r);
+		assertEquals(0.5D, e.g);
+		assertEquals(0.5D, e.b);
+		
+		assertEquals(0.5D, f.r);
+		assertEquals(0.5D, f.g);
+		assertEquals(0.5D, f.b);
+		
+		assertEquals(0.75D, g.r);
+		assertEquals(0.75D, g.g);
+		assertEquals(0.75D, g.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.addSample(a, null, 1));
+		assertThrows(NullPointerException.class, () -> Color3D.addSample(null, b, 1));
 	}
 	
 	@Test
@@ -269,6 +377,69 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testDivideColor3DColor3D() {
+		final Color3D a = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), new Color3D(2.0D, 2.0D, 2.0D));
+		final Color3D b = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), new Color3D(0.0D, 0.0D, 0.0D));
+		final Color3D c = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), new Color3D(Double.NaN));
+		final Color3D d = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), new Color3D(Double.NEGATIVE_INFINITY));
+		final Color3D e = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), new Color3D(Double.POSITIVE_INFINITY));
+		
+		assertEquals(0.50D, a.r);
+		assertEquals(0.75D, a.g);
+		assertEquals(1.00D, a.b);
+		
+		assertEquals(Double.POSITIVE_INFINITY, b.r);
+		assertEquals(Double.POSITIVE_INFINITY, b.g);
+		assertEquals(Double.POSITIVE_INFINITY, b.b);
+		
+		assertEquals(Double.NaN, c.r);
+		assertEquals(Double.NaN, c.g);
+		assertEquals(Double.NaN, c.b);
+		
+		assertEquals(-0.0D, d.r);
+		assertEquals(-0.0D, d.g);
+		assertEquals(-0.0D, d.b);
+		
+		assertEquals(0.0D, e.r);
+		assertEquals(0.0D, e.g);
+		assertEquals(0.0D, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.divide(a, null));
+		assertThrows(NullPointerException.class, () -> Color3D.divide(null, a));
+	}
+	
+	@Test
+	public void testDivideColor3DDouble() {
+		final Color3D a = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), 2.0D);
+		final Color3D b = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), 0.0D);
+		final Color3D c = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), Double.NaN);
+		final Color3D d = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), Double.NEGATIVE_INFINITY);
+		final Color3D e = Color3D.divide(new Color3D(1.0D, 1.5D, 2.0D), Double.POSITIVE_INFINITY);
+		
+		assertEquals(0.50D, a.r);
+		assertEquals(0.75D, a.g);
+		assertEquals(1.00D, a.b);
+		
+		assertEquals(Double.POSITIVE_INFINITY, b.r);
+		assertEquals(Double.POSITIVE_INFINITY, b.g);
+		assertEquals(Double.POSITIVE_INFINITY, b.b);
+		
+		assertEquals(Double.NaN, c.r);
+		assertEquals(Double.NaN, c.g);
+		assertEquals(Double.NaN, c.b);
+		
+		assertEquals(-0.0D, d.r);
+		assertEquals(-0.0D, d.g);
+		assertEquals(-0.0D, d.b);
+		
+		assertEquals(0.0D, e.r);
+		assertEquals(0.0D, e.g);
+		assertEquals(0.0D, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.divide(null, 2.0D));
+	}
+	
+	@Test
 	public void testEqualsColor3D() {
 		final Color3D a = new Color3D(0.0D, 0.5D, 1.0D);
 		final Color3D b = new Color3D(0.0D, 0.5D, 1.0D);
@@ -471,6 +642,32 @@ public final class Color3DUnitTests {
 		assertEquals(3.0D, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3D.grayscaleRelativeLuminance(null));
+	}
+	
+	@Test
+	public void testHasInfinities() {
+		final Color3D a = new Color3D(Double.POSITIVE_INFINITY, 0.0D, 0.0D);
+		final Color3D b = new Color3D(0.0D, Double.POSITIVE_INFINITY, 0.0D);
+		final Color3D c = new Color3D(0.0D, 0.0D, Double.POSITIVE_INFINITY);
+		final Color3D d = new Color3D(0.0D, 0.0D, 0.0D);
+		
+		assertTrue(a.hasInfinites());
+		assertTrue(b.hasInfinites());
+		assertTrue(c.hasInfinites());
+		assertFalse(d.hasInfinites());
+	}
+	
+	@Test
+	public void testHasNaNs() {
+		final Color3D a = new Color3D(Double.NaN, 0.0D, 0.0D);
+		final Color3D b = new Color3D(0.0D, Double.NaN, 0.0D);
+		final Color3D c = new Color3D(0.0D, 0.0D, Double.NaN);
+		final Color3D d = new Color3D(0.0D, 0.0D, 0.0D);
+		
+		assertTrue(a.hasNaNs());
+		assertTrue(b.hasNaNs());
+		assertTrue(c.hasNaNs());
+		assertFalse(d.hasNaNs());
 	}
 	
 	@Test
@@ -677,10 +874,68 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testMaxColor3DColor3D() {
+		final Color3D a = new Color3D(0.0D, 1.0D, 2.0D);
+		final Color3D b = new Color3D(1.0D, 0.0D, 2.0D);
+		final Color3D c = Color3D.max(a, b);
+		
+		assertEquals(1.0D, c.r);
+		assertEquals(1.0D, c.g);
+		assertEquals(2.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.max(a, null));
+		assertThrows(NullPointerException.class, () -> Color3D.max(null, b));
+	}
+	
+	@Test
+	public void testMaxTo1() {
+		final Color3D a = new Color3D(1.0D, 1.0D, 2.0D);
+		final Color3D b = Color3D.maxTo1(a);
+		final Color3D c = Color3D.maxTo1(Color3D.WHITE);
+		
+		assertEquals(0.5D, b.r);
+		assertEquals(0.5D, b.g);
+		assertEquals(1.0D, b.b);
+		
+		assertEquals(Color3D.WHITE, c);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.maxTo1(null));
+	}
+	
+	@Test
 	public void testMin() {
 		final Color3D color = new Color3D(0.0D, 1.0D, 2.0D);
 		
 		assertEquals(0.0D, color.min());
+	}
+	
+	@Test
+	public void testMinColor3DColor3D() {
+		final Color3D a = new Color3D(0.0D, 1.0D, 2.0D);
+		final Color3D b = new Color3D(1.0D, 0.0D, 2.0D);
+		final Color3D c = Color3D.min(a, b);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(2.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.min(a, null));
+		assertThrows(NullPointerException.class, () -> Color3D.min(null, b));
+	}
+	
+	@Test
+	public void testMinTo0() {
+		final Color3D a = new Color3D(-1.0D, 0.0D, 1.0D);
+		final Color3D b = Color3D.minTo0(a);
+		final Color3D c = Color3D.minTo0(Color3D.WHITE);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(2.0D, b.b);
+		
+		assertEquals(Color3D.WHITE, c);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.minTo0(null));
 	}
 	
 	@Test

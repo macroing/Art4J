@@ -22,7 +22,6 @@ import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.ColorSpaceD;
 import org.macroing.img4j.data.DataFactory;
-import org.macroing.img4j.filter.BoxFilter2D;
 import org.macroing.img4j.filter.Filter2D;
 import org.macroing.img4j.filter.GaussianFilter2D;
 import org.macroing.img4j.image.Image;
@@ -58,7 +57,7 @@ public final class FilterTest {
 				final double rX = x + Randoms.nextDouble() - 0.5D;
 				final double rY = y + Randoms.nextDouble() - 0.5D;
 				
-				imageXYZ.sampleFilterAndAddXYZ(colorXYZ, rX, rY, filter);
+				imageXYZ.sampleColorXYZ(colorXYZ, rX, rY, filter);
 			}
 		}
 		

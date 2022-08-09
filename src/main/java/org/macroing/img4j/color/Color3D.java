@@ -313,6 +313,24 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Returns {@code true} if, and only if, at least one of the component values of this {@code Color3D} instance is infinite, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, at least one of the component values of this {@code Color3D} instance is infinite, {@code false} otherwise
+	 */
+	public boolean hasInfinites() {
+		return Doubles.isInfinite(this.r) || Doubles.isInfinite(this.g) || Doubles.isInfinite(this.b);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, at least one of the component values of this {@code Color3D} instance is equal to {@code Float.NaN}, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, at least one of the component values of this {@code Color3D} instance is equal to {@code Float.NaN}, {@code false} otherwise
+	 */
+	public boolean hasNaNs() {
+		return Doubles.isNaN(this.r) || Doubles.isNaN(this.g) || Doubles.isNaN(this.b);
+	}
+	
+	/**
 	 * Returns {@code true} if, and only if, this {@code Color3D} instance is black, {@code false} otherwise.
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is black, {@code false} otherwise
@@ -365,7 +383,7 @@ public final class Color3D {
 	 * @return {@code true} if, and only if, this {@code Color3D} instance is grayscale, {@code false} otherwise
 	 */
 	public boolean isGrayscale() {
-		return Doubles.equals(this.r, this.g) && Doubles.equals(this.g, this.b);
+		return Doubles.equals(this.r, this.g, this.b);
 	}
 	
 	/**
@@ -598,6 +616,162 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Adds the result of one multiplication to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorAdd the {@code Color3D} instance to add
+	 * @param colorMultiplyA the {@code Color3D} instance used on the left-hand side of the multiplication
+	 * @param colorMultiplyB the {@code Color3D} instance used on the right-hand side of the multiplication
+	 * @return a new {@code Color3D} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3D addAndMultiply(final Color3D colorAdd, final Color3D colorMultiplyA, final Color3D colorMultiplyB) {
+		final double r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r;
+		final double g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g;
+		final double b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of two multiplications to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorAdd the {@code Color3D} instance to add
+	 * @param colorMultiplyA the {@code Color3D} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3D} instance used on the right-hand side of the first multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the second multiplication
+	 * @return a new {@code Color3D} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3D addAndMultiply(final Color3D colorAdd, final Color3D colorMultiplyA, final Color3D colorMultiplyB, final double scalarMultiply) {
+		final double r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * scalarMultiply;
+		final double g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * scalarMultiply;
+		final double b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * scalarMultiply;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of three multiplications followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA}, {@code colorMultiplyB} or {@code colorMultiplyC} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3D.add(colorAdd, Color3D.divide(Color3D.multiply(Color3D.multiply(Color3D.multiply(colorMultiplyA, colorMultiplyB), colorMultiplyC), scalarMultiply), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3D} instance to add
+	 * @param colorMultiplyA the {@code Color3D} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3D} instance used on the right-hand side of the first multiplication
+	 * @param colorMultiplyC the {@code Color3D} instance used on the right-hand side of the second multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the third multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3D} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA}, {@code colorMultiplyB} or {@code colorMultiplyC} are {@code null}
+	 */
+	public static Color3D addMultiplyAndDivide(final Color3D colorAdd, final Color3D colorMultiplyA, final Color3D colorMultiplyB, final Color3D colorMultiplyC, final double scalarMultiply, final double scalarDivide) {
+		final double r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * colorMultiplyC.r * scalarMultiply / scalarDivide;
+		final double g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * colorMultiplyC.g * scalarMultiply / scalarDivide;
+		final double b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * colorMultiplyC.b * scalarMultiply / scalarDivide;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of one multiplication followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3D.add(colorAdd, Color3D.divide(Color3D.multiply(colorMultiplyA, colorMultiplyB), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3D} instance to add
+	 * @param colorMultiplyA the {@code Color3D} instance used on the left-hand side of the multiplication
+	 * @param colorMultiplyB the {@code Color3D} instance used on the right-hand side of the multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3D} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3D addMultiplyAndDivide(final Color3D colorAdd, final Color3D colorMultiplyA, final Color3D colorMultiplyB, final double scalarDivide) {
+		final double r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r / scalarDivide;
+		final double g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g / scalarDivide;
+		final double b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b / scalarDivide;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of two multiplications followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3D.add(colorAdd, Color3D.divide(Color3D.multiply(Color3D.multiply(colorMultiplyA, colorMultiplyB), scalarMultiply), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3D} instance to add
+	 * @param colorMultiplyA the {@code Color3D} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3D} instance used on the right-hand side of the first multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the second multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3D} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3D addMultiplyAndDivide(final Color3D colorAdd, final Color3D colorMultiplyA, final Color3D colorMultiplyB, final double scalarMultiply, final double scalarDivide) {
+		final double r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * scalarMultiply / scalarDivide;
+		final double g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * scalarMultiply / scalarDivide;
+		final double b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * scalarMultiply / scalarDivide;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Adds the component values of {@code colorRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method differs from {@link #add(Color3D, Color3D)} in that it assumes {@code colorLHS} to be an average color sample. It uses a stable moving average algorithm to compute a new average color sample as a result of adding {@code colorRHS}. This method is suitable for Monte Carlo-method based algorithms.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @param sampleCount the current sample count
+	 * @return a new {@code Color3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color3D addSample(final Color3D colorLHS, final Color3D colorRHS, final int sampleCount) {
+		final double r = colorLHS.r + ((colorRHS.r - colorLHS.r) / sampleCount);
+		final double g = colorLHS.g + ((colorRHS.g - colorLHS.g) / sampleCount);
+		final double b = colorLHS.b + ((colorRHS.b - colorLHS.b) / sampleCount);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
 	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
 	 * <p>
 	 * Returns a new {@code Color3D} instance with the result of the blend.
@@ -690,6 +864,46 @@ public final class Color3D {
 		final double r = Doubles.lerp(colorLHS.r, colorRHS.r, tR);
 		final double g = Doubles.lerp(colorLHS.g, colorRHS.g, tG);
 		final double b = Doubles.lerp(colorLHS.b, colorRHS.b, tB);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Divides the component values of {@code colorLHS} with the component values of {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the division.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color3D divide(final Color3D colorLHS, final Color3D colorRHS) {
+		final double r = colorLHS.r / colorRHS.r;
+		final double g = colorLHS.g / colorRHS.g;
+		final double b = colorLHS.b / colorRHS.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Divides the component values of {@code colorLHS} with {@code scalarRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the division.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color3D divide(final Color3D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r / scalarRHS;
+		final double g = colorLHS.g / scalarRHS;
+		final double b = colorLHS.b / scalarRHS;
 		
 		return new Color3D(r, g, b);
 	}
@@ -852,6 +1066,122 @@ public final class Color3D {
 	 */
 	public static Color3D invert(final Color3D color) {
 		return new Color3D(1.0D - color.r, 1.0D - color.g, 1.0D - color.b);
+	}
+	
+	/**
+	 * Returns a new {@code Color3D} instance with the largest component values of {@code colorA} and {@code colorB}.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the largest component values of {@code colorA} and {@code colorB}
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+	public static Color3D max(final Color3D colorA, final Color3D colorB) {
+		final double r = Doubles.max(colorA.r, colorB.r);
+		final double g = Doubles.max(colorA.g, colorB.g);
+		final double b = Doubles.max(colorA.b, colorB.b);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Restricts the component values of {@code color} by dividing them with the maximum component value that is greater than {@code 1.0}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the division, or {@code color} if no division occurred.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method can overflow if the delta between the minimum and maximum component values are large.
+	 * <p>
+	 * If at least one of the component values are negative, consider calling {@link #minTo0(Color3D)} before calling this method.
+	 * <p>
+	 * To use this method consider the following example:
+	 * <pre>
+	 * {@code
+	 * Color3D a = new Color3D(0.0D, 1.0D, 2.0D);
+	 * Color3D b = Color3D.maxTo1(a);
+	 * 
+	 * //a.getComponent1() = 0.0D, a.getComponent2() = 1.0D, a.getComponent3() = 2.0D
+	 * //b.getComponent1() = 0.0D, b.getComponent2() = 0.5D, b.getComponent3() = 1.0D
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the division, or {@code color} if no division occurred
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public static Color3D maxTo1(final Color3D color) {
+		final double max = color.max();
+		
+		if(max > 1.0D) {
+			final double r = color.r / max;
+			final double g = color.g / max;
+			final double b = color.b / max;
+			
+			return new Color3D(r, g, b);
+		}
+		
+		return color;
+	}
+	
+	/**
+	 * Returns a new {@code Color3D} instance with the smallest component values of {@code colorA} and {@code colorB}.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the smallest component values of {@code colorA} and {@code colorB}
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+	public static Color3D min(final Color3D colorA, final Color3D colorB) {
+		final double r = Doubles.min(colorA.r, colorB.r);
+		final double g = Doubles.min(colorA.g, colorB.g);
+		final double b = Doubles.min(colorA.b, colorB.b);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Restricts the component values of {@code color} by adding the minimum component value that is less than {@code 0.0} to them.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the addition, or {@code color} if no addition occurred.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method can overflow if the delta between the minimum and maximum component values are large.
+	 * <p>
+	 * Consider calling {@link #maxTo1(Color3D)} after a call to this method.
+	 * <p>
+	 * To use this method consider the following example:
+	 * <pre>
+	 * {@code
+	 * Color3D a = new Color3D(-2.0D, 0.0D, 1.0D);
+	 * Color3D b = Color3D.minTo0(a);
+	 * 
+	 * //a.getComponent1() = -2.0D, a.getComponent2() = 0.0D, a.getComponent3() = 1.0D
+	 * //b.getComponent1() =  0.0D, b.getComponent2() = 2.0D, b.getComponent3() = 3.0D
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the addition, or {@code color} if no addition occurred
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public static Color3D minTo0(final Color3D color) {
+		final double min = color.min();
+		
+		if(min < 0.0D) {
+			final double r = color.r + -min;
+			final double g = color.g + -min;
+			final double b = color.b + -min;
+			
+			return new Color3D(r, g, b);
+		}
+		
+		return color;
 	}
 	
 	/**

@@ -35,6 +35,38 @@ public final class Color3FUnitTests {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
+	public void testAddAndMultiplyColor3FColor3FColor3F() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
+		final Color3F c = new Color3F(3.0F, 4.0F, 5.0F);
+		final Color3F d = Color3F.addAndMultiply(a, b, c);
+		
+		assertEquals( 7.0F, d.r);
+		assertEquals(14.0F, d.g);
+		assertEquals(23.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(a, b, null));
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(a, null, c));
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(null, b, c));
+	}
+	
+	@Test
+	public void testAddAndMultiplyColor3FColor3FColor3FFloat() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
+		final Color3F c = new Color3F(3.0F, 4.0F, 5.0F);
+		final Color3F d = Color3F.addAndMultiply(a, b, c, 2.0F);
+		
+		assertEquals(13.0F, d.r);
+		assertEquals(26.0F, d.g);
+		assertEquals(43.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(a, b, null, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(a, null, c, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addAndMultiply(null, b, c, 2.0F));
+	}
+	
+	@Test
 	public void testAddColor3FColor3F() {
 		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
 		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
@@ -58,6 +90,82 @@ public final class Color3FUnitTests {
 		assertEquals(5.0F, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3F.add(null, 2.0F));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3FColor3FColor3FColor3FFloatFloat() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
+		final Color3F c = new Color3F(3.0F, 4.0F, 5.0F);
+		final Color3F d = new Color3F(4.0F, 5.0F, 6.0F);
+		final Color3F e = Color3F.addMultiplyAndDivide(a, b, c, d, 2.0F, 2.0F);
+		
+		assertEquals( 25.0F, e.r);
+		assertEquals( 62.0F, e.g);
+		assertEquals(123.0F, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, b, c, null, 2.0F, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, b, null, d, 2.0F, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, null, c, d, 2.0F, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(null, b, c, d, 2.0F, 2.0F));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3FColor3FColor3FFloat() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
+		final Color3F c = new Color3F(3.0F, 4.0F, 5.0F);
+		final Color3F d = Color3F.addMultiplyAndDivide(a, b, c, 2.0F);
+		
+		assertEquals( 4.0F, d.r);
+		assertEquals( 8.0F, d.g);
+		assertEquals(13.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, b, null, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, null, c, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(null, b, c, 2.0F));
+	}
+	
+	@Test
+	public void testAddMultiplyAndDivideColor3FColor3FColor3FFloatFloat() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 3.0F, 4.0F);
+		final Color3F c = new Color3F(3.0F, 4.0F, 5.0F);
+		final Color3F d = Color3F.addMultiplyAndDivide(a, b, c, 2.0F, 2.0F);
+		
+		assertEquals( 7.0F, d.r);
+		assertEquals(14.0F, d.g);
+		assertEquals(23.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, b, null, 2.0F, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(a, null, c, 2.0F, 2.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.addMultiplyAndDivide(null, b, c, 2.0F, 2.0F));
+	}
+	
+	@Test
+	public void testAddSample() {
+		final Color3F a = new Color3F(0.0F, 0.0F, 0.0F);
+		final Color3F b = new Color3F(0.5F, 0.5F, 0.5F);
+		final Color3F c = new Color3F(1.0F, 1.0F, 1.0F);
+		final Color3F d = new Color3F(1.5F, 1.5F, 1.5F);
+		final Color3F e = Color3F.addSample(a, c, 2);
+		final Color3F f = Color3F.addSample(e, b, 3);
+		final Color3F g = Color3F.addSample(f, d, 4);
+		
+		assertEquals(0.5F, e.r);
+		assertEquals(0.5F, e.g);
+		assertEquals(0.5F, e.b);
+		
+		assertEquals(0.5F, f.r);
+		assertEquals(0.5F, f.g);
+		assertEquals(0.5F, f.b);
+		
+		assertEquals(0.75F, g.r);
+		assertEquals(0.75F, g.g);
+		assertEquals(0.75F, g.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.addSample(a, null, 1));
+		assertThrows(NullPointerException.class, () -> Color3F.addSample(null, b, 1));
 	}
 	
 	@Test
@@ -269,6 +377,69 @@ public final class Color3FUnitTests {
 	}
 	
 	@Test
+	public void testDivideColor3FColor3F() {
+		final Color3F a = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), new Color3F(2.0F, 2.0F, 2.0F));
+		final Color3F b = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), new Color3F(0.0F, 0.0F, 0.0F));
+		final Color3F c = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), new Color3F(Float.NaN));
+		final Color3F d = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), new Color3F(Float.NEGATIVE_INFINITY));
+		final Color3F e = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), new Color3F(Float.POSITIVE_INFINITY));
+		
+		assertEquals(0.50F, a.r);
+		assertEquals(0.75F, a.g);
+		assertEquals(1.00F, a.b);
+		
+		assertEquals(Float.POSITIVE_INFINITY, b.r);
+		assertEquals(Float.POSITIVE_INFINITY, b.g);
+		assertEquals(Float.POSITIVE_INFINITY, b.b);
+		
+		assertEquals(Float.NaN, c.r);
+		assertEquals(Float.NaN, c.g);
+		assertEquals(Float.NaN, c.b);
+		
+		assertEquals(-0.0F, d.r);
+		assertEquals(-0.0F, d.g);
+		assertEquals(-0.0F, d.b);
+		
+		assertEquals(0.0F, e.r);
+		assertEquals(0.0F, e.g);
+		assertEquals(0.0F, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.divide(a, null));
+		assertThrows(NullPointerException.class, () -> Color3F.divide(null, a));
+	}
+	
+	@Test
+	public void testDivideColor3FFloat() {
+		final Color3F a = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), 2.0F);
+		final Color3F b = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), 0.0F);
+		final Color3F c = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), Float.NaN);
+		final Color3F d = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), Float.NEGATIVE_INFINITY);
+		final Color3F e = Color3F.divide(new Color3F(1.0F, 1.5F, 2.0F), Float.POSITIVE_INFINITY);
+		
+		assertEquals(0.50F, a.r);
+		assertEquals(0.75F, a.g);
+		assertEquals(1.00F, a.b);
+		
+		assertEquals(Float.POSITIVE_INFINITY, b.r);
+		assertEquals(Float.POSITIVE_INFINITY, b.g);
+		assertEquals(Float.POSITIVE_INFINITY, b.b);
+		
+		assertEquals(Float.NaN, c.r);
+		assertEquals(Float.NaN, c.g);
+		assertEquals(Float.NaN, c.b);
+		
+		assertEquals(-0.0F, d.r);
+		assertEquals(-0.0F, d.g);
+		assertEquals(-0.0F, d.b);
+		
+		assertEquals(0.0F, e.r);
+		assertEquals(0.0F, e.g);
+		assertEquals(0.0F, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.divide(null, 2.0F));
+	}
+	
+	@Test
 	public void testEqualsColor3F() {
 		final Color3F a = new Color3F(0.0F, 0.5F, 1.0F);
 		final Color3F b = new Color3F(0.0F, 0.5F, 1.0F);
@@ -471,6 +642,32 @@ public final class Color3FUnitTests {
 		assertEquals(3.0F, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3F.grayscaleRelativeLuminance(null));
+	}
+	
+	@Test
+	public void testHasInfinities() {
+		final Color3F a = new Color3F(Float.POSITIVE_INFINITY, 0.0F, 0.0F);
+		final Color3F b = new Color3F(0.0F, Float.POSITIVE_INFINITY, 0.0F);
+		final Color3F c = new Color3F(0.0F, 0.0F, Float.POSITIVE_INFINITY);
+		final Color3F d = new Color3F(0.0F, 0.0F, 0.0F);
+		
+		assertTrue(a.hasInfinites());
+		assertTrue(b.hasInfinites());
+		assertTrue(c.hasInfinites());
+		assertFalse(d.hasInfinites());
+	}
+	
+	@Test
+	public void testHasNaNs() {
+		final Color3F a = new Color3F(Float.NaN, 0.0F, 0.0F);
+		final Color3F b = new Color3F(0.0F, Float.NaN, 0.0F);
+		final Color3F c = new Color3F(0.0F, 0.0F, Float.NaN);
+		final Color3F d = new Color3F(0.0F, 0.0F, 0.0F);
+		
+		assertTrue(a.hasNaNs());
+		assertTrue(b.hasNaNs());
+		assertTrue(c.hasNaNs());
+		assertFalse(d.hasNaNs());
 	}
 	
 	@Test
@@ -677,10 +874,68 @@ public final class Color3FUnitTests {
 	}
 	
 	@Test
+	public void testMaxColor3FColor3F() {
+		final Color3F a = new Color3F(0.0F, 1.0F, 2.0F);
+		final Color3F b = new Color3F(1.0F, 0.0F, 2.0F);
+		final Color3F c = Color3F.max(a, b);
+		
+		assertEquals(1.0F, c.r);
+		assertEquals(1.0F, c.g);
+		assertEquals(2.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.max(a, null));
+		assertThrows(NullPointerException.class, () -> Color3F.max(null, b));
+	}
+	
+	@Test
+	public void testMaxTo1() {
+		final Color3F a = new Color3F(1.0F, 1.0F, 2.0F);
+		final Color3F b = Color3F.maxTo1(a);
+		final Color3F c = Color3F.maxTo1(Color3F.WHITE);
+		
+		assertEquals(0.5F, b.r);
+		assertEquals(0.5F, b.g);
+		assertEquals(1.0F, b.b);
+		
+		assertEquals(Color3F.WHITE, c);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.maxTo1(null));
+	}
+	
+	@Test
 	public void testMin() {
 		final Color3F color = new Color3F(0.0F, 1.0F, 2.0F);
 		
 		assertEquals(0.0F, color.min());
+	}
+	
+	@Test
+	public void testMinColor3FColor3F() {
+		final Color3F a = new Color3F(0.0F, 1.0F, 2.0F);
+		final Color3F b = new Color3F(1.0F, 0.0F, 2.0F);
+		final Color3F c = Color3F.min(a, b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(2.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.min(a, null));
+		assertThrows(NullPointerException.class, () -> Color3F.min(null, b));
+	}
+	
+	@Test
+	public void testMinTo0() {
+		final Color3F a = new Color3F(-1.0F, 0.0F, 1.0F);
+		final Color3F b = Color3F.minTo0(a);
+		final Color3F c = Color3F.minTo0(Color3F.WHITE);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(1.0F, b.g);
+		assertEquals(2.0F, b.b);
+		
+		assertEquals(Color3F.WHITE, c);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.minTo0(null));
 	}
 	
 	@Test

@@ -2101,7 +2101,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0D);
+	 * image.sampleColorXYZ(colorXYZ, x, y, filter, 1.0D);
 	 * }
 	 * </pre>
 	 * 
@@ -2113,8 +2113,8 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image sampleFilterAndAddXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter) {
-		return sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0D);
+	public Image sampleColorXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter) {
+		return sampleColorXYZ(colorXYZ, x, y, filter, 1.0D);
 	}
 	
 	/**
@@ -2133,7 +2133,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image sampleFilterAndAddXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter, final double sampleWeight) {
+	public Image sampleColorXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter, final double sampleWeight) {
 		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
 		Objects.requireNonNull(filter, "filter == null");
 		
@@ -2203,7 +2203,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0F);
+	 * image.sampleColorXYZ(colorXYZ, x, y, filter, 1.0F);
 	 * }
 	 * </pre>
 	 * 
@@ -2215,8 +2215,8 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image sampleFilterAndAddXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter) {
-		return sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0F);
+	public Image sampleColorXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter) {
+		return sampleColorXYZ(colorXYZ, x, y, filter, 1.0F);
 	}
 	
 	/**
@@ -2235,7 +2235,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image sampleFilterAndAddXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter, final float sampleWeight) {
+	public Image sampleColorXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter, final float sampleWeight) {
 		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
 		Objects.requireNonNull(filter, "filter == null");
 		

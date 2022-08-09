@@ -313,6 +313,24 @@ public final class Color3F {
 	}
 	
 	/**
+	 * Returns {@code true} if, and only if, at least one of the component values of this {@code Color3F} instance is infinite, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, at least one of the component values of this {@code Color3F} instance is infinite, {@code false} otherwise
+	 */
+	public boolean hasInfinites() {
+		return Floats.isInfinite(this.r) || Floats.isInfinite(this.g) || Floats.isInfinite(this.b);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, at least one of the component values of this {@code Color3F} instance is equal to {@code Float.NaN}, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, at least one of the component values of this {@code Color3F} instance is equal to {@code Float.NaN}, {@code false} otherwise
+	 */
+	public boolean hasNaNs() {
+		return Floats.isNaN(this.r) || Floats.isNaN(this.g) || Floats.isNaN(this.b);
+	}
+	
+	/**
 	 * Returns {@code true} if, and only if, this {@code Color3F} instance is black, {@code false} otherwise.
 	 * 
 	 * @return {@code true} if, and only if, this {@code Color3F} instance is black, {@code false} otherwise
@@ -598,6 +616,162 @@ public final class Color3F {
 	}
 	
 	/**
+	 * Adds the result of one multiplication to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorAdd the {@code Color3F} instance to add
+	 * @param colorMultiplyA the {@code Color3F} instance used on the left-hand side of the multiplication
+	 * @param colorMultiplyB the {@code Color3F} instance used on the right-hand side of the multiplication
+	 * @return a new {@code Color3F} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3F addAndMultiply(final Color3F colorAdd, final Color3F colorMultiplyA, final Color3F colorMultiplyB) {
+		final float r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r;
+		final float g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g;
+		final float b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of two multiplications to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorAdd the {@code Color3F} instance to add
+	 * @param colorMultiplyA the {@code Color3F} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3F} instance used on the right-hand side of the first multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the second multiplication
+	 * @return a new {@code Color3F} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3F addAndMultiply(final Color3F colorAdd, final Color3F colorMultiplyA, final Color3F colorMultiplyB, final float scalarMultiply) {
+		final float r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * scalarMultiply;
+		final float g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * scalarMultiply;
+		final float b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * scalarMultiply;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of three multiplications followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA}, {@code colorMultiplyB} or {@code colorMultiplyC} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3F.add(colorAdd, Color3F.divide(Color3F.multiply(Color3F.multiply(Color3F.multiply(colorMultiplyA, colorMultiplyB), colorMultiplyC), scalarMultiply), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3F} instance to add
+	 * @param colorMultiplyA the {@code Color3F} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3F} instance used on the right-hand side of the first multiplication
+	 * @param colorMultiplyC the {@code Color3F} instance used on the right-hand side of the second multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the third multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3F} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA}, {@code colorMultiplyB} or {@code colorMultiplyC} are {@code null}
+	 */
+	public static Color3F addMultiplyAndDivide(final Color3F colorAdd, final Color3F colorMultiplyA, final Color3F colorMultiplyB, final Color3F colorMultiplyC, final float scalarMultiply, final float scalarDivide) {
+		final float r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * colorMultiplyC.r * scalarMultiply / scalarDivide;
+		final float g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * colorMultiplyC.g * scalarMultiply / scalarDivide;
+		final float b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * colorMultiplyC.b * scalarMultiply / scalarDivide;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of one multiplication followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3F.add(colorAdd, Color3F.divide(Color3F.multiply(colorMultiplyA, colorMultiplyB), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3F} instance to add
+	 * @param colorMultiplyA the {@code Color3F} instance used on the left-hand side of the multiplication
+	 * @param colorMultiplyB the {@code Color3F} instance used on the right-hand side of the multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3F} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3F addMultiplyAndDivide(final Color3F colorAdd, final Color3F colorMultiplyA, final Color3F colorMultiplyB, final float scalarDivide) {
+		final float r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r / scalarDivide;
+		final float g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g / scalarDivide;
+		final float b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b / scalarDivide;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Adds the result of two multiplications followed by one division to the component values of {@code colorAdd}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result.
+	 * <p>
+	 * If either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following (although faster, because of optimizations):
+	 * <pre>
+	 * {@code
+	 * Color3F.add(colorAdd, Color3F.divide(Color3F.multiply(Color3F.multiply(colorMultiplyA, colorMultiplyB), scalarMultiply), scalarDivide));
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorAdd the {@code Color3F} instance to add
+	 * @param colorMultiplyA the {@code Color3F} instance used on the left-hand side of the first multiplication
+	 * @param colorMultiplyB the {@code Color3F} instance used on the right-hand side of the first multiplication
+	 * @param scalarMultiply the scalar value used on the right-hand side of the second multiplication
+	 * @param scalarDivide the scalar value used on the right-hand side of the division
+	 * @return a new {@code Color3F} instance with the result
+	 * @throws NullPointerException thrown if, and only if, either {@code colorAdd}, {@code colorMultiplyA} or {@code colorMultiplyB} are {@code null}
+	 */
+	public static Color3F addMultiplyAndDivide(final Color3F colorAdd, final Color3F colorMultiplyA, final Color3F colorMultiplyB, final float scalarMultiply, final float scalarDivide) {
+		final float r = colorAdd.r + colorMultiplyA.r * colorMultiplyB.r * scalarMultiply / scalarDivide;
+		final float g = colorAdd.g + colorMultiplyA.g * colorMultiplyB.g * scalarMultiply / scalarDivide;
+		final float b = colorAdd.b + colorMultiplyA.b * colorMultiplyB.b * scalarMultiply / scalarDivide;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Adds the component values of {@code colorRHS} to the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the addition.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method differs from {@link #add(Color3F, Color3F)} in that it assumes {@code colorLHS} to be an average color sample. It uses a stable moving average algorithm to compute a new average color sample as a result of adding {@code colorRHS}. This method is suitable for Monte Carlo-method based algorithms.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @param sampleCount the current sample count
+	 * @return a new {@code Color3F} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color3F addSample(final Color3F colorLHS, final Color3F colorRHS, final int sampleCount) {
+		final float r = colorLHS.r + ((colorRHS.r - colorLHS.r) / sampleCount);
+		final float g = colorLHS.g + ((colorRHS.g - colorLHS.g) / sampleCount);
+		final float b = colorLHS.b + ((colorRHS.b - colorLHS.b) / sampleCount);
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
 	 * Blends the component values of {@code colorLHS} and {@code colorRHS}.
 	 * <p>
 	 * Returns a new {@code Color3F} instance with the result of the blend.
@@ -690,6 +864,46 @@ public final class Color3F {
 		final float r = Floats.lerp(colorLHS.r, colorRHS.r, tR);
 		final float g = Floats.lerp(colorLHS.g, colorRHS.g, tG);
 		final float b = Floats.lerp(colorLHS.b, colorRHS.b, tB);
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Divides the component values of {@code colorLHS} with the component values of {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the division.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param colorRHS the {@code Color3F} instance on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+	public static Color3F divide(final Color3F colorLHS, final Color3F colorRHS) {
+		final float r = colorLHS.r / colorRHS.r;
+		final float g = colorLHS.g / colorRHS.g;
+		final float b = colorLHS.b / colorRHS.b;
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Divides the component values of {@code colorLHS} with {@code scalarRHS}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the division.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3F} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3F} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+	public static Color3F divide(final Color3F colorLHS, final float scalarRHS) {
+		final float r = colorLHS.r / scalarRHS;
+		final float g = colorLHS.g / scalarRHS;
+		final float b = colorLHS.b / scalarRHS;
 		
 		return new Color3F(r, g, b);
 	}
@@ -852,6 +1066,122 @@ public final class Color3F {
 	 */
 	public static Color3F invert(final Color3F color) {
 		return new Color3F(1.0F - color.r, 1.0F - color.g, 1.0F - color.b);
+	}
+	
+	/**
+	 * Returns a new {@code Color3F} instance with the largest component values of {@code colorA} and {@code colorB}.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3F} instance
+	 * @param colorB a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the largest component values of {@code colorA} and {@code colorB}
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+	public static Color3F max(final Color3F colorA, final Color3F colorB) {
+		final float r = Floats.max(colorA.r, colorB.r);
+		final float g = Floats.max(colorA.g, colorB.g);
+		final float b = Floats.max(colorA.b, colorB.b);
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Restricts the component values of {@code color} by dividing them with the maximum component value that is greater than {@code 1.0}.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the division, or {@code color} if no division occurred.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method can overflow if the delta between the minimum and maximum component values are large.
+	 * <p>
+	 * If at least one of the component values are negative, consider calling {@link #minTo0(Color3F)} before calling this method.
+	 * <p>
+	 * To use this method consider the following example:
+	 * <pre>
+	 * {@code
+	 * Color3F a = new Color3F(0.0F, 1.0F, 2.0F);
+	 * Color3F b = Color3F.maxTo1(a);
+	 * 
+	 * //a.getComponent1() = 0.0F, a.getComponent2() = 1.0F, a.getComponent3() = 2.0F
+	 * //b.getComponent1() = 0.0F, b.getComponent2() = 0.5F, b.getComponent3() = 1.0F
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the division, or {@code color} if no division occurred
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public static Color3F maxTo1(final Color3F color) {
+		final float max = color.max();
+		
+		if(max > 1.0F) {
+			final float r = color.r / max;
+			final float g = color.g / max;
+			final float b = color.b / max;
+			
+			return new Color3F(r, g, b);
+		}
+		
+		return color;
+	}
+	
+	/**
+	 * Returns a new {@code Color3F} instance with the smallest component values of {@code colorA} and {@code colorB}.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3F} instance
+	 * @param colorB a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the smallest component values of {@code colorA} and {@code colorB}
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+	public static Color3F min(final Color3F colorA, final Color3F colorB) {
+		final float r = Floats.min(colorA.r, colorB.r);
+		final float g = Floats.min(colorA.g, colorB.g);
+		final float b = Floats.min(colorA.b, colorB.b);
+		
+		return new Color3F(r, g, b);
+	}
+	
+	/**
+	 * Restricts the component values of {@code color} by adding the minimum component value that is less than {@code 0.0} to them.
+	 * <p>
+	 * Returns a new {@code Color3F} instance with the result of the addition, or {@code color} if no addition occurred.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method can overflow if the delta between the minimum and maximum component values are large.
+	 * <p>
+	 * Consider calling {@link #maxTo1(Color3F)} after a call to this method.
+	 * <p>
+	 * To use this method consider the following example:
+	 * <pre>
+	 * {@code
+	 * Color3F a = new Color3F(-2.0F, 0.0F, 1.0F);
+	 * Color3F b = Color3F.minTo0(a);
+	 * 
+	 * //a.getComponent1() = -2.0F, a.getComponent2() = 0.0F, a.getComponent3() = 1.0F
+	 * //b.getComponent1() =  0.0F, b.getComponent2() = 2.0F, b.getComponent3() = 3.0F
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3F} instance
+	 * @return a new {@code Color3F} instance with the result of the addition, or {@code color} if no addition occurred
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public static Color3F minTo0(final Color3F color) {
+		final float min = color.min();
+		
+		if(min < 0.0F) {
+			final float r = color.r + -min;
+			final float g = color.g + -min;
+			final float b = color.b + -min;
+			
+			return new Color3F(r, g, b);
+		}
+		
+		return color;
 	}
 	
 	/**
