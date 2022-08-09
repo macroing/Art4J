@@ -341,7 +341,7 @@ public final class SimplexNoiseF {
 		final float n0 = t01 * t01 * gradient02;
 		final float n1 = t11 * t11 * gradient12;
 		
-		return 0.395F * (n0 + n1);
+		return Floats.saturate(0.395F * (n0 + n1), -1.0F, 1.0F);
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public final class SimplexNoiseF {
 		final float t2 = 0.5F - x2 * x2 - y2 * y2;
 		final float n2 = t2 < 0.0F ? 0.0F : (t2 * t2) * (t2 * t2) * (SIMPLEX_GRADIENT_3[gi2 * 3 + 0] * x2 + SIMPLEX_GRADIENT_3[gi2 * 3 + 1] * y2);
 		
-		return 70.0F * (n0 + n1 + n2);
+		return Floats.saturate(70.0F * (n0 + n1 + n2), -1.0F, 1.0F);
 	}
 	
 	/**
@@ -504,7 +504,7 @@ public final class SimplexNoiseF {
 		final float t3 = 0.6F - x3 * x3 - y3 * y3 - z3 * z3;
 		final float n3 = t3 < 0.0F ? 0.0F : (t3 * t3) * (t3 * t3) * (SIMPLEX_GRADIENT_3[gi3 * 3 + 0] * x3 + SIMPLEX_GRADIENT_3[gi3 * 3 + 1] * y3 + SIMPLEX_GRADIENT_3[gi3 * 3 + 2] * z3);
 		
-		return 32.0F * (n0 + n1 + n2 + n3);
+		return Floats.saturate(32.0F * (n0 + n1 + n2 + n3), -1.0F, 1.0F);
 	}
 	
 	/**
@@ -632,7 +632,7 @@ public final class SimplexNoiseF {
 		final float t4 = 0.6F - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
 		final float n4 = t4 < 0.0F ? 0.0F : (t4 * t4) * (t4 * t4) * (SIMPLEX_GRADIENT_4[gi4 * 4 + 0] * x4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 1] * y4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 2] * z4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 3] * w4);
 		
-		return 27.0F * (n0 + n1 + n2 + n3 + n4);
+		return Floats.saturate(27.0F * (n0 + n1 + n2 + n3 + n4), -1.0F, 1.0F);
 	}
 	
 	/**

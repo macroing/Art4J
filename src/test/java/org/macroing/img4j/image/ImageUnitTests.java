@@ -40,6 +40,8 @@ import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
+import org.macroing.img4j.kernel.ConvolutionKernelND;
+import org.macroing.img4j.kernel.ConvolutionKernelNF;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -54,14 +56,6 @@ public final class ImageUnitTests {
 		final Image image = new Image();
 		
 		assertEquals(0, image.cache());
-	}
-	
-	@Test
-	public void testCopy() {
-		final Image a = new Image();
-		final Image b = a.copy();
-		
-		assertEquals(a, b);
 	}
 	
 	@Test
@@ -380,6 +374,88 @@ public final class ImageUnitTests {
 		} catch(final MalformedURLException e) {
 			
 		}
+	}
+	
+	@Test
+	public void testConvolveColor4DConvolutionKernelND() {
+		final
+		Image image = new Image(2, 2, Color4D.GRAY, DataFactory.forColor4D());
+		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3);
+		
+		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 0));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 0));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
+		
+		assertThrows(NullPointerException.class, () -> image.convolveColor4D(null));
+	}
+	
+	@Test
+	public void testConvolveColor4DConvolutionKernelNDBiPredicate() {
+		final
+		Image image = new Image(2, 2, Color4D.GRAY, DataFactory.forColor4D());
+		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, point) -> point.y != 0);
+		
+		assertEquals(Color4D.GRAY, image.getColor4D(0, 0));
+		assertEquals(Color4D.GRAY, image.getColor4D(1, 0));
+		
+		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
+		
+		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, point) -> true);
+		
+		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 0));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 0));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
+		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
+		
+		assertThrows(NullPointerException.class, () -> image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, null));
+		assertThrows(NullPointerException.class, () -> image.convolveColor4D(null, (color, point) -> true));
+	}
+	
+	@Test
+	public void testConvolveColor4FConvolutionKernelNF() {
+		final
+		Image image = new Image(2, 2, Color4F.GRAY, DataFactory.forColor4F());
+		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3);
+		
+		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 0));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 0));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
+		
+		assertThrows(NullPointerException.class, () -> image.convolveColor4F(null));
+	}
+	
+	@Test
+	public void testConvolveColor4FConvolutionKernelNFBiPredicate() {
+		final
+		Image image = new Image(2, 2, Color4F.GRAY, DataFactory.forColor4F());
+		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, point) -> point.y != 0);
+		
+		assertEquals(Color4F.GRAY, image.getColor4F(0, 0));
+		assertEquals(Color4F.GRAY, image.getColor4F(1, 0));
+		
+		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
+		
+		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, point) -> true);
+		
+		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 0));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 0));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
+		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
+		
+		assertThrows(NullPointerException.class, () -> image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, null));
+		assertThrows(NullPointerException.class, () -> image.convolveColor4F(null, (color, point) -> true));
+	}
+	
+	@Test
+	public void testCopy() {
+		final Image a = new Image();
+		final Image b = a.copy();
+		
+		assertEquals(a, b);
 	}
 	
 	@Test

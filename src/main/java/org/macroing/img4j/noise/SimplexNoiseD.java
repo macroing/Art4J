@@ -341,7 +341,7 @@ public final class SimplexNoiseD {
 		final double n0 = t01 * t01 * gradient02;
 		final double n1 = t11 * t11 * gradient12;
 		
-		return 0.395D * (n0 + n1);
+		return Doubles.saturate(0.395D * (n0 + n1), -1.0D, 1.0D);
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public final class SimplexNoiseD {
 		final double t2 = 0.5D - x2 * x2 - y2 * y2;
 		final double n2 = t2 < 0.0D ? 0.0D : (t2 * t2) * (t2 * t2) * (SIMPLEX_GRADIENT_3[gi2 * 3 + 0] * x2 + SIMPLEX_GRADIENT_3[gi2 * 3 + 1] * y2);
 		
-		return 70.0D * (n0 + n1 + n2);
+		return Doubles.saturate(70.0D * (n0 + n1 + n2), -1.0D, 1.0D);
 	}
 	
 	/**
@@ -504,7 +504,7 @@ public final class SimplexNoiseD {
 		final double t3 = 0.6D - x3 * x3 - y3 * y3 - z3 * z3;
 		final double n3 = t3 < 0.0D ? 0.0D : (t3 * t3) * (t3 * t3) * (SIMPLEX_GRADIENT_3[gi3 * 3 + 0] * x3 + SIMPLEX_GRADIENT_3[gi3 * 3 + 1] * y3 + SIMPLEX_GRADIENT_3[gi3 * 3 + 2] * z3);
 		
-		return 32.0D * (n0 + n1 + n2 + n3);
+		return Doubles.saturate(32.0D * (n0 + n1 + n2 + n3), -1.0D, 1.0D);
 	}
 	
 	/**
@@ -632,7 +632,7 @@ public final class SimplexNoiseD {
 		final double t4 = 0.6D - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
 		final double n4 = t4 < 0.0D ? 0.0D : (t4 * t4) * (t4 * t4) * (SIMPLEX_GRADIENT_4[gi4 * 4 + 0] * x4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 1] * y4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 2] * z4 + SIMPLEX_GRADIENT_4[gi4 * 4 + 3] * w4);
 		
-		return 27.0D * (n0 + n1 + n2 + n3 + n4);
+		return Doubles.saturate(27.0D * (n0 + n1 + n2 + n3 + n4), -1.0D, 1.0D);
 	}
 	
 	/**

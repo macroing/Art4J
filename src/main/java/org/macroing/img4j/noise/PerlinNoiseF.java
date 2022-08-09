@@ -187,7 +187,7 @@ public final class PerlinNoiseF {
 		final float lerp5 = lerp2 + v * (lerp3 - lerp2);
 		final float lerp6 = lerp4 + w * (lerp5 - lerp4);
 		
-		return lerp6;
+		return Floats.saturate(lerp6, -1.0F, 1.0F);
 	}
 	
 	/**

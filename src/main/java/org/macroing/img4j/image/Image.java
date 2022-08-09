@@ -672,7 +672,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code convolutionKernel} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image convolveColor4D(final ConvolutionKernelND convolutionKernel) {
 		return convolveColor4D(convolutionKernel, (color, point) -> true);
 	}
@@ -691,7 +690,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image convolveColor4D(final ConvolutionKernelND convolutionKernel, final BiPredicate<Color4D, Point2I> filter) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -721,7 +719,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code convolutionKernel} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image convolveColor4F(final ConvolutionKernelNF convolutionKernel) {
 		return convolveColor4F(convolutionKernel, (color, point) -> true);
 	}
@@ -740,7 +737,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image convolveColor4F(final ConvolutionKernelNF convolutionKernel, final BiPredicate<Color4F, Point2I> filter) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -3158,7 +3154,6 @@ public final class Image {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Unit Tests!
 	private int[] doFilterColor4D(final BiPredicate<Color4D, Point2I> filter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3190,7 +3185,6 @@ public final class Image {
 		return Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-//	TODO: Add Unit Tests!
 	private int[] doFilterColor4F(final BiPredicate<Color4F, Point2I> filter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();

@@ -187,7 +187,7 @@ public final class PerlinNoiseD {
 		final double lerp5 = lerp2 + v * (lerp3 - lerp2);
 		final double lerp6 = lerp4 + w * (lerp5 - lerp4);
 		
-		return lerp6;
+		return Doubles.saturate(lerp6, -1.0D, 1.0D);
 	}
 	
 	/**
