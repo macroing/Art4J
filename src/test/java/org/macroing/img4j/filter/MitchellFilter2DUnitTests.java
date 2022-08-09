@@ -61,43 +61,6 @@ public final class MitchellFilter2DUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final MitchellFilter2D mitchellFilter2D = new MitchellFilter2D();
-		
-		final double[] filterTable = mitchellFilter2D.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
-				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
-				
-				final double b = 1.0D / 3.0D;
-				final double c = 1.0D / 3.0D;
-				
-				final double x1 = Math.abs(filterX);
-				final double x2 = x1 * x1;
-				final double x3 = x1 * x2;
-				
-				final double y1 = Math.abs(filterY);
-				final double y2 = y1 * y1;
-				final double y3 = y1 * y2;
-				
-				final double expectedX = x1 > 1.0D ? ((-b - 6.0D * c) * x3 + (6.0D * b + 30.0D * c) * x2 + (-12.0D * b - 48.0D * c) * x1 + (8.0D * b + 24.0D * c)) * (1.0D / 6.0D) : ((12.0D - 9.0D * b - 6.0D * c) * x3 + (-18.0D + 12.0D * b + 6.0D * c) * x2 + (6.0D - 2.0D * b)) * (1.0D / 6.0D);
-				final double expectedY = y1 > 1.0D ? ((-b - 6.0D * c) * y3 + (6.0D * b + 30.0D * c) * y2 + (-12.0D * b - 48.0D * c) * y1 + (8.0D * b + 24.0D * c)) * (1.0D / 6.0D) : ((12.0D - 9.0D * b - 6.0D * c) * y3 + (-18.0D + 12.0D * b + 6.0D * c) * y2 + (6.0D - 2.0D * b)) * (1.0D / 6.0D);
-				
-				final double expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final MitchellFilter2D a = new MitchellFilter2D(2.0D, 4.0D, 6.0D, 8.0D);
 		final MitchellFilter2D b = new MitchellFilter2D(2.0D, 4.0D, 6.0D, 8.0D);
@@ -150,6 +113,43 @@ public final class MitchellFilter2DUnitTests {
 		final MitchellFilter2D mitchellFilter2D = new MitchellFilter2D(2.0D, 4.0D, 6.0D, 8.0D);
 		
 		assertEquals(8.0D, mitchellFilter2D.getC());
+	}
+	
+	@Test
+	public void testGetTable() {
+		final MitchellFilter2D mitchellFilter2D = new MitchellFilter2D();
+		
+		final double[] filterTable = mitchellFilter2D.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
+				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
+				
+				final double b = 1.0D / 3.0D;
+				final double c = 1.0D / 3.0D;
+				
+				final double x1 = Math.abs(filterX);
+				final double x2 = x1 * x1;
+				final double x3 = x1 * x2;
+				
+				final double y1 = Math.abs(filterY);
+				final double y2 = y1 * y1;
+				final double y3 = y1 * y2;
+				
+				final double expectedX = x1 > 1.0D ? ((-b - 6.0D * c) * x3 + (6.0D * b + 30.0D * c) * x2 + (-12.0D * b - 48.0D * c) * x1 + (8.0D * b + 24.0D * c)) * (1.0D / 6.0D) : ((12.0D - 9.0D * b - 6.0D * c) * x3 + (-18.0D + 12.0D * b + 6.0D * c) * x2 + (6.0D - 2.0D * b)) * (1.0D / 6.0D);
+				final double expectedY = y1 > 1.0D ? ((-b - 6.0D * c) * y3 + (6.0D * b + 30.0D * c) * y2 + (-12.0D * b - 48.0D * c) * y1 + (8.0D * b + 24.0D * c)) * (1.0D / 6.0D) : ((12.0D - 9.0D * b - 6.0D * c) * y3 + (-18.0D + 12.0D * b + 6.0D * c) * y2 + (6.0D - 2.0D * b)) * (1.0D / 6.0D);
+				
+				final double expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

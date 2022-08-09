@@ -59,29 +59,6 @@ public final class GaussianFilter2FUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final GaussianFilter2F gaussianFilter2F = new GaussianFilter2F(2.0F, 2.0F, 2.0F);
-		
-		final float[] filterTable = gaussianFilter2F.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
-				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
-				
-				final float expectedValue = ((float)(Math.exp(-2.0F * filterX * filterX)) - (float)(Math.exp(-8.0F))) * ((float)(Math.exp(-2.0F * filterY * filterY)) - (float)(Math.exp(-8.0F)));
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final GaussianFilter2F a = new GaussianFilter2F(2.0F, 4.0F, 6.0F);
 		final GaussianFilter2F b = new GaussianFilter2F(2.0F, 4.0F, 6.0F);
@@ -128,6 +105,29 @@ public final class GaussianFilter2FUnitTests {
 		final GaussianFilter2F gaussianFilter2F = new GaussianFilter2F(2.0F, 4.0F, 6.0F);
 		
 		assertEquals(6.0F, gaussianFilter2F.getFalloff());
+	}
+	
+	@Test
+	public void testGetTable() {
+		final GaussianFilter2F gaussianFilter2F = new GaussianFilter2F(2.0F, 2.0F, 2.0F);
+		
+		final float[] filterTable = gaussianFilter2F.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
+				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
+				
+				final float expectedValue = ((float)(Math.exp(-2.0F * filterX * filterX)) - (float)(Math.exp(-8.0F))) * ((float)(Math.exp(-2.0F * filterY * filterY)) - (float)(Math.exp(-8.0F)));
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

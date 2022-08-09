@@ -41,7 +41,7 @@ The following table describes the different APIs and their current status in the
 | Filter API         | 100.0%  | 100.0%    | org.macroing.img4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.img4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.img4j.geometry.shape |
-| Image API          | 100.0%  |  24.2%    | org.macroing.img4j.image          |
+| Image API          | 100.0%  |  18.9%    | org.macroing.img4j.image          |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.img4j.kernel         |
 | Noise API          | 100.0%  | 100.0%    | org.macroing.img4j.noise          |
 | Pixel API          | 100.0%  | 100.0%    | org.macroing.img4j.pixel          |

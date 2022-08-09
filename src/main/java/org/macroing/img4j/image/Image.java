@@ -34,13 +34,20 @@ import org.macroing.img4j.color.Color3D;
 import org.macroing.img4j.color.Color3F;
 import org.macroing.img4j.color.Color4D;
 import org.macroing.img4j.color.Color4F;
+import org.macroing.img4j.color.ColorSpaceD;
+import org.macroing.img4j.color.ColorSpaceF;
 import org.macroing.img4j.data.Data;
 import org.macroing.img4j.data.DataFactory;
+import org.macroing.img4j.filter.Filter2D;
+import org.macroing.img4j.filter.Filter2F;
 import org.macroing.img4j.geometry.Point2I;
 import org.macroing.img4j.geometry.Shape2I;
 import org.macroing.img4j.geometry.shape.Rectangle2I;
 import org.macroing.img4j.kernel.ConvolutionKernelND;
 import org.macroing.img4j.kernel.ConvolutionKernelNF;
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Ints;
 import org.macroing.java.util.function.IntTernaryOperator;
 import org.macroing.java.util.function.IntTriPredicate;
 
@@ -2084,6 +2091,298 @@ public final class Image {
 	 */
 	public Image rotate(final float angle, final boolean isAngleInRadians) {
 		this.data.rotate(angle, isAngleInRadians);
+		
+		return this;
+	}
+	
+	/**
+	 * Adds a filtered version of the sample {@code colorXYZ} to all pixels surrounding the pixel at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code colorXYZ} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorXYZ a {@link Color3D} instance represented in the XYZ-color space
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param filter the {@link Filter2D} instance to use when filtering
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleFilterAndAddXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter) {
+		return sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0D);
+	}
+	
+	/**
+	 * Adds a filtered version of the sample {@code colorXYZ} to all pixels surrounding the pixel at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code colorXYZ} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorXYZ a {@link Color3D} instance represented in the XYZ-color space
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param filter the {@link Filter2D} instance to use when filtering
+	 * @param sampleWeight the sample weight for this method call
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleFilterAndAddXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter, final double sampleWeight) {
+		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
+		Objects.requireNonNull(filter, "filter == null");
+		
+		this.data.changeBegin();
+		
+		final double[] filterTable = filter.getTable();
+		
+		final double filterResolutionX = filter.getResolutionX();
+		final double filterResolutionY = filter.getResolutionY();
+		final double filterResolutionXReciprocal = filter.getResolutionXReciprocal();
+		final double filterResolutionYReciprocal = filter.getResolutionYReciprocal();
+		
+		final double deltaX = x - 0.5D;
+		final double deltaY = y - 0.5D;
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int minimumFilterX = (int)(Doubles.max(Doubles.ceil(deltaX - filterResolutionX), 0.0D));
+		final int maximumFilterX = (int)(Doubles.min(Doubles.floor(deltaX + filterResolutionX), resolutionX - 1.0D));
+		final int minimumFilterY = (int)(Doubles.max(Doubles.ceil(deltaY - filterResolutionY), 0.0D));
+		final int maximumFilterY = (int)(Doubles.min(Doubles.floor(deltaY + filterResolutionY), resolutionY - 1.0D));
+		final int maximumFilterXMinimumFilterX = maximumFilterX - minimumFilterX;
+		final int maximumFilterYMinimumFilterY = maximumFilterY - minimumFilterY;
+		
+		if(maximumFilterXMinimumFilterX >= 0 && maximumFilterYMinimumFilterY >= 0) {
+			final int[] filterOffsetX = new int[maximumFilterXMinimumFilterX + 1];
+			final int[] filterOffsetY = new int[maximumFilterYMinimumFilterY + 1];
+			
+			for(int filterX = minimumFilterX; filterX <= maximumFilterX; filterX++) {
+				filterOffsetX[filterX - minimumFilterX] = Ints.min((int)(Doubles.floor(Doubles.abs((filterX - deltaX) * filterResolutionXReciprocal * Filter2D.FILTER_TABLE_SIZE))), Filter2D.FILTER_TABLE_SIZE - 1);
+			}
+			
+			for(int filterY = minimumFilterY; filterY <= maximumFilterY; filterY++) {
+				filterOffsetY[filterY - minimumFilterY] = Ints.min((int)(Doubles.floor(Doubles.abs((filterY - deltaY) * filterResolutionYReciprocal * Filter2D.FILTER_TABLE_SIZE))), Filter2D.FILTER_TABLE_SIZE - 1);
+			}
+			
+			for(int filterY = minimumFilterY; filterY <= maximumFilterY; filterY++) {
+				final int filterYResolutionX = filterY * resolutionX;
+				final int filterOffsetYOffsetFilterTableSize = filterOffsetY[filterY - minimumFilterY] * Filter2D.FILTER_TABLE_SIZE;
+				
+				for(int filterX = minimumFilterX; filterX <= maximumFilterX; filterX++) {
+					final double filterWeight = filterTable[filterOffsetYOffsetFilterTableSize + filterOffsetX[filterX - minimumFilterX]];
+					
+					final int index = filterYResolutionX + filterX;
+					
+					final Color4D oldColorXYZW = getColor4D(index);
+					final Color4D newColorXYZW = new Color4D(oldColorXYZW.r + colorXYZ.r * sampleWeight * filterWeight, oldColorXYZW.g + colorXYZ.g * sampleWeight * filterWeight, oldColorXYZW.b + colorXYZ.b * sampleWeight * filterWeight, oldColorXYZW.a + filterWeight);
+					
+					setColor4D(newColorXYZW, index);
+				}
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Adds a filtered version of the sample {@code colorXYZ} to all pixels surrounding the pixel at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code colorXYZ} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param colorXYZ a {@link Color3F} instance represented in the XYZ-color space
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param filter the {@link Filter2F} instance to use when filtering
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleFilterAndAddXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter) {
+		return sampleFilterAndAddXYZ(colorXYZ, x, y, filter, 1.0F);
+	}
+	
+	/**
+	 * Adds a filtered version of the sample {@code colorXYZ} to all pixels surrounding the pixel at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code colorXYZ} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorXYZ a {@link Color3F} instance represented in the XYZ-color space
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param filter the {@link Filter2F} instance to use when filtering
+	 * @param sampleWeight the sample weight for this method call
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleFilterAndAddXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter, final float sampleWeight) {
+		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
+		Objects.requireNonNull(filter, "filter == null");
+		
+		this.data.changeBegin();
+		
+		final float[] filterTable = filter.getTable();
+		
+		final float filterResolutionX = filter.getResolutionX();
+		final float filterResolutionY = filter.getResolutionY();
+		final float filterResolutionXReciprocal = filter.getResolutionXReciprocal();
+		final float filterResolutionYReciprocal = filter.getResolutionYReciprocal();
+		
+		final float deltaX = x - 0.5F;
+		final float deltaY = y - 0.5F;
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int minimumFilterX = (int)(Floats.max(Floats.ceil(deltaX - filterResolutionX), 0.0F));
+		final int maximumFilterX = (int)(Floats.min(Floats.floor(deltaX + filterResolutionX), resolutionX - 1.0F));
+		final int minimumFilterY = (int)(Floats.max(Floats.ceil(deltaY - filterResolutionY), 0.0F));
+		final int maximumFilterY = (int)(Floats.min(Floats.floor(deltaY + filterResolutionY), resolutionY - 1.0F));
+		final int maximumFilterXMinimumFilterX = maximumFilterX - minimumFilterX;
+		final int maximumFilterYMinimumFilterY = maximumFilterY - minimumFilterY;
+		
+		if(maximumFilterXMinimumFilterX >= 0 && maximumFilterYMinimumFilterY >= 0) {
+			final int[] filterOffsetX = new int[maximumFilterXMinimumFilterX + 1];
+			final int[] filterOffsetY = new int[maximumFilterYMinimumFilterY + 1];
+			
+			for(int filterX = minimumFilterX; filterX <= maximumFilterX; filterX++) {
+				filterOffsetX[filterX - minimumFilterX] = Ints.min((int)(Floats.floor(Floats.abs((filterX - deltaX) * filterResolutionXReciprocal * Filter2F.FILTER_TABLE_SIZE))), Filter2F.FILTER_TABLE_SIZE - 1);
+			}
+			
+			for(int filterY = minimumFilterY; filterY <= maximumFilterY; filterY++) {
+				filterOffsetY[filterY - minimumFilterY] = Ints.min((int)(Floats.floor(Floats.abs((filterY - deltaY) * filterResolutionYReciprocal * Filter2F.FILTER_TABLE_SIZE))), Filter2F.FILTER_TABLE_SIZE - 1);
+			}
+			
+			for(int filterY = minimumFilterY; filterY <= maximumFilterY; filterY++) {
+				final int filterYResolutionX = filterY * resolutionX;
+				final int filterOffsetYOffsetFilterTableSize = filterOffsetY[filterY - minimumFilterY] * Filter2F.FILTER_TABLE_SIZE;
+				
+				for(int filterX = minimumFilterX; filterX <= maximumFilterX; filterX++) {
+					final float filterWeight = filterTable[filterOffsetYOffsetFilterTableSize + filterOffsetX[filterX - minimumFilterX]];
+					
+					final int index = filterYResolutionX + filterX;
+					
+					final Color4F oldColorXYZW = getColor4F(index);
+					final Color4F newColorXYZW = new Color4F(oldColorXYZW.r + colorXYZ.r * sampleWeight * filterWeight, oldColorXYZW.g + colorXYZ.g * sampleWeight * filterWeight, oldColorXYZW.b + colorXYZ.b * sampleWeight * filterWeight, oldColorXYZW.a + filterWeight);
+					
+					setColor4F(newColorXYZW, index);
+				}
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Renders {@code imageXYZ} that stores pixel data in XYZ-color space to this {@code Image} instance that stores pixel data in RGB-color space.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code imageXYZ} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param imageXYZ an {@code Image} instance that stores pixel data in XYZ-color space
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code imageXYZ} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleRenderColor3D(final Image imageXYZ) {
+		Objects.requireNonNull(imageXYZ, "imageXYZ == null");
+		
+		this.data.changeBegin();
+		
+		final ColorSpaceD colorSpace = ColorSpaceD.getDefault();
+		
+		final int resolutionX = Ints.min(getResolutionX(), imageXYZ.getResolutionX());
+		final int resolutionY = Ints.min(getResolutionY(), imageXYZ.getResolutionY());
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final Color4D colorXYZW = imageXYZ.getColor4D(x, y);
+				final Color3D colorXYZ = new Color3D(colorXYZW);
+				
+				Color3D colorRGB = colorSpace.convertXYZToRGB(colorXYZ);
+				
+				if(!Doubles.isZero(colorXYZW.a)) {
+					colorRGB = new Color3D(Doubles.max(colorRGB.r / colorXYZW.a, 0.0D), Doubles.max(colorRGB.g / colorXYZW.a, 0.0D), Doubles.max(colorRGB.b / colorXYZW.a, 0.0D));
+				}
+				
+				colorRGB = colorSpace.redoGammaCorrection(colorRGB);
+				
+				setColor3D(colorRGB, x, y);
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Renders {@code imageXYZ} that stores pixel data in XYZ-color space to this {@code Image} instance that stores pixel data in RGB-color space.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code imageXYZ} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param imageXYZ an {@code Image} instance that stores pixel data in XYZ-color space
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code imageXYZ} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image sampleRenderColor3F(final Image imageXYZ) {
+		Objects.requireNonNull(imageXYZ, "imageXYZ == null");
+		
+		this.data.changeBegin();
+		
+		final ColorSpaceF colorSpace = ColorSpaceF.getDefault();
+		
+		final int resolutionX = Ints.min(getResolutionX(), imageXYZ.getResolutionX());
+		final int resolutionY = Ints.min(getResolutionY(), imageXYZ.getResolutionY());
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final Color4F colorXYZW = imageXYZ.getColor4F(x, y);
+				final Color3F colorXYZ = new Color3F(colorXYZW);
+				
+				Color3F colorRGB = colorSpace.convertXYZToRGB(colorXYZ);
+				
+				if(!Floats.isZero(colorXYZW.a)) {
+					colorRGB = new Color3F(Floats.max(colorRGB.r / colorXYZW.a, 0.0F), Floats.max(colorRGB.g / colorXYZW.a, 0.0F), Floats.max(colorRGB.b / colorXYZW.a, 0.0F));
+				}
+				
+				colorRGB = colorSpace.redoGammaCorrection(colorRGB);
+				
+				setColor3F(colorRGB, x, y);
+			}
+		}
+		
+		this.data.changeEnd();
 		
 		return this;
 	}

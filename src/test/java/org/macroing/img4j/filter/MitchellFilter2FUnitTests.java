@@ -61,43 +61,6 @@ public final class MitchellFilter2FUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final MitchellFilter2F mitchellFilter2F = new MitchellFilter2F();
-		
-		final float[] filterTable = mitchellFilter2F.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
-				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
-				
-				final float b = 1.0F / 3.0F;
-				final float c = 1.0F / 3.0F;
-				
-				final float x1 = Math.abs(filterX);
-				final float x2 = x1 * x1;
-				final float x3 = x1 * x2;
-				
-				final float y1 = Math.abs(filterY);
-				final float y2 = y1 * y1;
-				final float y3 = y1 * y2;
-				
-				final float expectedX = x1 > 1.0F ? ((-b - 6.0F * c) * x3 + (6.0F * b + 30.0F * c) * x2 + (-12.0F * b - 48.0F * c) * x1 + (8.0F * b + 24.0F * c)) * (1.0F / 6.0F) : ((12.0F - 9.0F * b - 6.0F * c) * x3 + (-18.0F + 12.0F * b + 6.0F * c) * x2 + (6.0F - 2.0F * b)) * (1.0F / 6.0F);
-				final float expectedY = y1 > 1.0F ? ((-b - 6.0F * c) * y3 + (6.0F * b + 30.0F * c) * y2 + (-12.0F * b - 48.0F * c) * y1 + (8.0F * b + 24.0F * c)) * (1.0F / 6.0F) : ((12.0F - 9.0F * b - 6.0F * c) * y3 + (-18.0F + 12.0F * b + 6.0F * c) * y2 + (6.0F - 2.0F * b)) * (1.0F / 6.0F);
-				
-				final float expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final MitchellFilter2F a = new MitchellFilter2F(2.0F, 4.0F, 6.0F, 8.0F);
 		final MitchellFilter2F b = new MitchellFilter2F(2.0F, 4.0F, 6.0F, 8.0F);
@@ -150,6 +113,43 @@ public final class MitchellFilter2FUnitTests {
 		final MitchellFilter2F mitchellFilter2F = new MitchellFilter2F(2.0F, 4.0F, 6.0F, 8.0F);
 		
 		assertEquals(8.0F, mitchellFilter2F.getC());
+	}
+	
+	@Test
+	public void testGetTable() {
+		final MitchellFilter2F mitchellFilter2F = new MitchellFilter2F();
+		
+		final float[] filterTable = mitchellFilter2F.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
+				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
+				
+				final float b = 1.0F / 3.0F;
+				final float c = 1.0F / 3.0F;
+				
+				final float x1 = Math.abs(filterX);
+				final float x2 = x1 * x1;
+				final float x3 = x1 * x2;
+				
+				final float y1 = Math.abs(filterY);
+				final float y2 = y1 * y1;
+				final float y3 = y1 * y2;
+				
+				final float expectedX = x1 > 1.0F ? ((-b - 6.0F * c) * x3 + (6.0F * b + 30.0F * c) * x2 + (-12.0F * b - 48.0F * c) * x1 + (8.0F * b + 24.0F * c)) * (1.0F / 6.0F) : ((12.0F - 9.0F * b - 6.0F * c) * x3 + (-18.0F + 12.0F * b + 6.0F * c) * x2 + (6.0F - 2.0F * b)) * (1.0F / 6.0F);
+				final float expectedY = y1 > 1.0F ? ((-b - 6.0F * c) * y3 + (6.0F * b + 30.0F * c) * y2 + (-12.0F * b - 48.0F * c) * y1 + (8.0F * b + 24.0F * c)) * (1.0F / 6.0F) : ((12.0F - 9.0F * b - 6.0F * c) * y3 + (-18.0F + 12.0F * b + 6.0F * c) * y2 + (6.0F - 2.0F * b)) * (1.0F / 6.0F);
+				
+				final float expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

@@ -44,32 +44,6 @@ public final class CatmullRomFilter2DUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final CatmullRomFilter2D catmullRomFilter2D = new CatmullRomFilter2D();
-		
-		final double[] filterTable = catmullRomFilter2D.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
-				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
-				
-				final double expectedX = filterX >= 2.0D ? 0.0D : filterX < 1.0D ? 3.0D * filterX * filterX * filterX - 5.0D * filterX * filterX + 2.0D : -(filterX * filterX * filterX) + 5.0D * filterX * filterX - 8.0D * filterX + 4.0D;
-				final double expectedY = filterY >= 2.0D ? 0.0D : filterY < 1.0D ? 3.0D * filterY * filterY * filterY - 5.0D * filterY * filterY + 2.0D : -(filterY * filterY * filterY) + 5.0D * filterY * filterY - 8.0D * filterY + 4.0D;
-				
-				final double expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final CatmullRomFilter2D a = new CatmullRomFilter2D();
 		final CatmullRomFilter2D b = new CatmullRomFilter2D();
@@ -93,6 +67,32 @@ public final class CatmullRomFilter2DUnitTests {
 		assertEquals(0.0D, catmullRomFilter2D.evaluate(1.0D, 0.0D));
 		assertEquals(0.0D, catmullRomFilter2D.evaluate(1.0D, 1.0D));
 		assertEquals(0.0D, catmullRomFilter2D.evaluate(2.0D, 2.0D));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final CatmullRomFilter2D catmullRomFilter2D = new CatmullRomFilter2D();
+		
+		final double[] filterTable = catmullRomFilter2D.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
+				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
+				
+				final double expectedX = filterX >= 2.0D ? 0.0D : filterX < 1.0D ? 3.0D * filterX * filterX * filterX - 5.0D * filterX * filterX + 2.0D : -(filterX * filterX * filterX) + 5.0D * filterX * filterX - 8.0D * filterX + 4.0D;
+				final double expectedY = filterY >= 2.0D ? 0.0D : filterY < 1.0D ? 3.0D * filterY * filterY * filterY - 5.0D * filterY * filterY + 2.0D : -(filterY * filterY * filterY) + 5.0D * filterY * filterY - 8.0D * filterY + 4.0D;
+				
+				final double expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

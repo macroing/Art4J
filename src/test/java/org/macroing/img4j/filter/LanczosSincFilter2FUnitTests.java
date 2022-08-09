@@ -59,32 +59,6 @@ public final class LanczosSincFilter2FUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final LanczosSincFilter2F lanczosSincFilter2F = new LanczosSincFilter2F(4.0F, 4.0F, 3.0F);
-		
-		final float[] filterTable = lanczosSincFilter2F.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final float filterX = (x + 0.5F) * 4.0F * 0.0625F * 0.25F;
-				final float filterY = (y + 0.5F) * 4.0F * 0.0625F * 0.25F;
-				
-				final float expectedX = filterX < 1.0e-5F ? 1.0F : filterX > 1.0F ? 0.0F : ((float)(Math.sin(filterX * (float)(Math.PI) * 3.0F)) / (filterX * (float)(Math.PI) * 3.0F)) * ((float)(Math.sin(filterX * (float)(Math.PI))) / (filterX * (float)(Math.PI)));
-				final float expectedY = filterY < 1.0e-5F ? 1.0F : filterY > 1.0F ? 0.0F : ((float)(Math.sin(filterY * (float)(Math.PI) * 3.0F)) / (filterY * (float)(Math.PI) * 3.0F)) * ((float)(Math.sin(filterY * (float)(Math.PI))) / (filterY * (float)(Math.PI)));
-				
-				final float expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final LanczosSincFilter2F a = new LanczosSincFilter2F(2.0F, 4.0F, 6.0F);
 		final LanczosSincFilter2F b = new LanczosSincFilter2F(2.0F, 4.0F, 6.0F);
@@ -120,6 +94,32 @@ public final class LanczosSincFilter2FUnitTests {
 		assertEquals(0.270189800F, lanczosSincFilter2F.evaluate( 1.0F,  0.0F));
 		assertEquals(0.073002525F, lanczosSincFilter2F.evaluate( 1.0F,  1.0F));
 		assertEquals(0.000000000F, lanczosSincFilter2F.evaluate(16.0F, 16.0F));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final LanczosSincFilter2F lanczosSincFilter2F = new LanczosSincFilter2F(4.0F, 4.0F, 3.0F);
+		
+		final float[] filterTable = lanczosSincFilter2F.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final float filterX = (x + 0.5F) * 4.0F * 0.0625F * 0.25F;
+				final float filterY = (y + 0.5F) * 4.0F * 0.0625F * 0.25F;
+				
+				final float expectedX = filterX < 1.0e-5F ? 1.0F : filterX > 1.0F ? 0.0F : ((float)(Math.sin(filterX * (float)(Math.PI) * 3.0F)) / (filterX * (float)(Math.PI) * 3.0F)) * ((float)(Math.sin(filterX * (float)(Math.PI))) / (filterX * (float)(Math.PI)));
+				final float expectedY = filterY < 1.0e-5F ? 1.0F : filterY > 1.0F ? 0.0F : ((float)(Math.sin(filterY * (float)(Math.PI) * 3.0F)) / (filterY * (float)(Math.PI) * 3.0F)) * ((float)(Math.sin(filterY * (float)(Math.PI))) / (filterY * (float)(Math.PI)));
+				
+				final float expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

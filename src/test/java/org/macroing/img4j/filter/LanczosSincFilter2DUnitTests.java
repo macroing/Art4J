@@ -59,32 +59,6 @@ public final class LanczosSincFilter2DUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final LanczosSincFilter2D lanczosSincFilter2D = new LanczosSincFilter2D(4.0D, 4.0D, 3.0D);
-		
-		final double[] filterTable = lanczosSincFilter2D.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final double filterX = (x + 0.5D) * 4.0D * 0.0625D * 0.25D;
-				final double filterY = (y + 0.5D) * 4.0D * 0.0625D * 0.25D;
-				
-				final double expectedX = filterX < 1.0e-5D ? 1.0D : filterX > 1.0D ? 0.0D : (Math.sin(filterX * Math.PI * 3.0D) / (filterX * Math.PI * 3.0D)) * (Math.sin(filterX * Math.PI) / (filterX * Math.PI));
-				final double expectedY = filterY < 1.0e-5D ? 1.0D : filterY > 1.0D ? 0.0D : (Math.sin(filterY * Math.PI * 3.0D) / (filterY * Math.PI * 3.0D)) * (Math.sin(filterY * Math.PI) / (filterY * Math.PI));
-				
-				final double expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final LanczosSincFilter2D a = new LanczosSincFilter2D(2.0D, 4.0D, 6.0D);
 		final LanczosSincFilter2D b = new LanczosSincFilter2D(2.0D, 4.0D, 6.0D);
@@ -120,6 +94,32 @@ public final class LanczosSincFilter2DUnitTests {
 		assertEquals(0.27018982304623407D, lanczosSincFilter2D.evaluate( 1.0D,  0.0D));
 		assertEquals(0.07300254047775528D, lanczosSincFilter2D.evaluate( 1.0D,  1.0D));
 		assertEquals(0.00000000000000000D, lanczosSincFilter2D.evaluate(16.0D, 16.0D));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final LanczosSincFilter2D lanczosSincFilter2D = new LanczosSincFilter2D(4.0D, 4.0D, 3.0D);
+		
+		final double[] filterTable = lanczosSincFilter2D.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final double filterX = (x + 0.5D) * 4.0D * 0.0625D * 0.25D;
+				final double filterY = (y + 0.5D) * 4.0D * 0.0625D * 0.25D;
+				
+				final double expectedX = filterX < 1.0e-5D ? 1.0D : filterX > 1.0D ? 0.0D : (Math.sin(filterX * Math.PI * 3.0D) / (filterX * Math.PI * 3.0D)) * (Math.sin(filterX * Math.PI) / (filterX * Math.PI));
+				final double expectedY = filterY < 1.0e-5D ? 1.0D : filterY > 1.0D ? 0.0D : (Math.sin(filterY * Math.PI * 3.0D) / (filterY * Math.PI * 3.0D)) * (Math.sin(filterY * Math.PI) / (filterY * Math.PI));
+				
+				final double expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

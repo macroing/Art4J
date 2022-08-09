@@ -44,32 +44,6 @@ public final class CatmullRomFilter2FUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final CatmullRomFilter2F catmullRomFilter2F = new CatmullRomFilter2F();
-		
-		final float[] filterTable = catmullRomFilter2F.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
-				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
-				
-				final float expectedX = filterX >= 2.0F ? 0.0F : filterX < 1.0F ? 3.0F * filterX * filterX * filterX - 5.0F * filterX * filterX + 2.0F : -(filterX * filterX * filterX) + 5.0F * filterX * filterX - 8.0F * filterX + 4.0F;
-				final float expectedY = filterY >= 2.0F ? 0.0F : filterY < 1.0F ? 3.0F * filterY * filterY * filterY - 5.0F * filterY * filterY + 2.0F : -(filterY * filterY * filterY) + 5.0F * filterY * filterY - 8.0F * filterY + 4.0F;
-				
-				final float expectedValue = expectedX * expectedY;
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final CatmullRomFilter2F a = new CatmullRomFilter2F();
 		final CatmullRomFilter2F b = new CatmullRomFilter2F();
@@ -93,6 +67,32 @@ public final class CatmullRomFilter2FUnitTests {
 		assertEquals(0.0F, catmullRomFilter2F.evaluate(1.0F, 0.0F));
 		assertEquals(0.0F, catmullRomFilter2F.evaluate(1.0F, 1.0F));
 		assertEquals(0.0F, catmullRomFilter2F.evaluate(2.0F, 2.0F));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final CatmullRomFilter2F catmullRomFilter2F = new CatmullRomFilter2F();
+		
+		final float[] filterTable = catmullRomFilter2F.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final float filterX = (x + 0.5F) * 2.0F * 0.0625F;
+				final float filterY = (y + 0.5F) * 2.0F * 0.0625F;
+				
+				final float expectedX = filterX >= 2.0F ? 0.0F : filterX < 1.0F ? 3.0F * filterX * filterX * filterX - 5.0F * filterX * filterX + 2.0F : -(filterX * filterX * filterX) + 5.0F * filterX * filterX - 8.0F * filterX + 4.0F;
+				final float expectedY = filterY >= 2.0F ? 0.0F : filterY < 1.0F ? 3.0F * filterY * filterY * filterY - 5.0F * filterY * filterY + 2.0F : -(filterY * filterY * filterY) + 5.0F * filterY * filterY - 8.0F * filterY + 4.0F;
+				
+				final float expectedValue = expectedX * expectedY;
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

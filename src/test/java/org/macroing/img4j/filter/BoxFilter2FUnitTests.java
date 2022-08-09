@@ -55,22 +55,6 @@ public final class BoxFilter2FUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final BoxFilter2F boxFilter2F = new BoxFilter2F();
-		
-		final float[] filterTable = boxFilter2F.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0; i < filterTable.length; i++) {
-			assertEquals(1.0F, filterTable[i]);
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final BoxFilter2F a = new BoxFilter2F(2.0F, 4.0F);
 		final BoxFilter2F b = new BoxFilter2F(2.0F, 4.0F);
@@ -101,6 +85,22 @@ public final class BoxFilter2FUnitTests {
 		assertEquals(1.0F, boxFilter2F.evaluate(0.0F, 1.0F));
 		assertEquals(1.0F, boxFilter2F.evaluate(1.0F, 0.0F));
 		assertEquals(1.0F, boxFilter2F.evaluate(1.0F, 1.0F));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final BoxFilter2F boxFilter2F = new BoxFilter2F();
+		
+		final float[] filterTable = boxFilter2F.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2F.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0; i < filterTable.length; i++) {
+			assertEquals(1.0F, filterTable[i]);
+		}
 	}
 	
 	@Test

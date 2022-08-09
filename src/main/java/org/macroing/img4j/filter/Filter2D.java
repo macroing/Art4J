@@ -18,6 +18,8 @@
  */
 package org.macroing.img4j.filter;
 
+import org.macroing.java.util.LazyReference;
+
 /**
  * A {@code Filter2D} represents a 2-dimensional filter that operates on and returns {@code double} values.
  * 
@@ -32,6 +34,7 @@ public abstract class Filter2D {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private final LazyReference<double[]> table;
 	private final double resolutionX;
 	private final double resolutionXReciprocal;
 	private final double resolutionY;
@@ -46,6 +49,7 @@ public abstract class Filter2D {
 	 * @param resolutionY the resolution of the Y-axis
 	 */
 	protected Filter2D(final double resolutionX, final double resolutionY) {
+		this.table = new LazyReference<>(() -> doCreateTable());
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
 		this.resolutionXReciprocal = 1.0D / this.resolutionX;
@@ -106,7 +110,13 @@ public abstract class Filter2D {
 	 * 
 	 * @return a table with cached values
 	 */
-	public final double[] createFilterTable() {
+	public final double[] getTable() {
+		return this.table.getValue();
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private double[] doCreateTable() {
 		final double[] filterTable = new double[FILTER_TABLE_SIZE * FILTER_TABLE_SIZE];
 		
 		final double filterResolutionX = getResolutionX();

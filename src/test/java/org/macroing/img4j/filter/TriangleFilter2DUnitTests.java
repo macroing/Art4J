@@ -55,29 +55,6 @@ public final class TriangleFilter2DUnitTests {
 	}
 	
 	@Test
-	public void testCreateFilterTable() {
-		final TriangleFilter2D triangleFilter2D = new TriangleFilter2D();
-		
-		final double[] filterTable = triangleFilter2D.createFilterTable();
-		
-		assertNotNull(filterTable);
-		
-		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
-		assertEquals(256, filterTable.length);
-		
-		for(int i = 0, y = 0; y < 16; y++) {
-			for(int x = 0; x < 16; x++, i++) {
-				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
-				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
-				
-				final double expectedValue = (2.0D - filterX) * (2.0D - filterY);
-				
-				assertEquals(expectedValue, filterTable[i]);
-			}
-		}
-	}
-	
-	@Test
 	public void testEquals() {
 		final TriangleFilter2D a = new TriangleFilter2D(2.0D, 4.0D);
 		final TriangleFilter2D b = new TriangleFilter2D(2.0D, 4.0D);
@@ -108,6 +85,29 @@ public final class TriangleFilter2DUnitTests {
 		assertEquals(2.0D, triangleFilter2D.evaluate(0.0D, 1.0D));
 		assertEquals(2.0D, triangleFilter2D.evaluate(1.0D, 0.0D));
 		assertEquals(1.0D, triangleFilter2D.evaluate(1.0D, 1.0D));
+	}
+	
+	@Test
+	public void testGetTable() {
+		final TriangleFilter2D triangleFilter2D = new TriangleFilter2D();
+		
+		final double[] filterTable = triangleFilter2D.getTable();
+		
+		assertNotNull(filterTable);
+		
+		assertEquals(16, Filter2D.FILTER_TABLE_SIZE);
+		assertEquals(256, filterTable.length);
+		
+		for(int i = 0, y = 0; y < 16; y++) {
+			for(int x = 0; x < 16; x++, i++) {
+				final double filterX = (x + 0.5D) * 2.0D * 0.0625D;
+				final double filterY = (y + 0.5D) * 2.0D * 0.0625D;
+				
+				final double expectedValue = (2.0D - filterX) * (2.0D - filterY);
+				
+				assertEquals(expectedValue, filterTable[i]);
+			}
+		}
 	}
 	
 	@Test

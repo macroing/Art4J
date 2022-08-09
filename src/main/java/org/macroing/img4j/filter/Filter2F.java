@@ -18,6 +18,8 @@
  */
 package org.macroing.img4j.filter;
 
+import org.macroing.java.util.LazyReference;
+
 /**
  * A {@code Filter2F} represents a 2-dimensional filter that operates on and returns {@code float} values.
  * 
@@ -32,6 +34,7 @@ public abstract class Filter2F {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private final LazyReference<float[]> table;
 	private final float resolutionX;
 	private final float resolutionXReciprocal;
 	private final float resolutionY;
@@ -46,6 +49,7 @@ public abstract class Filter2F {
 	 * @param resolutionY the resolution of the Y-axis
 	 */
 	protected Filter2F(final float resolutionX, final float resolutionY) {
+		this.table = new LazyReference<>(() -> doCreateTable());
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
 		this.resolutionXReciprocal = 1.0F / this.resolutionX;
@@ -106,7 +110,13 @@ public abstract class Filter2F {
 	 * 
 	 * @return a table with cached values
 	 */
-	public final float[] createFilterTable() {
+	public final float[] getTable() {
+		return this.table.getValue();
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private float[] doCreateTable() {
 		final float[] filterTable = new float[FILTER_TABLE_SIZE * FILTER_TABLE_SIZE];
 		
 		final float filterResolutionX = getResolutionX();
