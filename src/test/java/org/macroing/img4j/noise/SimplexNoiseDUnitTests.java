@@ -112,6 +112,24 @@ public final class SimplexNoiseDUnitTests {
 	}
 	
 	@Test
+	public void testFractionalBrownianMotionX() {
+		for(int i = 0; i < 100000; i++) {
+			final double x = Randoms.nextDouble(-1000.0D, 1000.0D);
+			
+			final double frequency = 1.0D;
+			final double gain = 1.0D;
+			final double minimum = 0.0D;
+			final double maximum = 1.0D;
+			
+			final int octaves = 16;
+			
+			final double noise = SimplexNoiseD.fractionalBrownianMotionX(x, frequency, gain, minimum, maximum, octaves);
+			
+			assertTrue(noise >= minimum && noise <= maximum);
+		}
+	}
+	
+	@Test
 	public void testFractionalBrownianMotionXY() {
 		for(int i = 0; i < 100000; i++) {
 			final double x = Randoms.nextDouble(-100000.0D, 100000.0D);

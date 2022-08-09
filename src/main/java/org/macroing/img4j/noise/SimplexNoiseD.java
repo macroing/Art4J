@@ -18,8 +18,6 @@
  */
 package org.macroing.img4j.noise;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
-
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
 
@@ -174,7 +172,6 @@ public final class SimplexNoiseD {
 	 * @param octaves the number of iterations to perform
 	 * @return a {@code double} with noise computed by a Simplex-based fractional Brownian motion (fBm) algorithm using the coordinate X
 	 */
-//	TODO: Add Unit Tests!
 	public static double fractionalBrownianMotionX(final double x, final double frequency, final double gain, final double minimum, final double maximum, final int octaves) {
 		double currentAmplitude = 1.0D;
 		double maximumAmplitude = 0.0D;
