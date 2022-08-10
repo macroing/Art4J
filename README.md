@@ -2,6 +2,8 @@ Img4J
 =====
 Img4J is an image processing library for Java.
 
+This project will supersede the old [Image4J](https://github.com/macroing/Image4J) project and the Image API in the [Dayflower](https://github.com/macroing/Dayflower) project.
+
 Getting Started
 ---------------
 To clone this repository and build the project using Apache Ant, you can type the following in Git Bash.
@@ -41,7 +43,7 @@ The following table describes the different APIs and their current status in the
 | Filter API         | 100.0%  | 100.0%    | org.macroing.img4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.img4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.img4j.geometry.shape |
-| Image API          | 100.0%  |  25.3%    | org.macroing.img4j.image          |
+| Image API          | 100.0%  |  31.0%    | org.macroing.img4j.image          |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.img4j.kernel         |
 | Noise API          | 100.0%  | 100.0%    | org.macroing.img4j.noise          |
 | Pixel API          | 100.0%  | 100.0%    | org.macroing.img4j.pixel          |

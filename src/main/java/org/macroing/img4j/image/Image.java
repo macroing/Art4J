@@ -1222,44 +1222,42 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills all pixels in this {@code Image} instance in the colors provided by {@code pixelOperator}.
+	 * Fills all pixels in this {@code Image} instance in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code pixelOperator} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * If {@code operator} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillColorARGB(pixelOperator, (colorARGB, x, y) -> true);
+	 * image.fillColorARGB(operator, (colorARGB, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
-	public Image fillColorARGB(final IntTernaryOperator pixelOperator) {
-		return fillColorARGB(pixelOperator, (colorARGB, x, y) -> true);
+	public Image fillColorARGB(final IntTernaryOperator operator) {
+		return fillColorARGB(operator, (colorARGB, x, y) -> true);
 	}
 	
 	/**
-	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code filter} in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code operator} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param filter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
-	public Image fillColorARGB(final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
-		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
-		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
+	public Image fillColorARGB(final IntTernaryOperator operator, final IntTriPredicate filter) {
+		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(filter, "filter == null");
 		
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1270,8 +1268,8 @@ public final class Image {
 			for(int x = 0; x < resolutionX; x++) {
 				final int oldColorARGB = getColorARGB(x, y);
 				
-				if(pixelFilter.test(oldColorARGB, x, y)) {
-					final int newColorARGB = pixelOperator.applyAsInt(oldColorARGB, x, y);
+				if(filter.test(oldColorARGB, x, y)) {
+					final int newColorARGB = operator.applyAsInt(oldColorARGB, x, y);
 					
 					this.data.setColorARGB(newColorARGB, x, y);
 				}
@@ -1522,106 +1520,106 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code pixelOperator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point} or {@code pixelOperator} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code point} or {@code operator} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColorARGB(point, pixelOperator, (colorARGB, x, y) -> true);
+	 * image.fillRegionColorARGB(point, operator, (colorARGB, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code operator} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator pixelOperator) {
-		return fillRegionColorARGB(point, pixelOperator, (colorARGB, x, y) -> true);
+	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator operator) {
+		return fillRegionColorARGB(point, operator, (colorARGB, x, y) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code filter} in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code point}, {@code operator} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColorARGB(point.x, point.y, pixelOperator, pixelFilter);
+	 * image.fillRegionColorARGB(point.x, point.y, operator, filter);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param filter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code operator} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
-		return fillRegionColorARGB(point.x, point.y, pixelOperator, pixelFilter);
+	public Image fillRegionColorARGB(final Point2I point, final IntTernaryOperator operator, final IntTriPredicate filter) {
+		return fillRegionColorARGB(point.x, point.y, operator, filter);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code pixelOperator} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * If {@code operator} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColorARGB(x, y, pixelOperator, (currentColorARGB, currentX, currentY) -> true);
+	 * image.fillRegionColorARGB(x, y, operator, (currentColorARGB, currentX, currentY) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator pixelOperator) {
-		return fillRegionColorARGB(x, y, pixelOperator, (currentColorARGB, currentX, currentY) -> true);
+	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator operator) {
+		return fillRegionColorARGB(x, y, operator, (currentColorARGB, currentX, currentY) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code filter} in the colors provided by {@code operator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code operator} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter an {@code IntTriPredicate} instance that accepts or rejects pixels
+	 * @param operator an {@code IntTernaryOperator} instance that returns a color for each pixel affected
+	 * @param filter an {@code IntTriPredicate} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator pixelOperator, final IntTriPredicate pixelFilter) {
+	public Image fillRegionColorARGB(final int x, final int y, final IntTernaryOperator operator, final IntTriPredicate filter) {
 		this.data.changeBegin();
 		
-		doFillRegionColorARGB(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
+		doFillRegionColorARGB(x, y, operator, filter, getColorARGB(x, y));
 		
 		this.data.changeEnd();
 		
@@ -1946,7 +1944,6 @@ public final class Image {
 	 * 
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image flip() {
 		return flipX().flipY();
 	}
@@ -1958,7 +1955,6 @@ public final class Image {
 	 * 
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image flipX() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -1986,7 +1982,6 @@ public final class Image {
 	 * 
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image flipY() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();

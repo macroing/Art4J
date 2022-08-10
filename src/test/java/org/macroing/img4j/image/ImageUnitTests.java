@@ -476,6 +476,243 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testFillColorARGBIntTernaryOperator() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 1);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 3);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColorARGB((colorARGB, x, y) -> Color4I.WHITE_A_R_G_B);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColorARGB(null));
+	}
+	
+	@Test
+	public void testFillColorARGBIntTernaryOperatorIntTriPredicate() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 1);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 3);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, (colorARGB, x, y) -> y == 0);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, (colorARGB, x, y) -> y == 1);
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, null));
+		assertThrows(NullPointerException.class, () -> image.fillColorARGB(null, (colorARGB, x, y) -> true));
+	}
+	
+	@Test
+	public void testFlip() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.toIntARGB(10, 0, 0, 255), 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 0, 0, 255), 1);
+		image.setColorARGB(Color4I.toIntARGB(30, 0, 0, 255), 2);
+		image.setColorARGB(Color4I.toIntARGB(40, 0, 0, 255), 3);
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flip();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flip();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		
+		image.flip();
+		
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+	}
+	
+	@Test
+	public void testFlipX() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.toIntARGB(10, 0, 0, 255), 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 0, 0, 255), 1);
+		image.setColorARGB(Color4I.toIntARGB(30, 0, 0, 255), 2);
+		image.setColorARGB(Color4I.toIntARGB(40, 0, 0, 255), 3);
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flipX();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flipX();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		
+		image.flipX();
+		
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+	}
+	
+	@Test
+	public void testFlipY() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.toIntARGB(10, 0, 0, 255), 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 0, 0, 255), 1);
+		image.setColorARGB(Color4I.toIntARGB(30, 0, 0, 255), 2);
+		image.setColorARGB(Color4I.toIntARGB(40, 0, 0, 255), 3);
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flipY();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(3));
+		
+		image.flipY();
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		
+		image.flipY();
+		
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.toIntARGB(10, 0, 0, 255), image.getColorARGB(0));
+		assertEquals(Color4I.toIntARGB(20, 0, 0, 255), image.getColorARGB(1));
+		assertEquals(Color4I.toIntARGB(30, 0, 0, 255), image.getColorARGB(2));
+		assertEquals(Color4I.toIntARGB(40, 0, 0, 255), image.getColorARGB(3));
+	}
+	
+	@Test
 	public void testGetBounds() {
 		final Image a = new Image(1, 1);
 		final Image b = new Image(9, 9);
