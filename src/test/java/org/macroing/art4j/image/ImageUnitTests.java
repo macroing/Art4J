@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -460,6 +461,22 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testDrawConsumerGraphics2D() {
+		final Image image = new Image(1, 1);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		
+		image.draw(graphics2D -> {
+			graphics2D.setColor(Color.RED);
+			graphics2D.fillRect(0, 0, 1, 1);
+		});
+		
+		assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(0));
+		
+		assertThrows(NullPointerException.class, () -> image.draw(null));
+	}
+	
+	@Test
 	public void testEquals() {
 		final Image a = new Image(1, 1);
 		final Image b = new Image(1, 1);
@@ -474,6 +491,176 @@ public final class ImageUnitTests {
 		assertNotEquals(c, a);
 		assertNotEquals(a, d);
 		assertNotEquals(d, a);
+	}
+	
+	@Test
+	public void testFillColor4DBiFunction() {
+		final
+		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
+		image.setColor4D(Color4D.WHITE, 0);
+		image.setColor4D(Color4D.WHITE, 1);
+		image.setColor4D(Color4D.WHITE, 2);
+		image.setColor4D(Color4D.WHITE, 3);
+		
+		assertEquals(Color4D.WHITE, image.getColor4D(0));
+		assertEquals(Color4D.WHITE, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		image.fillColor4D((color, point) -> Color4D.BLACK);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.BLACK, image.getColor4D(2));
+		assertEquals(Color4D.BLACK, image.getColor4D(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColor4D((color, point) -> Color4D.WHITE);
+		
+		assertEquals(Color4D.WHITE, image.getColor4D(0));
+		assertEquals(Color4D.WHITE, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.BLACK, image.getColor4D(2));
+		assertEquals(Color4D.BLACK, image.getColor4D(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColor4D(null));
+		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> null));
+	}
+	
+	@Test
+	public void testFillColor4DBiFunctionBiPredicate() {
+		final
+		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
+		image.setColor4D(Color4D.WHITE, 0);
+		image.setColor4D(Color4D.WHITE, 1);
+		image.setColor4D(Color4D.WHITE, 2);
+		image.setColor4D(Color4D.WHITE, 3);
+		
+		assertEquals(Color4D.WHITE, image.getColor4D(0));
+		assertEquals(Color4D.WHITE, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		image.fillColor4D((color, point) -> Color4D.BLACK, (color, point) -> point.y == 0);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColor4D((color, point) -> Color4D.BLACK, (color, point) -> point.y == 1);
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.BLACK, image.getColor4D(2));
+		assertEquals(Color4D.BLACK, image.getColor4D(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> Color4D.BLACK, null));
+		assertThrows(NullPointerException.class, () -> image.fillColor4D(null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> null, (color, point) -> true));
+	}
+	
+	@Test
+	public void testFillColor4FBiFunction() {
+		final
+		Image image = new Image(2, 2, Color4F.WHITE, DataFactory.forColor4F());
+		image.setColor4F(Color4F.WHITE, 0);
+		image.setColor4F(Color4F.WHITE, 1);
+		image.setColor4F(Color4F.WHITE, 2);
+		image.setColor4F(Color4F.WHITE, 3);
+		
+		assertEquals(Color4F.WHITE, image.getColor4F(0));
+		assertEquals(Color4F.WHITE, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		image.fillColor4F((color, point) -> Color4F.BLACK);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.BLACK, image.getColor4F(2));
+		assertEquals(Color4F.BLACK, image.getColor4F(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColor4F((color, point) -> Color4F.WHITE);
+		
+		assertEquals(Color4F.WHITE, image.getColor4F(0));
+		assertEquals(Color4F.WHITE, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.BLACK, image.getColor4F(2));
+		assertEquals(Color4F.BLACK, image.getColor4F(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColor4F(null));
+		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> null));
+	}
+	
+	@Test
+	public void testFillColor4FBiFunctionBiPredicate() {
+		final
+		Image image = new Image(2, 2, Color4F.WHITE, DataFactory.forColor4F());
+		image.setColor4F(Color4F.WHITE, 0);
+		image.setColor4F(Color4F.WHITE, 1);
+		image.setColor4F(Color4F.WHITE, 2);
+		image.setColor4F(Color4F.WHITE, 3);
+		
+		assertEquals(Color4F.WHITE, image.getColor4F(0));
+		assertEquals(Color4F.WHITE, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		image.fillColor4F((color, point) -> Color4F.BLACK, (color, point) -> point.y == 0);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fillColor4F((color, point) -> Color4F.BLACK, (color, point) -> point.y == 1);
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.BLACK, image.getColor4F(2));
+		assertEquals(Color4F.BLACK, image.getColor4F(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> Color4F.BLACK, null));
+		assertThrows(NullPointerException.class, () -> image.fillColor4F(null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> null, (color, point) -> true));
 	}
 	
 	@Test

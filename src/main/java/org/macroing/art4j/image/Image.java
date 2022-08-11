@@ -768,7 +768,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code graphics2DConsumer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image draw(final Consumer<Graphics2D> graphics2DConsumer) {
 		Objects.requireNonNull(graphics2DConsumer, "graphics2DConsumer == null");
 		
@@ -1101,7 +1100,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillColor4D(final BiFunction<Color4D, Point2I, Color4D> operator) {
 		return fillColor4D(operator, (color, point) -> true);
 	}
@@ -1122,7 +1120,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillColor4D(final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
 		Objects.requireNonNull(operator, "operator == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -1171,7 +1168,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillColor4F(final BiFunction<Color4F, Point2I, Color4F> operator) {
 		return fillColor4F(operator, (color, point) -> true);
 	}
@@ -1192,7 +1188,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillColor4F(final BiFunction<Color4F, Point2I, Color4F> operator, final BiPredicate<Color4F, Point2I> filter) {
 		Objects.requireNonNull(operator, "operator == null");
 		Objects.requireNonNull(filter, "filter == null");
