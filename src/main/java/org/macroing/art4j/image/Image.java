@@ -50,6 +50,7 @@ import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.util.function.IntTernaryOperator;
 import org.macroing.java.util.function.IntTriPredicate;
+import org.macroing.java.util.function.TriFunction;
 
 /**
  * An {@code Image} represents an image that can be drawn to and saved to disk.
@@ -1267,6 +1268,229 @@ public final class Image {
 					final int newColorARGB = operator.applyAsInt(oldColorARGB, x, y);
 					
 					this.data.setColorARGB(newColorARGB, x, y);
+				}
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Fills a gradient in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillGradientColor3D(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.YELLOW);
+	 * }
+	 * </pre>
+	 * 
+	 * @return this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillGradientColor3D() {
+		return fillGradientColor3D(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.YELLOW);
+	}
+	
+	/**
+	 * Fills a gradient in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a the {@link Color3D} instance in the top left corner
+	 * @param b the {@code Color3D} instance in the top right corner
+	 * @param c the {@code Color3D} instance in the bottom left corner
+	 * @param d the {@code Color3D} instance in the bottom right corner
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillGradientColor3D(final Color3D a, final Color3D b, final Color3D c, final Color3D d) {
+		Objects.requireNonNull(a, "a == null");
+		Objects.requireNonNull(b, "b == null");
+		Objects.requireNonNull(c, "c == null");
+		Objects.requireNonNull(d, "d == null");
+		
+		final float resolutionX = getResolutionX();
+		final float resolutionY = getResolutionY();
+		
+		return fillColor4D((color, point) -> {
+			final double tX = 1.0D / resolutionX * point.x;
+			final double tY = 1.0D / resolutionY * point.y;
+			
+			return new Color4D(Color3D.blend(a, b, c, d, tX, tY));
+		});
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code sourceImage} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillImageColor4D(sourceImage, sourceImage.getBounds());
+	 * }
+	 * </pre>
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code sourceImage} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage) {
+		return fillImageColor4D(sourceImage, sourceImage.getBounds());
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code sourceImage} or {@code targetPosition} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillImageColor4D(sourceImage, targetPosition, (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(sourceColor, targetColor));
+	 * }
+	 * </pre>
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @param targetPosition a {@link Point2I} that represents the position in this {@code Image} instance to start filling {@code sourceImage}
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code sourceImage} or {@code targetPosition} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage, final Point2I targetPosition) {
+		return fillImageColor4D(sourceImage, targetPosition, (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(sourceColor, targetColor));
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code sourceImage}, {@code targetPosition} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @param targetPosition a {@link Point2I} that represents the position in this {@code Image} instance to start filling {@code sourceImage}
+	 * @param operator a {@code TriFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code sourceImage}, {@code targetPosition} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage, final Point2I targetPosition, final TriFunction<Color4D, Color4D, Point2I, Color4D> operator) {
+		final Rectangle2I sourceBounds = sourceImage.getBounds();
+		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceBounds.getC().x - sourceBounds.getA().x), targetPosition.y + (sourceBounds.getC().y - sourceBounds.getA().y)));
+		
+		return fillImageColor4D(sourceImage, sourceBounds, targetBounds, operator);
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code sourceImage} or {@code sourceBounds} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillImageColor4D(sourceImage, sourceBounds, image.getBounds());
+	 * }
+	 * </pre>
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @param sourceBounds a {@link Rectangle2I} that represents the bounds of the region in {@code sourceImage} to use
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code sourceImage} or {@code sourceBounds} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage, final Rectangle2I sourceBounds) {
+		return fillImageColor4D(sourceImage, sourceBounds, getBounds());
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillImageColor4D(sourceImage, sourceBounds, targetBounds, (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(sourceColor, targetColor));
+	 * }
+	 * </pre>
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @param sourceBounds a {@link Rectangle2I} that represents the bounds of the region in {@code sourceImage} to use
+	 * @param targetBounds a {@code Rectangle2I} that represents the bounds of the region in this {@code Image} instance to use
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
+		return fillImageColor4D(sourceImage, sourceBounds, targetBounds, (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(sourceColor, targetColor));
+	}
+	
+	/**
+	 * Fills {@code sourceImage} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code sourceImage}, {@code sourceBounds}, {@code targetBounds} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param sourceImage the {@code Image} to fill
+	 * @param sourceBounds a {@link Rectangle2I} that represents the bounds of the region in {@code sourceImage} to use
+	 * @param targetBounds a {@code Rectangle2I} that represents the bounds of the region in this {@code Image} instance to use
+	 * @param operator a {@code TriFunction} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code sourceImage}, {@code sourceBounds}, {@code targetBounds} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillImageColor4D(final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds, final TriFunction<Color4D, Color4D, Point2I, Color4D> operator) {
+		Objects.requireNonNull(sourceImage, "sourceImage == null");
+		Objects.requireNonNull(sourceBounds, "sourceBounds == null");
+		Objects.requireNonNull(targetBounds, "targetBounds == null");
+		Objects.requireNonNull(operator, "operator == null");
+		
+		this.data.changeBegin();
+		
+		final Image targetImage = this;
+		
+		final int sourceMinimumX = sourceBounds.getA().x;
+		final int sourceMinimumY = sourceBounds.getA().y;
+		final int sourceMaximumX = sourceBounds.getC().x;
+		final int sourceMaximumY = sourceBounds.getC().y;
+		final int targetMinimumX = targetBounds.getA().x;
+		final int targetMinimumY = targetBounds.getA().y;
+		final int targetMaximumX = targetBounds.getC().x;
+		final int targetMaximumY = targetBounds.getC().y;
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		for(int sourceY = sourceMinimumY, targetY = targetMinimumY; sourceY < sourceMaximumY && targetY < targetMaximumY; sourceY++, targetY++) {
+			for(int sourceX = sourceMinimumX, targetX = targetMinimumX; sourceX < sourceMaximumX && targetX < targetMaximumX; sourceX++, targetX++) {
+				if(targetX >= 0 && targetX < resolutionX && targetY >= 0 && targetY < resolutionY) {
+					final Color4D sourceColor = sourceImage.getColor4D(sourceX, sourceY);
+					final Color4D targetColor = targetImage.getColor4D(targetX, targetY);
+					
+					final Color4D color = Objects.requireNonNull(operator.apply(sourceColor, targetColor, new Point2I(targetX, targetY)));
+					
+					targetImage.setColor4D(color, targetX, targetY);
 				}
 			}
 		}

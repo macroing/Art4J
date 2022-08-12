@@ -22,6 +22,7 @@ import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.data.DataFactory;
 import org.macroing.art4j.image.Image;
@@ -39,12 +40,18 @@ public final class Examples {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static void main(final String[] args) {
+		doBlendOver();
 		doConvolve();
+		doDraw();
 		doFillBlend();
 		doFillInvert();
 		doFillSepia();
+		doFlipX();
+		doFlipY();
 		doRotate();
 		doSave();
+		doScaleDown();
+		doScaleUp();
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,11 +64,26 @@ public final class Examples {
 		}
 	}
 	
+	private static void doBlendOver() {
+		final
+		Image image = IMAGE.copy();
+		image.fillColor4D((color, point) -> new Color4D(color.r, color.g, color.b, 0.5D));
+		image.fillImageColor4D(new Image(image.getResolutionX(), image.getResolutionY()).fillGradientColor3D(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds(), (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(targetColor, sourceColor));
+		image.save("./generated/example/BlendOver.png");
+	}
+	
 	private static void doConvolve() {
 		final
 		Image image = IMAGE.copy();
 		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_5);
 		image.save("./generated/example/Convolve.png");
+	}
+	
+	private static void doDraw() {
+		final
+		Image image = IMAGE.copy();
+		image.draw(g -> g.drawString("Hello, World!", image.getResolutionX() / 2, image.getResolutionY() / 2));
+		image.save("./generated/example/Draw.png");
 	}
 	
 	private static void doFillBlend() {
@@ -85,6 +107,20 @@ public final class Examples {
 		image.save("./generated/example/FillSepia.png");
 	}
 	
+	private static void doFlipX() {
+		final
+		Image image = IMAGE.copy();
+		image.flipX();
+		image.save("./generated/example/FlipX.png");
+	}
+	
+	private static void doFlipY() {
+		final
+		Image image = IMAGE.copy();
+		image.flipY();
+		image.save("./generated/example/FlipY.png");
+	}
+	
 	private static void doRotate() {
 		final
 		Image image = IMAGE.copy();
@@ -96,5 +132,19 @@ public final class Examples {
 		final
 		Image image = IMAGE.copy();
 		image.save("./generated/example/Original.png");
+	}
+	
+	private static void doScaleDown() {
+		final
+		Image image = IMAGE.copy();
+		image.scale(0.5D, 0.5D);
+		image.save("./generated/example/ScaleDown.png");
+	}
+	
+	private static void doScaleUp() {
+		final
+		Image image = IMAGE.copy();
+		image.scale(2.0D, 2.0D);
+		image.save("./generated/example/ScaleUp.png");
 	}
 }
