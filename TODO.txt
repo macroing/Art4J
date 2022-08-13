@@ -1,0 +1,10 @@
+Add a Color4DPixelOperator interface with an apply(Color4D, Point2I) method that returns a Color4D.
+Add a Color4FPixelOperator interface with an apply(Color4F, Point2I) method that returns a Color4F.
+Add a ColorARGBPixelOperator interface with an apply(int, int, int) method that returns an int.
+Add a Color4DPixelFilter interface with a test(Color4D, Point2I) method that returns a boolean.
+Add a Color4FPixelFilter interface with a test(Color4F, Point2I) method that returns a boolean.
+Add a ColorARGBPixelFilter interface with a test(int, int, int) method that returns a boolean.
+Add a Color4DImageOperator interface with an apply(Color4D, Color4D, Point2I) method that returns a Color4D.
+Add a Color4FImageOperator interface with an apply(Color4F, Color4F, Point2I) method that returns a Color4F.
+
+The above interfaces will make it possible to have shorter method names. Names such as fillImageColor4D could then be fillImage.
