@@ -27,6 +27,10 @@ Supported Features
  - `org.macroing.art4j.noise` provides the Noise API.
  - `org.macroing.art4j.pixel` provides the Pixel API.
 
+Examples
+--------
+Coming soon...
+
 Documentation
 -------------
 The documentation for this library can be found in the Javadocs that are generated when building it.
