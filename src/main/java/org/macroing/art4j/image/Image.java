@@ -778,6 +778,33 @@ public final class Image {
 	}
 	
 	/**
+	 * Draws {@code shape} to this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.drawShape(shape, (Color4D currentColor, int x, int y) -> color);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} to draw
+	 * @param color the {@link Color4D} to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image drawShape(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return drawShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
+	}
+	
+	/**
 	 * Draws {@code shape} to this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -813,21 +840,21 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShape(shape, (Color4D currentColor, int x, int y) -> color);
+	 * image.drawShape(shape, (Color4F currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
 	 * @param shape the {@link Shape2I} to draw
-	 * @param color the {@link Color4D} to use as its color
+	 * @param color the {@link Color4F} to use as its color
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShape(final Shape2I shape, final Color4D color) {
+	public Image drawShape(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
+		return drawShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
@@ -857,82 +884,6 @@ public final class Image {
 	}
 	
 	/**
-	 * Draws {@code shape} to this {@code Image} instance with {@code color} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is essentially equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShape(shape, (Color4F currentColor, int x, int y) -> color);
-	 * }
-	 * </pre>
-	 * 
-	 * @param shape the {@link Shape2I} to draw
-	 * @param color the {@link Color4F} to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShape(final Shape2I shape, final Color4F color) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(color, "color == null");
-		
-		return drawShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeComplementColor4D(shape, Color4D.BLACK);
-	 * }
-	 * </pre>
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4D(final Shape2I shape) {
-		return drawShapeComplementColor4D(shape, Color4D.BLACK);
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4D(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
-		
-		this.data.changeBegin();
-		
-		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
-		
-		this.data.changeEnd();
-		
-		return this;
-	}
-	
-	/**
 	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -942,7 +893,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShapeComplementColor4D(shape, (currentColor, currentPoint) -> color);
+	 * image.drawShapeComplement(shape, (Color4D currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -952,56 +903,33 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4D(final Shape2I shape, final Color4D color) {
+	public Image drawShapeComplement(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShapeComplementColor4D(shape, (currentColor, currentPoint) -> color);
+		return drawShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code Color4F.BLACK} as its color.
+	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeComplementColor4F(shape, Color4F.BLACK);
-	 * }
-	 * </pre>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param shape the {@link Shape2I} not to draw
+	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4F(final Shape2I shape) {
-		return drawShapeComplementColor4F(shape, Color4F.BLACK);
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param operator a {@code BiFunction} that returns {@code Color4F} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4F(final Shape2I shape, final BiFunction<Color4F, Point2I, Color4F> operator) {
+	public Image drawShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4F(operator.apply(getColor4F(point), point), point));
+		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -1018,7 +946,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShapeComplementColor4F(shape, (currentColor, currentPoint) -> color);
+	 * image.drawShapeComplement(shape, (Color4F currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -1028,11 +956,37 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeComplementColor4F(final Shape2I shape, final Color4F color) {
+	public Image drawShapeComplement(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShapeComplementColor4F(shape, (currentColor, currentPoint) -> color);
+		return drawShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color);
+	}
+	
+	/**
+	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} not to draw
+	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image drawShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
+		
+		this.data.changeEnd();
+		
+		return this;
 	}
 	
 	/**
