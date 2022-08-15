@@ -44,6 +44,8 @@ import org.macroing.art4j.geometry.Point2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.pixel.Color4DPixelOperator;
+import org.macroing.art4j.pixel.Color4FPixelOperator;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -494,7 +496,7 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
-	public void testFillColor4DBiFunction() {
+	public void testFillColor4DPixelOperator() {
 		final
 		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
 		image.setColor4D(Color4D.WHITE, 0);
@@ -507,7 +509,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.WHITE, image.getColor4D(2));
 		assertEquals(Color4D.WHITE, image.getColor4D(3));
 		
-		image.fillColor4D((color, point) -> Color4D.BLACK);
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.BLACK);
 		
 		assertFalse(image.undo());
 		
@@ -517,7 +519,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.BLACK, image.getColor4D(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColor4D((color, point) -> Color4D.WHITE);
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.WHITE);
 		
 		assertEquals(Color4D.WHITE, image.getColor4D(0));
 		assertEquals(Color4D.WHITE, image.getColor4D(1));
@@ -531,12 +533,12 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.BLACK, image.getColor4D(2));
 		assertEquals(Color4D.BLACK, image.getColor4D(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColor4D(null));
-		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> null));
+		assertThrows(NullPointerException.class, () -> image.fill((Color4DPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4D color, final int x, final int y) -> null));
 	}
 	
 	@Test
-	public void testFillColor4DBiFunctionBiPredicate() {
+	public void testFillColor4DPixelOperatorColor4DPixelFilter() {
 		final
 		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
 		image.setColor4D(Color4D.WHITE, 0);
@@ -549,7 +551,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.WHITE, image.getColor4D(2));
 		assertEquals(Color4D.WHITE, image.getColor4D(3));
 		
-		image.fillColor4D((color, point) -> Color4D.BLACK, (color, point) -> point.y == 0);
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.BLACK, (final Color4D color, final int x, final int y) -> y == 0);
 		
 		assertFalse(image.undo());
 		
@@ -559,7 +561,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.WHITE, image.getColor4D(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColor4D((color, point) -> Color4D.BLACK, (color, point) -> point.y == 1);
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.BLACK, (final Color4D color, final int x, final int y) -> y == 1);
 		
 		assertEquals(Color4D.BLACK, image.getColor4D(0));
 		assertEquals(Color4D.BLACK, image.getColor4D(1));
@@ -573,13 +575,13 @@ public final class ImageUnitTests {
 		assertEquals(Color4D.WHITE, image.getColor4D(2));
 		assertEquals(Color4D.WHITE, image.getColor4D(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> Color4D.BLACK, null));
-		assertThrows(NullPointerException.class, () -> image.fillColor4D(null, (color, point) -> true));
-		assertThrows(NullPointerException.class, () -> image.fillColor4D((color, point) -> null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4D color, final int x, final int y) -> Color4D.BLACK, null));
+		assertThrows(NullPointerException.class, () -> image.fill(null, (final Color4D color, final int x, final int y) -> true));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4D color, final int x, final int y) -> null, (final Color4D color, final int x, final int y) -> true));
 	}
 	
 	@Test
-	public void testFillColor4FBiFunction() {
+	public void testFillColor4FPixelOperator() {
 		final
 		Image image = new Image(2, 2, Color4F.WHITE, DataFactory.forColor4F());
 		image.setColor4F(Color4F.WHITE, 0);
@@ -592,7 +594,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.WHITE, image.getColor4F(2));
 		assertEquals(Color4F.WHITE, image.getColor4F(3));
 		
-		image.fillColor4F((color, point) -> Color4F.BLACK);
+		image.fill((final Color4F color, final int x, final int y) -> Color4F.BLACK);
 		
 		assertFalse(image.undo());
 		
@@ -602,7 +604,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.BLACK, image.getColor4F(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColor4F((color, point) -> Color4F.WHITE);
+		image.fill((final Color4F color, final int x, final int y) -> Color4F.WHITE);
 		
 		assertEquals(Color4F.WHITE, image.getColor4F(0));
 		assertEquals(Color4F.WHITE, image.getColor4F(1));
@@ -616,12 +618,12 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.BLACK, image.getColor4F(2));
 		assertEquals(Color4F.BLACK, image.getColor4F(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColor4F(null));
-		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> null));
+		assertThrows(NullPointerException.class, () -> image.fill((Color4FPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4F color, final int x, final int y) -> null));
 	}
 	
 	@Test
-	public void testFillColor4FBiFunctionBiPredicate() {
+	public void testFillColor4FPixelOperatorColor4FPixelFilter() {
 		final
 		Image image = new Image(2, 2, Color4F.WHITE, DataFactory.forColor4F());
 		image.setColor4F(Color4F.WHITE, 0);
@@ -634,7 +636,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.WHITE, image.getColor4F(2));
 		assertEquals(Color4F.WHITE, image.getColor4F(3));
 		
-		image.fillColor4F((color, point) -> Color4F.BLACK, (color, point) -> point.y == 0);
+		image.fill((final Color4F color, final int x, final int y) -> Color4F.BLACK, (final Color4F color, final int x, final int y) -> y == 0);
 		
 		assertFalse(image.undo());
 		
@@ -644,7 +646,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.WHITE, image.getColor4F(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColor4F((color, point) -> Color4F.BLACK, (color, point) -> point.y == 1);
+		image.fill((final Color4F color, final int x, final int y) -> Color4F.BLACK, (final Color4F color, final int x, final int y) -> y == 1);
 		
 		assertEquals(Color4F.BLACK, image.getColor4F(0));
 		assertEquals(Color4F.BLACK, image.getColor4F(1));
@@ -658,9 +660,9 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.WHITE, image.getColor4F(2));
 		assertEquals(Color4F.WHITE, image.getColor4F(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> Color4F.BLACK, null));
-		assertThrows(NullPointerException.class, () -> image.fillColor4F(null, (color, point) -> true));
-		assertThrows(NullPointerException.class, () -> image.fillColor4F((color, point) -> null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4F color, final int x, final int y) -> Color4F.BLACK, null));
+		assertThrows(NullPointerException.class, () -> image.fill(null, (final Color4F color, final int x, final int y) -> true));
+		assertThrows(NullPointerException.class, () -> image.fill((final Color4F color, final int x, final int y) -> null, (final Color4F color, final int x, final int y) -> true));
 	}
 	
 	@Test

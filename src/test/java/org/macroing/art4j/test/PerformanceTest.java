@@ -221,15 +221,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillColor4D((color, point) -> Color4D.sepia(color));
+			imageA.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillColor4D((color, point) -> Color4D.sepia(color));
+			imageB.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillColor4D((color, point) -> Color4D.sepia(color));
+			imageC.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -264,15 +264,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillColor4F((color, point) -> Color4F.sepia(color));
+			imageA.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillColor4F((color, point) -> Color4F.sepia(color));
+			imageB.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillColor4F((color, point) -> Color4F.sepia(color));
+			imageC.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
 			
 			final long timeD = System.currentTimeMillis();
 			

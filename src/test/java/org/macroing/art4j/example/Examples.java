@@ -67,8 +67,8 @@ public final class Examples {
 	private static void doBlendOver() {
 		final
 		Image image = IMAGE.copy();
-		image.fillColor4D((color, point) -> new Color4D(color.r, color.g, color.b, 0.5D));
-		image.fillImageColor4D(new Image(image.getResolutionX(), image.getResolutionY()).fillGradientColor3D(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds(), (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(targetColor, sourceColor));
+		image.fill((final Color4D color, final int x, final int y) -> new Color4D(color.r, color.g, color.b, 0.5D));
+		image.fillImageColor4D(new Image(image.getResolutionX(), image.getResolutionY()).fillGradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds(), (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(targetColor, sourceColor));
 		image.save("./generated/example/BlendOver.png");
 	}
 	
@@ -89,21 +89,21 @@ public final class Examples {
 	private static void doFillBlend() {
 		final
 		Image image = IMAGE.copy();
-		image.fillColor4D((color, point) -> Color4D.blend(color, new Color4D(0.5D, 0.0D, 0.0D, 1.0D)));
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.blend(color, new Color4D(0.5D, 0.0D, 0.0D, 1.0D)));
 		image.save("./generated/example/FillBlend.png");
 	}
 	
 	private static void doFillInvert() {
 		final
 		Image image = IMAGE.copy();
-		image.fillColor4D((color, point) -> Color4D.invert(color));
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.invert(color));
 		image.save("./generated/example/FillInvert.png");
 	}
 	
 	private static void doFillSepia() {
 		final
 		Image image = IMAGE.copy();
-		image.fillColor4D((color, point) -> Color4D.sepia(color));
+		image.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
 		image.save("./generated/example/FillSepia.png");
 	}
 	
