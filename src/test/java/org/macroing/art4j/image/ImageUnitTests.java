@@ -379,24 +379,24 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
-	public void testConvolveColor4DConvolutionKernelND() {
+	public void testConvolveConvolutionKernelND() {
 		final
 		Image image = new Image(2, 2, Color4D.GRAY, DataFactory.forColor4D());
-		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3);
+		image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_3);
 		
 		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 0));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 0));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
 		
-		assertThrows(NullPointerException.class, () -> image.convolveColor4D(null));
+		assertThrows(NullPointerException.class, () -> image.convolve((ConvolutionKernelND)(null)));
 	}
 	
 	@Test
-	public void testConvolveColor4DConvolutionKernelNDBiPredicate() {
+	public void testConvolveConvolutionKernelNDColor4DPixelFilter() {
 		final
 		Image image = new Image(2, 2, Color4D.GRAY, DataFactory.forColor4D());
-		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, point) -> point.y != 0);
+		image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, x, y) -> y != 0);
 		
 		assertEquals(Color4D.GRAY, image.getColor4D(0, 0));
 		assertEquals(Color4D.GRAY, image.getColor4D(1, 0));
@@ -404,36 +404,36 @@ public final class ImageUnitTests {
 		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
 		
-		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, point) -> true);
+		image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_3, (color, x, y) -> true);
 		
 		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 0));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 0));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(0, 1));
 		assertNotEquals(Color4D.GRAY, image.getColor4D(1, 1));
 		
-		assertThrows(NullPointerException.class, () -> image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_3, null));
-		assertThrows(NullPointerException.class, () -> image.convolveColor4D(null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_3, null));
+		assertThrows(NullPointerException.class, () -> image.convolve((ConvolutionKernelND)(null), (color, x, y) -> true));
 	}
 	
 	@Test
-	public void testConvolveColor4FConvolutionKernelNF() {
+	public void testConvolveConvolutionKernelNF() {
 		final
 		Image image = new Image(2, 2, Color4F.GRAY, DataFactory.forColor4F());
-		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3);
+		image.convolve(ConvolutionKernelNF.GAUSSIAN_BLUR_3);
 		
 		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 0));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 0));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
 		
-		assertThrows(NullPointerException.class, () -> image.convolveColor4F(null));
+		assertThrows(NullPointerException.class, () -> image.convolve((ConvolutionKernelNF)(null)));
 	}
 	
 	@Test
-	public void testConvolveColor4FConvolutionKernelNFBiPredicate() {
+	public void testConvolveConvolutionKernelNFColor4FPixelFilter() {
 		final
 		Image image = new Image(2, 2, Color4F.GRAY, DataFactory.forColor4F());
-		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, point) -> point.y != 0);
+		image.convolve(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, x, y) -> y != 0);
 		
 		assertEquals(Color4F.GRAY, image.getColor4F(0, 0));
 		assertEquals(Color4F.GRAY, image.getColor4F(1, 0));
@@ -441,15 +441,15 @@ public final class ImageUnitTests {
 		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
 		
-		image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, point) -> true);
+		image.convolve(ConvolutionKernelNF.GAUSSIAN_BLUR_3, (color, x, y) -> true);
 		
 		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 0));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 0));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(0, 1));
 		assertNotEquals(Color4F.GRAY, image.getColor4F(1, 1));
 		
-		assertThrows(NullPointerException.class, () -> image.convolveColor4F(ConvolutionKernelNF.GAUSSIAN_BLUR_3, null));
-		assertThrows(NullPointerException.class, () -> image.convolveColor4F(null, (color, point) -> true));
+		assertThrows(NullPointerException.class, () -> image.convolve(ConvolutionKernelNF.GAUSSIAN_BLUR_3, null));
+		assertThrows(NullPointerException.class, () -> image.convolve((ConvolutionKernelNF)(null), (color, x, y) -> true));
 	}
 	
 	@Test

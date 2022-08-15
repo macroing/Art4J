@@ -45,6 +45,10 @@ import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.pixel.Color4DPixelFilter;
+import org.macroing.art4j.pixel.Color4DPixelOperator;
+import org.macroing.art4j.pixel.Color4FPixelFilter;
+import org.macroing.art4j.pixel.Color4FPixelOperator;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
@@ -656,7 +660,7 @@ public final class Image {
 	}
 	
 	/**
-	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
@@ -665,7 +669,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.convolveColor4D(convolutionKernel, (color, point) -> true);
+	 * image.convolve(convolutionKernel, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -673,29 +677,27 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code convolutionKernel} is {@code null}
 	 */
-	public Image convolveColor4D(final ConvolutionKernelND convolutionKernel) {
-		return convolveColor4D(convolutionKernel, (color, point) -> true);
+	public Image convolve(final ConvolutionKernelND convolutionKernel) {
+		return convolve(convolutionKernel, (color, x, y) -> true);
 	}
 	
 	/**
-	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code pixelFilter}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code convolutionKernel} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be convolved, {@code false} otherwise.
+	 * If either {@code convolutionKernel} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param convolutionKernel the {@link ConvolutionKernelND} instance to apply
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code filter} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code pixelFilter} are {@code null}
 	 */
-	public Image convolveColor4D(final ConvolutionKernelND convolutionKernel, final BiPredicate<Color4D, Point2I> filter) {
+	public Image convolve(final ConvolutionKernelND convolutionKernel, final Color4DPixelFilter pixelFilter) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
-		Objects.requireNonNull(filter, "filter == null");
+		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
-		final int[] indices = doFilterColor4D(filter);
+		final int[] indices = doFilter(pixelFilter);
 		
 		this.data.convolve(convolutionKernel, indices);
 		
@@ -703,7 +705,7 @@ public final class Image {
 	}
 	
 	/**
-	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
@@ -712,7 +714,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.convolveColor4F(convolutionKernel, (color, point) -> true);
+	 * image.convolve(convolutionKernel, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -720,29 +722,27 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code convolutionKernel} is {@code null}
 	 */
-	public Image convolveColor4F(final ConvolutionKernelNF convolutionKernel) {
-		return convolveColor4F(convolutionKernel, (color, point) -> true);
+	public Image convolve(final ConvolutionKernelNF convolutionKernel) {
+		return convolve(convolutionKernel, (color, x, y) -> true);
 	}
 	
 	/**
-	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code filter}.
+	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance that are accepted by {@code pixelFilter}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code convolutionKernel} or {@code filter} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4F} instance and a {@code Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be convolved, {@code false} otherwise.
+	 * If either {@code convolutionKernel} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param convolutionKernel the {@link ConvolutionKernelNF} instance to apply
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code filter} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code convolutionKernel} or {@code pixelFilter} are {@code null}
 	 */
-	public Image convolveColor4F(final ConvolutionKernelNF convolutionKernel, final BiPredicate<Color4F, Point2I> filter) {
+	public Image convolve(final ConvolutionKernelNF convolutionKernel, final Color4FPixelFilter pixelFilter) {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
-		Objects.requireNonNull(filter, "filter == null");
+		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
-		final int[] indices = doFilterColor4F(filter);
+		final int[] indices = doFilter(pixelFilter);
 		
 		this.data.convolve(convolutionKernel, indices);
 		
@@ -778,48 +778,25 @@ public final class Image {
 	}
 	
 	/**
-	 * Draws {@code shape} to this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * Draws {@code shape} to this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeColor4D(shape, Color4D.BLACK);
-	 * }
-	 * </pre>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param shape the {@link Shape2I} to draw
+	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeColor4D(final Shape2I shape) {
-		return drawShapeColor4D(shape, Color4D.BLACK);
-	}
-	
-	/**
-	 * Draws {@code shape} to this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} to draw
-	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeColor4D(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+	public Image drawShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfIntersection(getBounds(), true).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		shape.findPointsOfIntersection(getBounds(), true).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -836,7 +813,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShapeColor4D(shape, (currentColor, currentPoint) -> color);
+	 * image.drawShape(shape, (Color4D currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -846,56 +823,33 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeColor4D(final Shape2I shape, final Color4D color) {
+	public Image drawShape(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShapeColor4D(shape, (currentColor, currentPoint) -> color);
+		return drawShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
-	 * Draws {@code shape} to this {@code Image} instance with {@code Color4F.BLACK} as its color.
+	 * Draws {@code shape} to this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeColor4F(shape, Color4F.BLACK);
-	 * }
-	 * </pre>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param shape the {@link Shape2I} to draw
+	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeColor4F(final Shape2I shape) {
-		return drawShapeColor4F(shape, Color4F.BLACK);
-	}
-	
-	/**
-	 * Draws {@code shape} to this {@code Image} instance with {@link Color4F} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} to draw
-	 * @param operator a {@code BiFunction} that returns {@code Color4F} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeColor4F(final Shape2I shape, final BiFunction<Color4F, Point2I, Color4F> operator) {
+	public Image drawShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfIntersection(getBounds(), true).forEach(point -> setColor4F(operator.apply(getColor4F(point), point), point));
+		shape.findPointsOfIntersection(getBounds(), true).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -912,7 +866,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShapeColor4F(shape, (currentColor, currentPoint) -> color);
+	 * image.drawShape(shape, (Color4F currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -922,11 +876,11 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeColor4F(final Shape2I shape, final Color4F color) {
+	public Image drawShape(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShapeColor4F(shape, (currentColor, currentPoint) -> color);
+		return drawShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
@@ -3368,7 +3322,7 @@ public final class Image {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private int[] doFilterColor4D(final BiPredicate<Color4D, Point2I> filter) {
+	private int[] doFilter(final Color4DPixelFilter pixelFilter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
@@ -3380,9 +3334,7 @@ public final class Image {
 			for(int x = 0; x < resolutionX; x++, index++) {
 				final Color4D color = getColor4D(x, y);
 				
-				final Point2I point = new Point2I(x, y);
-				
-				if(filter.test(color, point)) {
+				if(pixelFilter.isAccepted(color, x, y)) {
 					indices[index] = index;
 				} else {
 					indices[index] = -1;
@@ -3399,7 +3351,7 @@ public final class Image {
 		return Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-	private int[] doFilterColor4F(final BiPredicate<Color4F, Point2I> filter) {
+	private int[] doFilter(final Color4FPixelFilter pixelFilter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
@@ -3411,9 +3363,7 @@ public final class Image {
 			for(int x = 0; x < resolutionX; x++, index++) {
 				final Color4F color = getColor4F(x, y);
 				
-				final Point2I point = new Point2I(x, y);
-				
-				if(filter.test(color, point)) {
+				if(pixelFilter.isAccepted(color, x, y)) {
 					indices[index] = index;
 				} else {
 					indices[index] = -1;

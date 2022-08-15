@@ -75,7 +75,7 @@ public final class Examples {
 	private static void doConvolve() {
 		final
 		Image image = IMAGE.copy();
-		image.convolveColor4D(ConvolutionKernelND.GAUSSIAN_BLUR_5);
+		image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_5);
 		image.save("./generated/example/Convolve.png");
 	}
 	

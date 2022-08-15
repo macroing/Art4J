@@ -92,15 +92,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.convolveColor4D(ConvolutionKernelND.EMBOSS_3);
+			imageA.convolve(ConvolutionKernelND.EMBOSS_3);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.convolveColor4D(ConvolutionKernelND.EMBOSS_3);
+			imageB.convolve(ConvolutionKernelND.EMBOSS_3);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.convolveColor4D(ConvolutionKernelND.EMBOSS_3);
+			imageC.convolve(ConvolutionKernelND.EMBOSS_3);
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -135,15 +135,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.convolveColor4F(ConvolutionKernelNF.EMBOSS_3);
+			imageA.convolve(ConvolutionKernelNF.EMBOSS_3);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.convolveColor4F(ConvolutionKernelNF.EMBOSS_3);
+			imageB.convolve(ConvolutionKernelNF.EMBOSS_3);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.convolveColor4F(ConvolutionKernelNF.EMBOSS_3);
+			imageC.convolve(ConvolutionKernelNF.EMBOSS_3);
 			
 			final long timeD = System.currentTimeMillis();
 			

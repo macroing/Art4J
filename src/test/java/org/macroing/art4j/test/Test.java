@@ -52,7 +52,7 @@ public final class Test {
 		image.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
 		image.fillColor4D((color, point) -> Color4D.sepia(color));
 		image.fillShapeColor4D(new Circle2I(new Point2I(100, 100), 50), Color4D.RED);
-		image.convolveColor4D(ConvolutionKernelND.EMBOSS_3);
+		image.convolve(ConvolutionKernelND.EMBOSS_3);
 		image.rotate(45.0D);
 		image.rotate(45.0D);
 		image.save("./generated/Image.png");
