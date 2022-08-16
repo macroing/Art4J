@@ -49,7 +49,7 @@ public final class Test {
 		image.undo();
 		image.redo();
 		image.draw(g -> g.drawString("Hello, World!", 100, 100));
-		image.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
+		image.fill((final int color, final int x, final int y) -> Color4I.sepiaARGB(color));
 		image.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
 		image.fillShape(new Circle2I(new Point2I(100, 100), 50), Color4D.RED);
 		image.convolve(ConvolutionKernelND.EMBOSS_3);

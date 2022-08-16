@@ -46,6 +46,7 @@ import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
+import org.macroing.art4j.pixel.ColorARGBPixelOperator;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -256,6 +257,22 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4F.WHITE, null));
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4F)(null), DataFactory.forColorARGB()));
+	}
+	
+	@Test
+	public void testConstructorIntIntDataFactory() {
+		final Image image = new Image(1, 1, DataFactory.forColorARGB());
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, DataFactory.forColorARGB()));
+		
+		assertThrows(NullPointerException.class, () -> new Image(1, 1, (DataFactory)(null)));
 	}
 	
 	@Test
@@ -666,7 +683,7 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
-	public void testFillColorARGBIntTernaryOperator() {
+	public void testFillColorARGBPixelOperator() {
 		final
 		Image image = new Image(2, 2);
 		image.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
@@ -679,7 +696,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
 		
-		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B);
+		image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B);
 		
 		assertFalse(image.undo());
 		
@@ -689,7 +706,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColorARGB((colorARGB, x, y) -> Color4I.WHITE_A_R_G_B);
+		image.fill((final int colorARGB, final int x, final int y) -> Color4I.WHITE_A_R_G_B);
 		
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
@@ -703,11 +720,11 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColorARGB(null));
+		assertThrows(NullPointerException.class, () -> image.fill((ColorARGBPixelOperator)(null)));
 	}
 	
 	@Test
-	public void testFillColorARGBIntTernaryOperatorIntTriPredicate() {
+	public void testFillColorARGBPixelOperatorColorARGBPixelFilter() {
 		final
 		Image image = new Image(2, 2);
 		image.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
@@ -720,7 +737,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
 		
-		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, (colorARGB, x, y) -> y == 0);
+		image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B, (final int color, final int x, final int y) -> y == 0);
 		
 		assertFalse(image.undo());
 		
@@ -730,7 +747,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
 		
 		image.setChangeHistoryEnabled(true);
-		image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, (colorARGB, x, y) -> y == 1);
+		image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B, (final int color, final int x, final int y) -> y == 1);
 		
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
@@ -744,8 +761,8 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fillColorARGB((colorARGB, x, y) -> Color4I.BLACK_A_R_G_B, null));
-		assertThrows(NullPointerException.class, () -> image.fillColorARGB(null, (colorARGB, x, y) -> true));
+		assertThrows(NullPointerException.class, () -> image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B, null));
+		assertThrows(NullPointerException.class, () -> image.fill(null, (final int color, final int x, final int y) -> true));
 	}
 	
 	@Test

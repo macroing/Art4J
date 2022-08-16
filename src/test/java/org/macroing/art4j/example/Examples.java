@@ -27,6 +27,8 @@ import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.data.DataFactory;
 import org.macroing.art4j.image.Image;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
+import org.macroing.art4j.pixel.Color4DBiPixelOperator;
+import org.macroing.art4j.pixel.Color4DPixelOperator;
 
 public final class Examples {
 	private static final Image IMAGE = doCreateImage();
@@ -68,7 +70,7 @@ public final class Examples {
 		final
 		Image image = IMAGE.copy();
 		image.fill((final Color4D color, final int x, final int y) -> new Color4D(color.r, color.g, color.b, 0.5D));
-		image.fillImageColor4D(new Image(image.getResolutionX(), image.getResolutionY()).fillGradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds(), (sourceColor, targetColor, targetPoint) -> Color4D.blendOver(targetColor, sourceColor));
+		image.fillImage(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fillGradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds());
 		image.save("./generated/example/BlendOver.png");
 	}
 	
@@ -96,14 +98,14 @@ public final class Examples {
 	private static void doFillInvert() {
 		final
 		Image image = IMAGE.copy();
-		image.fill((final Color4D color, final int x, final int y) -> Color4D.invert(color));
+		image.fill(Color4DPixelOperator.invert());
 		image.save("./generated/example/FillInvert.png");
 	}
 	
 	private static void doFillSepia() {
 		final
 		Image image = IMAGE.copy();
-		image.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
+		image.fill(Color4DPixelOperator.sepia());
 		image.save("./generated/example/FillSepia.png");
 	}
 	
