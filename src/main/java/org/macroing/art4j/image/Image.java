@@ -25,6 +25,7 @@ import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -32,6 +33,7 @@ import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
+import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.color.ColorSpaceD;
 import org.macroing.art4j.color.ColorSpaceF;
 import org.macroing.art4j.data.Data;
@@ -775,6 +777,46 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns a copy of this {@code Image} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method will only copy the data in this {@code Image} instance that is contained by {@code shape}.
+	 * <p>
+	 * The copied {@code Image} instance will have an X-resolution of {@code shape.max().x - shape.min().x + 1} and a Y-resolution of {@code shape.max().y - shape.min().y + 1}.
+	 * 
+	 * @param shape a {@link Shape2I} instance
+	 * @return a copy of this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image copy(final Shape2I shape) {
+		/*
+		 * TODO: Add a copy(Shape2I) method in the Data class. Or find another way to handle this feature.
+		 */
+		
+		final Point2I max = shape.max();
+		final Point2I min = shape.min();
+		
+		final int resolutionX = max.x - min.x + 1;
+		final int resolutionY = max.y - min.y + 1;
+		
+		final Data data = this.data.getDataFactory().create(resolutionX, resolutionY);
+		
+		final
+		Image image = new Image(data);
+		image.fill(Color4I.TRANSPARENT_A_R_G_B);
+		
+		final List<Point2I> points = shape.findPoints();
+		
+		for(final Point2I point : points) {
+			image.setColorARGB(getColorARGB(point), point.x - min.x, point.y - min.y);
+		}
+		
+		return image;
+	}
+	
+	/**
 	 * Draws the contents drawn to the supplied {@code Graphics2D} instance into this {@code Image} instance.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -900,109 +942,21 @@ public final class Image {
 	}
 	
 	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * Fills all pixels in this {@code Image} instance with {@code color}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is essentially equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeComplement(shape, (Color4D currentColor, int x, int y) -> color);
-	 * }
-	 * </pre>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param color the {@link Color4D} to use as its color
+	 * @param color the {@link Color4D} instance to fill with
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image drawShapeComplement(final Shape2I shape, final Color4D color) {
-		Objects.requireNonNull(shape, "shape == null");
+	public Image fill(final Color4D color) {
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color);
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
-		
-		this.data.changeBegin();
-		
-		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
-		
-		this.data.changeEnd();
-		
-		return this;
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is essentially equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.drawShapeComplement(shape, (Color4F currentColor, int x, int y) -> color);
-	 * }
-	 * </pre>
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param color the {@link Color4F} to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplement(final Shape2I shape, final Color4F color) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(color, "color == null");
-		
-		return drawShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color);
-	}
-	
-	/**
-	 * Draws everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to draw
-	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image drawShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
-		
-		this.data.changeBegin();
-		
-		shape.findPointsOfComplement(getBounds(), true).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
-		
-		this.data.changeEnd();
-		
-		return this;
+		return fill((final Color4D currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
@@ -1063,6 +1017,24 @@ public final class Image {
 		this.data.changeEnd();
 		
 		return this;
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance with {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color the {@link Color4F} instance to fill with
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fill(final Color4F color) {
+		Objects.requireNonNull(color, "color == null");
+		
+		return fill((final Color4F currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
@@ -1183,6 +1155,19 @@ public final class Image {
 		this.data.changeEnd();
 		
 		return this;
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance with {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * 
+	 * @param color the color to fill with
+	 * @return this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public Image fill(final int color) {
+		return fill((final int currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
@@ -1936,7 +1921,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, (Color4D currentColor, int x, int y) -> color);
+	 * image.fillShapeComplement(shape, color, false);
 	 * }
 	 * </pre>
 	 * 
@@ -1947,10 +1932,59 @@ public final class Image {
 	 */
 //	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4D color) {
+		return fillShapeComplement(shape, color, false);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, (Color4D currentColor, int x, int y) -> color, isExcludingBorderOnly);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param color the {@link Color4D} to use as its color
+	 * @param isExcludingBorderOnly {@code true} if, and only if, this method should only exclude {@link Point2I} instances on the border of {@code shape}, {@code false} otherwise
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillShapeComplement(final Shape2I shape, final Color4D color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color);
+		return fillShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color, isExcludingBorderOnly);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, pixelOperator, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
+		return fillShapeComplement(shape, pixelOperator, false);
 	}
 	
 	/**
@@ -1962,17 +1996,18 @@ public final class Image {
 	 * 
 	 * @param shape the {@link Shape2I} not to fill
 	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
+	 * @param isExcludingBorderOnly {@code true} if, and only if, this method should only exclude {@link Point2I} instances on the border of {@code shape}, {@code false} otherwise
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
+	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
+		shape.findPointsOfComplement(getBounds(), isExcludingBorderOnly).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -1989,7 +2024,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, (Color4F currentColor, int x, int y) -> color);
+	 * image.fillShapeComplement(shape, color, false);
 	 * }
 	 * </pre>
 	 * 
@@ -2000,10 +2035,59 @@ public final class Image {
 	 */
 //	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4F color) {
+		return fillShapeComplement(shape, color, false);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code color} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, (Color4F currentColor, int x, int y) -> color, isExcludingBorderOnly);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param color the {@link Color4F} to use as its color
+	 * @param isExcludingBorderOnly {@code true} if, and only if, this method should only exclude {@link Point2I} instances on the border of {@code shape}, {@code false} otherwise
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillShapeComplement(final Shape2I shape, final Color4F color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color);
+		return fillShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color, isExcludingBorderOnly);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is essentially equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillShapeComplement(shape, pixelOperator, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+		return fillShapeComplement(shape, pixelOperator, false);
 	}
 	
 	/**
@@ -2015,17 +2099,18 @@ public final class Image {
 	 * 
 	 * @param shape the {@link Shape2I} not to fill
 	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
+	 * @param isExcludingBorderOnly {@code true} if, and only if, this method should only exclude {@link Point2I} instances on the border of {@code shape}, {@code false} otherwise
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
+		shape.findPointsOfComplement(getBounds(), isExcludingBorderOnly).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		

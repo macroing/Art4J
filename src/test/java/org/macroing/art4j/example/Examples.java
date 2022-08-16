@@ -25,6 +25,9 @@ import java.net.URL;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.data.DataFactory;
+import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.shape.Circle2I;
+import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.image.Image;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
@@ -44,10 +47,12 @@ public final class Examples {
 	public static void main(final String[] args) {
 		doBlendOver();
 		doConvolve();
+		doCopyShape2I();
 		doDraw();
 		doFillBlend();
 		doFillInvert();
 		doFillSepia();
+		doFillShapeComplement();
 		doFlipX();
 		doFlipY();
 		doRotate();
@@ -81,6 +86,12 @@ public final class Examples {
 		image.save("./generated/example/Convolve.png");
 	}
 	
+	private static void doCopyShape2I() {
+		final
+		Image image = IMAGE.copy(new Circle2I(new Point2I(IMAGE.getResolutionX() / 2, IMAGE.getResolutionY() / 2), 200));
+		image.save("./generated/example/CopyShape2I.png");
+	}
+	
 	private static void doDraw() {
 		final
 		Image image = IMAGE.copy();
@@ -107,6 +118,13 @@ public final class Examples {
 		Image image = IMAGE.copy();
 		image.fill(Color4DPixelOperator.sepia());
 		image.save("./generated/example/FillSepia.png");
+	}
+	
+	private static void doFillShapeComplement() {
+		final
+		Image image = new Image(1024, 768);
+		image.fillShapeComplement(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
+		image.save("./generated/example/FillShapeComplement.png");
 	}
 	
 	private static void doFlipX() {
