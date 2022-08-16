@@ -26,8 +26,6 @@ import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import org.macroing.art4j.color.Color3D;
@@ -1374,118 +1372,106 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * If either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4D(point, operator, (currentColor, currentPoint) -> true);
+	 * image.fillRegion(point, pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4D(final Point2I point, final BiFunction<Color4D, Point2I, Color4D> operator) {
-		return fillRegionColor4D(point, operator, (currentColor, currentPoint) -> true);
+	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator) {
+		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * If either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4D(point.x, point.y, operator, filter);
+	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4D(final Point2I point, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
-		return fillRegionColor4D(point.x, point.y, operator, filter);
+	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
+		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code operator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
+	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4D(x, y, operator, (color, point) -> true);
+	 * image.fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4D(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator) {
-		return fillRegionColor4D(x, y, operator, (color, point) -> true);
+	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator) {
+		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4D} instance and a {@link Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4D} instance that represents the filled color.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4D} instance and a {@code Point2I} instance. The {@code Color4D} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4D} instance for each pixel affected
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4D(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter) {
+	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
-		doFillRegionColor4D(x, y, operator, filter, getColor4D(x, y));
+		doFillRegion(x, y, pixelOperator, pixelFilter, getColor4D(x, y));
 		
 		this.data.changeEnd();
 		
@@ -1493,118 +1479,106 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4F} instance and a {@link Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4F} instance that represents the filled color.
+	 * If either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4F(point, operator, (currentColor, currentPoint) -> true);
+	 * image.fillRegion(point, pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4F(final Point2I point, final BiFunction<Color4F, Point2I, Color4F> operator) {
-		return fillRegionColor4F(point, operator, (currentColor, currentPoint) -> true);
+	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator) {
+		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code point} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4F} instance and a {@link Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4F} instance that represents the filled color.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4F} instance and a {@code Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * If either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4F(point.x, point.y, operator, filter);
+	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	 * }
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4F} instance for each pixel affected
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4F(final Point2I point, final BiFunction<Color4F, Point2I, Color4F> operator, final BiPredicate<Color4F, Point2I> filter) {
-		return fillRegionColor4F(point.x, point.y, operator, filter);
+	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
+		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code operator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4F} instance and a {@link Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4F} instance that represents the filled color.
+	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegionColor4F(x, y, operator, (color, point) -> true);
+	 * image.fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	 * }
 	 * </pre>
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code operator} is {@code null} or returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4F(final int x, final int y, final BiFunction<Color4F, Point2I, Color4F> operator) {
-		return fillRegionColor4F(x, y, operator, (color, point) -> true);
+	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator) {
+		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
 	
 	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code filter} in the colors provided by {@code operator}.
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * The {@code BiFunction} instance, {@code operator}, is supplied with a {@link Color4F} instance and a {@link Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns a {@code Color4F} instance that represents the filled color.
-	 * <p>
-	 * The {@code BiPredicate} instance, {@code filter}, is supplied with a {@code Color4F} instance and a {@code Point2I} instance. The {@code Color4F} instance represents the current color and the {@code Point2I} instance represents the location of the current pixel. It returns {@code true} if, and only if, the current pixel should be filled, {@code false} otherwise.
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param operator a {@code BiFunction} instance that returns a {@code Color4F} instance for each pixel affected
-	 * @param filter a {@code BiPredicate} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code operator} or {@code filter} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegionColor4F(final int x, final int y, final BiFunction<Color4F, Point2I, Color4F> operator, final BiPredicate<Color4F, Point2I> filter) {
+	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
-		doFillRegionColor4F(x, y, operator, filter, getColor4F(x, y));
+		doFillRegion(x, y, pixelOperator, pixelFilter, getColor4F(x, y));
 		
 		this.data.changeEnd();
 		
@@ -1719,48 +1693,52 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * Fills {@code shape} in this {@code Image} instance with {@code color} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
-	 * Calling this method is equivalent to the following:
+	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeColor4D(shape, Color4D.BLACK);
+	 * image.fillShape(shape, (Color4D currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
 	 * @param shape the {@link Shape2I} to fill
+	 * @param color the {@link Color4D} to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeColor4D(final Shape2I shape) {
-		return fillShapeColor4D(shape, Color4D.BLACK);
+	public Image fillShape(final Shape2I shape, final Color4D color) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(color, "color == null");
+		
+		return fillShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
-	 * Fills {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
+	 * Fills {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param shape the {@link Shape2I} to fill
-	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
+	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeColor4D(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+	public Image fillShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfIntersection(getBounds()).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		shape.findPointsOfIntersection(getBounds()).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -1777,83 +1755,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeColor4D(shape, (currentColor, currentPoint) -> color);
-	 * }
-	 * </pre>
-	 * 
-	 * @param shape the {@link Shape2I} to fill
-	 * @param color the {@link Color4D} to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillShapeColor4D(final Shape2I shape, final Color4D color) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(color, "color == null");
-		
-		return fillShapeColor4D(shape, (currentColor, currentPoint) -> color);
-	}
-	
-	/**
-	 * Fills {@code shape} in this {@code Image} instance with {@code Color4F.BLACK} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillShapeColor4F(shape, Color4F.BLACK);
-	 * }
-	 * </pre>
-	 * 
-	 * @param shape the {@link Shape2I} to fill
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillShapeColor4F(final Shape2I shape) {
-		return fillShapeColor4F(shape, Color4F.BLACK);
-	}
-	
-	/**
-	 * Fills {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} to fill
-	 * @param operator a {@code BiFunction} that returns {@code Color4F} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillShapeColor4F(final Shape2I shape, final BiFunction<Color4F, Point2I, Color4F> operator) {
-		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
-		
-		this.data.changeBegin();
-		
-		shape.findPointsOfIntersection(getBounds()).forEach(point -> setColor4F(operator.apply(getColor4F(point), point), point));
-		
-		this.data.changeEnd();
-		
-		return this;
-	}
-	
-	/**
-	 * Fills {@code shape} in this {@code Image} instance with {@code color} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code color} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is essentially equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillShapeColor4F(shape, (currentColor, currentPoint) -> color);
+	 * image.fillShape(shape, (Color4F currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -1863,56 +1765,33 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeColor4F(final Shape2I shape, final Color4F color) {
+	public Image fillShape(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeColor4F(shape, (currentColor, currentPoint) -> color);
+		return fillShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
-	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code Color4D.BLACK} as its color.
+	 * Fills {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillShapeComplementColor4D(shape, Color4D.BLACK);
-	 * }
-	 * </pre>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param shape the {@link Shape2I} not to fill
+	 * @param shape the {@link Shape2I} to fill
+	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4D(final Shape2I shape) {
-		return fillShapeComplementColor4D(shape, Color4D.BLACK);
-	}
-	
-	/**
-	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to fill
-	 * @param operator a {@code BiFunction} that returns {@code Color4D} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4D(final Shape2I shape, final BiFunction<Color4D, Point2I, Color4D> operator) {
+	public Image fillShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4D(operator.apply(getColor4D(point), point), point));
+		shape.findPointsOfIntersection(getBounds()).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -1929,7 +1808,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplementColor4D(shape, (currentColor, currentPoint) -> color);
+	 * image.fillShapeComplement(shape, (Color4D currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -1939,56 +1818,33 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4D(final Shape2I shape, final Color4D color) {
+	public Image fillShapeComplement(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplementColor4D(shape, (currentColor, currentPoint) -> color);
+		return fillShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color);
 	}
 	
 	/**
-	 * Fills everything except for {@code shape} in this {@code Image} instance with {@code Color4F.BLACK} as its color.
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
 	 * <p>
-	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillShapeComplementColor4F(shape, Color4F.BLACK);
-	 * }
-	 * </pre>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param shape the {@link Shape2I} not to fill
+	 * @param pixelOperator a {@link Color4DPixelOperator} that returns {@code Color4D} instances to use as its color
 	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4F(final Shape2I shape) {
-		return fillShapeComplementColor4F(shape, Color4F.BLACK);
-	}
-	
-	/**
-	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code operator} as its color.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param shape the {@link Shape2I} not to fill
-	 * @param operator a {@code BiFunction} that returns {@code Color4F} instances to use as its color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code operator} are {@code null} or {@code operator} returns {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4F(final Shape2I shape, final BiFunction<Color4F, Point2I, Color4F> operator) {
+	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
-		Objects.requireNonNull(operator, "operator == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
 		this.data.changeBegin();
 		
-		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4F(operator.apply(getColor4F(point), point), point));
+		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4D(pixelOperator.apply(getColor4D(point), point.x, point.y), point));
 		
 		this.data.changeEnd();
 		
@@ -2005,7 +1861,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplementColor4F(shape, (currentColor, currentPoint) -> color);
+	 * image.fillShapeComplement(shape, (Color4F currentColor, int x, int y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -2015,11 +1871,37 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillShapeComplementColor4F(final Shape2I shape, final Color4F color) {
+	public Image fillShapeComplement(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplementColor4F(shape, (currentColor, currentPoint) -> color);
+		return fillShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color);
+	}
+	
+	/**
+	 * Fills everything except for {@code shape} in this {@code Image} instance with {@link Color4F} instances returned by {@code pixelOperator} as its color.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param shape the {@link Shape2I} not to fill
+	 * @param pixelOperator a {@link Color4FPixelOperator} that returns {@code Color4F} instances to use as its color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+		Objects.requireNonNull(shape, "shape == null");
+		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
+		
+		this.data.changeBegin();
+		
+		shape.findPointsOfComplement(getBounds()).forEach(point -> setColor4F(pixelOperator.apply(getColor4F(point), point.x, point.y), point));
+		
+		this.data.changeEnd();
+		
+		return this;
 	}
 	
 	/**
@@ -3300,7 +3182,7 @@ public final class Image {
 	}
 	
 //	TODO: Add Unit Tests!
-	private void doFillRegionColor4D(final int x, final int y, final BiFunction<Color4D, Point2I, Color4D> operator, final BiPredicate<Color4D, Point2I> filter, final Color4D oldColor) {
+	private void doFillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter, final Color4D oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3329,10 +3211,8 @@ public final class Image {
 				
 				final Color4D color = getColor4D(currentX, currentY);
 				
-				final Point2I point = new Point2I(currentX, currentY);
-				
-				if(filter.test(color, point)) {
-					this.data.setColor4D(operator.apply(color, point), currentX, currentY);
+				if(pixelFilter.isAccepted(color, currentX, currentY)) {
+					this.data.setColor4D(pixelOperator.apply(color, currentX, currentY), currentX, currentY);
 				}
 				
 				isFilled[currentY * resolutionX + currentX] = true;
@@ -3369,7 +3249,7 @@ public final class Image {
 	}
 	
 //	TODO: Add Unit Tests!
-	private void doFillRegionColor4F(final int x, final int y, final BiFunction<Color4F, Point2I, Color4F> operator, final BiPredicate<Color4F, Point2I> filter, final Color4F oldColor) {
+	private void doFillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter, final Color4F oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3398,10 +3278,8 @@ public final class Image {
 				
 				final Color4F color = getColor4F(currentX, currentY);
 				
-				final Point2I point = new Point2I(currentX, currentY);
-				
-				if(filter.test(color, point)) {
-					this.data.setColor4F(operator.apply(color, point), currentX, currentY);
+				if(pixelFilter.isAccepted(color, currentX, currentY)) {
+					this.data.setColor4F(pixelOperator.apply(color, currentX, currentY), currentX, currentY);
 				}
 				
 				isFilled[currentY * resolutionX + currentX] = true;

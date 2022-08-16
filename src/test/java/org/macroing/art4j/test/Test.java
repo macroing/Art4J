@@ -51,7 +51,7 @@ public final class Test {
 		image.draw(g -> g.drawString("Hello, World!", 100, 100));
 		image.fillColorARGB((colorARGB, x, y) -> Color4I.sepiaARGB(colorARGB));
 		image.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
-		image.fillShapeColor4D(new Circle2I(new Point2I(100, 100), 50), Color4D.RED);
+		image.fillShape(new Circle2I(new Point2I(100, 100), 50), Color4D.RED);
 		image.convolve(ConvolutionKernelND.EMBOSS_3);
 		image.rotate(45.0D);
 		image.rotate(45.0D);
