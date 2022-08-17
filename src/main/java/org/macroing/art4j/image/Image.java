@@ -792,7 +792,7 @@ public final class Image {
 //	TODO: Add Unit Tests!
 	public Image copy(final Shape2I shape) {
 		/*
-		 * TODO: Add a copy(Shape2I) method in the Data class. Or find another way to handle this feature.
+		 * TODO: Add a copy(Shape2I) method in the Data class. Or find another way to handle this feature. It currently works best with ColorARGBData and ColorARGBDataFactory.
 		 */
 		
 		final Point2I max = shape.max();
