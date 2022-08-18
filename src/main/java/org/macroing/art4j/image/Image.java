@@ -30,12 +30,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import org.macroing.art4j.color.ArrayComponentOrder;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
+import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.color.ColorSpaceD;
 import org.macroing.art4j.color.ColorSpaceF;
+import org.macroing.art4j.color.PackedIntComponentOrder;
 import org.macroing.art4j.data.Data;
 import org.macroing.art4j.data.DataFactory;
 import org.macroing.art4j.filter.Filter2D;
@@ -2273,6 +2276,226 @@ public final class Image {
 	}
 	
 	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4D} instances that are generated using a Sobel operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSobel(final Color4DPixelFilter pixelFilter) {
+		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
+		
+		this.data.changeBegin();
+		
+		final Image image = copy();
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final double[][] kernel = {
+			{-1.0D, 0.0D, 1.0D},
+			{-2.0D, 0.0D, 2.0D},
+			{-1.0D, 0.0D, 1.0D}
+		};
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final Color4D color = image.getColor4D(x, y);
+				
+				if(pixelFilter.isAccepted(color, x, y)) {
+					double magnitudeX = 0.0D;
+					double magnitudeY = 0.0D;
+					
+					for(int kernelY = 0; kernelY < 3; kernelY++) {
+						for(int kernelX = 0; kernelX < 3; kernelX++) {
+							final int currentX = x + kernelX - 1;
+							final int currentY = y + kernelY - 1;
+							
+							if(currentX >= 0 && currentX < resolutionX && currentY >= 0 && currentY < resolutionY) {
+								final int index = currentY * resolutionX + currentX;
+								
+								final double intensity = image.getColor3D(index).average();
+								
+								magnitudeX += intensity * kernel[kernelY][kernelX];
+								magnitudeY += intensity * kernel[kernelX][kernelY];
+							}
+						}
+					}
+					
+					final double grayscale = Doubles.sqrt(magnitudeX * magnitudeX + magnitudeY * magnitudeY);
+					final double a = color.a;
+					
+					setColor4D(new Color4D(grayscale, a), x, y);
+				}
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4F} instances that are generated using a Sobel operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSobel(final Color4FPixelFilter pixelFilter) {
+		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
+		
+		this.data.changeBegin();
+		
+		final Image image = copy();
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final float[][] kernel = {
+			{-1.0F, 0.0F, 1.0F},
+			{-2.0F, 0.0F, 2.0F},
+			{-1.0F, 0.0F, 1.0F}
+		};
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				final Color4F color = image.getColor4F(x, y);
+				
+				if(pixelFilter.isAccepted(color, x, y)) {
+					float magnitudeX = 0.0F;
+					float magnitudeY = 0.0F;
+					
+					for(int kernelY = 0; kernelY < 3; kernelY++) {
+						for(int kernelX = 0; kernelX < 3; kernelX++) {
+							final int currentX = x + kernelX - 1;
+							final int currentY = y + kernelY - 1;
+							
+							if(currentX >= 0 && currentX < resolutionX && currentY >= 0 && currentY < resolutionY) {
+								final int index = currentY * resolutionX + currentX;
+								
+								final float intensity = image.getColor3F(index).average();
+								
+								magnitudeX += intensity * kernel[kernelY][kernelX];
+								magnitudeY += intensity * kernel[kernelX][kernelY];
+							}
+						}
+					}
+					
+					final float grayscale = Floats.sqrt(magnitudeX * magnitudeX + magnitudeY * magnitudeY);
+					final float a = color.a;
+					
+					setColor4F(new Color4F(grayscale, a), x, y);
+				}
+			}
+		}
+		
+		this.data.changeEnd();
+		
+		return this;
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4D} instances that are generated using a tone mapping operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillToneMapping(pixelFilter, image.relativeLuminanceMaxAsDouble());
+	 * }
+	 * </pre>
+	 * 
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillToneMapping(final Color4DPixelFilter pixelFilter) {
+		return fillToneMapping(pixelFilter, relativeLuminanceMaxAsDouble());
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4D} instances that are generated using a tone mapping operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
+	 * @param relativeLuminanceMax the maximum relative luminance
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillToneMapping(final Color4DPixelFilter pixelFilter, final double relativeLuminanceMax) {
+		return fill((final Color4D color, final int x, final int y) -> {
+			final double relativeLuminance = color.relativeLuminance();
+			final double scale = (1.0D + relativeLuminance / (relativeLuminanceMax * relativeLuminanceMax)) / (1.0D + relativeLuminance);
+			
+			return new Color4D(Color3D.multiply(new Color3D(color), scale), color.a);
+		}, pixelFilter);
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4F} instances that are generated using a tone mapping operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillToneMapping(pixelFilter, image.relativeLuminanceMaxAsFloat());
+	 * }
+	 * </pre>
+	 * 
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillToneMapping(final Color4FPixelFilter pixelFilter) {
+		return fillToneMapping(pixelFilter, relativeLuminanceMaxAsFloat());
+	}
+	
+	/**
+	 * Fills all pixels in this {@code Image} instance that are accepted by {@code pixelFilter} with {@link Color4F} instances that are generated using a tone mapping operator.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelFilter} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
+	 * @param relativeLuminanceMax the maximum relative luminance
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillToneMapping(final Color4FPixelFilter pixelFilter, final float relativeLuminanceMax) {
+		return fill((final Color4F color, final int x, final int y) -> {
+			final float relativeLuminance = color.relativeLuminance();
+			final float scale = (1.0F + relativeLuminance / (relativeLuminanceMax * relativeLuminanceMax)) / (1.0F + relativeLuminance);
+			
+			return new Color4F(Color3F.multiply(new Color3F(color), scale), color.a);
+		}, pixelFilter);
+	}
+	
+	/**
 	 * Flips this {@code Image} instance along the X- and Y-axes.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -3393,6 +3616,214 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns the maximum relative luminance in this {@code Image} instance as a {@code double}.
+	 * 
+	 * @return the maximum relative luminance in this {@code Image} instance as a {@code double}
+	 */
+//	TODO: Add Unit Tests!
+	public double relativeLuminanceMaxAsDouble() {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		double relativeLuminanceMax = 0.0D;
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				relativeLuminanceMax = Doubles.max(relativeLuminanceMax, getColor3D(x, y).relativeLuminance());
+			}
+		}
+		
+		return relativeLuminanceMax;
+	}
+	
+	/**
+	 * Returns the minimum relative luminance in this {@code Image} instance as a {@code double}.
+	 * 
+	 * @return the minimum relative luminance in this {@code Image} instance as a {@code double}
+	 */
+//	TODO: Add Unit Tests!
+	public double relativeLuminanceMinAsDouble() {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		double relativeLuminanceMin = Double.MAX_VALUE;
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				relativeLuminanceMin = Doubles.min(relativeLuminanceMin, getColor3D(x, y).relativeLuminance());
+			}
+		}
+		
+		return relativeLuminanceMin;
+	}
+	
+	/**
+	 * Returns a {@code double[]} representation of this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.toDoubleArray(ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code double[]} representation of this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public double[] toDoubleArray() {
+		return toDoubleArray(ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns a {@code double[]} representation of this {@code Image} instance.
+	 * <p>
+	 * If {@code arrayComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder}
+	 * @return a {@code double[]} representation of this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public double[] toDoubleArray(final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		final int componentCount = arrayComponentOrder.getComponentCount();
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final double[] array = new double[resolutionX * resolutionY * componentCount];
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
+				final Color4D color = getColor4D(x, y);
+				
+				if(arrayComponentOrder.hasOffsetR()) {
+					array[index + arrayComponentOrder.getOffsetR()] = color.r;
+				}
+				
+				if(arrayComponentOrder.hasOffsetG()) {
+					array[index + arrayComponentOrder.getOffsetG()] = color.g;
+				}
+				
+				if(arrayComponentOrder.hasOffsetB()) {
+					array[index + arrayComponentOrder.getOffsetB()] = color.b;
+				}
+				
+				if(arrayComponentOrder.hasOffsetA()) {
+					array[index + arrayComponentOrder.getOffsetA()] = color.a;
+				}
+			}
+		}
+		
+		return array;
+	}
+	
+	/**
+	 * Returns the maximum relative luminance in this {@code Image} instance as a {@code float}.
+	 * 
+	 * @return the maximum relative luminance in this {@code Image} instance as a {@code float}
+	 */
+//	TODO: Add Unit Tests!
+	public float relativeLuminanceMaxAsFloat() {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		float relativeLuminanceMax = 0.0F;
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				relativeLuminanceMax = Floats.max(relativeLuminanceMax, getColor3F(x, y).relativeLuminance());
+			}
+		}
+		
+		return relativeLuminanceMax;
+	}
+	
+	/**
+	 * Returns the minimum relative luminance in this {@code Image} instance as a {@code float}.
+	 * 
+	 * @return the minimum relative luminance in this {@code Image} instance as a {@code float}
+	 */
+//	TODO: Add Unit Tests!
+	public float relativeLuminanceMinAsFloat() {
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		float relativeLuminanceMin = Float.MAX_VALUE;
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0; x < resolutionX; x++) {
+				relativeLuminanceMin = Floats.min(relativeLuminanceMin, getColor3F(x, y).relativeLuminance());
+			}
+		}
+		
+		return relativeLuminanceMin;
+	}
+	
+	/**
+	 * Returns a {@code float[]} representation of this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.toFloatArray(ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code float[]} representation of this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public float[] toFloatArray() {
+		return toFloatArray(ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns a {@code float[]} representation of this {@code Image} instance.
+	 * <p>
+	 * If {@code arrayComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder}
+	 * @return a {@code float[]} representation of this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public float[] toFloatArray(final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		final int componentCount = arrayComponentOrder.getComponentCount();
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final float[] array = new float[resolutionX * resolutionY * componentCount];
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
+				final Color4F color = getColor4F(x, y);
+				
+				if(arrayComponentOrder.hasOffsetR()) {
+					array[index + arrayComponentOrder.getOffsetR()] = color.r;
+				}
+				
+				if(arrayComponentOrder.hasOffsetG()) {
+					array[index + arrayComponentOrder.getOffsetG()] = color.g;
+				}
+				
+				if(arrayComponentOrder.hasOffsetB()) {
+					array[index + arrayComponentOrder.getOffsetB()] = color.b;
+				}
+				
+				if(arrayComponentOrder.hasOffsetA()) {
+					array[index + arrayComponentOrder.getOffsetA()] = color.a;
+				}
+			}
+		}
+		
+		return array;
+	}
+	
+	/**
 	 * Performs a cache operation to this {@code Image} instance.
 	 * <p>
 	 * Returns the number of pixels that were cached as a result of this operation.
@@ -3523,6 +3954,99 @@ public final class Image {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.data);
+	}
+	
+	/**
+	 * Returns an {@code int[]} representation of this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.toIntArray(ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @return an {@code int[]} representation of this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public int[] toIntArray() {
+		return toIntArray(ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns an {@code int[]} representation of this {@code Image} instance.
+	 * <p>
+	 * If {@code arrayComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder}
+	 * @return an {@code int[]} representation of this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public int[] toIntArray(final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		final int componentCount = arrayComponentOrder.getComponentCount();
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int[] array = new int[resolutionX * resolutionY * componentCount];
+		
+		for(int y = 0; y < resolutionY; y++) {
+			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
+				final int color = getColorARGB(x, y);
+				
+				if(arrayComponentOrder.hasOffsetR()) {
+					array[index + arrayComponentOrder.getOffsetR()] = Color4I.fromIntARGBToIntR(color);
+				}
+				
+				if(arrayComponentOrder.hasOffsetG()) {
+					array[index + arrayComponentOrder.getOffsetG()] = Color4I.fromIntARGBToIntG(color);
+				}
+				
+				if(arrayComponentOrder.hasOffsetB()) {
+					array[index + arrayComponentOrder.getOffsetB()] = Color4I.fromIntARGBToIntB(color);
+				}
+				
+				if(arrayComponentOrder.hasOffsetA()) {
+					array[index + arrayComponentOrder.getOffsetA()] = Color4I.fromIntARGBToIntA(color);
+				}
+			}
+		}
+		
+		return array;
+	}
+	
+	/**
+	 * Returns an {@code int[]} representation of this {@code Image} instance in a packed form.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.toIntArrayPackedForm(PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @return an {@code int[]} representation of this {@code Image} instance in a packed form
+	 */
+//	TODO: Add Unit Tests!
+	public int[] toIntArrayPackedForm() {
+		return toIntArrayPackedForm(PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns an {@code int[]} representation of this {@code Image} instance in a packed form.
+	 * <p>
+	 * If {@code packedIntComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param packedIntComponentOrder a {@link PackedIntComponentOrder}
+	 * @return an {@code int[]} representation of this {@code Image} instance in a packed form
+	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public int[] toIntArrayPackedForm(final PackedIntComponentOrder packedIntComponentOrder) {
+		return packedIntComponentOrder.pack(ArrayComponentOrder.RGBA, toIntArray());
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

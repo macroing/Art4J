@@ -51,6 +51,96 @@ public interface Color4DPixelOperator {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.a}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.a}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleA() {
+		return (color, x, y) -> Color4D.grayscaleA(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.average()}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.average()}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleAverage() {
+		return (color, x, y) -> Color4D.grayscaleAverage(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.b}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.b}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleB() {
+		return (color, x, y) -> Color4D.grayscaleB(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.g}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.g}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleG() {
+		return (color, x, y) -> Color4D.grayscaleG(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.lightness()}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.lightness()}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleLightness() {
+		return (color, x, y) -> Color4D.grayscaleLightness(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.max()}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.max()}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleMax() {
+		return (color, x, y) -> Color4D.grayscaleMax(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.min()}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.min()}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleMin() {
+		return (color, x, y) -> Color4D.grayscaleMin(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.r}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.r}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleR() {
+		return (color, x, y) -> Color4D.grayscaleR(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.relativeLuminance()}.
+	 * 
+	 * @return a {@code Color4DPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.relativeLuminance()}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator grayscaleRelativeLuminance() {
+		return (color, x, y) -> Color4D.grayscaleRelativeLuminance(color);
+	}
+	
+	/**
 	 * Returns a {@code Color4DPixelOperator} that inverts the red, green and blue component values of {@code color}.
 	 * 
 	 * @return a {@code Color4DPixelOperator} that inverts the red, green and blue component values of {@code color}

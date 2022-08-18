@@ -50,11 +50,22 @@ public final class Examples {
 		doCopyShape2I();
 		doDraw();
 		doFillBlend();
+		doFillGrayscaleA();
+		doFillGrayscaleAverage();
+		doFillGrayscaleB();
+		doFillGrayscaleG();
+		doFillGrayscaleLightness();
+		doFillGrayscaleMax();
+		doFillGrayscaleMin();
+		doFillGrayscaleR();
+		doFillGrayscaleRelativeLuminance();
 		doFillInvert();
 		doFillRedoGammaCorrection();
 		doFillSepia();
 		doFillShape();
 		doFillShapeComplement();
+		doFillSobel();
+		doFillToneMapping();
 		doFillUndoGammaCorrection();
 		doFlipX();
 		doFlipY();
@@ -109,6 +120,69 @@ public final class Examples {
 		image.save("./generated/example/FillBlend.png");
 	}
 	
+	private static void doFillGrayscaleA() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleA());
+		image.save("./generated/example/FillGrayscaleA.png");
+	}
+	
+	private static void doFillGrayscaleAverage() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleAverage());
+		image.save("./generated/example/FillGrayscaleAverage.png");
+	}
+	
+	private static void doFillGrayscaleB() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleB());
+		image.save("./generated/example/FillGrayscaleB.png");
+	}
+	
+	private static void doFillGrayscaleG() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleG());
+		image.save("./generated/example/FillGrayscaleG.png");
+	}
+	
+	private static void doFillGrayscaleLightness() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleLightness());
+		image.save("./generated/example/FillGrayscaleLightness.png");
+	}
+	
+	private static void doFillGrayscaleMax() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleMax());
+		image.save("./generated/example/FillGrayscaleMax.png");
+	}
+	
+	private static void doFillGrayscaleMin() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleMin());
+		image.save("./generated/example/FillGrayscaleMin.png");
+	}
+	
+	private static void doFillGrayscaleR() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleR());
+		image.save("./generated/example/FillGrayscaleR.png");
+	}
+	
+	private static void doFillGrayscaleRelativeLuminance() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.grayscaleRelativeLuminance());
+		image.save("./generated/example/FillGrayscaleRelativeLuminance.png");
+	}
+	
 	private static void doFillInvert() {
 		final
 		Image image = IMAGE.copy();
@@ -142,6 +216,20 @@ public final class Examples {
 		Image image = new Image(1024, 768);
 		image.fillShapeComplement(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
 		image.save("./generated/example/FillShapeComplement.png");
+	}
+	
+	private static void doFillSobel() {
+		final
+		Image image = IMAGE.copy();
+		image.fillSobel((final Color4D color, final int x, final int y) -> true);
+		image.save("./generated/example/FillSobel.png");
+	}
+	
+	private static void doFillToneMapping() {
+		final
+		Image image = IMAGE.copy();
+		image.fillToneMapping((final Color4D color, final int x, final int y) -> true, 0.75D);
+		image.save("./generated/example/FillToneMapping.png");
 	}
 	
 	private static void doFillUndoGammaCorrection() {
