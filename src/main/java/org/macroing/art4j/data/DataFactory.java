@@ -186,6 +186,19 @@ public abstract class DataFactory {
 	 */
 	public abstract Data create(final int resolutionX, final int resolutionY, final Color4F color);
 	
+	/**
+	 * Returns a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}.
+	 * <p>
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the color in the format ARGB to fill with
+	 * @return a {@code Data} instance with a resolution of {@code resolutionX} and {@code resolutionY} and is filled with a single color represented by {@code color}
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
+	 */
+	public abstract Data create(final int resolutionX, final int resolutionY, final int color);
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**

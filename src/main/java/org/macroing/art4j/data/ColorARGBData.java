@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -31,6 +32,7 @@ import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
@@ -77,19 +79,19 @@ final class ColorARGBData extends Data {
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
-		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
-		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
-		this.colors = new int[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
-		
-		Arrays.fill(this.colors, color.toIntARGB());
+		this(resolutionX, resolutionY, color.toIntARGB());
 	}
 	
 	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
+		this(resolutionX, resolutionY, color.toIntARGB());
+	}
+	
+	public ColorARGBData(final int resolutionX, final int resolutionY, final int color) {
 		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
 		this.colors = new int[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
 		
-		Arrays.fill(this.colors, color.toIntARGB());
+		Arrays.fill(this.colors, color);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +146,25 @@ final class ColorARGBData extends Data {
 	@Override
 	public Color4F getColor4F(final int x, final int y) {
 		return Color4F.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
+	public Data copy(final Shape2I shape) {
+		final Point2I max = shape.max();
+		final Point2I min = shape.min();
+		
+		final int resolutionX = max.x - min.x + 1;
+		final int resolutionY = max.y - min.y + 1;
+		
+		final Data data = getDataFactory().create(resolutionX, resolutionY);
+		
+		final List<Point2I> points = shape.findPoints();
+		
+		for(final Point2I point : points) {
+			data.setColorARGB(getColorARGB(point.x, point.y), point.x - min.x, point.y - min.y);
+		}
+		
+		return data;
 	}
 	
 	@Override

@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +34,6 @@ import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
-import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.color.ColorSpaceD;
 import org.macroing.art4j.color.ColorSpaceF;
 import org.macroing.art4j.data.Data;
@@ -45,6 +45,8 @@ import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.noise.SimplexNoiseD;
+import org.macroing.art4j.noise.SimplexNoiseF;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
 import org.macroing.art4j.pixel.Color4DPixelFilter;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
@@ -128,6 +130,19 @@ public final class Image {
 	 */
 	public Image(final Data data) {
 		this.data = data.copy();
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance from {@code data}.
+	 * <p>
+	 * If {@code data} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param data the {@link Data} instance to copy
+	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code data} is {@code null}
+	 */
+	public Image(final Data data, final boolean isIgnoringChangeHistory) {
+		this.data = data.copy(isIgnoringChangeHistory);
 	}
 	
 	/**
@@ -286,7 +301,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	 * new Image(resolutionX, resolutionY, color, DataFactory.forColor4D());
 	 * }
 	 * </pre>
 	 * 
@@ -297,7 +312,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4D color) {
-		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+		this(resolutionX, resolutionY, color, DataFactory.forColor4D());
 	}
 	
 	/**
@@ -328,7 +343,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	 * new Image(resolutionX, resolutionY, color, DataFactory.forColor4F());
 	 * }
 	 * </pre>
 	 * 
@@ -339,7 +354,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public Image(final int resolutionX, final int resolutionY, final Color4F color) {
-		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+		this(resolutionX, resolutionY, color, DataFactory.forColor4F());
 	}
 	
 	/**
@@ -375,6 +390,45 @@ public final class Image {
 	 */
 	public Image(final int resolutionX, final int resolutionY, final DataFactory dataFactory) {
 		this.data = dataFactory.create(resolutionX, resolutionY);
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance filled with {@code color}.
+	 * <p>
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Image(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	 * }
+	 * </pre>
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the color in the format ARGB to fill with
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
+	 */
+	public Image(final int resolutionX, final int resolutionY, final int color) {
+		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	}
+	
+	/**
+	 * Constructs a new {@code Image} instance filled with {@code color} using {@code dataFactory}.
+	 * <p>
+	 * If either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code dataFactory} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param resolutionX the resolution along the X-axis
+	 * @param resolutionY the resolution along the Y-axis
+	 * @param color the color in the format ARGB to fill with
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
+	 * @throws NullPointerException thrown if, and only if, {@code dataFactory} is {@code null}
+	 */
+	public Image(final int resolutionX, final int resolutionY, final int color, final DataFactory dataFactory) {
+		this.data = dataFactory.create(resolutionX, resolutionY, color);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -773,7 +827,7 @@ public final class Image {
 	 * @return a copy of this {@code Image} instance
 	 */
 	public Image copy() {
-		return new Image(this);
+		return new Image(this.data);
 	}
 	
 	/**
@@ -791,29 +845,18 @@ public final class Image {
 	 */
 //	TODO: Add Unit Tests!
 	public Image copy(final Shape2I shape) {
-		/*
-		 * TODO: Add a copy(Shape2I) method in the Data class. Or find another way to handle this feature. It currently works best with ColorARGBData and ColorARGBDataFactory.
-		 */
-		
-		final Point2I max = shape.max();
-		final Point2I min = shape.min();
-		
-		final int resolutionX = max.x - min.x + 1;
-		final int resolutionY = max.y - min.y + 1;
-		
-		final Data data = this.data.getDataFactory().create(resolutionX, resolutionY);
-		
-		final
-		Image image = new Image(data);
-		image.fill(Color4I.TRANSPARENT_A_R_G_B);
-		
-		final List<Point2I> points = shape.findPoints();
-		
-		for(final Point2I point : points) {
-			image.setColorARGB(getColorARGB(point), point.x - min.x, point.y - min.y);
-		}
-		
-		return image;
+		return new Image(this.data.copy(Objects.requireNonNull(shape, "shape == null")));
+	}
+	
+	/**
+	 * Returns a copy of this {@code Image} instance.
+	 * 
+	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
+	 * @return a copy of this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public Image copy(final boolean isIgnoringChangeHistory) {
+		return new Image(this.data, isIgnoringChangeHistory);
 	}
 	
 	/**
@@ -2118,6 +2161,118 @@ public final class Image {
 	}
 	
 	/**
+	 * Fills this {@code Image} instance with {@link Color4D} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillSimplexFractionalBrownianMotion(baseColor, 5.0D, 0.5D, 16);
+	 * }
+	 * </pre>
+	 * 
+	 * @param baseColor a {@link Color3D} instance that is used as the base color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSimplexFractionalBrownianMotion(final Color3D baseColor) {
+		return fillSimplexFractionalBrownianMotion(baseColor, 5.0D, 0.5D, 16);
+	}
+	
+	/**
+	 * Fills this {@code Image} instance with {@link Color4D} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param baseColor a {@link Color3D} instance that is used as the base color
+	 * @param frequency the frequency to start at
+	 * @param gain the amplitude multiplier
+	 * @param octaves the number of iterations to perform
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSimplexFractionalBrownianMotion(final Color3D baseColor, final double frequency, final double gain, final int octaves) {
+		Objects.requireNonNull(baseColor, "baseColor == null");
+		
+		final double minimumX = 0.0D;
+		final double minimumY = 0.0D;
+		final double maximumX = getResolutionX();
+		final double maximumY = getResolutionY();
+		
+		return fill((final Color4D currentColor, final int currentX, final int currentY) -> {
+			final double x = (currentX - minimumX) / (maximumX - minimumX);
+			final double y = (currentY - minimumY) / (maximumY - minimumY);
+			
+			final double noise = SimplexNoiseD.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0D, 1.0D, octaves);
+			
+			return new Color4D(Color3D.multiply(baseColor, noise));
+		});
+	}
+	
+	/**
+	 * Fills this {@code Image} instance with {@link Color4F} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillSimplexFractionalBrownianMotion(baseColor, 5.0F, 0.5F, 16);
+	 * }
+	 * </pre>
+	 * 
+	 * @param baseColor a {@link Color3F} instance that is used as the base color
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSimplexFractionalBrownianMotion(final Color3F baseColor) {
+		return fillSimplexFractionalBrownianMotion(baseColor, 5.0F, 0.5F, 16);
+	}
+	
+	/**
+	 * Fills this {@code Image} instance with {@link Color4F} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param baseColor a {@link Color3F} instance that is used as the base color
+	 * @param frequency the frequency to start at
+	 * @param gain the amplitude multiplier
+	 * @param octaves the number of iterations to perform
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image fillSimplexFractionalBrownianMotion(final Color3F baseColor, final float frequency, final float gain, final int octaves) {
+		Objects.requireNonNull(baseColor, "baseColor == null");
+		
+		final float minimumX = 0.0F;
+		final float minimumY = 0.0F;
+		final float maximumX = getResolutionX();
+		final float maximumY = getResolutionY();
+		
+		return fill((final Color4F currentColor, final int currentX, final int currentY) -> {
+			final float x = (currentX - minimumX) / (maximumX - minimumX);
+			final float y = (currentY - minimumY) / (maximumY - minimumY);
+			
+			final float noise = SimplexNoiseF.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0F, 1.0F, octaves);
+			
+			return new Color4F(Color3F.multiply(baseColor, noise));
+		});
+	}
+	
+	/**
 	 * Flips this {@code Image} instance along the X- and Y-axes.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -3033,6 +3188,42 @@ public final class Image {
 		this.data.setResolutionY(resolutionY);
 		
 		return this;
+	}
+	
+	/**
+	 * Finds the bounds for {@code image} in this {@code Image} instance.
+	 * <p>
+	 * Returns a {@code List} with all {@link Rectangle2I} bounds found for {@code image} in this {@code Image} instance.
+	 * <p>
+	 * If {@code image} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param image an {@code Image} instance
+	 * @return a {@code List} with all {@code Rectangle2I} bounds found for {@code image} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code image} is {@code null}
+	 */
+	public List<Rectangle2I> findBoundsFor(final Image image) {
+		Objects.requireNonNull(image, "image == null");
+		
+		final List<Rectangle2I> rectangles = new ArrayList<>();
+		
+		for(int y = 0; y < getResolutionY(); y++) {
+			for(int x = 0; x < getResolutionX(); x++) {
+				labelImage:
+				if(getColorARGB(x, y) == image.getColorARGB(0, 0)) {
+					for(int imageY = 0; imageY < image.getResolutionY(); imageY++) {
+						for(int imageX = 0; imageX < image.getResolutionX(); imageX++) {
+							if(getColorARGB(x + imageX, y + imageY) != image.getColorARGB(imageX, imageY)) {
+								break labelImage;
+							}
+						}
+					}
+					
+					rectangles.add(new Rectangle2I(new Point2I(x, y), new Point2I(x + image.getResolutionX() - 1, y + image.getResolutionY() - 1)));
+				}
+			}
+		}
+		
+		return rectangles;
 	}
 	
 	/**

@@ -31,6 +31,7 @@ import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
+import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.java.lang.Doubles;
@@ -350,6 +351,21 @@ public abstract class Data {
 	public final Data copy() {
 		return copy(false);
 	}
+	
+	/**
+	 * Returns a copy of this {@code Data} instance.
+	 * <p>
+	 * If {@code shape} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method will only copy the data in this {@code Data} instance that is contained by {@code shape}.
+	 * <p>
+	 * The copied {@code Data} instance will have an X-resolution of {@code shape.max().x - shape.min().x + 1} and a Y-resolution of {@code shape.max().y - shape.min().y + 1}.
+	 * 
+	 * @param shape a {@link Shape2I} instance
+	 * @return a copy of this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
+	 */
+	public abstract Data copy(final Shape2I shape);
 	
 	/**
 	 * Returns a copy of this {@code Data} instance.

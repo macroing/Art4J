@@ -39,6 +39,8 @@ import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.data.Color4FData.PixelChange;
 import org.macroing.art4j.data.Color4FData.StateChange;
+import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 
@@ -263,6 +265,24 @@ public final class Color4FDataUnitTests {
 	}
 	
 	@Test
+	public void testConstructorIntIntInt() {
+		final Color4FData color4FData = new Color4FData(1024, 768, Color4I.WHITE_A_R_G_B);
+		
+		assertEquals(1024, color4FData.getResolutionX());
+		assertEquals( 768, color4FData.getResolutionY());
+		
+		for(int y = 0; y < color4FData.getResolutionY(); y++) {
+			for(int x = 0; x < color4FData.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, color4FData.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> new Color4FData(1, 0, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new Color4FData(0, 1, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new Color4FData(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4I.WHITE_A_R_G_B));
+	}
+	
+	@Test
 	public void testConvolveConvolutionKernelNDIntArray() {
 		final Color4FData color4FData = new Color4FData(1, 1);
 		
@@ -447,6 +467,43 @@ public final class Color4FDataUnitTests {
 		
 		assertEquals(color4FData, color4FDataCopyC);
 		assertEquals(color4FData, color4FDataCopyD);
+	}
+	
+	@Test
+	public void testCopyShape2I() {
+		final Color4FData color4FData = new Color4FData(10, 10);
+		
+		assertEquals(10, color4FData.getResolutionX());
+		assertEquals(10, color4FData.getResolutionY());
+		
+		for(int y = 0; y < color4FData.getResolutionY(); y++) {
+			for(int x = 0; x < color4FData.getResolutionX(); x++) {
+				color4FData.setColor4F(new Color4F(x, y, 0.0F), x, y);
+			}
+		}
+		
+		final Data dataCopy = color4FData.copy(new Rectangle2I(new Point2I(1, 1), new Point2I(8, 8)));
+		
+		assertTrue(dataCopy instanceof Color4FData);
+		
+		final Color4FData color4FDataCopy = Color4FData.class.cast(dataCopy);
+		
+		assertEquals(8, color4FDataCopy.getResolutionX());
+		assertEquals(8, color4FDataCopy.getResolutionY());
+		
+		for(int y = 0; y < color4FDataCopy.getResolutionY(); y++) {
+			for(int x = 0; x < color4FDataCopy.getResolutionX(); x++) {
+				final Color4F color = color4FDataCopy.getColor4F(x, y);
+				
+				assertEquals(x + 1.0F, color.r);
+				assertEquals(y + 1.0F, color.g);
+				
+				assertEquals(0.0F, color.b);
+				assertEquals(1.0F, color.a);
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> color4FData.copy(null));
 	}
 	
 	@Test

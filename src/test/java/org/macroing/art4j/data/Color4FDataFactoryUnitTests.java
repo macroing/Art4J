@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
+import org.macroing.art4j.color.Color4I;
 
 @SuppressWarnings("static-method")
 public final class Color4FDataFactoryUnitTests {
@@ -147,6 +148,28 @@ public final class Color4FDataFactoryUnitTests {
 		assertThrows(IllegalArgumentException.class, () -> color4FDataFactory.create(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4F.WHITE));
 		
 		assertThrows(NullPointerException.class, () -> color4FDataFactory.create(1, 1, (Color4F)(null)));
+	}
+	
+	@Test
+	public void testCreateIntIntInt() {
+		final Color4FDataFactory color4FDataFactory = new Color4FDataFactory();
+		
+		final Data data = color4FDataFactory.create(1024, 768, Color4I.WHITE_A_R_G_B);
+		
+		assertTrue(data instanceof Color4FData);
+		
+		assertEquals(1024, data.getResolutionX());
+		assertEquals( 768, data.getResolutionY());
+		
+		for(int y = 0; y < data.getResolutionY(); y++) {
+			for(int x = 0; x < data.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, data.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> color4FDataFactory.create(1, 0, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> color4FDataFactory.create(0, 1, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> color4FDataFactory.create(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4I.WHITE_A_R_G_B));
 	}
 	
 	@Test

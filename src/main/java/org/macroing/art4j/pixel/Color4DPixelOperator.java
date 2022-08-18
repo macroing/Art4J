@@ -18,7 +18,10 @@
  */
 package org.macroing.art4j.pixel;
 
+import java.util.Objects;
+
 import org.macroing.art4j.color.Color4D;
+import org.macroing.art4j.color.ColorSpaceD;
 
 /**
  * Represents a pixel operation that produces a {@link Color4D} instance for a specific pixel.
@@ -58,6 +61,39 @@ public interface Color4DPixelOperator {
 	}
 	
 	/**
+	 * Returns a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4DPixelOperator.redoGammaCorrection(ColorSpaceD.getDefault());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator redoGammaCorrection() {
+		return redoGammaCorrection(ColorSpaceD.getDefault());
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}.
+	 * <p>
+	 * If {@code colorSpace} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorSpace a {@link ColorSpaceD} instance
+	 * @return a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}
+	 * @throws NullPointerException thrown if, and only if, {@code colorSpace} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator redoGammaCorrection(final ColorSpaceD colorSpace) {
+		Objects.requireNonNull(colorSpace, "colorSpace == null");
+		
+		return (color, x, y) -> colorSpace.redoGammaCorrection(color);
+	}
+	
+	/**
 	 * Returns a {@code Color4DPixelOperator} that converts {@code color} to its sepia-representation.
 	 * 
 	 * @return a {@code Color4DPixelOperator} that converts {@code color} to its sepia-representation
@@ -65,5 +101,38 @@ public interface Color4DPixelOperator {
 //	TODO: Add Unit Tests!
 	static Color4DPixelOperator sepia() {
 		return (color, x, y) -> Color4D.sepia(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4DPixelOperator.undoGammaCorrection(ColorSpaceD.getDefault());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator undoGammaCorrection() {
+		return undoGammaCorrection(ColorSpaceD.getDefault());
+	}
+	
+	/**
+	 * Returns a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}.
+	 * <p>
+	 * If {@code colorSpace} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorSpace a {@link ColorSpaceD} instance
+	 * @return a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}
+	 * @throws NullPointerException thrown if, and only if, {@code colorSpace} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4DPixelOperator undoGammaCorrection(final ColorSpaceD colorSpace) {
+		Objects.requireNonNull(colorSpace, "colorSpace == null");
+		
+		return (color, x, y) -> colorSpace.undoGammaCorrection(color);
 	}
 }

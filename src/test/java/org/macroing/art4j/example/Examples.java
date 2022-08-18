@@ -51,8 +51,11 @@ public final class Examples {
 		doDraw();
 		doFillBlend();
 		doFillInvert();
+		doFillRedoGammaCorrection();
 		doFillSepia();
+		doFillShape();
 		doFillShapeComplement();
+		doFillUndoGammaCorrection();
 		doFlipX();
 		doFlipY();
 		doRotate();
@@ -113,6 +116,13 @@ public final class Examples {
 		image.save("./generated/example/FillInvert.png");
 	}
 	
+	private static void doFillRedoGammaCorrection() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.redoGammaCorrection());
+		image.save("./generated/example/FillRedoGammaCorrection.png");
+	}
+	
 	private static void doFillSepia() {
 		final
 		Image image = IMAGE.copy();
@@ -120,11 +130,25 @@ public final class Examples {
 		image.save("./generated/example/FillSepia.png");
 	}
 	
+	private static void doFillShape() {
+		final
+		Image image = IMAGE.copy();
+		image.fillShape(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4DPixelOperator.invert());
+		image.save("./generated/example/FillShape.png");
+	}
+	
 	private static void doFillShapeComplement() {
 		final
 		Image image = new Image(1024, 768);
 		image.fillShapeComplement(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
 		image.save("./generated/example/FillShapeComplement.png");
+	}
+	
+	private static void doFillUndoGammaCorrection() {
+		final
+		Image image = IMAGE.copy();
+		image.fill(Color4DPixelOperator.undoGammaCorrection());
+		image.save("./generated/example/FillUndoGammaCorrection.png");
 	}
 	
 	private static void doFlipX() {

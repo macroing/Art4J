@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -112,6 +113,20 @@ public final class ImageUnitTests {
 		assertEquals(a, b);
 		
 		assertThrows(NullPointerException.class, () -> new Image((Data)(null)));
+	}
+	
+	@Test
+	public void testConstructorDataBoolean() {
+		final DataFactory dataFactory = DataFactory.forColorARGB();
+		
+		final Data data = dataFactory.create();
+		
+		final Image a = new Image(data, true);
+		final Image b = new Image(data, true);
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> new Image((Data)(null), false));
 	}
 	
 	@Test
@@ -273,6 +288,36 @@ public final class ImageUnitTests {
 		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, DataFactory.forColorARGB()));
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, (DataFactory)(null)));
+	}
+	
+	@Test
+	public void testConstructorIntIntInt() {
+		final Image image = new Image(1, 1, Color4I.RED_A_R_G_B);
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(0));
+		
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4I.RED_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4I.RED_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4I.RED_A_R_G_B));
+	}
+	
+	@Test
+	public void testConstructorIntIntIntDataFactory() {
+		final Image image = new Image(1, 1, Color4I.RED_A_R_G_B, DataFactory.forColorARGB());
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(0));
+		
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
+		
+		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4I.RED_A_R_G_B, (DataFactory)(null)));
 	}
 	
 	@Test
@@ -763,6 +808,53 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B, null));
 		assertThrows(NullPointerException.class, () -> image.fill(null, (final int color, final int x, final int y) -> true));
+	}
+	
+	@Test
+	public void testFindBoundsFor() {
+		final Image a = new Image(4, 4);
+		final Image b = new Image(2, 2);
+		
+		/*
+		 * [B][B][W][W]
+		 * [B][B][W][W]
+		 * [B][B][B][B]
+		 * [B][B][B][B]
+		 */
+		
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 0);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 0);
+		a.setColorARGB(Color4I.WHITE_A_R_G_B, 2, 0);
+		a.setColorARGB(Color4I.WHITE_A_R_G_B, 3, 0);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 1);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 1);
+		a.setColorARGB(Color4I.WHITE_A_R_G_B, 2, 1);
+		a.setColorARGB(Color4I.WHITE_A_R_G_B, 3, 1);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 2);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 2);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 2, 2);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 3, 2);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 3);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 3);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 2, 3);
+		a.setColorARGB(Color4I.BLACK_A_R_G_B, 3, 3);
+		
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 0);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 0, 1);
+		b.setColorARGB(Color4I.BLACK_A_R_G_B, 1, 1);
+		
+		final List<Rectangle2I> rectangles = a.findBoundsFor(b);
+		
+		assertEquals(5, rectangles.size());
+		
+		assertEquals(new Rectangle2I(new Point2I(0, 0), new Point2I(1, 1)), rectangles.get(0));
+		assertEquals(new Rectangle2I(new Point2I(0, 1), new Point2I(1, 2)), rectangles.get(1));
+		assertEquals(new Rectangle2I(new Point2I(0, 2), new Point2I(1, 3)), rectangles.get(2));
+		assertEquals(new Rectangle2I(new Point2I(1, 2), new Point2I(2, 3)), rectangles.get(3));
+		assertEquals(new Rectangle2I(new Point2I(2, 2), new Point2I(3, 3)), rectangles.get(4));
+		
+		assertThrows(NullPointerException.class, () -> a.findBoundsFor(null));
 	}
 	
 	@Test

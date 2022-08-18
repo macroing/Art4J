@@ -49,4 +49,9 @@ final class ColorARGBDataFactory extends DataFactory {
 	public Data create(final int resolutionX, final int resolutionY, final Color4F color) {
 		return new ColorARGBData(resolutionX, resolutionY, color);
 	}
+	
+	@Override
+	public Data create(final int resolutionX, final int resolutionY, final int color) {
+		return new ColorARGBData(resolutionX, resolutionY, color);
+	}
 }

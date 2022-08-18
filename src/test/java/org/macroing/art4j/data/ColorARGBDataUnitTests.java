@@ -39,6 +39,8 @@ import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.data.ColorARGBData.PixelChange;
 import org.macroing.art4j.data.ColorARGBData.StateChange;
+import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 
@@ -259,6 +261,24 @@ public final class ColorARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testConstructorIntIntInt() {
+		final ColorARGBData colorARGBData = new ColorARGBData(1024, 768, Color4I.WHITE_A_R_G_B);
+		
+		assertEquals(1024, colorARGBData.getResolutionX());
+		assertEquals( 768, colorARGBData.getResolutionY());
+		
+		for(int y = 0; y < colorARGBData.getResolutionY(); y++) {
+			for(int x = 0; x < colorARGBData.getResolutionX(); x++) {
+				assertEquals(Color4I.WHITE_A_R_G_B, colorARGBData.getColorARGB(x, y));
+			}
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> new ColorARGBData(1, 0, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new ColorARGBData(0, 1, Color4I.WHITE_A_R_G_B));
+		assertThrows(IllegalArgumentException.class, () -> new ColorARGBData(Integer.MAX_VALUE, Integer.MAX_VALUE, Color4I.WHITE_A_R_G_B));
+	}
+	
+	@Test
 	public void testConvolveConvolutionKernelNDIntArray() {
 		final ColorARGBData colorARGBData = new ColorARGBData(1, 1);
 		
@@ -443,6 +463,43 @@ public final class ColorARGBDataUnitTests {
 		
 		assertEquals(colorARGBData, colorARGBDataCopyC);
 		assertEquals(colorARGBData, colorARGBDataCopyD);
+	}
+	
+	@Test
+	public void testCopyShape2I() {
+		final ColorARGBData colorARGBData = new ColorARGBData(10, 10);
+		
+		assertEquals(10, colorARGBData.getResolutionX());
+		assertEquals(10, colorARGBData.getResolutionY());
+		
+		for(int y = 0; y < colorARGBData.getResolutionY(); y++) {
+			for(int x = 0; x < colorARGBData.getResolutionX(); x++) {
+				colorARGBData.setColorARGB(Color4I.toIntARGB(x, y, 0, 255), x, y);
+			}
+		}
+		
+		final Data dataCopy = colorARGBData.copy(new Rectangle2I(new Point2I(1, 1), new Point2I(8, 8)));
+		
+		assertTrue(dataCopy instanceof ColorARGBData);
+		
+		final ColorARGBData colorARGBDataCopy = ColorARGBData.class.cast(dataCopy);
+		
+		assertEquals(8, colorARGBDataCopy.getResolutionX());
+		assertEquals(8, colorARGBDataCopy.getResolutionY());
+		
+		for(int y = 0; y < colorARGBDataCopy.getResolutionY(); y++) {
+			for(int x = 0; x < colorARGBDataCopy.getResolutionX(); x++) {
+				final int color = colorARGBDataCopy.getColorARGB(x, y);
+				
+				assertEquals(x + 1, Color4I.fromIntARGBToIntR(color));
+				assertEquals(y + 1, Color4I.fromIntARGBToIntG(color));
+				
+				assertEquals(  0, Color4I.fromIntARGBToIntB(color));
+				assertEquals(255, Color4I.fromIntARGBToIntA(color));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> colorARGBData.copy(null));
 	}
 	
 	@Test
