@@ -3620,12 +3620,11 @@ public final class Image {
 	 * 
 	 * @return the maximum relative luminance in this {@code Image} instance as a {@code double}
 	 */
-//	TODO: Add Unit Tests!
 	public double relativeLuminanceMaxAsDouble() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		double relativeLuminanceMax = 0.0D;
+		double relativeLuminanceMax = -Double.MAX_VALUE;
 		
 		for(int y = 0; y < resolutionY; y++) {
 			for(int x = 0; x < resolutionX; x++) {
@@ -3641,7 +3640,6 @@ public final class Image {
 	 * 
 	 * @return the minimum relative luminance in this {@code Image} instance as a {@code double}
 	 */
-//	TODO: Add Unit Tests!
 	public double relativeLuminanceMinAsDouble() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3669,7 +3667,6 @@ public final class Image {
 	 * 
 	 * @return a {@code double[]} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double[] toDoubleArray() {
 		return toDoubleArray(ArrayComponentOrder.RGBA);
 	}
@@ -3683,7 +3680,6 @@ public final class Image {
 	 * @return a {@code double[]} representation of this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public double[] toDoubleArray(final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
 		
@@ -3698,17 +3694,20 @@ public final class Image {
 			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
 				final Color4D color = getColor4D(x, y);
 				
-				if(arrayComponentOrder.hasOffsetR()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetR()) {
 					array[index + arrayComponentOrder.getOffsetR()] = color.r;
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetG()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetG()) {
 					array[index + arrayComponentOrder.getOffsetG()] = color.g;
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetB()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetB()) {
 					array[index + arrayComponentOrder.getOffsetB()] = color.b;
-				}
+//				}
 				
 				if(arrayComponentOrder.hasOffsetA()) {
 					array[index + arrayComponentOrder.getOffsetA()] = color.a;
@@ -3724,12 +3723,11 @@ public final class Image {
 	 * 
 	 * @return the maximum relative luminance in this {@code Image} instance as a {@code float}
 	 */
-//	TODO: Add Unit Tests!
 	public float relativeLuminanceMaxAsFloat() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		float relativeLuminanceMax = 0.0F;
+		float relativeLuminanceMax = -Float.MAX_VALUE;
 		
 		for(int y = 0; y < resolutionY; y++) {
 			for(int x = 0; x < resolutionX; x++) {
@@ -3745,7 +3743,6 @@ public final class Image {
 	 * 
 	 * @return the minimum relative luminance in this {@code Image} instance as a {@code float}
 	 */
-//	TODO: Add Unit Tests!
 	public float relativeLuminanceMinAsFloat() {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -3773,7 +3770,6 @@ public final class Image {
 	 * 
 	 * @return a {@code float[]} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float[] toFloatArray() {
 		return toFloatArray(ArrayComponentOrder.RGBA);
 	}
@@ -3787,7 +3783,6 @@ public final class Image {
 	 * @return a {@code float[]} representation of this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public float[] toFloatArray(final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
 		
@@ -3802,17 +3797,20 @@ public final class Image {
 			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
 				final Color4F color = getColor4F(x, y);
 				
-				if(arrayComponentOrder.hasOffsetR()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetR()) {
 					array[index + arrayComponentOrder.getOffsetR()] = color.r;
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetG()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetG()) {
 					array[index + arrayComponentOrder.getOffsetG()] = color.g;
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetB()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetB()) {
 					array[index + arrayComponentOrder.getOffsetB()] = color.b;
-				}
+//				}
 				
 				if(arrayComponentOrder.hasOffsetA()) {
 					array[index + arrayComponentOrder.getOffsetA()] = color.a;
@@ -3997,17 +3995,20 @@ public final class Image {
 			for(int x = 0, index = (y * resolutionX + x) * componentCount; x < resolutionX; x++, index += componentCount) {
 				final int color = getColorARGB(x, y);
 				
-				if(arrayComponentOrder.hasOffsetR()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetR()) {
 					array[index + arrayComponentOrder.getOffsetR()] = Color4I.fromIntARGBToIntR(color);
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetG()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetG()) {
 					array[index + arrayComponentOrder.getOffsetG()] = Color4I.fromIntARGBToIntG(color);
-				}
+//				}
 				
-				if(arrayComponentOrder.hasOffsetB()) {
+//				This is currently always true:
+//				if(arrayComponentOrder.hasOffsetB()) {
 					array[index + arrayComponentOrder.getOffsetB()] = Color4I.fromIntARGBToIntB(color);
-				}
+//				}
 				
 				if(arrayComponentOrder.hasOffsetA()) {
 					array[index + arrayComponentOrder.getOffsetA()] = Color4I.fromIntARGBToIntA(color);

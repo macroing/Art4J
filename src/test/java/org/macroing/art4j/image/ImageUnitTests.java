@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
+import org.macroing.art4j.color.ArrayComponentOrder;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4D;
@@ -1264,6 +1264,54 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testRelativeLuminanceMaxAsDouble() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4D());
+		image.setColor4D(new Color4D(1.0D, 1.0D, 1.0D), 0, 0);
+		image.setColor4D(new Color4D(2.0D, 2.0D, 2.0D), 1, 0);
+		image.setColor4D(new Color4D(3.0D, 3.0D, 3.0D), 0, 1);
+		image.setColor4D(new Color4D(4.0D, 4.0D, 4.0D), 1, 1);
+		
+		assertEquals(new Color4D(4.0D, 4.0D, 4.0D).relativeLuminance(), image.relativeLuminanceMaxAsDouble());
+	}
+	
+	@Test
+	public void testRelativeLuminanceMaxAsFloat() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4F());
+		image.setColor4F(new Color4F(1.0F, 1.0F, 1.0F), 0, 0);
+		image.setColor4F(new Color4F(2.0F, 2.0F, 2.0F), 1, 0);
+		image.setColor4F(new Color4F(3.0F, 3.0F, 3.0F), 0, 1);
+		image.setColor4F(new Color4F(4.0F, 4.0F, 4.0F), 1, 1);
+		
+		assertEquals(new Color4F(4.0F, 4.0F, 4.0F).relativeLuminance(), image.relativeLuminanceMaxAsFloat());
+	}
+	
+	@Test
+	public void testRelativeLuminanceMinAsDouble() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4D());
+		image.setColor4D(new Color4D(1.0D, 1.0D, 1.0D), 0, 0);
+		image.setColor4D(new Color4D(2.0D, 2.0D, 2.0D), 1, 0);
+		image.setColor4D(new Color4D(3.0D, 3.0D, 3.0D), 0, 1);
+		image.setColor4D(new Color4D(4.0D, 4.0D, 4.0D), 1, 1);
+		
+		assertEquals(new Color4D(1.0D, 1.0D, 1.0D).relativeLuminance(), image.relativeLuminanceMinAsDouble());
+	}
+	
+	@Test
+	public void testRelativeLuminanceMinAsFloat() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4F());
+		image.setColor4F(new Color4F(1.0F, 1.0F, 1.0F), 0, 0);
+		image.setColor4F(new Color4F(2.0F, 2.0F, 2.0F), 1, 0);
+		image.setColor4F(new Color4F(3.0F, 3.0F, 3.0F), 0, 1);
+		image.setColor4F(new Color4F(4.0F, 4.0F, 4.0F), 1, 1);
+		
+		assertEquals(new Color4F(1.0F, 1.0F, 1.0F).relativeLuminance(), image.relativeLuminanceMinAsFloat());
+	}
+	
+	@Test
 	public void testRotateDouble() {
 		final
 		Image image = new Image(5, 5);
@@ -1661,6 +1709,164 @@ public final class ImageUnitTests {
 		assertEquals(image.getResolutionY(), bufferedImage.getHeight());
 		
 		assertEquals(BufferedImage.TYPE_INT_RGB, bufferedImage.getType());
+	}
+	
+	@Test
+	public void testToDoubleArray() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4D());
+		image.setColor4D(new Color4D(10.0D, 11.0D, 12.0D, 13.0D), 0, 0);
+		image.setColor4D(new Color4D(20.0D, 21.0D, 22.0D, 23.0D), 1, 0);
+		image.setColor4D(new Color4D(30.0D, 31.0D, 32.0D, 33.0D), 0, 1);
+		image.setColor4D(new Color4D(40.0D, 41.0D, 42.0D, 43.0D), 1, 1);
+		
+		final double[] arrayRGBA = image.toDoubleArray();
+		
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10.0D, arrayRGBA[ 0]);
+		assertEquals(11.0D, arrayRGBA[ 1]);
+		assertEquals(12.0D, arrayRGBA[ 2]);
+		assertEquals(13.0D, arrayRGBA[ 3]);
+		assertEquals(20.0D, arrayRGBA[ 4]);
+		assertEquals(21.0D, arrayRGBA[ 5]);
+		assertEquals(22.0D, arrayRGBA[ 6]);
+		assertEquals(23.0D, arrayRGBA[ 7]);
+		assertEquals(30.0D, arrayRGBA[ 8]);
+		assertEquals(31.0D, arrayRGBA[ 9]);
+		assertEquals(32.0D, arrayRGBA[10]);
+		assertEquals(33.0D, arrayRGBA[11]);
+		assertEquals(40.0D, arrayRGBA[12]);
+		assertEquals(41.0D, arrayRGBA[13]);
+		assertEquals(42.0D, arrayRGBA[14]);
+		assertEquals(43.0D, arrayRGBA[15]);
+	}
+	
+	@Test
+	public void testToDoubleArrayArrayComponentOrder() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4D());
+		image.setColor4D(new Color4D(10.0D, 11.0D, 12.0D, 13.0D), 0, 0);
+		image.setColor4D(new Color4D(20.0D, 21.0D, 22.0D, 23.0D), 1, 0);
+		image.setColor4D(new Color4D(30.0D, 31.0D, 32.0D, 33.0D), 0, 1);
+		image.setColor4D(new Color4D(40.0D, 41.0D, 42.0D, 43.0D), 1, 1);
+		
+		final double[] arrayRGB = image.toDoubleArray(ArrayComponentOrder.RGB);
+		final double[] arrayRGBA = image.toDoubleArray(ArrayComponentOrder.RGBA);
+		
+		assertEquals(12, arrayRGB.length);
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10.0D, arrayRGB[ 0]);
+		assertEquals(11.0D, arrayRGB[ 1]);
+		assertEquals(12.0D, arrayRGB[ 2]);
+		assertEquals(20.0D, arrayRGB[ 3]);
+		assertEquals(21.0D, arrayRGB[ 4]);
+		assertEquals(22.0D, arrayRGB[ 5]);
+		assertEquals(30.0D, arrayRGB[ 6]);
+		assertEquals(31.0D, arrayRGB[ 7]);
+		assertEquals(32.0D, arrayRGB[ 8]);
+		assertEquals(40.0D, arrayRGB[ 9]);
+		assertEquals(41.0D, arrayRGB[10]);
+		assertEquals(42.0D, arrayRGB[11]);
+		
+		assertEquals(10.0D, arrayRGBA[ 0]);
+		assertEquals(11.0D, arrayRGBA[ 1]);
+		assertEquals(12.0D, arrayRGBA[ 2]);
+		assertEquals(13.0D, arrayRGBA[ 3]);
+		assertEquals(20.0D, arrayRGBA[ 4]);
+		assertEquals(21.0D, arrayRGBA[ 5]);
+		assertEquals(22.0D, arrayRGBA[ 6]);
+		assertEquals(23.0D, arrayRGBA[ 7]);
+		assertEquals(30.0D, arrayRGBA[ 8]);
+		assertEquals(31.0D, arrayRGBA[ 9]);
+		assertEquals(32.0D, arrayRGBA[10]);
+		assertEquals(33.0D, arrayRGBA[11]);
+		assertEquals(40.0D, arrayRGBA[12]);
+		assertEquals(41.0D, arrayRGBA[13]);
+		assertEquals(42.0D, arrayRGBA[14]);
+		assertEquals(43.0D, arrayRGBA[15]);
+		
+		assertThrows(NullPointerException.class, () -> image.toDoubleArray(null));
+	}
+	
+	@Test
+	public void testToFloatArray() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4F());
+		image.setColor4F(new Color4F(10.0F, 11.0F, 12.0F, 13.0F), 0, 0);
+		image.setColor4F(new Color4F(20.0F, 21.0F, 22.0F, 23.0F), 1, 0);
+		image.setColor4F(new Color4F(30.0F, 31.0F, 32.0F, 33.0F), 0, 1);
+		image.setColor4F(new Color4F(40.0F, 41.0F, 42.0F, 43.0F), 1, 1);
+		
+		final float[] arrayRGBA = image.toFloatArray();
+		
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10.0F, arrayRGBA[ 0]);
+		assertEquals(11.0F, arrayRGBA[ 1]);
+		assertEquals(12.0F, arrayRGBA[ 2]);
+		assertEquals(13.0F, arrayRGBA[ 3]);
+		assertEquals(20.0F, arrayRGBA[ 4]);
+		assertEquals(21.0F, arrayRGBA[ 5]);
+		assertEquals(22.0F, arrayRGBA[ 6]);
+		assertEquals(23.0F, arrayRGBA[ 7]);
+		assertEquals(30.0F, arrayRGBA[ 8]);
+		assertEquals(31.0F, arrayRGBA[ 9]);
+		assertEquals(32.0F, arrayRGBA[10]);
+		assertEquals(33.0F, arrayRGBA[11]);
+		assertEquals(40.0F, arrayRGBA[12]);
+		assertEquals(41.0F, arrayRGBA[13]);
+		assertEquals(42.0F, arrayRGBA[14]);
+		assertEquals(43.0F, arrayRGBA[15]);
+	}
+	
+	@Test
+	public void testToFloatArrayArrayComponentOrder() {
+		final
+		Image image = new Image(2, 2, DataFactory.forColor4F());
+		image.setColor4F(new Color4F(10.0F, 11.0F, 12.0F, 13.0F), 0, 0);
+		image.setColor4F(new Color4F(20.0F, 21.0F, 22.0F, 23.0F), 1, 0);
+		image.setColor4F(new Color4F(30.0F, 31.0F, 32.0F, 33.0F), 0, 1);
+		image.setColor4F(new Color4F(40.0F, 41.0F, 42.0F, 43.0F), 1, 1);
+		
+		final float[] arrayRGB = image.toFloatArray(ArrayComponentOrder.RGB);
+		final float[] arrayRGBA = image.toFloatArray(ArrayComponentOrder.RGBA);
+		
+		assertEquals(12, arrayRGB.length);
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10.0F, arrayRGB[ 0]);
+		assertEquals(11.0F, arrayRGB[ 1]);
+		assertEquals(12.0F, arrayRGB[ 2]);
+		assertEquals(20.0F, arrayRGB[ 3]);
+		assertEquals(21.0F, arrayRGB[ 4]);
+		assertEquals(22.0F, arrayRGB[ 5]);
+		assertEquals(30.0F, arrayRGB[ 6]);
+		assertEquals(31.0F, arrayRGB[ 7]);
+		assertEquals(32.0F, arrayRGB[ 8]);
+		assertEquals(40.0F, arrayRGB[ 9]);
+		assertEquals(41.0F, arrayRGB[10]);
+		assertEquals(42.0F, arrayRGB[11]);
+		
+		assertEquals(10.0F, arrayRGBA[ 0]);
+		assertEquals(11.0F, arrayRGBA[ 1]);
+		assertEquals(12.0F, arrayRGBA[ 2]);
+		assertEquals(13.0F, arrayRGBA[ 3]);
+		assertEquals(20.0F, arrayRGBA[ 4]);
+		assertEquals(21.0F, arrayRGBA[ 5]);
+		assertEquals(22.0F, arrayRGBA[ 6]);
+		assertEquals(23.0F, arrayRGBA[ 7]);
+		assertEquals(30.0F, arrayRGBA[ 8]);
+		assertEquals(31.0F, arrayRGBA[ 9]);
+		assertEquals(32.0F, arrayRGBA[10]);
+		assertEquals(33.0F, arrayRGBA[11]);
+		assertEquals(40.0F, arrayRGBA[12]);
+		assertEquals(41.0F, arrayRGBA[13]);
+		assertEquals(42.0F, arrayRGBA[14]);
+		assertEquals(43.0F, arrayRGBA[15]);
+		
+		assertThrows(NullPointerException.class, () -> image.toFloatArray(null));
 	}
 	
 	@Test
