@@ -20,6 +20,7 @@ package org.macroing.art4j.pixel;
 
 import java.util.Objects;
 
+import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.ColorSpaceF;
 
@@ -191,6 +192,22 @@ public interface Color4FPixelOperator {
 //	TODO: Add Unit Tests!
 	static Color4FPixelOperator sepia() {
 		return (color, x, y) -> Color4F.sepia(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4FPixelOperator} that applies a tone map operator to {@code color}.
+	 * 
+	 * @param relativeLuminanceMax the maximum relative luminance
+	 * @return a {@code Color4FPixelOperator} that applies a tone map operator to {@code color}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4FPixelOperator toneMap(final float relativeLuminanceMax) {
+		return (color, x, y) -> {
+			final float relativeLuminance = color.relativeLuminance();
+			final float scale = (1.0F + relativeLuminance / (relativeLuminanceMax * relativeLuminanceMax)) / (1.0F + relativeLuminance);
+			
+			return new Color4F(Color3F.multiply(new Color3F(color), scale), color.a);
+		};
 	}
 	
 	/**

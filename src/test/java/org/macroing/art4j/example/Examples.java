@@ -65,7 +65,7 @@ public final class Examples {
 		doFillShape();
 		doFillShapeComplement();
 		doFillSobel();
-		doFillToneMapping();
+		doFillToneMap();
 		doFillUndoGammaCorrection();
 		doFlipX();
 		doFlipY();
@@ -225,11 +225,11 @@ public final class Examples {
 		image.save("./generated/example/FillSobel.png");
 	}
 	
-	private static void doFillToneMapping() {
+	private static void doFillToneMap() {
 		final
 		Image image = IMAGE.copy();
-		image.fillToneMapping((final Color4D color, final int x, final int y) -> true, 0.75D);
-		image.save("./generated/example/FillToneMapping.png");
+		image.fill(Color4DPixelOperator.toneMap(0.75D));
+		image.save("./generated/example/FillToneMap.png");
 	}
 	
 	private static void doFillUndoGammaCorrection() {
