@@ -48,7 +48,7 @@ import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
-import org.macroing.art4j.pixel.ColorARGBPixelOperator;
+import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -91,7 +91,7 @@ public final class ImageUnitTests {
 	public void testConstructorBufferedImageDataFactory() {
 		final BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 		
-		final Image image = new Image(bufferedImage, DataFactory.forColorARGB());
+		final Image image = new Image(bufferedImage, DataFactory.forPackedIntARGB());
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(1, image.getResolutionY());
@@ -99,12 +99,12 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.TRANSPARENT_A_R_G_B, image.getColorARGB(0));
 		
 		assertThrows(NullPointerException.class, () -> new Image(bufferedImage, null));
-		assertThrows(NullPointerException.class, () -> new Image((BufferedImage)(null), DataFactory.forColorARGB()));
+		assertThrows(NullPointerException.class, () -> new Image((BufferedImage)(null), DataFactory.forPackedIntARGB()));
 	}
 	
 	@Test
 	public void testConstructorData() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create();
 		
@@ -118,7 +118,7 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorDataBoolean() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create();
 		
@@ -132,7 +132,7 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorFile() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create(1, 1);
 		
@@ -159,7 +159,7 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorFileDataFactory() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create(1, 1);
 		
@@ -227,19 +227,19 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorIntIntColor4DDataFactory() {
-		final Image image = new Image(1, 1, Color4D.WHITE, DataFactory.forColorARGB());
+		final Image image = new Image(1, 1, Color4D.WHITE, DataFactory.forPackedIntARGB());
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(1, image.getResolutionY());
 		
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
 		
-		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4D.WHITE, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4D.WHITE, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4D.WHITE, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4D.WHITE, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4D.WHITE, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4D.WHITE, DataFactory.forPackedIntARGB()));
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4D.WHITE, null));
-		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4D)(null), DataFactory.forColorARGB()));
+		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4D)(null), DataFactory.forPackedIntARGB()));
 	}
 	
 	@Test
@@ -260,33 +260,33 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorIntIntColor4FDataFactory() {
-		final Image image = new Image(1, 1, Color4F.WHITE, DataFactory.forColorARGB());
+		final Image image = new Image(1, 1, Color4F.WHITE, DataFactory.forPackedIntARGB());
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(1, image.getResolutionY());
 		
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
 		
-		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4F.WHITE, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4F.WHITE, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4F.WHITE, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4F.WHITE, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4F.WHITE, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4F.WHITE, DataFactory.forPackedIntARGB()));
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4F.WHITE, null));
-		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4F)(null), DataFactory.forColorARGB()));
+		assertThrows(NullPointerException.class, () -> new Image(1, 1, (Color4F)(null), DataFactory.forPackedIntARGB()));
 	}
 	
 	@Test
 	public void testConstructorIntIntDataFactory() {
-		final Image image = new Image(1, 1, DataFactory.forColorARGB());
+		final Image image = new Image(1, 1, DataFactory.forPackedIntARGB());
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(1, image.getResolutionY());
 		
 		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
 		
-		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, DataFactory.forPackedIntARGB()));
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, (DataFactory)(null)));
 	}
@@ -307,23 +307,23 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorIntIntIntDataFactory() {
-		final Image image = new Image(1, 1, Color4I.RED_A_R_G_B, DataFactory.forColorARGB());
+		final Image image = new Image(1, 1, Color4I.RED_A_R_G_B, DataFactory.forPackedIntARGB());
 		
 		assertEquals(1, image.getResolutionX());
 		assertEquals(1, image.getResolutionY());
 		
 		assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(0));
 		
-		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
-		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4I.RED_A_R_G_B, DataFactory.forColorARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(1, 0, Color4I.RED_A_R_G_B, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(0, 1, Color4I.RED_A_R_G_B, DataFactory.forPackedIntARGB()));
+		assertThrows(IllegalArgumentException.class, () -> new Image(2, Integer.MAX_VALUE, Color4I.RED_A_R_G_B, DataFactory.forPackedIntARGB()));
 		
 		assertThrows(NullPointerException.class, () -> new Image(1, 1, Color4I.RED_A_R_G_B, (DataFactory)(null)));
 	}
 	
 	@Test
 	public void testConstructorString() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create(1, 1);
 		
@@ -350,7 +350,7 @@ public final class ImageUnitTests {
 	
 	@Test
 	public void testConstructorStringDataFactory() {
-		final DataFactory dataFactory = DataFactory.forColorARGB();
+		final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 		
 		final Data data = dataFactory.create(1, 1);
 		
@@ -379,7 +379,7 @@ public final class ImageUnitTests {
 	@Test
 	public void testConstructorURL() {
 		try {
-			final DataFactory dataFactory = DataFactory.forColorARGB();
+			final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 			
 			final Data data = dataFactory.create(1, 1);
 			
@@ -412,7 +412,7 @@ public final class ImageUnitTests {
 	@Test
 	public void testConstructorURLDataFactory() {
 		try {
-			final DataFactory dataFactory = DataFactory.forColorARGB();
+			final DataFactory dataFactory = DataFactory.forPackedIntARGB();
 			
 			final Data data = dataFactory.create(1, 1);
 			
@@ -766,7 +766,7 @@ public final class ImageUnitTests {
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
 		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
 		
-		assertThrows(NullPointerException.class, () -> image.fill((ColorARGBPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fill((PackedIntARGBPixelOperator)(null)));
 	}
 	
 	@Test

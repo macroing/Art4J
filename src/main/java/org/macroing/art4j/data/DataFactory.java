@@ -224,7 +224,7 @@ public abstract class DataFactory {
 	 * 
 	 * @return a {@code DataFactory} instance that creates {@code Data} instances that stores pixels as packed {@code int} values with the format ARGB
 	 */
-	public static DataFactory forColorARGB() {
-		return new ColorARGBDataFactory();
+	public static DataFactory forPackedIntARGB() {
+		return new PackedIntARGBDataFactory();
 	}
 }

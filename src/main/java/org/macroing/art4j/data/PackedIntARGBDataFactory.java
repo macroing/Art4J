@@ -23,8 +23,8 @@ import java.awt.image.BufferedImage;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 
-final class ColorARGBDataFactory extends DataFactory {
-	public ColorARGBDataFactory() {
+final class PackedIntARGBDataFactory extends DataFactory {
+	public PackedIntARGBDataFactory() {
 		
 	}
 	
@@ -32,26 +32,26 @@ final class ColorARGBDataFactory extends DataFactory {
 	
 	@Override
 	public Data create(final BufferedImage bufferedImage) {
-		return new ColorARGBData(bufferedImage);
+		return new PackedIntARGBData(bufferedImage);
 	}
 	
 	@Override
 	public Data create(final int resolutionX, final int resolutionY) {
-		return new ColorARGBData(resolutionX, resolutionY);
+		return new PackedIntARGBData(resolutionX, resolutionY);
 	}
 	
 	@Override
 	public Data create(final int resolutionX, final int resolutionY, final Color4D color) {
-		return new ColorARGBData(resolutionX, resolutionY, color);
+		return new PackedIntARGBData(resolutionX, resolutionY, color);
 	}
 	
 	@Override
 	public Data create(final int resolutionX, final int resolutionY, final Color4F color) {
-		return new ColorARGBData(resolutionX, resolutionY, color);
+		return new PackedIntARGBData(resolutionX, resolutionY, color);
 	}
 	
 	@Override
 	public Data create(final int resolutionX, final int resolutionY, final int color) {
-		return new ColorARGBData(resolutionX, resolutionY, color);
+		return new PackedIntARGBData(resolutionX, resolutionY, color);
 	}
 }

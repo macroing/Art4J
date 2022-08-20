@@ -81,7 +81,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 10;
 		
@@ -124,7 +124,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 10;
 		
@@ -167,7 +167,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 10;
 		
@@ -210,7 +210,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -253,7 +253,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -296,7 +296,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -339,7 +339,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -382,7 +382,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -425,7 +425,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -468,7 +468,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -511,7 +511,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -554,7 +554,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 100;
 		
@@ -597,7 +597,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 10;
 		
@@ -640,7 +640,7 @@ public final class PerformanceTest {
 		
 		final Image imageA = new Image(DataFactory.forColor4D().create());
 		final Image imageB = new Image(DataFactory.forColor4F().create());
-		final Image imageC = new Image(DataFactory.forColorARGB().create());
+		final Image imageC = new Image(DataFactory.forPackedIntARGB().create());
 		
 		int iterations = 10;
 		

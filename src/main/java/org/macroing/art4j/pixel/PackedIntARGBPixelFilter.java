@@ -19,24 +19,24 @@
 package org.macroing.art4j.pixel;
 
 /**
- * Represents a pixel operation that produces an {@code int} that represents a color in the format ARGB for a specific pixel.
+ * Represents a pixel filter that filters a specific pixel.
  * <p>
- * This is a functional interface whose functional method is {@link #apply(int, int, int)}.
+ * This is a functional interface whose functional method is {@link #isAccepted(int, int, int)}.
  * 
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
 @FunctionalInterface
-public interface ColorARGBPixelOperator {
+public interface PackedIntARGBPixelFilter {
 	/**
-	 * Applies this operator to the given operands.
+	 * Applies this filter to the given operands.
 	 * <p>
-	 * Returns an {@code int} that represents a color in the format ARGB with the operator result.
+	 * Returns {@code true} if, and only if, the pixel is accepted, {@code false} otherwise.
 	 * 
 	 * @param color an {@code int} that represents a color in the format ARGB and contains the current color of the pixel
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
-	 * @return an {@code int} that represents a color in the format ARGB with the operator result
+	 * @return {@code true} if, and only if, the pixel is accepted, {@code false} otherwise
 	 */
-	int apply(final int color, final int x, final int y);
+	boolean isAccepted(final int color, final int x, final int y);
 }

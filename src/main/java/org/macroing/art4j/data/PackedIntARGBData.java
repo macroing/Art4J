@@ -41,24 +41,24 @@ import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
 
-final class ColorARGBData extends Data {
+final class PackedIntARGBData extends Data {
 	private int resolutionX;
 	private int resolutionY;
 	private int[] colors;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public ColorARGBData() {
+	public PackedIntARGBData() {
 		this(1024, 768);
 	}
 	
-	public ColorARGBData(final BufferedImage bufferedImage) {
+	public PackedIntARGBData(final BufferedImage bufferedImage) {
 		this.resolutionX = bufferedImage.getWidth();
 		this.resolutionY = bufferedImage.getHeight();
 		this.colors = DataBufferInt.class.cast(BufferedImages.getCompatibleBufferedImage(bufferedImage).getRaster().getDataBuffer()).getData().clone();
 	}
 	
-	public ColorARGBData(final ColorARGBData colorARGBData) {
+	public PackedIntARGBData(final PackedIntARGBData colorARGBData) {
 		super(colorARGBData);
 		
 		this.resolutionX = colorARGBData.resolutionX;
@@ -66,7 +66,7 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
-	public ColorARGBData(final ColorARGBData colorARGBData, final boolean isIgnoringChangeHistory) {
+	public PackedIntARGBData(final PackedIntARGBData colorARGBData, final boolean isIgnoringChangeHistory) {
 		super(colorARGBData, isIgnoringChangeHistory);
 		
 		this.resolutionX = colorARGBData.resolutionX;
@@ -74,19 +74,19 @@ final class ColorARGBData extends Data {
 		this.colors = colorARGBData.colors.clone();
 	}
 	
-	public ColorARGBData(final int resolutionX, final int resolutionY) {
+	public PackedIntARGBData(final int resolutionX, final int resolutionY) {
 		this(resolutionX, resolutionY, Color4D.WHITE);
 	}
 	
-	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
+	public PackedIntARGBData(final int resolutionX, final int resolutionY, final Color4D color) {
 		this(resolutionX, resolutionY, color.toIntARGB());
 	}
 	
-	public ColorARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
+	public PackedIntARGBData(final int resolutionX, final int resolutionY, final Color4F color) {
 		this(resolutionX, resolutionY, color.toIntARGB());
 	}
 	
-	public ColorARGBData(final int resolutionX, final int resolutionY, final int color) {
+	public PackedIntARGBData(final int resolutionX, final int resolutionY, final int color) {
 		this.resolutionX = Ints.requireRange(resolutionX, 1, Integer.MAX_VALUE, "resolutionX");
 		this.resolutionY = Ints.requireRange(resolutionY, 1, Integer.MAX_VALUE, "resolutionY");
 		this.colors = new int[Ints.requireRangeMultiplyExact(resolutionX, resolutionY, 1, Integer.MAX_VALUE, "resolutionX", "resolutionY")];
@@ -169,7 +169,7 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public Data copy(final boolean isIgnoringChangeHistory) {
-		return new ColorARGBData(this, isIgnoringChangeHistory);
+		return new PackedIntARGBData(this, isIgnoringChangeHistory);
 	}
 	
 	@Override
@@ -202,7 +202,7 @@ final class ColorARGBData extends Data {
 	
 	@Override
 	public DataFactory getDataFactory() {
-		return new ColorARGBDataFactory();
+		return new PackedIntARGBDataFactory();
 	}
 	
 	@Override
@@ -393,13 +393,13 @@ final class ColorARGBData extends Data {
 	public boolean equals(final Object object) {
 		if(!super.equals(object)) {
 			return false;
-		} else if(!(object instanceof ColorARGBData)) {
+		} else if(!(object instanceof PackedIntARGBData)) {
 			return false;
-		} else if(this.resolutionX != ColorARGBData.class.cast(object).resolutionX) {
+		} else if(this.resolutionX != PackedIntARGBData.class.cast(object).resolutionX) {
 			return false;
-		} else if(this.resolutionY != ColorARGBData.class.cast(object).resolutionY) {
+		} else if(this.resolutionY != PackedIntARGBData.class.cast(object).resolutionY) {
 			return false;
-		} else if(!Arrays.equals(this.colors, ColorARGBData.class.cast(object).colors)) {
+		} else if(!Arrays.equals(this.colors, PackedIntARGBData.class.cast(object).colors)) {
 			return false;
 		} else {
 			return true;
@@ -684,8 +684,8 @@ final class ColorARGBData extends Data {
 	public boolean setContent(final Data data) {
 		Objects.requireNonNull(data, "data == null");
 		
-		if(data instanceof ColorARGBData) {
-			final ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
+		if(data instanceof PackedIntARGBData) {
+			final PackedIntARGBData colorARGBData = PackedIntARGBData.class.cast(data);
 			
 			final int[] newColors = colorARGBData.colors.clone();
 			final int[] oldColors = this.colors;
@@ -908,9 +908,9 @@ final class ColorARGBData extends Data {
 		public void redo(final Data data) {
 			Objects.requireNonNull(data, "data == null");
 			
-			if(data instanceof ColorARGBData) {
+			if(data instanceof PackedIntARGBData) {
 				final
-				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
+				PackedIntARGBData colorARGBData = PackedIntARGBData.class.cast(data);
 				colorARGBData.updatePixel(this.colorRedo, this.index);
 			}
 		}
@@ -919,9 +919,9 @@ final class ColorARGBData extends Data {
 		public void undo(final Data data) {
 			Objects.requireNonNull(data, "data == null");
 			
-			if(data instanceof ColorARGBData) {
+			if(data instanceof PackedIntARGBData) {
 				final
-				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
+				PackedIntARGBData colorARGBData = PackedIntARGBData.class.cast(data);
 				colorARGBData.updatePixel(this.colorUndo, this.index);
 			}
 		}
@@ -1006,9 +1006,9 @@ final class ColorARGBData extends Data {
 		public void redo(final Data data) {
 			Objects.requireNonNull(data, "data == null");
 			
-			if(data instanceof ColorARGBData) {
+			if(data instanceof PackedIntARGBData) {
 				final
-				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
+				PackedIntARGBData colorARGBData = PackedIntARGBData.class.cast(data);
 				colorARGBData.updateState(this.resolutionXRedo, this.resolutionYRedo, this.colorsRedo);
 			}
 		}
@@ -1017,9 +1017,9 @@ final class ColorARGBData extends Data {
 		public void undo(final Data data) {
 			Objects.requireNonNull(data, "data == null");
 			
-			if(data instanceof ColorARGBData) {
+			if(data instanceof PackedIntARGBData) {
 				final
-				ColorARGBData colorARGBData = ColorARGBData.class.cast(data);
+				PackedIntARGBData colorARGBData = PackedIntARGBData.class.cast(data);
 				colorARGBData.updateState(this.resolutionXUndo, this.resolutionYUndo, this.colorsUndo);
 			}
 		}

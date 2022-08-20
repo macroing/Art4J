@@ -54,8 +54,8 @@ import org.macroing.art4j.pixel.Color4DPixelOperator;
 import org.macroing.art4j.pixel.Color4FBiPixelOperator;
 import org.macroing.art4j.pixel.Color4FPixelFilter;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
-import org.macroing.art4j.pixel.ColorARGBPixelFilter;
-import org.macroing.art4j.pixel.ColorARGBPixelOperator;
+import org.macroing.art4j.pixel.PackedIntARGBPixelFilter;
+import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
@@ -97,7 +97,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(bufferedImage, DataFactory.forColorARGB());
+	 * new Image(bufferedImage, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -105,7 +105,7 @@ public final class Image {
 	 * @throws NullPointerException thrown if, and only if, {@code bufferedImage} is {@code null}
 	 */
 	public Image(final BufferedImage bufferedImage) {
-		this(bufferedImage, DataFactory.forColorARGB());
+		this(bufferedImage, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(file, DataFactory.forColorARGB());
+	 * new Image(file, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -165,7 +165,7 @@ public final class Image {
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final File file) {
-		this(file, DataFactory.forColorARGB());
+		this(file, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -206,7 +206,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(pathname, DataFactory.forColorARGB());
+	 * new Image(pathname, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -215,7 +215,7 @@ public final class Image {
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final String pathname) {
-		this(pathname, DataFactory.forColorARGB());
+		this(pathname, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(uRL, DataFactory.forColorARGB());
+	 * new Image(uRL, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -253,7 +253,7 @@ public final class Image {
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
 	public Image(final URL uRL) {
-		this(uRL, DataFactory.forColorARGB());
+		this(uRL, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -280,7 +280,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(resolutionX, resolutionY, DataFactory.forColorARGB());
+	 * new Image(resolutionX, resolutionY, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -289,7 +289,7 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 */
 	public Image(final int resolutionX, final int resolutionY) {
-		this(resolutionX, resolutionY, DataFactory.forColorARGB());
+		this(resolutionX, resolutionY, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -401,7 +401,7 @@ public final class Image {
 	 * Calling this constructor is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * new Image(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+	 * new Image(resolutionX, resolutionY, color, DataFactory.forPackedIntARGB());
 	 * }
 	 * </pre>
 	 * 
@@ -411,7 +411,7 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, either {@code resolutionX} or {@code resolutionY} are less than {@code 1} or {@code resolutionX * resolutionY} overflows
 	 */
 	public Image(final int resolutionX, final int resolutionY, final int color) {
-		this(resolutionX, resolutionY, color, DataFactory.forColorARGB());
+		this(resolutionX, resolutionY, color, DataFactory.forPackedIntARGB());
 	}
 	
 	/**
@@ -1155,11 +1155,11 @@ public final class Image {
 	 * }
 	 * </pre>
 	 * 
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
-	public Image fill(final ColorARGBPixelOperator pixelOperator) {
+	public Image fill(final PackedIntARGBPixelOperator pixelOperator) {
 		return fill(pixelOperator, (color, x, y) -> true);
 	}
 	
@@ -1170,12 +1170,12 @@ public final class Image {
 	 * <p>
 	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link ColorARGBPixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PackedIntARGBPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-	public Image fill(final ColorARGBPixelOperator pixelOperator, final ColorARGBPixelFilter pixelFilter) {
+	public Image fill(final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -1587,12 +1587,12 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegion(final Point2I point, final ColorARGBPixelOperator pixelOperator) {
+	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator) {
 		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
 	
@@ -1613,13 +1613,13 @@ public final class Image {
 	 * </pre>
 	 * 
 	 * @param point a {@code Point2I} instance that contains the X- and Y-components of the pixel to start at
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link ColorARGBPixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PackedIntARGBPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegion(final Point2I point, final ColorARGBPixelOperator pixelOperator, final ColorARGBPixelFilter pixelFilter) {
+	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
 	
@@ -1749,12 +1749,12 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegion(final int x, final int y, final ColorARGBPixelOperator pixelOperator) {
+	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator) {
 		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
 	
@@ -1769,13 +1769,13 @@ public final class Image {
 	 * 
 	 * @param x the X-component of the pixel to start at
 	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link ColorARGBPixelOperator} instance that returns a color for each pixel affected
-	 * @param pixelFilter a {@link ColorARGBPixelFilter} instance that accepts or rejects pixels
+	 * @param pixelOperator a {@link PackedIntARGBPixelOperator} instance that returns a color for each pixel affected
+	 * @param pixelFilter a {@link PackedIntARGBPixelFilter} instance that accepts or rejects pixels
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
-	public Image fillRegion(final int x, final int y, final ColorARGBPixelOperator pixelOperator, final ColorARGBPixelFilter pixelFilter) {
+	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
 		doFillRegion(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
@@ -3977,7 +3977,7 @@ public final class Image {
 	}
 	
 //	TODO: Add Unit Tests!
-	private void doFillRegion(final int x, final int y, final ColorARGBPixelOperator pixelOperator, final ColorARGBPixelFilter pixelFilter, final int oldColorARGB) {
+	private void doFillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
