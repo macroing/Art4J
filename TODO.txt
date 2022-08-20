@@ -1,10 +1,9 @@
-Add a Color4DPixelOperator interface with an apply(Color4D, Point2I) method that returns a Color4D.
-Add a Color4FPixelOperator interface with an apply(Color4F, Point2I) method that returns a Color4F.
-Add a ColorARGBPixelOperator interface with an apply(int, int, int) method that returns an int.
-Add a Color4DPixelFilter interface with a test(Color4D, Point2I) method that returns a boolean.
-Add a Color4FPixelFilter interface with a test(Color4F, Point2I) method that returns a boolean.
-Add a ColorARGBPixelFilter interface with a test(int, int, int) method that returns a boolean.
-Add a Color4DImageOperator interface with an apply(Color4D, Color4D, Point2I) method that returns a Color4D.
-Add a Color4FImageOperator interface with an apply(Color4F, Color4F, Point2I) method that returns a Color4F.
-
-The above interfaces will make it possible to have shorter method names. Names such as fillImageColor4D could then be fillImage.
+1. Add unit tests to the methods getColor3D(double, double, PixelTransformer), getColor3D(int, PixelTransformer) and getColor3D(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
+2. Add unit tests to the methods getColor3F(float, float, PixelTransformer), getColor3F(int, PixelTransformer) and getColor3F(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
+3. Add the methods getColor4D(double, double, PixelTransformer), getColor4D(int, PixelTransformer) and getColor4D(int, int, PixelTransformer) to the Data class, as well as unit tests.
+4. Add the methods getColor4F(float, float, PixelTransformer), getColor4F(int, PixelTransformer) and getColor4F(int, int, PixelTransformer) to the Data class, as well as unit tests.
+5. Add unit tests for the Image class to the ImageUnitTests class.
+6. Add get and set methods for Color3I to the Data class and unit tests.
+7. Add get and set methods for Color4I to the Data class and unit tests.
+8. Add get and set methods for Color3I to the Image class and unit tests.
+9. Add get and set methods for Color4I to the Image class and unit tests.

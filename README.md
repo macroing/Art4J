@@ -43,14 +43,14 @@ The following table describes the different APIs and their current status in the
 | ------------------ | ------- | --------- | --------------------------------- |
 | Color API          | 100.0%  | 100.0%    | org.macroing.art4j.color          |
 | Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve          |
-| Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data           |
+| Data API           | 100.0%  |  99.6%    | org.macroing.art4j.data           |
 | Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.art4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.art4j.geometry.shape |
 | Image API          | 100.0%  |  35.8%    | org.macroing.art4j.image          |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.art4j.kernel         |
 | Noise API          | 100.0%  | 100.0%    | org.macroing.art4j.noise          |
-| Pixel API          | 100.0%  |  24.1%    | org.macroing.art4j.pixel          |
+| Pixel API          | 100.0%  |  23.5%    | org.macroing.art4j.pixel          |
 
 Dependencies
 ------------

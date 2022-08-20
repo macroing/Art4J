@@ -34,6 +34,7 @@ import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.pixel.PixelTransformer;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 
@@ -100,22 +101,42 @@ public abstract class Data {
 	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color3D.BLACK} will be returned.
 	 * <p>
 	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3D(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.getColor3D(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
 	 */
 	public final Color3D getColor3D(final double x, final double y) {
-		final int resolutionX = getResolutionX();
-		final int resolutionY = getResolutionY();
-		
-		if(x < 0.0D || x >= resolutionX) {
-			return Color3D.BLACK;
-		}
-		
-		if(y < 0.0D || y >= resolutionY) {
-			return Color3D.BLACK;
-		}
+		return getColor3D(x, y, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color3D} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color3D.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color3D.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3D(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3D getColor3D(final double x, final double y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
 		final int minimumX = (int)(Doubles.floor(x));
 		final int maximumX = (int)(Doubles.ceil(x));
@@ -124,10 +145,10 @@ public abstract class Data {
 		final int maximumY = (int)(Doubles.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
-			return getColor3D(minimumX, minimumY);
+			return getColor3D(minimumX, minimumY, pixelTransformer);
 		}
 		
-		return Color3D.blend(getColor3D(minimumX, minimumY), getColor3D(maximumX, minimumY), getColor3D(minimumX, maximumY), getColor3D(maximumX, maximumY), x - minimumX, y - minimumY);
+		return Color3D.blend(getColor3D(minimumX, minimumY, pixelTransformer), getColor3D(maximumX, minimumY, pixelTransformer), getColor3D(minimumX, maximumY, pixelTransformer), getColor3D(maximumX, maximumY, pixelTransformer), x - minimumX, y - minimumY);
 	}
 	
 	/**
@@ -139,6 +160,29 @@ public abstract class Data {
 	 * @return the {@code Color3D} at {@code index} in this {@code Data} instance
 	 */
 	public abstract Color3D getColor3D(final int index);
+	
+	/**
+	 * Returns the {@link Color3D} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color3D.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color3D} at {@code index} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3D getColor3D(final int index, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolution = getResolution();
+		
+		final int indexTransformed = pixelTransformer.transform(index, resolution);
+		
+		return getColor3D(indexTransformed);
+	}
 	
 	/**
 	 * Returns the {@link Color3D} at {@code x} and {@code y} in this {@code Data} instance.
@@ -154,6 +198,34 @@ public abstract class Data {
 	public abstract Color3D getColor3D(final int x, final int y);
 	
 	/**
+	 * Returns the {@link Color3D} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color3D.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color3D.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3D getColor3D(final int x, final int y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int xTransformed = pixelTransformer.transform(x, resolutionX);
+		final int yTransformed = pixelTransformer.transform(y, resolutionY);
+		
+		return getColor3D(xTransformed, yTransformed);
+	}
+	
+	/**
 	 * Returns the {@link Color3F} at {@code x} and {@code y} in this {@code Data} instance.
 	 * <p>
 	 * If {@code x} is less than {@code 0.0F} or greater than or equal to {@code data.getResolutionX()}, {@code Color3F.BLACK} will be returned.
@@ -161,22 +233,42 @@ public abstract class Data {
 	 * If {@code y} is less than {@code 0.0F} or greater than or equal to {@code data.getResolutionY()}, {@code Color3F.BLACK} will be returned.
 	 * <p>
 	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3F(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.getColor3F(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
 	 * 
 	 * @param x the X-component of the pixel
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
 	 */
 	public final Color3F getColor3F(final float x, final float y) {
-		final int resolutionX = getResolutionX();
-		final int resolutionY = getResolutionY();
-		
-		if(x < 0.0F || x >= resolutionX) {
-			return Color3F.BLACK;
-		}
-		
-		if(y < 0.0F || y >= resolutionY) {
-			return Color3F.BLACK;
-		}
+		return getColor3F(x, y, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color3F} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0F} or greater than or equal to {@code data.getResolutionX()}, {@code Color3F.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0F} or greater than or equal to {@code data.getResolutionY()}, {@code Color3F.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3F(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3F getColor3F(final float x, final float y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
 		final int minimumX = (int)(Floats.floor(x));
 		final int maximumX = (int)(Floats.ceil(x));
@@ -185,10 +277,10 @@ public abstract class Data {
 		final int maximumY = (int)(Floats.ceil(y));
 		
 		if(minimumX == maximumX && minimumY == maximumY) {
-			return getColor3F(minimumX, minimumY);
+			return getColor3F(minimumX, minimumY, pixelTransformer);
 		}
 		
-		return Color3F.blend(getColor3F(minimumX, minimumY), getColor3F(maximumX, minimumY), getColor3F(minimumX, maximumY), getColor3F(maximumX, maximumY), x - minimumX, y - minimumY);
+		return Color3F.blend(getColor3F(minimumX, minimumY, pixelTransformer), getColor3F(maximumX, minimumY, pixelTransformer), getColor3F(minimumX, maximumY, pixelTransformer), getColor3F(maximumX, maximumY, pixelTransformer), x - minimumX, y - minimumY);
 	}
 	
 	/**
@@ -202,6 +294,29 @@ public abstract class Data {
 	public abstract Color3F getColor3F(final int index);
 	
 	/**
+	 * Returns the {@link Color3F} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color3F.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color3F} at {@code index} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3F getColor3F(final int index, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolution = getResolution();
+		
+		final int indexTransformed = pixelTransformer.transform(index, resolution);
+		
+		return getColor3F(indexTransformed);
+	}
+	
+	/**
 	 * Returns the {@link Color3F} at {@code x} and {@code y} in this {@code Data} instance.
 	 * <p>
 	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color3F.BLACK} will be returned.
@@ -213,6 +328,34 @@ public abstract class Data {
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
 	 */
 	public abstract Color3F getColor3F(final int x, final int y);
+	
+	/**
+	 * Returns the {@link Color3F} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color3F.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color3F.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3F getColor3F(final int x, final int y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int xTransformed = pixelTransformer.transform(x, resolutionX);
+		final int yTransformed = pixelTransformer.transform(y, resolutionY);
+		
+		return getColor3F(xTransformed, yTransformed);
+	}
 	
 	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Data} instance.
