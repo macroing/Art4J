@@ -134,7 +134,6 @@ public abstract class Data {
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3D getColor3D(final double x, final double y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -173,7 +172,6 @@ public abstract class Data {
 	 * @return the {@code Color3D} at {@code index} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3D getColor3D(final int index, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -212,7 +210,6 @@ public abstract class Data {
 	 * @return the {@code Color3D} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3D getColor3D(final int x, final int y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -266,7 +263,6 @@ public abstract class Data {
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3F getColor3F(final float x, final float y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -305,7 +301,6 @@ public abstract class Data {
 	 * @return the {@code Color3F} at {@code index} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3F getColor3F(final int index, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -344,7 +339,6 @@ public abstract class Data {
 	 * @return the {@code Color3F} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3F getColor3F(final int x, final int y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
