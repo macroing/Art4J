@@ -33,6 +33,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.art4j.color.ArrayComponentOrder;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;

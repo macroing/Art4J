@@ -50,6 +50,7 @@ public final class Examples {
 		doCopyShape2I();
 		doDraw();
 		doFillBlend();
+		doFillGradient();
 		doFillGrayscaleA();
 		doFillGrayscaleAverage();
 		doFillGrayscaleB();
@@ -64,6 +65,7 @@ public final class Examples {
 		doFillSepia();
 		doFillShape();
 		doFillShapeComplement();
+		doFillSimplexFractionalBrownianMotion();
 		doFillSobel();
 		doFillToneMap();
 		doFillUndoGammaCorrection();
@@ -89,7 +91,7 @@ public final class Examples {
 		final
 		Image image = IMAGE.copy();
 		image.fill((final Color4D color, final int x, final int y) -> new Color4D(color.r, color.g, color.b, 0.5D));
-		image.fillImage(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fillGradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE), image.getBounds(), image.getBounds());
+		image.fillImage(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fill(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE, image.getBounds())), image.getBounds(), image.getBounds());
 		image.save("./generated/example/BlendOver.png");
 	}
 	
@@ -118,6 +120,13 @@ public final class Examples {
 		Image image = IMAGE.copy();
 		image.fill((final Color4D color, final int x, final int y) -> Color4D.blend(color, new Color4D(0.5D, 0.0D, 0.0D, 1.0D)));
 		image.save("./generated/example/FillBlend.png");
+	}
+	
+	private static void doFillGradient() {
+		final
+		Image image = new Image(800, 800);
+		image.fill(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.YELLOW, new Rectangle2I(new Point2I(0, 0), new Point2I(799, 799))));
+		image.save("./generated/example/FillGradient.png");
 	}
 	
 	private static void doFillGrayscaleA() {
@@ -216,6 +225,13 @@ public final class Examples {
 		Image image = new Image(1024, 768);
 		image.fillShapeComplement(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
 		image.save("./generated/example/FillShapeComplement.png");
+	}
+	
+	private static void doFillSimplexFractionalBrownianMotion() {
+		final
+		Image image = new Image(1024, 768);
+		image.fill(Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.75D, 0.5D, 0.75D), new Rectangle2I(new Point2I(0, 0), new Point2I(1023, 767))));
+		image.save("./generated/example/FillSimplexFractionalBrownianMotion.png");
 	}
 	
 	private static void doFillSobel() {

@@ -23,6 +23,9 @@ import java.util.Objects;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.ColorSpaceF;
+import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.shape.Rectangle2I;
+import org.macroing.art4j.noise.SimplexNoiseF;
 
 /**
  * Represents a pixel operation that produces a {@link Color4F} instance for a specific pixel.
@@ -52,11 +55,50 @@ public interface Color4FPixelOperator {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Returns a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a gradient algorithm.
+	 * <p>
+	 * If either {@code color11}, {@code color12}, {@code color21}, {@code color22} or {@code bounds} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color11 the {@link Color3F} instance on row 1 and column 1
+	 * @param color12 the {@code Color3F} instance on row 1 and column 2
+	 * @param color21 the {@code Color3F} instance on row 2 and column 1
+	 * @param color22 the {@code Color3F} instance on row 2 and column 2
+	 * @param bounds a {@link Rectangle2I} instance that contains the bounds
+	 * @return a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a gradient algorithm
+	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21}, {@code color22} or {@code bounds} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4FPixelOperator gradient(final Color3F color11, final Color3F color12, final Color3F color21, final Color3F color22, final Rectangle2I bounds) {
+		Objects.requireNonNull(color11, "color11 == null");
+		Objects.requireNonNull(color12, "color12 == null");
+		Objects.requireNonNull(color21, "color21 == null");
+		Objects.requireNonNull(color22, "color22 == null");
+		Objects.requireNonNull(bounds, "bounds == null");
+		
+		final Point2I max = bounds.max();
+		final Point2I min = bounds.min();
+		
+		final float maxX = max.x;
+		final float maxY = max.y;
+		
+		final float minX = min.x;
+		final float minY = min.y;
+		
+		return (color, currentX, currentY) -> {
+			Objects.requireNonNull(color, "color == null");
+			
+			final float tX = (currentX - minX) / (maxX - minX);
+			final float tY = (currentY - minY) / (maxY - minY);
+			
+			return new Color4F(Color3F.blend(color11, color12, color21, color22, tX, tY));
+		};
+	}
+	
+	/**
 	 * Returns a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.a}.
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.a}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleA() {
 		return (color, x, y) -> Color4F.grayscaleA(color);
 	}
@@ -66,7 +108,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.average()}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleAverage() {
 		return (color, x, y) -> Color4F.grayscaleAverage(color);
 	}
@@ -76,7 +117,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.b}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleB() {
 		return (color, x, y) -> Color4F.grayscaleB(color);
 	}
@@ -86,7 +126,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.g}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleG() {
 		return (color, x, y) -> Color4F.grayscaleG(color);
 	}
@@ -96,7 +135,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.lightness()}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleLightness() {
 		return (color, x, y) -> Color4F.grayscaleLightness(color);
 	}
@@ -106,7 +144,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.max()}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleMax() {
 		return (color, x, y) -> Color4F.grayscaleMax(color);
 	}
@@ -116,7 +153,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.min()}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleMin() {
 		return (color, x, y) -> Color4F.grayscaleMin(color);
 	}
@@ -126,7 +162,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.r}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleR() {
 		return (color, x, y) -> Color4F.grayscaleR(color);
 	}
@@ -136,7 +171,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that creates a grayscale representation of {@code color} based on {@code color.relativeLuminance()}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator grayscaleRelativeLuminance() {
 		return (color, x, y) -> Color4F.grayscaleRelativeLuminance(color);
 	}
@@ -146,7 +180,6 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that inverts the red, green and blue component values of {@code color}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator invert() {
 		return (color, x, y) -> Color4F.invert(color);
 	}
@@ -189,9 +222,69 @@ public interface Color4FPixelOperator {
 	 * 
 	 * @return a {@code Color4FPixelOperator} that converts {@code color} to its sepia-representation
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FPixelOperator sepia() {
 		return (color, x, y) -> Color4F.sepia(color);
+	}
+	
+	/**
+	 * Returns a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * If either {@code baseColor} or {@code bounds} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4FPixelOperator.simplexFractionalBrownianMotion(baseColor, bounds, 5.0F, 0.5F, 16);
+	 * }
+	 * </pre>
+	 * 
+	 * @param baseColor a {@link Color3F} instance that is used as the base color
+	 * @param bounds a {@link Rectangle2I} instance that contains the bounds
+	 * @return a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a Simplex-based fractional Brownian motion (fBm) algorithm
+	 * @throws NullPointerException thrown if, and only if, either {@code baseColor} or {@code bounds} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4FPixelOperator simplexFractionalBrownianMotion(final Color3F baseColor, final Rectangle2I bounds) {
+		return simplexFractionalBrownianMotion(baseColor, bounds, 5.0F, 0.5F, 16);
+	}
+	
+	/**
+	 * Returns a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a Simplex-based fractional Brownian motion (fBm) algorithm.
+	 * <p>
+	 * If either {@code baseColor} or {@code bounds} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param baseColor a {@link Color3F} instance that is used as the base color
+	 * @param bounds a {@link Rectangle2I} instance that contains the bounds
+	 * @param frequency the frequency to start at
+	 * @param gain the amplitude multiplier
+	 * @param octaves the number of iterations to perform
+	 * @return a {@code Color4FPixelOperator} that generates a {@link Color4F} instance using a Simplex-based fractional Brownian motion (fBm) algorithm
+	 * @throws NullPointerException thrown if, and only if, either {@code baseColor} or {@code bounds} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	static Color4FPixelOperator simplexFractionalBrownianMotion(final Color3F baseColor, final Rectangle2I bounds, final float frequency, final float gain, final int octaves) {
+		Objects.requireNonNull(baseColor, "baseColor == null");
+		Objects.requireNonNull(bounds, "bounds == null");
+		
+		final Point2I max = bounds.max();
+		final Point2I min = bounds.min();
+		
+		final float maxX = max.x;
+		final float maxY = max.y;
+		
+		final float minX = min.x;
+		final float minY = min.y;
+		
+		return (color, currentX, currentY) -> {
+			Objects.requireNonNull(color, "color == null");
+			
+			final float x = (currentX - minX) / (maxX - minX);
+			final float y = (currentY - minY) / (maxY - minY);
+			
+			final float noise = SimplexNoiseF.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0F, 1.0F, octaves);
+			
+			return new Color4F(Color3F.multiply(baseColor, noise));
+		};
 	}
 	
 	/**

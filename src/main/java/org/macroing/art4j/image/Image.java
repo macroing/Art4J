@@ -48,8 +48,6 @@ import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
-import org.macroing.art4j.noise.SimplexNoiseD;
-import org.macroing.art4j.noise.SimplexNoiseF;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
 import org.macroing.art4j.pixel.Color4DPixelFilter;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
@@ -1217,70 +1215,6 @@ public final class Image {
 	}
 	
 	/**
-	 * Fills a gradient in this {@code Image} instance.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param a the {@link Color3D} instance in the top left corner
-	 * @param b the {@code Color3D} instance in the top right corner
-	 * @param c the {@code Color3D} instance in the bottom left corner
-	 * @param d the {@code Color3D} instance in the bottom right corner
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillGradient(final Color3D a, final Color3D b, final Color3D c, final Color3D d) {
-		Objects.requireNonNull(a, "a == null");
-		Objects.requireNonNull(b, "b == null");
-		Objects.requireNonNull(c, "c == null");
-		Objects.requireNonNull(d, "d == null");
-		
-		final double resolutionX = getResolutionX();
-		final double resolutionY = getResolutionY();
-		
-		return fill((final Color4D color, final int x, final int y) -> {
-			final double tX = 1.0D / resolutionX * x;
-			final double tY = 1.0D / resolutionY * y;
-			
-			return new Color4D(Color3D.blend(a, b, c, d, tX, tY));
-		});
-	}
-	
-	/**
-	 * Fills a gradient in this {@code Image} instance.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param a the {@link Color3F} instance in the top left corner
-	 * @param b the {@code Color3F} instance in the top right corner
-	 * @param c the {@code Color3F} instance in the bottom left corner
-	 * @param d the {@code Color3F} instance in the bottom right corner
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillGradient(final Color3F a, final Color3F b, final Color3F c, final Color3F d) {
-		Objects.requireNonNull(a, "a == null");
-		Objects.requireNonNull(b, "b == null");
-		Objects.requireNonNull(c, "c == null");
-		Objects.requireNonNull(d, "d == null");
-		
-		final float resolutionX = getResolutionX();
-		final float resolutionY = getResolutionY();
-		
-		return fill((final Color4F color, final int x, final int y) -> {
-			final float tX = 1.0F / resolutionX * x;
-			final float tY = 1.0F / resolutionY * y;
-			
-			return new Color4F(Color3F.blend(a, b, c, d, tX, tY));
-		});
-	}
-	
-	/**
 	 * Fills {@code sourceImage} in this {@code Image} instance with {@link Color4D} instances returned by {@code pixelOperator} as its color.
 	 * <p>
 	 * Returns this {@code Image} instance.
@@ -2161,118 +2095,6 @@ public final class Image {
 		this.data.changeEnd();
 		
 		return this;
-	}
-	
-	/**
-	 * Fills this {@code Image} instance with {@link Color4D} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillSimplexFractionalBrownianMotion(baseColor, 5.0D, 0.5D, 16);
-	 * }
-	 * </pre>
-	 * 
-	 * @param baseColor a {@link Color3D} instance that is used as the base color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillSimplexFractionalBrownianMotion(final Color3D baseColor) {
-		return fillSimplexFractionalBrownianMotion(baseColor, 5.0D, 0.5D, 16);
-	}
-	
-	/**
-	 * Fills this {@code Image} instance with {@link Color4D} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param baseColor a {@link Color3D} instance that is used as the base color
-	 * @param frequency the frequency to start at
-	 * @param gain the amplitude multiplier
-	 * @param octaves the number of iterations to perform
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillSimplexFractionalBrownianMotion(final Color3D baseColor, final double frequency, final double gain, final int octaves) {
-		Objects.requireNonNull(baseColor, "baseColor == null");
-		
-		final double minimumX = 0.0D;
-		final double minimumY = 0.0D;
-		final double maximumX = getResolutionX();
-		final double maximumY = getResolutionY();
-		
-		return fill((final Color4D currentColor, final int currentX, final int currentY) -> {
-			final double x = (currentX - minimumX) / (maximumX - minimumX);
-			final double y = (currentY - minimumY) / (maximumY - minimumY);
-			
-			final double noise = SimplexNoiseD.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0D, 1.0D, octaves);
-			
-			return new Color4D(Color3D.multiply(baseColor, noise));
-		});
-	}
-	
-	/**
-	 * Fills this {@code Image} instance with {@link Color4F} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillSimplexFractionalBrownianMotion(baseColor, 5.0F, 0.5F, 16);
-	 * }
-	 * </pre>
-	 * 
-	 * @param baseColor a {@link Color3F} instance that is used as the base color
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillSimplexFractionalBrownianMotion(final Color3F baseColor) {
-		return fillSimplexFractionalBrownianMotion(baseColor, 5.0F, 0.5F, 16);
-	}
-	
-	/**
-	 * Fills this {@code Image} instance with {@link Color4F} instances that are generated using a Simplex-based fractional Brownian motion (fBm) algorithm.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code baseColor} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param baseColor a {@link Color3F} instance that is used as the base color
-	 * @param frequency the frequency to start at
-	 * @param gain the amplitude multiplier
-	 * @param octaves the number of iterations to perform
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code baseColor} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Image fillSimplexFractionalBrownianMotion(final Color3F baseColor, final float frequency, final float gain, final int octaves) {
-		Objects.requireNonNull(baseColor, "baseColor == null");
-		
-		final float minimumX = 0.0F;
-		final float minimumY = 0.0F;
-		final float maximumX = getResolutionX();
-		final float maximumY = getResolutionY();
-		
-		return fill((final Color4F currentColor, final int currentX, final int currentY) -> {
-			final float x = (currentX - minimumX) / (maximumX - minimumX);
-			final float y = (currentY - minimumY) / (maximumY - minimumY);
-			
-			final float noise = SimplexNoiseF.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0F, 1.0F, octaves);
-			
-			return new Color4F(Color3F.multiply(baseColor, noise));
-		});
 	}
 	
 	/**
