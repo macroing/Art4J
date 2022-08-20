@@ -1,9 +1,15 @@
-1. Add unit tests to the methods getColor3D(double, double, PixelTransformer), getColor3D(int, PixelTransformer) and getColor3D(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
-2. Add unit tests to the methods getColor3F(float, float, PixelTransformer), getColor3F(int, PixelTransformer) and getColor3F(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
-3. Add the methods getColor4D(double, double, PixelTransformer), getColor4D(int, PixelTransformer) and getColor4D(int, int, PixelTransformer) to the Data class, as well as unit tests.
-4. Add the methods getColor4F(float, float, PixelTransformer), getColor4F(int, PixelTransformer) and getColor4F(int, int, PixelTransformer) to the Data class, as well as unit tests.
-5. Add unit tests for the Image class to the ImageUnitTests class.
-6. Add get and set methods for Color3I to the Data class and unit tests.
-7. Add get and set methods for Color4I to the Data class and unit tests.
-8. Add get and set methods for Color3I to the Image class and unit tests.
-9. Add get and set methods for Color4I to the Image class and unit tests.
+01. Add unit tests to the methods getColor3D(double, double, PixelTransformer), getColor3D(int, PixelTransformer) and getColor3D(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
+02. Add unit tests to the methods getColor3F(float, float, PixelTransformer), getColor3F(int, PixelTransformer) and getColor3F(int, int, PixelTransformer) in the Color4DDataUnitTests, Color4FDataUnitTests and PackedIntARGBDataUnitTests classes.
+03. Add unit tests for the Image class to the ImageUnitTests class.
+04. Add get and set methods for Color3I to the Data class and unit tests.
+05. Add get and set methods for Color4I to the Data class and unit tests.
+06. Add get and set methods for Color3I to the Image class and unit tests.
+07. Add get and set methods for Color4I to the Image class and unit tests.
+08. Add get methods for Color3D that has a PixelTransformer to the Image class and unit tests.
+09. Add get methods for Color3F that has a PixelTransformer to the Image class and unit tests.
+10. Add get methods for Color4D that has a PixelTransformer to the Image class and unit tests.
+11. Add get methods for Color4F that has a PixelTransformer to the Image class and unit tests.
+12. Add the DoubleRGBAData and DoubleRGBADataFactory classes as well as unit tests.
+13. Add the FloatRGBAData and FloatRGBADataFactory classes as well as unit tests.
+14. Add the IntRGBAData and IntRGBADataFactory classes as well as unit tests.
+15. Add the ByteRGBAData and ByteRGBADataFactory classes as well as unit tests.

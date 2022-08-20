@@ -43,6 +43,7 @@ import org.macroing.art4j.geometry.Point2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.pixel.PixelTransformer;
 
 @SuppressWarnings("static-method")
 public final class Color4DDataUnitTests {
@@ -765,6 +766,33 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DDoubleDoublePixelTransformer() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color4D(0.25D, 0.25D, 0.25D, 0.25D), color4DData.getColor4D(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4DData.getColor4D(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.5D, 0.0D, 0.5D, 0.0D), color4DData.getColor4D(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4DData.getColor4D(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), color4DData.getColor4D(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), color4DData.getColor4D(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), color4DData.getColor4D(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4D(0.0D, 0.0D, null));
+	}
+	
+	@Test
 	public void testGetColor4DInt() {
 		final Color4DData color4DData = new Color4DData(1, 1);
 		
@@ -782,6 +810,30 @@ public final class Color4DDataUnitTests {
 		assertEquals(Color4D.WHITE, color4DData.getColor4D(+0, +0));
 		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+1, +0));
 		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4DIntIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4D(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4DIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.WHITE, color4DData.getColor4D(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, color4DData.getColor4D(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4D(0, null));
 	}
 	
 	@Test
@@ -810,6 +862,33 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4FFloatFloatPixelTransformer() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color4F(0.25F, 0.25F, 0.25F, 0.25F), color4DData.getColor4F(0.5F, 0.5F, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4DData.getColor4F(0.0F, 0.5F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.5F, 0.0F, 0.5F, 0.0F), color4DData.getColor4F(0.5F, 0.0F, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4DData.getColor4F(0.0F, 0.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), color4DData.getColor4F(1.0F, 0.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), color4DData.getColor4F(0.0F, 1.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), color4DData.getColor4F(1.0F, 1.0F, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(-0.1F, +0.0F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+0.0F, -0.1F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+2.0F, +0.0F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+0.0F, +2.0F, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4F(0.0F, 0.0F, null));
+	}
+	
+	@Test
 	public void testGetColor4FInt() {
 		final Color4DData color4DData = new Color4DData(1, 1);
 		
@@ -827,6 +906,30 @@ public final class Color4DDataUnitTests {
 		assertEquals(Color4F.WHITE, color4DData.getColor4F(+0, +0));
 		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+1, +0));
 		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4FIntIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4F(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4FIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.WHITE, color4DData.getColor4F(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4F(0, null));
 	}
 	
 	@Test

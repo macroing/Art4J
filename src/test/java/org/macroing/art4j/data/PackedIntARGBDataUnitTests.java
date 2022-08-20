@@ -43,6 +43,7 @@ import org.macroing.art4j.geometry.Point2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
+import org.macroing.art4j.pixel.PixelTransformer;
 
 @SuppressWarnings("static-method")
 public final class PackedIntARGBDataUnitTests {
@@ -761,6 +762,33 @@ public final class PackedIntARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DDoubleDoublePixelTransformer() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4D(0.25D, 0.25D, 0.25D, 0.25D), packedIntARGBData.getColor4D(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), packedIntARGBData.getColor4D(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.5D, 0.0D, 0.5D, 0.0D), packedIntARGBData.getColor4D(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), packedIntARGBData.getColor4D(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), packedIntARGBData.getColor4D(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), packedIntARGBData.getColor4D(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), packedIntARGBData.getColor4D(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4D(0.0D, 0.0D, null));
+	}
+	
+	@Test
 	public void testGetColor4DInt() {
 		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
 		
@@ -778,6 +806,30 @@ public final class PackedIntARGBDataUnitTests {
 		assertEquals(Color4D.WHITE, packedIntARGBData.getColor4D(+0, +0));
 		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+1, +0));
 		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4DIntIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.WHITE, packedIntARGBData.getColor4D(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4D(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4DIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.WHITE, packedIntARGBData.getColor4D(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4D.TRANSPARENT, packedIntARGBData.getColor4D(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4D(0, null));
 	}
 	
 	@Test
@@ -806,6 +858,33 @@ public final class PackedIntARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4FFloatFloatPixelTransformer() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4F(0.25F, 0.25F, 0.25F, 0.25F), packedIntARGBData.getColor4F(0.5F, 0.5F, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), packedIntARGBData.getColor4F(0.0F, 0.5F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.5F, 0.0F, 0.5F, 0.0F), packedIntARGBData.getColor4F(0.5F, 0.0F, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), packedIntARGBData.getColor4F(0.0F, 0.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(1.0F, 0.0F, 1.0F, 0.0F), packedIntARGBData.getColor4F(1.0F, 0.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.0F, 0.0F, 0.0F, 0.0F), packedIntARGBData.getColor4F(0.0F, 1.0F, PixelTransformer.DEFAULT));
+		assertEquals(new Color4F(0.0F, 1.0F, 0.0F, 1.0F), packedIntARGBData.getColor4F(1.0F, 1.0F, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(-0.1F, +0.0F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+0.0F, -0.1F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+2.0F, +0.0F, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+0.0F, +2.0F, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4F(0.0F, 0.0F, null));
+	}
+	
+	@Test
 	public void testGetColor4FInt() {
 		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
 		
@@ -823,6 +902,30 @@ public final class PackedIntARGBDataUnitTests {
 		assertEquals(Color4F.WHITE, packedIntARGBData.getColor4F(+0, +0));
 		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+1, +0));
 		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4FIntIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.WHITE, packedIntARGBData.getColor4F(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4F(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4FIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.WHITE, packedIntARGBData.getColor4F(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4F(0, null));
 	}
 	
 	@Test
