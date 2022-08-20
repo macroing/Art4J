@@ -87,8 +87,8 @@ public interface Color4DPixelOperator {
 		return (color, currentX, currentY) -> {
 			Objects.requireNonNull(color, "color == null");
 			
-			final double tX = (currentX - minX) / (maxX - minX);
-			final double tY = (currentY - minY) / (maxY - minY);
+			final double tX = (currentX - minX) / (maxX - minX + 1.0D);
+			final double tY = (currentY - minY) / (maxY - minY + 1.0D);
 			
 			return new Color4D(Color3D.blend(color11, color12, color21, color22, tX, tY));
 		};
@@ -278,8 +278,8 @@ public interface Color4DPixelOperator {
 		return (color, currentX, currentY) -> {
 			Objects.requireNonNull(color, "color == null");
 			
-			final double x = (currentX - minX) / (maxX - minX);
-			final double y = (currentY - minY) / (maxY - minY);
+			final double x = (currentX - minX) / (maxX - minX + 1.0D);
+			final double y = (currentY - minY) / (maxY - minY + 1.0D);
 			
 			final double noise = SimplexNoiseD.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0D, 1.0D, octaves);
 			
