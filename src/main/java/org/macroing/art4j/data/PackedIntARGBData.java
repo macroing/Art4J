@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
+import org.macroing.art4j.color.Color3I;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
@@ -129,6 +130,16 @@ final class PackedIntARGBData extends Data {
 	}
 	
 	@Override
+	public Color3I getColor3I(final int index) {
+		return Color3I.fromIntARGB(getColorARGB(index));
+	}
+	
+	@Override
+	public Color3I getColor3I(final int x, final int y) {
+		return Color3I.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
 	public Color4D getColor4D(final int index) {
 		return Color4D.fromIntARGB(getColorARGB(index));
 	}
@@ -146,6 +157,16 @@ final class PackedIntARGBData extends Data {
 	@Override
 	public Color4F getColor4F(final int x, final int y) {
 		return Color4F.fromIntARGB(getColorARGB(x, y));
+	}
+	
+	@Override
+	public Color4I getColor4I(final int index) {
+		return Color4I.fromIntARGB(getColorARGB(index));
+	}
+	
+	@Override
+	public Color4I getColor4I(final int x, final int y) {
+		return Color4I.fromIntARGB(getColorARGB(x, y));
 	}
 	
 	@Override
@@ -605,6 +626,16 @@ final class PackedIntARGBData extends Data {
 	}
 	
 	@Override
+	public boolean setColor3I(final Color3I color, final int index) {
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
+	}
+	
+	@Override
+	public boolean setColor3I(final Color3I color, final int x, final int y) {
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
+	}
+	
+	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
 	}
@@ -621,6 +652,16 @@ final class PackedIntARGBData extends Data {
 	
 	@Override
 	public boolean setColor4F(final Color4F color, final int x, final int y) {
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
+	}
+	
+	@Override
+	public boolean setColor4I(final Color4I color, final int index) {
+		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), index);
+	}
+	
+	@Override
+	public boolean setColor4I(final Color4I color, final int x, final int y) {
 		return setColorARGB(Objects.requireNonNull(color, "color == null").toIntARGB(), x, y);
 	}
 	

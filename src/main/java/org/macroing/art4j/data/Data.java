@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
+import org.macroing.art4j.color.Color3I;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
@@ -352,6 +353,139 @@ public abstract class Data {
 	}
 	
 	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3I(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.getColor3I(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3I getColor3I(final double x, final double y) {
+		return getColor3I(x, y, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3I(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3I getColor3I(final double x, final double y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int minimumX = (int)(Doubles.floor(x));
+		final int maximumX = (int)(Doubles.ceil(x));
+		
+		final int minimumY = (int)(Doubles.floor(y));
+		final int maximumY = (int)(Doubles.ceil(y));
+		
+		if(minimumX == maximumX && minimumY == maximumY) {
+			return getColor3I(minimumX, minimumY, pixelTransformer);
+		}
+		
+		return Color3I.blend(getColor3I(minimumX, minimumY, pixelTransformer), getColor3I(maximumX, minimumY, pixelTransformer), getColor3I(minimumX, maximumY, pixelTransformer), getColor3I(maximumX, maximumY, pixelTransformer), x - minimumX, y - minimumY);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the {@code Color3I} at {@code index} in this {@code Data} instance
+	 */
+	public abstract Color3I getColor3I(final int index);
+	
+	/**
+	 * Returns the {@link Color3I} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color3I} at {@code index} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3I getColor3I(final int index, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolution = getResolution();
+		
+		final int indexTransformed = pixelTransformer.transform(index, resolution);
+		
+		return getColor3I(indexTransformed);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
+	 */
+	public abstract Color3I getColor3I(final int x, final int y);
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color3I getColor3I(final int x, final int y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int xTransformed = pixelTransformer.transform(x, resolutionX);
+		final int yTransformed = pixelTransformer.transform(y, resolutionY);
+		
+		return getColor3I(xTransformed, yTransformed);
+	}
+	
+	/**
 	 * Returns the {@link Color4D} at {@code x} and {@code y} in this {@code Data} instance.
 	 * <p>
 	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color4D.TRANSPARENT} will be returned.
@@ -607,6 +741,139 @@ public abstract class Data {
 		final int yTransformed = pixelTransformer.transform(y, resolutionY);
 		
 		return getColor4F(xTransformed, yTransformed);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4I(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * data.getColor4I(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
+	 */
+//	TODO: Add Unit Tests!
+	public final Color4I getColor4I(final double x, final double y) {
+		return getColor4I(x, y, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0D} or greater than or equal to {@code data.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4I(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color4I getColor4I(final double x, final double y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int minimumX = (int)(Doubles.floor(x));
+		final int maximumX = (int)(Doubles.ceil(x));
+		
+		final int minimumY = (int)(Doubles.floor(y));
+		final int maximumY = (int)(Doubles.ceil(y));
+		
+		if(minimumX == maximumX && minimumY == maximumY) {
+			return getColor4I(minimumX, minimumY, pixelTransformer);
+		}
+		
+		return Color4I.blend(getColor4I(minimumX, minimumY, pixelTransformer), getColor4I(maximumX, minimumY, pixelTransformer), getColor4I(minimumX, maximumY, pixelTransformer), getColor4I(maximumX, maximumY, pixelTransformer), x - minimumX, y - minimumY);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the {@code Color4I} at {@code index} in this {@code Data} instance
+	 */
+	public abstract Color4I getColor4I(final int index);
+	
+	/**
+	 * Returns the {@link Color4I} at {@code index} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color4I} at {@code index} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color4I getColor4I(final int index, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolution = getResolution();
+		
+		final int indexTransformed = pixelTransformer.transform(index, resolution);
+		
+		return getColor4I(indexTransformed);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
+	 */
+	public abstract Color4I getColor4I(final int x, final int y);
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Data} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public final Color4I getColor4I(final int x, final int y, final PixelTransformer pixelTransformer) {
+		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
+		
+		final int resolutionX = getResolutionX();
+		final int resolutionY = getResolutionY();
+		
+		final int xTransformed = pixelTransformer.transform(x, resolutionX);
+		final int yTransformed = pixelTransformer.transform(y, resolutionY);
+		
+		return getColor4I(xTransformed, yTransformed);
 	}
 	
 	/**
@@ -1022,6 +1289,41 @@ public abstract class Data {
 	 * <p>
 	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
 	 * 
+	 * @param color the {@link Color3I} instance to set
+	 * @param index the index of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public abstract boolean setColor3I(final Color3I color, final int index);
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * 
+	 * @param color the {@link Color3I} instance to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public abstract boolean setColor3I(final Color3I color, final int x, final int y);
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * 
 	 * @param color the {@link Color4D} instance to set
 	 * @param index the index of the pixel
 	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
@@ -1082,6 +1384,41 @@ public abstract class Data {
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
 	public abstract boolean setColor4F(final Color4F color, final int x, final int y);
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code data.getResolution()}, the color of the pixel at {@code index} will not be set.
+	 * 
+	 * @param color the {@link Color4I} instance to set
+	 * @param index the index of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code index} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public abstract boolean setColor4I(final Color4I color, final int index);
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Data} instance to {@code color}.
+	 * <p>
+	 * Returns {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code data.getResolutionX()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code data.getResolutionY()}, the color of the pixel at {@code x} and {@code y} will not be set.
+	 * 
+	 * @param color the {@link Color4I} instance to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return {@code true} if, and only if, the color of the pixel at {@code x} and {@code y} is set, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public abstract boolean setColor4I(final Color4I color, final int x, final int y);
 	
 	/**
 	 * Sets the color of the pixel at {@code index} in this {@code Data} instance to {@code colorARGB}.

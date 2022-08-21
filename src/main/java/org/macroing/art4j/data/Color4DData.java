@@ -28,8 +28,10 @@ import java.util.function.Consumer;
 
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
+import org.macroing.art4j.color.Color3I;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
+import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.geometry.Point2I;
 import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
@@ -128,6 +130,16 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
+	public Color3I getColor3I(final int index) {
+		return index >= 0 && index < this.colors.length ? new Color3I(this.colors[index]) : Color3I.BLACK;
+	}
+	
+	@Override
+	public Color3I getColor3I(final int x, final int y) {
+		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? new Color3I(this.colors[y * this.resolutionX + x]) : Color3I.BLACK;
+	}
+	
+	@Override
 	public Color4D getColor4D(final int index) {
 		return index >= 0 && index < this.colors.length ? this.colors[index] : Color4D.TRANSPARENT;
 	}
@@ -145,6 +157,16 @@ final class Color4DData extends Data {
 	@Override
 	public Color4F getColor4F(final int x, final int y) {
 		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? new Color4F(this.colors[y * this.resolutionX + x]) : Color4F.TRANSPARENT;
+	}
+	
+	@Override
+	public Color4I getColor4I(final int index) {
+		return index >= 0 && index < this.colors.length ? new Color4I(this.colors[index]) : Color4I.TRANSPARENT;
+	}
+	
+	@Override
+	public Color4I getColor4I(final int x, final int y) {
+		return x >= 0 && x < this.resolutionX && y >= 0 && y < this.resolutionY ? new Color4I(this.colors[y * this.resolutionX + x]) : Color4I.TRANSPARENT;
 	}
 	
 	@Override
@@ -600,6 +622,16 @@ final class Color4DData extends Data {
 	}
 	
 	@Override
+	public boolean setColor3I(final Color3I color, final int index) {
+		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), index);
+	}
+	
+	@Override
+	public boolean setColor3I(final Color3I color, final int x, final int y) {
+		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), x, y);
+	}
+	
+	@Override
 	public boolean setColor4D(final Color4D color, final int index) {
 		Objects.requireNonNull(color, "color == null");
 		
@@ -666,6 +698,16 @@ final class Color4DData extends Data {
 	
 	@Override
 	public boolean setColor4F(final Color4F color, final int x, final int y) {
+		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), x, y);
+	}
+	
+	@Override
+	public boolean setColor4I(final Color4I color, final int index) {
+		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), index);
+	}
+	
+	@Override
+	public boolean setColor4I(final Color4I color, final int x, final int y) {
 		return setColor4D(new Color4D(Objects.requireNonNull(color, "color == null")), x, y);
 	}
 	

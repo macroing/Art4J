@@ -43,7 +43,7 @@ The following table describes the different APIs and their current status in the
 | ------------------ | ------- | --------- | --------------------------------- |
 | Color API          | 100.0%  | 100.0%    | org.macroing.art4j.color          |
 | Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve          |
-| Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data           |
+| Data API           | 100.0%  |  94.3%    | org.macroing.art4j.data           |
 | Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter         |
 | Geometry API       | 100.0%  | 100.0%    | org.macroing.art4j.geometry       |
 | Geometry Shape API | 100.0%  | 100.0%    | org.macroing.art4j.geometry.shape |
