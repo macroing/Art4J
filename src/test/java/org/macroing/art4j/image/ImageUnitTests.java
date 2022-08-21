@@ -49,6 +49,7 @@ import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
 import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
+import org.macroing.art4j.pixel.PixelTransformer;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
@@ -1031,6 +1032,17 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3DDoubleDoublePixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3D(Color3D.RED, 0);
+		
+		assertEquals(Color3D.RED, image.getColor3D(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3D(0.0D, 0.0D, null));
+	}
+	
+	@Test
 	public void testGetColor3DInt() {
 		final
 		Image image = new Image(1, 1);
@@ -1049,6 +1061,28 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3DIntIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3D(Color3D.RED, 0);
+		
+		assertEquals(Color3D.RED, image.getColor3D(0, 0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3D(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor3DIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3D(Color3D.RED, 0);
+		
+		assertEquals(Color3D.RED, image.getColor3D(0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3D(0, null));
+	}
+	
+	@Test
 	public void testGetColor3DPoint2I() {
 		final
 		Image image = new Image(1, 1);
@@ -1060,12 +1094,35 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3DPoint2IPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3D(Color3D.RED, 0);
+		
+		assertEquals(Color3D.RED, image.getColor3D(new Point2I(0, 0), PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3D(new Point2I(0, 0), null));
+		assertThrows(NullPointerException.class, () -> image.getColor3D(null, PixelTransformer.DEFAULT));
+	}
+	
+	@Test
 	public void testGetColor3FFloatFloat() {
 		final
 		Image image = new Image(1, 1);
 		image.setColor3F(Color3F.RED, 0);
 		
 		assertEquals(Color3F.RED, image.getColor3F(0.0F, 0.0F));
+	}
+	
+	@Test
+	public void testGetColor3FFloatFloatPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3F(Color3F.RED, 0);
+		
+		assertEquals(Color3F.RED, image.getColor3F(0.0F, 0.0F, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3F(0.0F, 0.0F, null));
 	}
 	
 	@Test
@@ -1087,6 +1144,28 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3FIntIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3F(Color3F.RED, 0);
+		
+		assertEquals(Color3F.RED, image.getColor3F(0, 0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3F(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor3FIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3F(Color3F.RED, 0);
+		
+		assertEquals(Color3F.RED, image.getColor3F(0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3F(0, null));
+	}
+	
+	@Test
 	public void testGetColor3FPoint2I() {
 		final
 		Image image = new Image(1, 1);
@@ -1098,12 +1177,35 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3FPoint2IPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor3F(Color3F.RED, 0);
+		
+		assertEquals(Color3F.RED, image.getColor3F(new Point2I(0, 0), PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor3F(new Point2I(0, 0), null));
+		assertThrows(NullPointerException.class, () -> image.getColor3F(null, PixelTransformer.DEFAULT));
+	}
+	
+	@Test
 	public void testGetColor4DDoubleDouble() {
 		final
 		Image image = new Image(1, 1);
 		image.setColor4D(Color4D.RED, 0);
 		
 		assertEquals(Color4D.RED, image.getColor4D(0.0D, 0.0D));
+	}
+	
+	@Test
+	public void testGetColor4DDoubleDoublePixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4D(Color4D.RED, 0);
+		
+		assertEquals(Color4D.RED, image.getColor4D(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4D(0.0D, 0.0D, null));
 	}
 	
 	@Test
@@ -1125,6 +1227,28 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DIntIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4D(Color4D.RED, 0);
+		
+		assertEquals(Color4D.RED, image.getColor4D(0, 0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4D(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4DIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4D(Color4D.RED, 0);
+		
+		assertEquals(Color4D.RED, image.getColor4D(0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4D(0, null));
+	}
+	
+	@Test
 	public void testGetColor4DPoint2I() {
 		final
 		Image image = new Image(1, 1);
@@ -1136,12 +1260,35 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4DPoint2IPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4D(Color4D.RED, 0);
+		
+		assertEquals(Color4D.RED, image.getColor4D(new Point2I(0, 0), PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4D(new Point2I(0, 0), null));
+		assertThrows(NullPointerException.class, () -> image.getColor4D(null, PixelTransformer.DEFAULT));
+	}
+	
+	@Test
 	public void testGetColor4FFloatFloat() {
 		final
 		Image image = new Image(1, 1);
 		image.setColor4F(Color4F.RED, 0);
 		
 		assertEquals(Color4F.RED, image.getColor4F(0.0F, 0.0F));
+	}
+	
+	@Test
+	public void testGetColor4FFloatFloatPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4F(Color4F.RED, 0);
+		
+		assertEquals(Color4F.RED, image.getColor4F(0.0F, 0.0F, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4F(0.0F, 0.0F, null));
 	}
 	
 	@Test
@@ -1163,6 +1310,28 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetColor4FIntIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4F(Color4F.RED, 0);
+		
+		assertEquals(Color4F.RED, image.getColor4F(0, 0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4F(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4FIntPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4F(Color4F.RED, 0);
+		
+		assertEquals(Color4F.RED, image.getColor4F(0, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4F(0, null));
+	}
+	
+	@Test
 	public void testGetColor4FPoint2I() {
 		final
 		Image image = new Image(1, 1);
@@ -1171,6 +1340,18 @@ public final class ImageUnitTests {
 		assertEquals(Color4F.RED, image.getColor4F(new Point2I(0, 0)));
 		
 		assertThrows(NullPointerException.class, () -> image.getColor4F(null));
+	}
+	
+	@Test
+	public void testGetColor4FPoint2IPixelTransformer() {
+		final
+		Image image = new Image(1, 1);
+		image.setColor4F(Color4F.RED, 0);
+		
+		assertEquals(Color4F.RED, image.getColor4F(new Point2I(0, 0), PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> image.getColor4F(new Point2I(0, 0), null));
+		assertThrows(NullPointerException.class, () -> image.getColor4F(null, PixelTransformer.DEFAULT));
 	}
 	
 	@Test
