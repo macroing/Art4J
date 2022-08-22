@@ -372,7 +372,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3I getColor3I(final double x, final double y) {
 		return getColor3I(x, y, PixelTransformer.DEFAULT);
 	}
@@ -394,7 +393,6 @@ public abstract class Data {
 	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3I getColor3I(final double x, final double y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -433,7 +431,6 @@ public abstract class Data {
 	 * @return the {@code Color3I} at {@code index} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3I getColor3I(final int index, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -472,7 +469,6 @@ public abstract class Data {
 	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color3I getColor3I(final int x, final int y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -763,7 +759,6 @@ public abstract class Data {
 	 * @param y the Y-component of the pixel
 	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4I getColor4I(final double x, final double y) {
 		return getColor4I(x, y, PixelTransformer.DEFAULT);
 	}
@@ -785,7 +780,6 @@ public abstract class Data {
 	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4I getColor4I(final double x, final double y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -824,7 +818,6 @@ public abstract class Data {
 	 * @return the {@code Color4I} at {@code index} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4I getColor4I(final int index, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		
@@ -863,7 +856,6 @@ public abstract class Data {
 	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Data} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public final Color4I getColor4I(final int x, final int y, final PixelTransformer pixelTransformer) {
 		Objects.requireNonNull(pixelTransformer, "pixelTransformer == null");
 		

@@ -839,6 +839,102 @@ public final class PackedIntARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3IDoubleDouble() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color3I(63, 63, 63), packedIntARGBData.getColor3I(0.5D, 0.5D));
+		
+		assertEquals(new Color3I(  0, 0,   0), packedIntARGBData.getColor3I(0.0D, 0.5D));
+		assertEquals(new Color3I(127, 0, 127), packedIntARGBData.getColor3I(0.5D, 0.0D));
+		
+		assertEquals(new Color3I(  0,   0,   0), packedIntARGBData.getColor3I(0.0D, 0.0D));
+		assertEquals(new Color3I(255,   0, 255), packedIntARGBData.getColor3I(1.0D, 0.0D));
+		assertEquals(new Color3I(  0,   0,   0), packedIntARGBData.getColor3I(0.0D, 1.0D));
+		assertEquals(new Color3I(  0, 255,   0), packedIntARGBData.getColor3I(1.0D, 1.0D));
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-0.1D, +0.0D));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0.0D, -0.1D));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+2.0D, +0.0D));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0.0D, +2.0D));
+	}
+	
+	@Test
+	public void testGetColor3IDoubleDoublePixelTransformer() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color3I(63, 63, 63), packedIntARGBData.getColor3I(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color3I(  0, 0,   0), packedIntARGBData.getColor3I(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(127, 0, 127), packedIntARGBData.getColor3I(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color3I(  0,   0,   0), packedIntARGBData.getColor3I(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(255,   0, 255), packedIntARGBData.getColor3I(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(  0,   0,   0), packedIntARGBData.getColor3I(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(  0, 255,   0), packedIntARGBData.getColor3I(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor3I(0.0D, 0.0D, null));
+	}
+	
+	@Test
+	public void testGetColor3IInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-1));
+		assertEquals(Color3I.WHITE, packedIntARGBData.getColor3I(+0));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+1));
+	}
+	
+	@Test
+	public void testGetColor3IIntInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-1, +0));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0, -1));
+		assertEquals(Color3I.WHITE, packedIntARGBData.getColor3I(+0, +0));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+1, +0));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor3IIntIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.WHITE, packedIntARGBData.getColor3I(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor3I(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor3IIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.WHITE, packedIntARGBData.getColor3I(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, packedIntARGBData.getColor3I(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor3I(0, null));
+	}
+	
+	@Test
 	public void testGetColor4DDoubleDouble() {
 		final
 		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
@@ -1028,6 +1124,102 @@ public final class PackedIntARGBDataUnitTests {
 		assertEquals(Color4F.TRANSPARENT, packedIntARGBData.getColor4F(+1, PixelTransformer.DEFAULT));
 		
 		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4F(0, null));
+	}
+	
+	@Test
+	public void testGetColor4IDoubleDouble() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4I(63, 63, 63, 63), packedIntARGBData.getColor4I(0.5D, 0.5D));
+		
+		assertEquals(new Color4I(  0, 0,   0, 0), packedIntARGBData.getColor4I(0.0D, 0.5D));
+		assertEquals(new Color4I(127, 0, 127, 0), packedIntARGBData.getColor4I(0.5D, 0.0D));
+		
+		assertEquals(new Color4I(  0,   0,   0,   0), packedIntARGBData.getColor4I(0.0D, 0.0D));
+		assertEquals(new Color4I(255,   0, 255,   0), packedIntARGBData.getColor4I(1.0D, 0.0D));
+		assertEquals(new Color4I(  0,   0,   0,   0), packedIntARGBData.getColor4I(0.0D, 1.0D));
+		assertEquals(new Color4I(  0, 255,   0, 255), packedIntARGBData.getColor4I(1.0D, 1.0D));
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-0.1D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0.0D, -0.1D));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+2.0D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0.0D, +2.0D));
+	}
+	
+	@Test
+	public void testGetColor4IDoubleDoublePixelTransformer() {
+		final
+		PackedIntARGBData packedIntARGBData = new PackedIntARGBData(2, 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 0);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(255,   0, 255,   0), 1);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0,   0,   0,   0), 2);
+		packedIntARGBData.setColorARGB(Color4I.toIntARGB(  0, 255,   0, 255), 3);
+		
+		assertEquals(new Color4I(63, 63, 63, 63), packedIntARGBData.getColor4I(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4I(  0, 0,   0, 0), packedIntARGBData.getColor4I(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(127, 0, 127, 0), packedIntARGBData.getColor4I(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4I(  0,   0,   0,   0), packedIntARGBData.getColor4I(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(255,   0, 255,   0), packedIntARGBData.getColor4I(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(  0,   0,   0,   0), packedIntARGBData.getColor4I(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(  0, 255,   0, 255), packedIntARGBData.getColor4I(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4I(0.0D, 0.0D, null));
+	}
+	
+	@Test
+	public void testGetColor4IInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-1));
+		assertEquals(Color4I.WHITE, packedIntARGBData.getColor4I(+0));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+1));
+	}
+	
+	@Test
+	public void testGetColor4IIntInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-1, +0));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0, -1));
+		assertEquals(Color4I.WHITE, packedIntARGBData.getColor4I(+0, +0));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+1, +0));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4IIntIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.WHITE, packedIntARGBData.getColor4I(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4I(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4IIntPixelTransformer() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.WHITE, packedIntARGBData.getColor4I(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, packedIntARGBData.getColor4I(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.getColor4I(0, null));
 	}
 	
 	@Test
@@ -2050,6 +2242,28 @@ public final class PackedIntARGBDataUnitTests {
 	}
 	
 	@Test
+	public void testSetColor3IColor3IInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertTrue(packedIntARGBData.setColor3I(Color3I.RED, 0));
+		
+		assertEquals(Color3I.RED, packedIntARGBData.getColor3I(0));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.setColor3I(null, 0));
+	}
+	
+	@Test
+	public void testSetColor3IColor3IIntInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertTrue(packedIntARGBData.setColor3I(Color3I.RED, 0, 0));
+		
+		assertEquals(Color3I.RED, packedIntARGBData.getColor3I(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.setColor3I(null, 0, 0));
+	}
+	
+	@Test
 	public void testSetColor4DColor4DInt() {
 		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
 		
@@ -2091,6 +2305,28 @@ public final class PackedIntARGBDataUnitTests {
 		assertEquals(Color4F.RED, packedIntARGBData.getColor4F(0, 0));
 		
 		assertThrows(NullPointerException.class, () -> packedIntARGBData.setColor4F(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColor4IColor4IInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertTrue(packedIntARGBData.setColor4I(Color4I.RED, 0));
+		
+		assertEquals(Color4I.RED, packedIntARGBData.getColor4I(0));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.setColor4I(null, 0));
+	}
+	
+	@Test
+	public void testSetColor4IColor4IIntInt() {
+		final PackedIntARGBData packedIntARGBData = new PackedIntARGBData(1, 1);
+		
+		assertTrue(packedIntARGBData.setColor4I(Color4I.RED, 0, 0));
+		
+		assertEquals(Color4I.RED, packedIntARGBData.getColor4I(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> packedIntARGBData.setColor4I(null, 0, 0));
 	}
 	
 	@Test

@@ -843,6 +843,102 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testGetColor3IDoubleDouble() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 1.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 1.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 1.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color3I(63, 63, 63), color4DData.getColor3I(0.5D, 0.5D));
+		
+		assertEquals(new Color3I(  0, 0,   0), color4DData.getColor3I(0.0D, 0.5D));
+		assertEquals(new Color3I(127, 0, 127), color4DData.getColor3I(0.5D, 0.0D));
+		
+		assertEquals(new Color3I(  0,   0,   0), color4DData.getColor3I(0.0D, 0.0D));
+		assertEquals(new Color3I(255,   0, 255), color4DData.getColor3I(1.0D, 0.0D));
+		assertEquals(new Color3I(  0,   0,   0), color4DData.getColor3I(0.0D, 1.0D));
+		assertEquals(new Color3I(  0, 255,   0), color4DData.getColor3I(1.0D, 1.0D));
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-0.1D, +0.0D));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0.0D, -0.1D));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+2.0D, +0.0D));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0.0D, +2.0D));
+	}
+	
+	@Test
+	public void testGetColor3IDoubleDoublePixelTransformer() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 1.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 1.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 1.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color3I(63, 63, 63), color4DData.getColor3I(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color3I(  0, 0,   0), color4DData.getColor3I(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(127, 0, 127), color4DData.getColor3I(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color3I(  0,   0,   0), color4DData.getColor3I(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(255,   0, 255), color4DData.getColor3I(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(  0,   0,   0), color4DData.getColor3I(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color3I(  0, 255,   0), color4DData.getColor3I(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor3I(0.0D, 0.0D, null));
+	}
+	
+	@Test
+	public void testGetColor3IInt() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-1));
+		assertEquals(Color3I.WHITE, color4DData.getColor3I(+0));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+1));
+	}
+	
+	@Test
+	public void testGetColor3IIntInt() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-1, +0));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0, -1));
+		assertEquals(Color3I.WHITE, color4DData.getColor3I(+0, +0));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+1, +0));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor3IIntIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.WHITE, color4DData.getColor3I(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor3I(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor3IIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.WHITE, color4DData.getColor3I(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color3I.BLACK, color4DData.getColor3I(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor3I(0, null));
+	}
+	
+	@Test
 	public void testGetColor4DDoubleDouble() {
 		final
 		Color4DData color4DData = new Color4DData(2, 2);
@@ -1032,6 +1128,102 @@ public final class Color4DDataUnitTests {
 		assertEquals(Color4F.TRANSPARENT, color4DData.getColor4F(+1, PixelTransformer.DEFAULT));
 		
 		assertThrows(NullPointerException.class, () -> color4DData.getColor4F(0, null));
+	}
+	
+	@Test
+	public void testGetColor4IDoubleDouble() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color4I(63, 63, 63, 63), color4DData.getColor4I(0.5D, 0.5D));
+		
+		assertEquals(new Color4I(  0, 0,   0, 0), color4DData.getColor4I(0.0D, 0.5D));
+		assertEquals(new Color4I(127, 0, 127, 0), color4DData.getColor4I(0.5D, 0.0D));
+		
+		assertEquals(new Color4I(  0,   0,   0,   0), color4DData.getColor4I(0.0D, 0.0D));
+		assertEquals(new Color4I(255,   0, 255,   0), color4DData.getColor4I(1.0D, 0.0D));
+		assertEquals(new Color4I(  0,   0,   0,   0), color4DData.getColor4I(0.0D, 1.0D));
+		assertEquals(new Color4I(  0, 255,   0, 255), color4DData.getColor4I(1.0D, 1.0D));
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-0.1D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0.0D, -0.1D));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+2.0D, +0.0D));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0.0D, +2.0D));
+	}
+	
+	@Test
+	public void testGetColor4IDoubleDoublePixelTransformer() {
+		final
+		Color4DData color4DData = new Color4DData(2, 2);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 0);
+		color4DData.setColor4D(new Color4D(1.0D, 0.0D, 1.0D, 0.0D), 1);
+		color4DData.setColor4D(new Color4D(0.0D, 0.0D, 0.0D, 0.0D), 2);
+		color4DData.setColor4D(new Color4D(0.0D, 1.0D, 0.0D, 1.0D), 3);
+		
+		assertEquals(new Color4I(63, 63, 63, 63), color4DData.getColor4I(0.5D, 0.5D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4I(  0, 0,   0, 0), color4DData.getColor4I(0.0D, 0.5D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(127, 0, 127, 0), color4DData.getColor4I(0.5D, 0.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(new Color4I(  0,   0,   0,   0), color4DData.getColor4I(0.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(255,   0, 255,   0), color4DData.getColor4I(1.0D, 0.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(  0,   0,   0,   0), color4DData.getColor4I(0.0D, 1.0D, PixelTransformer.DEFAULT));
+		assertEquals(new Color4I(  0, 255,   0, 255), color4DData.getColor4I(1.0D, 1.0D, PixelTransformer.DEFAULT));
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-0.1D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0.0D, -0.1D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+2.0D, +0.0D, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0.0D, +2.0D, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4I(0.0D, 0.0D, null));
+	}
+	
+	@Test
+	public void testGetColor4IInt() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-1));
+		assertEquals(Color4I.WHITE, color4DData.getColor4I(+0));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+1));
+	}
+	
+	@Test
+	public void testGetColor4IIntInt() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-1, +0));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0, -1));
+		assertEquals(Color4I.WHITE, color4DData.getColor4I(+0, +0));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+1, +0));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0, +1));
+	}
+	
+	@Test
+	public void testGetColor4IIntIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0, -1, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.WHITE, color4DData.getColor4I(+0, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+1, +0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+0, +1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4I(0, 0, null));
+	}
+	
+	@Test
+	public void testGetColor4IIntPixelTransformer() {
+		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(-1, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.WHITE, color4DData.getColor4I(+0, PixelTransformer.DEFAULT));
+		assertEquals(Color4I.TRANSPARENT, color4DData.getColor4I(+1, PixelTransformer.DEFAULT));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.getColor4I(0, null));
 	}
 	
 	@Test
@@ -2050,6 +2242,28 @@ public final class Color4DDataUnitTests {
 	}
 	
 	@Test
+	public void testSetColor3IColor3IInt() {
+		final Color4DData color4DData = new Color4DData(1, 1, Color4D.WHITE);
+		
+		assertTrue(color4DData.setColor3I(Color3I.RED, 0));
+		
+		assertEquals(Color3I.RED, color4DData.getColor3I(0));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.setColor3I(null, 0));
+	}
+	
+	@Test
+	public void testSetColor3IColor3IIntInt() {
+		final Color4DData color4DData = new Color4DData(1, 1, Color4D.WHITE);
+		
+		assertTrue(color4DData.setColor3I(Color3I.RED, 0, 0));
+		
+		assertEquals(Color3I.RED, color4DData.getColor3I(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.setColor3I(null, 0, 0));
+	}
+	
+	@Test
 	public void testSetColor4DColor4DInt() {
 		final Color4DData color4DData = new Color4DData(1, 1, Color4D.WHITE);
 		
@@ -2179,6 +2393,28 @@ public final class Color4DDataUnitTests {
 		assertEquals(Color4F.RED, color4DData.getColor4F(0, 0));
 		
 		assertThrows(NullPointerException.class, () -> color4DData.setColor4F(null, 0, 0));
+	}
+	
+	@Test
+	public void testSetColor4IColor4IInt() {
+		final Color4DData color4DData = new Color4DData(1, 1, Color4D.WHITE);
+		
+		assertTrue(color4DData.setColor4I(Color4I.RED, 0));
+		
+		assertEquals(Color4I.RED, color4DData.getColor4I(0));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.setColor4I(null, 0));
+	}
+	
+	@Test
+	public void testSetColor4IColor4IIntInt() {
+		final Color4DData color4DData = new Color4DData(1, 1, Color4D.WHITE);
+		
+		assertTrue(color4DData.setColor4I(Color4I.RED, 0, 0));
+		
+		assertEquals(Color4I.RED, color4DData.getColor4I(0, 0));
+		
+		assertThrows(NullPointerException.class, () -> color4DData.setColor4I(null, 0, 0));
 	}
 	
 	@Test

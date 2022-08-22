@@ -1,6 +1,4 @@
 Add unit tests for the Image class to the ImageUnitTests class.
-Add get and set methods for Color3I to the Data class and unit tests. Get and set methods have been added.
-Add get and set methods for Color4I to the Data class and unit tests. Get and set methods have been added.
 Add get and set methods for Color3I to the Image class and unit tests.
 Add get and set methods for Color4I to the Image class and unit tests.
 Add the DoubleRGBAData and DoubleRGBADataFactory classes as well as unit tests.
