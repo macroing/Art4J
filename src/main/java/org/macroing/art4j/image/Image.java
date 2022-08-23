@@ -33,6 +33,7 @@ import java.util.function.Consumer;
 import org.macroing.art4j.color.ArrayComponentOrder;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color3F;
+import org.macroing.art4j.color.Color3I;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
@@ -774,6 +775,162 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns the {@link Color3I} at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor3I(point, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @return the {@code Color3I} at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public Color3I getColor3I(final Point2I point) {
+		return getColor3I(point, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If either {@code point} or {@code pixelTransformer} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor3I(point.x, point.y, pixelTransformer);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code point.x} and {@code point.y}
+	 * @return the {@code Color3I} at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelTransformer} are {@code null}
+	 */
+	public Color3I getColor3I(final Point2I point, final PixelTransformer pixelTransformer) {
+		return getColor3I(point.x, point.y, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3I(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor3I(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public Color3I getColor3I(final double x, final double y) {
+		return this.data.getColor3I(x, y);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor3I(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color3I getColor3I(final double x, final double y, final PixelTransformer pixelTransformer) {
+		return this.data.getColor3I(x, y, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code index} in this {@code Image} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the {@code Color3I} at {@code index} in this {@code Image} instance
+	 */
+	public Color3I getColor3I(final int index) {
+		return this.data.getColor3I(index);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code index} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color3I} at {@code index} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color3I getColor3I(final int index, final PixelTransformer pixelTransformer) {
+		return this.data.getColor3I(index, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public Color3I getColor3I(final int x, final int y) {
+		return this.data.getColor3I(x, y);
+	}
+	
+	/**
+	 * Returns the {@link Color3I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color3I.BLACK} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color3I.BLACK} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color3I} at {@code x} and {@code y} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color3I getColor3I(final int x, final int y, final PixelTransformer pixelTransformer) {
+		return this.data.getColor3I(x, y, pixelTransformer);
+	}
+	
+	/**
 	 * Returns the {@link Color4D} at {@code point} in this {@code Image} instance.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
@@ -1083,6 +1240,162 @@ public final class Image {
 	 */
 	public Color4F getColor4F(final int x, final int y, final PixelTransformer pixelTransformer) {
 		return this.data.getColor4F(x, y, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor4I(point, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @return the {@code Color4I} at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
+	 */
+	public Color4I getColor4I(final Point2I point) {
+		return getColor4I(point, PixelTransformer.DEFAULT);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code point} in this {@code Image} instance.
+	 * <p>
+	 * If either {@code point} or {@code pixelTransformer} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor4I(point.x, point.y, pixelTransformer);
+	 * }
+	 * </pre>
+	 * 
+	 * @param point a {@link Point2I} instance that contains the X- and Y-components of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code point.x} and {@code point.y}
+	 * @return the {@code Color4I} at {@code point} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelTransformer} are {@code null}
+	 */
+	public Color4I getColor4I(final Point2I point, final PixelTransformer pixelTransformer) {
+		return getColor4I(point.x, point.y, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4I(int, int)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.getColor4I(x, y, PixelTransformer.DEFAULT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public Color4I getColor4I(final double x, final double y) {
+		return this.data.getColor4I(x, y);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0.0D} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representations of both {@code x} and {@code y} are equal to mathematical integers, this method is equivalent to {@link #getColor4I(int, int, PixelTransformer)}. Otherwise, bilinear interpolation will be performed on the closest pixels.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color4I getColor4I(final double x, final double y, final PixelTransformer pixelTransformer) {
+		return this.data.getColor4I(x, y, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code index} in this {@code Image} instance.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @return the {@code Color4I} at {@code index} in this {@code Image} instance
+	 */
+	public Color4I getColor4I(final int index) {
+		return this.data.getColor4I(index);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code index} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param index the index of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code index}
+	 * @return the {@code Color4I} at {@code index} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color4I getColor4I(final int index, final PixelTransformer pixelTransformer) {
+		return this.data.getColor4I(index, pixelTransformer);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Image} instance
+	 */
+	public Color4I getColor4I(final int x, final int y) {
+		return this.data.getColor4I(x, y);
+	}
+	
+	/**
+	 * Returns the {@link Color4I} at {@code x} and {@code y} in this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelTransformer} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the transformed representation of {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * <p>
+	 * If the transformed representation of {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, {@code Color4I.TRANSPARENT} will be returned.
+	 * 
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @param pixelTransformer a {@link PixelTransformer} instance that transforms {@code x} and {@code y}
+	 * @return the {@code Color4I} at {@code x} and {@code y} in this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelTransformer} is {@code null}
+	 */
+	public Color4I getColor4I(final int x, final int y, final PixelTransformer pixelTransformer) {
+		return this.data.getColor4I(x, y, pixelTransformer);
 	}
 	
 	/**
@@ -3239,6 +3552,76 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
+	 * image.setColor3I(color, point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color the {@link Color3I} to set
+	 * @param point the {@link Point2I} that contains the X- and Y-components of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
+	 */
+	public Image setColor3I(final Color3I color, final Point2I point) {
+		return setColor3I(color, point.x, point.y);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, nothing will happen.
+	 * 
+	 * @param color the {@link Color3I} to set
+	 * @param index the index of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Image setColor3I(final Color3I color, final int index) {
+		this.data.setColor3I(Objects.requireNonNull(color, "color == null"), index);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * 
+	 * @param color the {@link Color3I} to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Image setColor3I(final Color3I color, final int x, final int y) {
+		this.data.setColor3I(Objects.requireNonNull(color, "color == null"), x, y);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code point} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code color} or {@code point} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
 	 * image.setColor4D(color, point.x, point.y);
 	 * }
 	 * </pre>
@@ -3361,6 +3744,76 @@ public final class Image {
 	 */
 	public Image setColor4F(final Color4F color, final int x, final int y) {
 		this.data.setColor4F(Objects.requireNonNull(color, "color == null"), x, y);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code point} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code color} or {@code point} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code point.x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code point.y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.setColor4I(color, point.x, point.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color the {@link Color4I} to set
+	 * @param point the {@link Point2I} that contains the X- and Y-components of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code color} or {@code point} are {@code null}
+	 */
+	public Image setColor4I(final Color4I color, final Point2I point) {
+		return setColor4I(color, point.x, point.y);
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code index} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than or equal to {@code image.getResolution()}, nothing will happen.
+	 * 
+	 * @param color the {@link Color4I} to set
+	 * @param index the index of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Image setColor4I(final Color4I color, final int index) {
+		this.data.setColor4I(Objects.requireNonNull(color, "color == null"), index);
+		
+		return this;
+	}
+	
+	/**
+	 * Sets the color of the pixel at {@code x} and {@code y} in this {@code Image} instance to {@code color}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code x} is less than {@code 0} or greater than or equal to {@code image.getResolutionX()}, nothing will happen.
+	 * <p>
+	 * If {@code y} is less than {@code 0} or greater than or equal to {@code image.getResolutionY()}, nothing will happen.
+	 * 
+	 * @param color the {@link Color4I} to set
+	 * @param x the X-component of the pixel
+	 * @param y the Y-component of the pixel
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+	public Image setColor4I(final Color4I color, final int x, final int y) {
+		this.data.setColor4I(Objects.requireNonNull(color, "color == null"), x, y);
 		
 		return this;
 	}
