@@ -1510,7 +1510,6 @@ public final class Image {
 	 * @return a copy of this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code shape} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image copy(final Shape2I shape) {
 		return new Image(this.data.copy(Objects.requireNonNull(shape, "shape == null")));
 	}
@@ -1521,7 +1520,6 @@ public final class Image {
 	 * @param isIgnoringChangeHistory {@code true} if, and only if, the change history should be ignored, {@code false} otherwise
 	 * @return a copy of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image copy(final boolean isIgnoringChangeHistory) {
 		return new Image(this.data, isIgnoringChangeHistory);
 	}
@@ -1564,7 +1562,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image drawShape(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -1584,7 +1581,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image drawShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
@@ -1617,7 +1613,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image drawShape(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -1637,7 +1632,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image drawShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
@@ -2470,7 +2464,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShape(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -2490,7 +2483,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
@@ -2523,7 +2515,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShape(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -2543,7 +2534,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
