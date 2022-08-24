@@ -2326,7 +2326,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
@@ -2380,7 +2379,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
@@ -4638,7 +4636,6 @@ public final class Image {
 		return Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-//	TODO: Add Unit Tests!
 	private void doFillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter, final Color4D oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
@@ -4705,7 +4702,6 @@ public final class Image {
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	private void doFillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter, final Color4F oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
