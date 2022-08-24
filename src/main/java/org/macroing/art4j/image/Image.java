@@ -2145,7 +2145,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator) {
 		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
@@ -2172,7 +2171,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
 		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
@@ -2198,7 +2196,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator) {
 		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
@@ -2225,7 +2222,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
 		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
@@ -2305,7 +2301,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator) {
 		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
@@ -2358,7 +2353,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator) {
 		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
@@ -2432,7 +2426,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
@@ -4768,7 +4761,6 @@ public final class Image {
 		}
 	}
 	
-//	TODO: Add Unit Tests!
 	private void doFillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
