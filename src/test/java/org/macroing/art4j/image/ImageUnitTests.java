@@ -1315,26 +1315,24 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
-	public void testFillRegionPoint2IColor4DPixelOperator() {
-		final Image image = new Image(7, 7, Color4D.WHITE);
+	public void testFillRegionIntIntPackedIntARGBPixelOperator() {
+		final Image image = new Image(7, 7, Color4I.WHITE_A_R_G_B);
 		
 		for(int y = 0; y < image.getResolutionY(); y++) {
 			for(int x = 0; x < image.getResolutionX(); x++) {
-				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(x, y));
 			}
 		}
 		
-		image.fillRegion(new Point2I(0, 0), (final Color4D color, final int x, final int y) -> Color4D.RED);
+		image.fillRegion(0, 0, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B);
 		
 		for(int y = 0; y < image.getResolutionY(); y++) {
 			for(int x = 0; x < image.getResolutionX(); x++) {
-				assertEquals(Color4D.RED, image.getColor4D(x, y));
+				assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(x, y));
 			}
 		}
 		
-		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (final Color4D color, final int x, final int y) -> null));
-		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (Color4DPixelOperator)(null)));
-		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final Color4D color, final int x, final int y) -> Color4D.RED));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (PackedIntARGBPixelOperator)(null)));
 	}
 	
 	@Test
@@ -1455,6 +1453,29 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testFillRegionPoint2IColor4DPixelOperator() {
+		final Image image = new Image(7, 7, Color4D.WHITE);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillRegion(new Point2I(0, 0), (final Color4D color, final int x, final int y) -> Color4D.RED);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.RED, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (final Color4D color, final int x, final int y) -> null));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (Color4DPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final Color4D color, final int x, final int y) -> Color4D.RED));
+	}
+	
+	@Test
 	public void testFillRegionPoint2IColor4DPixelOperatorColor4DPixelFilter() {
 		final Image image = new Image(7, 7, Color4D.WHITE);
 		
@@ -1523,6 +1544,51 @@ public final class ImageUnitTests {
 		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (final Color4F color, final int x, final int y) -> null, (final Color4F color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), null, (final Color4F color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final Color4F color, final int x, final int y) -> Color4F.RED, (final Color4F color, final int x, final int y) -> true));
+	}
+	
+	@Test
+	public void testFillRegionPoint2IPackedIntARGBPixelOperator() {
+		final Image image = new Image(7, 7, Color4I.WHITE_A_R_G_B);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(x, y));
+			}
+		}
+		
+		image.fillRegion(new Point2I(0, 0), (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (PackedIntARGBPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B));
+	}
+	
+	@Test
+	public void testFillRegionPoint2IPackedIntARGBPixelOperatorPackedIntARGBPixelFilter() {
+		final Image image = new Image(7, 7, Color4I.WHITE_A_R_G_B);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(x, y));
+			}
+		}
+		
+		image.fillRegion(new Point2I(0, 0), (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B, (final int color, final int x, final int y) -> true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4I.RED_A_R_G_B, image.getColorARGB(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B, null));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), null, (final int color, final int x, final int y) -> true));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B, (final int color, final int x, final int y) -> true));
 	}
 	
 	@Test

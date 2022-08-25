@@ -2247,7 +2247,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator) {
 		return fillRegion(point, pixelOperator, (color, x, y) -> true);
 	}
@@ -2274,7 +2273,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
 	}
@@ -2405,7 +2403,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator) {
 		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
