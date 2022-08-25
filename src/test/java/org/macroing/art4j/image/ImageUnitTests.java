@@ -1170,7 +1170,7 @@ public final class ImageUnitTests {
 		}
 		
 		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4D color, final int x, final int y) -> Color4D.RED, null));
-		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4D color, final int x, final int y) -> null, null));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4D color, final int x, final int y) -> null, (final Color4D color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, null, (final Color4D color, final int x, final int y) -> true));
 	}
 	
@@ -1310,7 +1310,7 @@ public final class ImageUnitTests {
 		}
 		
 		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4F color, final int x, final int y) -> Color4F.RED, null));
-		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4F color, final int x, final int y) -> null, null));
+		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, (final Color4F color, final int x, final int y) -> null, (final Color4F color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(0, 0, null, (final Color4F color, final int x, final int y) -> true));
 	}
 	
@@ -1589,6 +1589,402 @@ public final class ImageUnitTests {
 		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B, null));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(new Point2I(0, 0), null, (final int color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fillRegion(null, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B, (final int color, final int x, final int y) -> true));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4D() {
+		final
+		Image image = new Image(7, 7, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4D.RED);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4D)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, Color4D.RED));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4DBoolean() {
+		final
+		Image image = new Image(7, 7, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4D.RED, false);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4D.RED, true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4D)(null), false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, Color4D.RED, false));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4DPixelOperator() {
+		final
+		Image image = new Image(7, 7, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4D color, final int x, final int y) -> Color4D.RED);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4D color, final int x, final int y) -> null));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4DPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, (final Color4D color, final int x, final int y) -> Color4D.RED));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4DPixelOperatorBoolean() {
+		final
+		Image image = new Image(7, 7, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4D color, final int x, final int y) -> Color4D.RED, false);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4D color, final int x, final int y) -> Color4D.RED, true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.RED, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4D color, final int x, final int y) -> null, false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4DPixelOperator)(null), false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, (final Color4D color, final int x, final int y) -> Color4D.RED, false));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4F() {
+		final
+		Image image = new Image(7, 7, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4F.RED);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4F)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, Color4F.RED));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4FBoolean() {
+		final
+		Image image = new Image(7, 7, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4F.RED, false);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), Color4F.RED, true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4F)(null), false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, Color4F.RED, false));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4FPixelOperator() {
+		final
+		Image image = new Image(7, 7, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4F color, final int x, final int y) -> Color4F.RED);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4F color, final int x, final int y) -> null));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4FPixelOperator)(null)));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, (final Color4F color, final int x, final int y) -> Color4F.RED));
+	}
+	
+	@Test
+	public void testFillShapeComplementShape2IColor4FPixelOperatorBoolean() {
+		final
+		Image image = new Image(7, 7, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4F color, final int x, final int y) -> Color4F.RED, false);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4F color, final int x, final int y) -> Color4F.RED, true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 0 || x == 6 || y == 0 || y == 6) {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				} else if((x == 1 || x == 5) && (y >= 1 && y <= 5) || (y == 1 || y == 5) && (x >= 1 && x <= 5)) {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.RED, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (final Color4F color, final int x, final int y) -> null, false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(new Rectangle2I(new Point2I(1, 1), new Point2I(5, 5)), (Color4FPixelOperator)(null), false));
+		assertThrows(NullPointerException.class, () -> image.fillShapeComplement(null, (final Color4F color, final int x, final int y) -> Color4F.RED, false));
 	}
 	
 	@Test

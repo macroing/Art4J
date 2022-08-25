@@ -2554,7 +2554,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4D color) {
 		return fillShapeComplement(shape, color, false);
 	}
@@ -2579,7 +2578,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4D color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -2606,7 +2604,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		return fillShapeComplement(shape, pixelOperator, false);
 	}
@@ -2624,7 +2621,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
@@ -2657,7 +2653,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4F color) {
 		return fillShapeComplement(shape, color, false);
 	}
@@ -2682,7 +2677,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4F color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
@@ -2709,7 +2703,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		return fillShapeComplement(shape, pixelOperator, false);
 	}
@@ -2727,7 +2720,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
