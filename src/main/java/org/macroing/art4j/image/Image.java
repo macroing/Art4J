@@ -1545,7 +1545,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length != image.getResolution() * ArrayComponentOrder.BGRA.getComponentCount()}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image copyTo(final byte[] array) {
 		return copyTo(array, ArrayComponentOrder.RGBA);
 	}
@@ -1565,7 +1564,6 @@ public final class Image {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length != image.getResolution() * arrayComponentOrder.getComponentCount()}
 	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image copyTo(final byte[] array, final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(array, "array == null");
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
@@ -1714,7 +1712,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fill(final Color4D color) {
 		Objects.requireNonNull(color, "color == null");
 		
@@ -1792,7 +1789,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fill(final Color4F color) {
 		Objects.requireNonNull(color, "color == null");
 		
@@ -1927,7 +1923,6 @@ public final class Image {
 	 * @param color the color to fill with
 	 * @return this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Image fill(final int color) {
 		return fill((final int currentColor, final int x, final int y) -> color);
 	}
@@ -4193,7 +4188,6 @@ public final class Image {
 	 * 
 	 * @return a {@code byte[]} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public byte[] toByteArray() {
 		return toByteArray(ArrayComponentOrder.RGBA);
 	}
@@ -4207,7 +4201,6 @@ public final class Image {
 	 * @return a {@code byte[]} representation of this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public byte[] toByteArray(final ArrayComponentOrder arrayComponentOrder) {
 		return Arrays.toByteArray(toIntArray(Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null")));
 	}
@@ -4563,7 +4556,6 @@ public final class Image {
 	 * 
 	 * @return an {@code int[]} representation of this {@code Image} instance
 	 */
-//	TODO: Add Unit Tests!
 	public int[] toIntArray() {
 		return toIntArray(ArrayComponentOrder.RGBA);
 	}
@@ -4577,7 +4569,6 @@ public final class Image {
 	 * @return an {@code int[]} representation of this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public int[] toIntArray(final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
 		

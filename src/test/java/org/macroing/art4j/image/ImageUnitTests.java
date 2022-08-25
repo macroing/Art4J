@@ -18,6 +18,7 @@
  */
 package org.macroing.art4j.image;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -571,6 +572,47 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testCopyToByteArray() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final byte[] arrayA = image.toByteArray();
+		final byte[] arrayB = new byte[arrayA.length];
+		
+		image.copyTo(arrayB);
+		
+		assertArrayEquals(arrayA, arrayB);
+		
+		assertThrows(NullPointerException.class, () -> image.copyTo(null));
+	}
+	
+	@Test
+	public void testCopyToByteArrayArrayComponentOrder() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final byte[] arrayA = image.toByteArray(ArrayComponentOrder.RGBA);
+		final byte[] arrayB = new byte[arrayA.length];
+		
+		image.copyTo(arrayB, ArrayComponentOrder.RGBA);
+		
+		assertArrayEquals(arrayA, arrayB);
+		
+		assertThrows(NullPointerException.class, () -> image.copyTo(new byte[0], null));
+		assertThrows(NullPointerException.class, () -> image.copyTo(null, ArrayComponentOrder.RGBA));
+		
+		assertThrows(IllegalArgumentException.class, () -> image.copyTo(new byte[0], ArrayComponentOrder.RGBA));
+	}
+	
+	@Test
 	public void testDrawConsumerGraphics2D() {
 		final Image image = new Image(1, 1);
 		
@@ -782,6 +824,47 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testFillColor4D() {
+		final
+		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
+		image.setColor4D(Color4D.WHITE, 0);
+		image.setColor4D(Color4D.WHITE, 1);
+		image.setColor4D(Color4D.WHITE, 2);
+		image.setColor4D(Color4D.WHITE, 3);
+		
+		assertEquals(Color4D.WHITE, image.getColor4D(0));
+		assertEquals(Color4D.WHITE, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		image.fill(Color4D.BLACK);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.BLACK, image.getColor4D(2));
+		assertEquals(Color4D.BLACK, image.getColor4D(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fill(Color4D.WHITE);
+		
+		assertEquals(Color4D.WHITE, image.getColor4D(0));
+		assertEquals(Color4D.WHITE, image.getColor4D(1));
+		assertEquals(Color4D.WHITE, image.getColor4D(2));
+		assertEquals(Color4D.WHITE, image.getColor4D(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4D.BLACK, image.getColor4D(0));
+		assertEquals(Color4D.BLACK, image.getColor4D(1));
+		assertEquals(Color4D.BLACK, image.getColor4D(2));
+		assertEquals(Color4D.BLACK, image.getColor4D(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fill((Color4D)(null)));
+	}
+	
+	@Test
 	public void testFillColor4DPixelOperator() {
 		final
 		Image image = new Image(2, 2, Color4D.WHITE, DataFactory.forColor4D());
@@ -864,6 +947,47 @@ public final class ImageUnitTests {
 		assertThrows(NullPointerException.class, () -> image.fill((final Color4D color, final int x, final int y) -> Color4D.BLACK, null));
 		assertThrows(NullPointerException.class, () -> image.fill(null, (final Color4D color, final int x, final int y) -> true));
 		assertThrows(NullPointerException.class, () -> image.fill((final Color4D color, final int x, final int y) -> null, (final Color4D color, final int x, final int y) -> true));
+	}
+	
+	@Test
+	public void testFillColor4F() {
+		final
+		Image image = new Image(2, 2, Color4F.WHITE, DataFactory.forColor4F());
+		image.setColor4F(Color4F.WHITE, 0);
+		image.setColor4F(Color4F.WHITE, 1);
+		image.setColor4F(Color4F.WHITE, 2);
+		image.setColor4F(Color4F.WHITE, 3);
+		
+		assertEquals(Color4F.WHITE, image.getColor4F(0));
+		assertEquals(Color4F.WHITE, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		image.fill(Color4F.BLACK);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.BLACK, image.getColor4F(2));
+		assertEquals(Color4F.BLACK, image.getColor4F(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fill(Color4F.WHITE);
+		
+		assertEquals(Color4F.WHITE, image.getColor4F(0));
+		assertEquals(Color4F.WHITE, image.getColor4F(1));
+		assertEquals(Color4F.WHITE, image.getColor4F(2));
+		assertEquals(Color4F.WHITE, image.getColor4F(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4F.BLACK, image.getColor4F(0));
+		assertEquals(Color4F.BLACK, image.getColor4F(1));
+		assertEquals(Color4F.BLACK, image.getColor4F(2));
+		assertEquals(Color4F.BLACK, image.getColor4F(3));
+		
+		assertThrows(NullPointerException.class, () -> image.fill((Color4F)(null)));
 	}
 	
 	@Test
@@ -1032,6 +1156,45 @@ public final class ImageUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> image.fill((final int color, final int x, final int y) -> Color4I.BLACK_A_R_G_B, null));
 		assertThrows(NullPointerException.class, () -> image.fill(null, (final int color, final int x, final int y) -> true));
+	}
+	
+	@Test
+	public void testFillInt() {
+		final
+		Image image = new Image(2, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 0);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 1);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 2);
+		image.setColorARGB(Color4I.WHITE_A_R_G_B, 3);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		image.fill(Color4I.BLACK_A_R_G_B);
+		
+		assertFalse(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
+		
+		image.setChangeHistoryEnabled(true);
+		image.fill(Color4I.WHITE_A_R_G_B);
+		
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.WHITE_A_R_G_B, image.getColorARGB(3));
+		
+		assertTrue(image.undo());
+		
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(0));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(1));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(2));
+		assertEquals(Color4I.BLACK_A_R_G_B, image.getColorARGB(3));
 	}
 	
 	@Test
@@ -3481,6 +3644,85 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testToByteArray() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final byte[] arrayRGBA = image.toByteArray();
+		
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals((byte)(10), arrayRGBA[ 0]);
+		assertEquals((byte)(11), arrayRGBA[ 1]);
+		assertEquals((byte)(12), arrayRGBA[ 2]);
+		assertEquals((byte)(13), arrayRGBA[ 3]);
+		assertEquals((byte)(20), arrayRGBA[ 4]);
+		assertEquals((byte)(21), arrayRGBA[ 5]);
+		assertEquals((byte)(22), arrayRGBA[ 6]);
+		assertEquals((byte)(23), arrayRGBA[ 7]);
+		assertEquals((byte)(30), arrayRGBA[ 8]);
+		assertEquals((byte)(31), arrayRGBA[ 9]);
+		assertEquals((byte)(32), arrayRGBA[10]);
+		assertEquals((byte)(33), arrayRGBA[11]);
+		assertEquals((byte)(40), arrayRGBA[12]);
+		assertEquals((byte)(41), arrayRGBA[13]);
+		assertEquals((byte)(42), arrayRGBA[14]);
+		assertEquals((byte)(43), arrayRGBA[15]);
+	}
+	
+	@Test
+	public void testToByteArrayArrayComponentOrder() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final byte[] arrayRGB = image.toByteArray(ArrayComponentOrder.RGB);
+		final byte[] arrayRGBA = image.toByteArray(ArrayComponentOrder.RGBA);
+		
+		assertEquals(12, arrayRGB.length);
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals((byte)(10), arrayRGB[ 0]);
+		assertEquals((byte)(11), arrayRGB[ 1]);
+		assertEquals((byte)(12), arrayRGB[ 2]);
+		assertEquals((byte)(20), arrayRGB[ 3]);
+		assertEquals((byte)(21), arrayRGB[ 4]);
+		assertEquals((byte)(22), arrayRGB[ 5]);
+		assertEquals((byte)(30), arrayRGB[ 6]);
+		assertEquals((byte)(31), arrayRGB[ 7]);
+		assertEquals((byte)(32), arrayRGB[ 8]);
+		assertEquals((byte)(40), arrayRGB[ 9]);
+		assertEquals((byte)(41), arrayRGB[10]);
+		assertEquals((byte)(42), arrayRGB[11]);
+		
+		assertEquals((byte)(10), arrayRGBA[ 0]);
+		assertEquals((byte)(11), arrayRGBA[ 1]);
+		assertEquals((byte)(12), arrayRGBA[ 2]);
+		assertEquals((byte)(13), arrayRGBA[ 3]);
+		assertEquals((byte)(20), arrayRGBA[ 4]);
+		assertEquals((byte)(21), arrayRGBA[ 5]);
+		assertEquals((byte)(22), arrayRGBA[ 6]);
+		assertEquals((byte)(23), arrayRGBA[ 7]);
+		assertEquals((byte)(30), arrayRGBA[ 8]);
+		assertEquals((byte)(31), arrayRGBA[ 9]);
+		assertEquals((byte)(32), arrayRGBA[10]);
+		assertEquals((byte)(33), arrayRGBA[11]);
+		assertEquals((byte)(40), arrayRGBA[12]);
+		assertEquals((byte)(41), arrayRGBA[13]);
+		assertEquals((byte)(42), arrayRGBA[14]);
+		assertEquals((byte)(43), arrayRGBA[15]);
+		
+		assertThrows(NullPointerException.class, () -> image.toByteArray(null));
+	}
+	
+	@Test
 	public void testToDoubleArray() {
 		final
 		Image image = new Image(2, 2, DataFactory.forColor4D());
@@ -3636,6 +3878,85 @@ public final class ImageUnitTests {
 		assertEquals(43.0F, arrayRGBA[15]);
 		
 		assertThrows(NullPointerException.class, () -> image.toFloatArray(null));
+	}
+	
+	@Test
+	public void testToIntArray() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final int[] arrayRGBA = image.toIntArray();
+		
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10, arrayRGBA[ 0]);
+		assertEquals(11, arrayRGBA[ 1]);
+		assertEquals(12, arrayRGBA[ 2]);
+		assertEquals(13, arrayRGBA[ 3]);
+		assertEquals(20, arrayRGBA[ 4]);
+		assertEquals(21, arrayRGBA[ 5]);
+		assertEquals(22, arrayRGBA[ 6]);
+		assertEquals(23, arrayRGBA[ 7]);
+		assertEquals(30, arrayRGBA[ 8]);
+		assertEquals(31, arrayRGBA[ 9]);
+		assertEquals(32, arrayRGBA[10]);
+		assertEquals(33, arrayRGBA[11]);
+		assertEquals(40, arrayRGBA[12]);
+		assertEquals(41, arrayRGBA[13]);
+		assertEquals(42, arrayRGBA[14]);
+		assertEquals(43, arrayRGBA[15]);
+	}
+	
+	@Test
+	public void testToIntArrayArrayComponentOrder() {
+		final
+		Image image = new Image(2, 2, DataFactory.forPackedIntARGB());
+		image.setColorARGB(Color4I.toIntARGB(10, 11, 12, 13), 0, 0);
+		image.setColorARGB(Color4I.toIntARGB(20, 21, 22, 23), 1, 0);
+		image.setColorARGB(Color4I.toIntARGB(30, 31, 32, 33), 0, 1);
+		image.setColorARGB(Color4I.toIntARGB(40, 41, 42, 43), 1, 1);
+		
+		final int[] arrayRGB = image.toIntArray(ArrayComponentOrder.RGB);
+		final int[] arrayRGBA = image.toIntArray(ArrayComponentOrder.RGBA);
+		
+		assertEquals(12, arrayRGB.length);
+		assertEquals(16, arrayRGBA.length);
+		
+		assertEquals(10, arrayRGB[ 0]);
+		assertEquals(11, arrayRGB[ 1]);
+		assertEquals(12, arrayRGB[ 2]);
+		assertEquals(20, arrayRGB[ 3]);
+		assertEquals(21, arrayRGB[ 4]);
+		assertEquals(22, arrayRGB[ 5]);
+		assertEquals(30, arrayRGB[ 6]);
+		assertEquals(31, arrayRGB[ 7]);
+		assertEquals(32, arrayRGB[ 8]);
+		assertEquals(40, arrayRGB[ 9]);
+		assertEquals(41, arrayRGB[10]);
+		assertEquals(42, arrayRGB[11]);
+		
+		assertEquals(10, arrayRGBA[ 0]);
+		assertEquals(11, arrayRGBA[ 1]);
+		assertEquals(12, arrayRGBA[ 2]);
+		assertEquals(13, arrayRGBA[ 3]);
+		assertEquals(20, arrayRGBA[ 4]);
+		assertEquals(21, arrayRGBA[ 5]);
+		assertEquals(22, arrayRGBA[ 6]);
+		assertEquals(23, arrayRGBA[ 7]);
+		assertEquals(30, arrayRGBA[ 8]);
+		assertEquals(31, arrayRGBA[ 9]);
+		assertEquals(32, arrayRGBA[10]);
+		assertEquals(33, arrayRGBA[11]);
+		assertEquals(40, arrayRGBA[12]);
+		assertEquals(41, arrayRGBA[13]);
+		assertEquals(42, arrayRGBA[14]);
+		assertEquals(43, arrayRGBA[15]);
+		
+		assertThrows(NullPointerException.class, () -> image.toIntArray(null));
 	}
 	
 	@Test
