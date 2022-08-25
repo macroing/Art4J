@@ -25,7 +25,6 @@ import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -61,6 +60,7 @@ import org.macroing.art4j.pixel.PixelTransformer;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
+import org.macroing.java.util.Arrays;
 
 /**
  * An {@code Image} represents an image that can be drawn to and saved to disk.
@@ -1522,6 +1522,64 @@ public final class Image {
 	 */
 	public Image copy(final boolean isIgnoringChangeHistory) {
 		return new Image(this.data, isIgnoringChangeHistory);
+	}
+	
+	/**
+	 * Copies the individual component values of the colors in this {@code Image} instance to the {@code byte[]} {@code array}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length != image.getResolution() * ArrayComponentOrder.BGRA.getComponentCount()}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.copyTo(array, ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the {@code byte[]} to copy the individual component values of the colors in this {@code Image} instance to
+	 * @return this {@code Image} instance
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length != image.getResolution() * ArrayComponentOrder.BGRA.getComponentCount()}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image copyTo(final byte[] array) {
+		return copyTo(array, ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Copies the individual component values of the colors in this {@code Image} instance to the {@code byte[]} {@code array}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code array} or {@code arrayComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length != image.getResolution() * arrayComponentOrder.getComponentCount()}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param array the {@code byte[]} to copy the individual component values of the colors in this {@code Image} instance to
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder} to copy the components to {@code array} in the correct order
+	 * @return this {@code Image} instance
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length != image.getResolution() * arrayComponentOrder.getComponentCount()}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Image copyTo(final byte[] array, final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		if(array.length != getResolution() * arrayComponentOrder.getComponentCount()) {
+			throw new IllegalArgumentException(String.format("array.length != image.getResolution() * arrayComponentOrder.getComponentCount(): array.length = %d, image.getResolution() = %d, arrayComponentOrder.getComponentCount() = %d", Integer.valueOf(array.length), Integer.valueOf(getResolution()), Integer.valueOf(arrayComponentOrder.getComponentCount())));
+		}
+		
+		final byte[] sourceArray = toByteArray(arrayComponentOrder);
+		final byte[] targetArray = array;
+		
+		System.arraycopy(sourceArray, 0, targetArray, 0, targetArray.length);
+		
+		return this;
 	}
 	
 	/**
@@ -4124,6 +4182,37 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns a {@code byte[]} representation of this {@code Image} instance.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.toByteArray(ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code byte[]} representation of this {@code Image} instance
+	 */
+//	TODO: Add Unit Tests!
+	public byte[] toByteArray() {
+		return toByteArray(ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns a {@code byte[]} representation of this {@code Image} instance.
+	 * <p>
+	 * If {@code arrayComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder}
+	 * @return a {@code byte[]} representation of this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code arrayComponentOrder} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public byte[] toByteArray(final ArrayComponentOrder arrayComponentOrder) {
+		return Arrays.toByteArray(toIntArray(Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null")));
+	}
+	
+	/**
 	 * Returns the maximum relative luminance in this {@code Image} instance as a {@code double}.
 	 * 
 	 * @return the maximum relative luminance in this {@code Image} instance as a {@code double}
@@ -4586,7 +4675,7 @@ public final class Image {
 			return indices;
 		}
 		
-		return Arrays.stream(indices).filter(index -> index != -1).toArray();
+		return java.util.Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
 	private int[] doFilter(final Color4FPixelFilter pixelFilter) {
@@ -4615,7 +4704,7 @@ public final class Image {
 			return indices;
 		}
 		
-		return Arrays.stream(indices).filter(index -> index != -1).toArray();
+		return java.util.Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
 	private void doFillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter, final Color4D oldColor) {
