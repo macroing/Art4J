@@ -102,10 +102,10 @@ public final class ArrayComponentOrderUnitTests {
 		final int[] arrayB = ArrayComponentOrder.convert(ArrayComponentOrder.BGR, ArrayComponentOrder.ARGB, arrayA);
 		final int[] arrayC = ArrayComponentOrder.convert(ArrayComponentOrder.ARGB, ArrayComponentOrder.BGR, arrayB);
 		
-		assertEquals(255, arrayB[0]);
-		assertEquals( 30, arrayB[1]);
-		assertEquals( 20, arrayB[2]);
-		assertEquals( 10, arrayB[3]);
+		assertEquals( 0, arrayB[0]);
+		assertEquals(30, arrayB[1]);
+		assertEquals(20, arrayB[2]);
+		assertEquals(10, arrayB[3]);
 		
 		assertEquals(10, arrayC[0]);
 		assertEquals(20, arrayC[1]);
@@ -321,14 +321,14 @@ public final class ArrayComponentOrderUnitTests {
 		assertEquals(255, ArrayComponentOrder.ARGB.readA(arrayARGB, 0));
 		assertEquals(255, ArrayComponentOrder.ARGB.readA(arrayARGB, 4));
 		
-		assertEquals(255, ArrayComponentOrder.BGR.readA(arrayBGR, 0));
-		assertEquals(255, ArrayComponentOrder.BGR.readA(arrayBGR, 3));
+		assertEquals(0, ArrayComponentOrder.BGR.readA(arrayBGR, 0));
+		assertEquals(0, ArrayComponentOrder.BGR.readA(arrayBGR, 3));
 		
 		assertEquals(255, ArrayComponentOrder.BGRA.readA(arrayBGRA, 0));
 		assertEquals(255, ArrayComponentOrder.BGRA.readA(arrayBGRA, 4));
 		
-		assertEquals(255, ArrayComponentOrder.RGB.readA(arrayRGB, 0));
-		assertEquals(255, ArrayComponentOrder.RGB.readA(arrayRGB, 3));
+		assertEquals(0, ArrayComponentOrder.RGB.readA(arrayRGB, 0));
+		assertEquals(0, ArrayComponentOrder.RGB.readA(arrayRGB, 3));
 		
 		assertEquals(255, ArrayComponentOrder.RGBA.readA(arrayRGBA, 0));
 		assertEquals(255, ArrayComponentOrder.RGBA.readA(arrayRGBA, 4));

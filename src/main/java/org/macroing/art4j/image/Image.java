@@ -1946,7 +1946,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code sourceImage} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage) {
 		return fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
 	}
@@ -1964,10 +1963,13 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code targetPosition} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
 		final Rectangle2I sourceBounds = sourceImage.getBounds();
-		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceBounds.getC().x - sourceBounds.getA().x), targetPosition.y + (sourceBounds.getC().y - sourceBounds.getA().y)));
+		
+		final Point2I sourceMinimum = sourceBounds.min();
+		final Point2I sourceMaximum = sourceBounds.max();
+		
+		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceMaximum.x - sourceMinimum.x), targetPosition.y + (sourceMaximum.y - sourceMinimum.y)));
 		
 		return fillImage(pixelOperator, sourceImage, sourceBounds, targetBounds);
 	}
@@ -1992,7 +1994,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code sourceBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
 		return fillImage(pixelOperator, sourceImage, sourceBounds, getBounds());
 	}
@@ -2011,7 +2012,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(sourceImage, "sourceImage == null");
@@ -2022,20 +2022,25 @@ public final class Image {
 		
 		final Image targetImage = this;
 		
-		final int sourceMinimumX = sourceBounds.getA().x;
-		final int sourceMinimumY = sourceBounds.getA().y;
-		final int sourceMaximumX = sourceBounds.getC().x;
-		final int sourceMaximumY = sourceBounds.getC().y;
-		final int targetMinimumX = targetBounds.getA().x;
-		final int targetMinimumY = targetBounds.getA().y;
-		final int targetMaximumX = targetBounds.getC().x;
-		final int targetMaximumY = targetBounds.getC().y;
+		final Point2I sourceMinimum = sourceBounds.min();
+		final Point2I sourceMaximum = sourceBounds.max();
+		final Point2I targetMinimum = targetBounds.min();
+		final Point2I targetMaximum = targetBounds.max();
+		
+		final int sourceMinimumX = sourceMinimum.x;
+		final int sourceMinimumY = sourceMinimum.y;
+		final int sourceMaximumX = sourceMaximum.x;
+		final int sourceMaximumY = sourceMaximum.y;
+		final int targetMinimumX = targetMinimum.x;
+		final int targetMinimumY = targetMinimum.y;
+		final int targetMaximumX = targetMaximum.x;
+		final int targetMaximumY = targetMaximum.y;
 		
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		for(int sourceY = sourceMinimumY, targetY = targetMinimumY; sourceY < sourceMaximumY && targetY < targetMaximumY; sourceY++, targetY++) {
-			for(int sourceX = sourceMinimumX, targetX = targetMinimumX; sourceX < sourceMaximumX && targetX < targetMaximumX; sourceX++, targetX++) {
+		for(int sourceY = sourceMinimumY, targetY = targetMinimumY; sourceY <= sourceMaximumY & targetY <= targetMaximumY; sourceY++, targetY++) {
+			for(int sourceX = sourceMinimumX, targetX = targetMinimumX; sourceX <= sourceMaximumX & targetX <= targetMaximumX; sourceX++, targetX++) {
 				if(targetX >= 0 && targetX < resolutionX && targetY >= 0 && targetY < resolutionY) {
 					final Color4D sourceColor = sourceImage.getColor4D(sourceX, sourceY);
 					final Color4D targetColor = targetImage.getColor4D(targetX, targetY);
@@ -2071,7 +2076,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code sourceImage} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage) {
 		return fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
 	}
@@ -2089,10 +2093,13 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code targetPosition} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
 		final Rectangle2I sourceBounds = sourceImage.getBounds();
-		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceBounds.getC().x - sourceBounds.getA().x), targetPosition.y + (sourceBounds.getC().y - sourceBounds.getA().y)));
+		
+		final Point2I sourceMinimum = sourceBounds.min();
+		final Point2I sourceMaximum = sourceBounds.max();
+		
+		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceMaximum.x - sourceMinimum.x), targetPosition.y + (sourceMaximum.y - sourceMinimum.y)));
 		
 		return fillImage(pixelOperator, sourceImage, sourceBounds, targetBounds);
 	}
@@ -2117,7 +2124,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code sourceBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
 		return fillImage(pixelOperator, sourceImage, sourceBounds, getBounds());
 	}
@@ -2136,7 +2142,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(sourceImage, "sourceImage == null");
@@ -2147,20 +2152,25 @@ public final class Image {
 		
 		final Image targetImage = this;
 		
-		final int sourceMinimumX = sourceBounds.getA().x;
-		final int sourceMinimumY = sourceBounds.getA().y;
-		final int sourceMaximumX = sourceBounds.getC().x;
-		final int sourceMaximumY = sourceBounds.getC().y;
-		final int targetMinimumX = targetBounds.getA().x;
-		final int targetMinimumY = targetBounds.getA().y;
-		final int targetMaximumX = targetBounds.getC().x;
-		final int targetMaximumY = targetBounds.getC().y;
+		final Point2I sourceMinimum = sourceBounds.min();
+		final Point2I sourceMaximum = sourceBounds.max();
+		final Point2I targetMinimum = targetBounds.min();
+		final Point2I targetMaximum = targetBounds.max();
+		
+		final int sourceMinimumX = sourceMinimum.x;
+		final int sourceMinimumY = sourceMinimum.y;
+		final int sourceMaximumX = sourceMaximum.x;
+		final int sourceMaximumY = sourceMaximum.y;
+		final int targetMinimumX = targetMinimum.x;
+		final int targetMinimumY = targetMinimum.y;
+		final int targetMaximumX = targetMaximum.x;
+		final int targetMaximumY = targetMaximum.y;
 		
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
-		for(int sourceY = sourceMinimumY, targetY = targetMinimumY; sourceY < sourceMaximumY && targetY < targetMaximumY; sourceY++, targetY++) {
-			for(int sourceX = sourceMinimumX, targetX = targetMinimumX; sourceX < sourceMaximumX && targetX < targetMaximumX; sourceX++, targetX++) {
+		for(int sourceY = sourceMinimumY, targetY = targetMinimumY; sourceY <= sourceMaximumY & targetY <= targetMaximumY; sourceY++, targetY++) {
+			for(int sourceX = sourceMinimumX, targetX = targetMinimumX; sourceX <= sourceMaximumX & targetX <= targetMaximumX; sourceX++, targetX++) {
 				if(targetX >= 0 && targetX < resolutionX && targetY >= 0 && targetY < resolutionY) {
 					final Color4F sourceColor = sourceImage.getColor4F(sourceX, sourceY);
 					final Color4F targetColor = targetImage.getColor4F(targetX, targetY);
@@ -4619,7 +4629,6 @@ public final class Image {
 	 * 
 	 * @return an {@code int[]} representation of this {@code Image} instance in a packed form
 	 */
-//	TODO: Add Unit Tests!
 	public int[] toIntArrayPackedForm() {
 		return toIntArrayPackedForm(PackedIntComponentOrder.ARGB);
 	}
@@ -4633,7 +4642,6 @@ public final class Image {
 	 * @return an {@code int[]} representation of this {@code Image} instance in a packed form
 	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public int[] toIntArrayPackedForm(final PackedIntComponentOrder packedIntComponentOrder) {
 		return packedIntComponentOrder.pack(ArrayComponentOrder.RGBA, toIntArray());
 	}

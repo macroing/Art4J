@@ -429,7 +429,7 @@ public enum ArrayComponentOrder {
 	}
 	
 	/**
-	 * Returns an {@code int} with the A-component, or {@code 255} if it does not have an offset for the A-component.
+	 * Returns an {@code int} with the A-component, or {@code 0} if it does not have an offset for the A-component.
 	 * <p>
 	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -437,16 +437,16 @@ public enum ArrayComponentOrder {
 	 * 
 	 * @param array the array to read from
 	 * @param offset the absolute offset in the array to read from
-	 * @return an {@code int} with the A-component, or {@code 255} if it does not have an offset for the A-component
+	 * @return an {@code int} with the A-component, or {@code 0} if it does not have an offset for the A-component
 	 * @throws ArrayIndexOutOfBoundsException thrown if, and only if, {@code offset + getOffsetA()} is less than {@code 0}, or greater than or equal to {@code array.length}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
 	public int readA(final int[] array, final int offset) {
-		return hasOffsetA() ? array[offset + getOffsetA()] & 0xFF : 255;
+		return hasOffsetA() ? array[offset + getOffsetA()] & 0xFF : 0;
 	}
 	
 	/**
-	 * Returns an {@code int} with the A-component, or {@code 255} if it does not have an offset for the A-component.
+	 * Returns an {@code int} with the A-component, or {@code 0} if it does not have an offset for the A-component.
 	 * <p>
 	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -454,7 +454,7 @@ public enum ArrayComponentOrder {
 	 * 
 	 * @param array the array to read from
 	 * @param offset the absolute offset in the array to read from
-	 * @return an {@code int} with the A-component, or {@code 255} if it does not have an offset for the A-component
+	 * @return an {@code int} with the A-component, or {@code 0} if it does not have an offset for the A-component
 	 * @throws ArrayIndexOutOfBoundsException thrown if, and only if, {@code offset + getOffsetA()} is less than {@code 0}, or greater than or equal to {@code array.length}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
