@@ -2807,7 +2807,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillSobel(final Color4DPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -2872,7 +2871,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image fillSobel(final Color4FPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -3297,7 +3295,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code imageXYZ} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleRenderColor3D(final Image imageXYZ) {
 		Objects.requireNonNull(imageXYZ, "imageXYZ == null");
 		
@@ -3341,7 +3338,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code imageXYZ} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleRenderColor3F(final Image imageXYZ) {
 		Objects.requireNonNull(imageXYZ, "imageXYZ == null");
 		

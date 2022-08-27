@@ -50,8 +50,10 @@ import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
+import org.macroing.art4j.pixel.Color4DPixelFilter;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
 import org.macroing.art4j.pixel.Color4FBiPixelOperator;
+import org.macroing.art4j.pixel.Color4FPixelFilter;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
 import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
 import org.macroing.art4j.pixel.PixelTransformer;
@@ -2680,6 +2682,100 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testFillSobelColor4DPixelFilter() {
+		final
+		Image image = new Image(3, 3, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillSobel((final Color4D color, final int x, final int y) -> x == 1 && y == 1);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 1 && y == 1) {
+					assertEquals(Color4D.BLACK, image.getColor4D(x, y));
+				} else {
+					assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.fillSobel((final Color4D color, final int x, final int y) -> true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 1 && y == 1) {
+					assertEquals(Color4D.BLACK, image.getColor4D(x, y));
+				} else {
+					assertNotEquals(Color4D.WHITE, image.getColor4D(x, y));
+				}
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillSobel((Color4DPixelFilter)(null)));
+	}
+	
+	@Test
+	public void testFillSobelColor4FPixelFilter() {
+		final
+		Image image = new Image(3, 3, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillSobel((final Color4F color, final int x, final int y) -> x == 1 && y == 1);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 1 && y == 1) {
+					assertEquals(Color4F.BLACK, image.getColor4F(x, y));
+				} else {
+					assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.fillSobel((final Color4F color, final int x, final int y) -> true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				if(x == 1 && y == 1) {
+					assertEquals(Color4F.BLACK, image.getColor4F(x, y));
+				} else {
+					assertNotEquals(Color4F.WHITE, image.getColor4F(x, y));
+				}
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.fillSobel((Color4FPixelFilter)(null)));
+	}
+	
+	@Test
 	public void testFindBoundsFor() {
 		final Image a = new Image(4, 4);
 		final Image b = new Image(2, 2);
@@ -3564,6 +3660,84 @@ public final class ImageUnitTests {
 		
 		assertEquals(7, image.getResolutionX());
 		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testSampleRenderColor3D() {
+		final
+		Image image = new Image(5, 5, Color4D.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.sampleRenderColor3D(new Image(5, 5, Color4D.BLACK));
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.BLACK, image.getColor4D(x, y));
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		image.sampleRenderColor3D(new Image(5, 5, Color4D.TRANSPARENT));
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.BLACK, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleRenderColor3D(null));
+	}
+	
+	@Test
+	public void testSampleRenderColor3F() {
+		final
+		Image image = new Image(5, 5, Color4F.WHITE);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.sampleRenderColor3F(new Image(5, 5, Color4F.BLACK));
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.BLACK, image.getColor4F(x, y));
+			}
+		}
+		
+		assertTrue(image.undo());
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		image.sampleRenderColor3F(new Image(5, 5, Color4F.TRANSPARENT));
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.BLACK, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleRenderColor3F(null));
 	}
 	
 	@Test
