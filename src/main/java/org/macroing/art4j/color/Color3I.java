@@ -18,9 +18,14 @@
  */
 package org.macroing.art4j.color;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.IntFunction;
 
 import org.macroing.java.lang.Ints;
 import org.macroing.java.util.Randoms;
@@ -608,6 +613,28 @@ public final class Color3I {
 		return toIntRGB(this.r, this.g, this.b);
 	}
 	
+	/**
+	 * Writes this {@code Color3I} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeInt(this.r);
+			dataOutput.writeInt(this.g);
+			dataOutput.writeInt(this.b);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -1136,6 +1163,76 @@ public final class Color3I {
 	}
 	
 	/**
+	 * Returns a new {@code Color3I} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a new {@code Color3I} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3I read(final DataInput dataInput) {
+		try {
+			final int r = dataInput.readInt();
+			final int g = dataInput.readInt();
+			final int b = dataInput.readInt();
+			
+			return new Color3I(r, g, b);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [0, 255]}.
+	 * <p>
+	 * Returns a new {@code Color3I} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3I.saturate(color, 0, 255);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3I} instance
+	 * @return a new {@code Color3I} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3I saturate(final Color3I color) {
+		return saturate(color, 0, 255);
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [Ints.min(componentMinMax, componentMaxMin), Ints.max(componentMinMax, componentMaxMin)]}.
+	 * <p>
+	 * Returns a new {@code Color3I} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3I} instance
+	 * @param componentMinMax the minimum or maximum component value
+	 * @param componentMaxMin the maximum or minimum component value
+	 * @return a new {@code Color3I} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3I saturate(final Color3I color, final int componentMinMax, final int componentMaxMin) {
+		final int r = Ints.saturate(color.r, componentMinMax, componentMaxMin);
+		final int g = Ints.saturate(color.g, componentMinMax, componentMaxMin);
+		final int b = Ints.saturate(color.b, componentMinMax, componentMaxMin);
+		
+		return new Color3I(r, g, b);
+	}
+	
+	/**
 	 * Converts {@code color} to its sepia-representation.
 	 * <p>
 	 * Returns a new {@code Color3I} instance with the result of the operation.
@@ -1152,6 +1249,53 @@ public final class Color3I {
 		final int b = (int)(color.r * 0.272D + color.g * 0.534D + color.b * 0.131D);
 		
 		return new Color3I(r, g, b);
+	}
+	
+	/**
+	 * Returns a {@code Color3I[]} with a length of {@code length} and contains {@code Color3I.BLACK}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3I.array(length, index -> Color3I.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param length the length of the array
+	 * @return a {@code Color3I[]} with a length of {@code length} and contains {@code Color3I.BLACK}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3I[] array(final int length) {
+		return array(length, index -> BLACK);
+	}
+	
+	/**
+	 * Returns a {@code Color3I[]} with a length of {@code length} and contains {@code Color3I} instances produced by {@code function}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code function} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param length the length of the array
+	 * @param function an {@code IntFunction}
+	 * @return a {@code Color3I[]} with a length of {@code length} and contains {@code Color3I} instances produced by {@code function}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3I[] array(final int length, final IntFunction<Color3I> function) {
+		final Color3I[] colors = new Color3I[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
+		
+		Objects.requireNonNull(function, "function == null");
+		
+		for(int i = 0; i < colors.length; i++) {
+			colors[i] = Objects.requireNonNull(function.apply(i));
+		}
+		
+		return colors;
 	}
 	
 	/**

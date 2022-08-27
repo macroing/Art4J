@@ -41,7 +41,7 @@ The following table describes the different APIs and their current status in the
 
 | Name               | Javadoc | Unit Test | Package                           |
 | ------------------ | ------- | --------- | --------------------------------- |
-| Color API          | 100.0%  | 100.0%    | org.macroing.art4j.color          |
+| Color API          | 100.0%  |  85.8%    | org.macroing.art4j.color          |
 | Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve          |
 | Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data           |
 | Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter         |

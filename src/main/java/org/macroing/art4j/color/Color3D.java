@@ -18,9 +18,14 @@
  */
 package org.macroing.art4j.color;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.IntFunction;
 
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
@@ -571,6 +576,28 @@ public final class Color3D {
 	 */
 	public int toIntRGB() {
 		return toIntRGB(this.r, this.g, this.b);
+	}
+	
+	/**
+	 * Writes this {@code Color3D} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeDouble(this.r);
+			dataOutput.writeDouble(this.g);
+			dataOutput.writeDouble(this.b);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1185,6 +1212,94 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Multiplies the component values of {@code colorLHS} with the component values of {@code colorRHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiply(final Color3D colorLHS, final Color3D colorRHS) {
+		final double r = colorLHS.r * colorRHS.r;
+		final double g = colorLHS.g * colorRHS.g;
+		final double b = colorLHS.b * colorRHS.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code colorA}, {@code colorB} and {@code colorC}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @param colorC a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final Color3D colorC) {
+		final double r = colorA.r * colorB.r * colorC.r;
+		final double g = colorA.g * colorB.g * colorC.g;
+		final double b = colorA.b * colorB.b * colorC.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code colorA}, {@code colorB}, {@code colorC} and {@code colorD}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code colorA}, {@code colorB}, {@code colorC} or {@code colorD} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @param colorC a {@code Color3D} instance
+	 * @param colorD a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB}, {@code colorC} or {@code colorD} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final Color3D colorC, final Color3D colorD) {
+		final double r = colorA.r * colorB.r * colorC.r * colorD.r;
+		final double g = colorA.g * colorB.g * colorC.g * colorD.g;
+		final double b = colorA.b * colorB.b * colorC.b * colorD.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code colorA} with the component values of {@code colorB} and its result with {@code scalarC}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @param scalarC a scalar value
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final float scalarC) {
+		final double r = colorA.r * colorB.r * scalarC;
+		final double g = colorA.g * colorB.g * scalarC;
+		final double b = colorA.b * colorB.b * scalarC;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
 	 * Multiplies the component values of {@code colorLHS} with {@code scalarRHS}.
 	 * <p>
 	 * Returns a new {@code Color3D} instance with the result of the multiplication.
@@ -1202,6 +1317,97 @@ public final class Color3D {
 		final double b = colorLHS.b * scalarRHS;
 		
 		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code colorLHS} with {@code scalarRHS} and saturates or clamps all negative component values.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D multiplyAndSaturateNegative(final Color3D colorLHS, final double scalarRHS) {
+		final double r = Doubles.max(colorLHS.r * scalarRHS, 0.0D);
+		final double g = Doubles.max(colorLHS.g * scalarRHS, 0.0D);
+		final double b = Doubles.max(colorLHS.b * scalarRHS, 0.0D);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Negates the component values of {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the negation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D negate(final Color3D color) {
+		final double r = -color.r;
+		final double g = -color.g;
+		final double b = -color.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Normalizes the component values of {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the normalization.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the normalization
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D normalize(final Color3D color) {
+		final double sum = color.r + color.g + color.b;
+		
+		if(sum < 0.000001D) {
+			return color;
+		}
+		
+		final double sumReciprocal = 1.0D / sum;
+		
+		final double r = color.r * sumReciprocal;
+		final double g = color.g * sumReciprocal;
+		final double b = color.b * sumReciprocal;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Normalizes the component values of {@code color} based on its relative luminance.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the normalization.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the normalization
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D normalizeRelativeLuminance(final Color3D color) {
+		final double relativeLuminance = color.relativeLuminance();
+		
+		if(relativeLuminance > 0.0D) {
+			return divide(color, relativeLuminance);
+		}
+		
+		return WHITE;
 	}
 	
 	/**
@@ -1413,6 +1619,76 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Returns a new {@code Color3D} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a new {@code Color3D} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D read(final DataInput dataInput) {
+		try {
+			final double r = dataInput.readDouble();
+			final double g = dataInput.readDouble();
+			final double b = dataInput.readDouble();
+			
+			return new Color3D(r, g, b);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [0.0D, 1.0D]}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.saturate(color, 0.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D saturate(final Color3D color) {
+		return saturate(color, 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [Doubles.min(componentMinMax, componentMaxMin), Doubles.max(componentMinMax, componentMaxMin)]}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param componentMinMax the minimum or maximum component value
+	 * @param componentMaxMin the maximum or minimum component value
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D saturate(final Color3D color, final double componentMinMax, final double componentMaxMin) {
+		final double r = Doubles.saturate(color.r, componentMinMax, componentMaxMin);
+		final double g = Doubles.saturate(color.g, componentMinMax, componentMaxMin);
+		final double b = Doubles.saturate(color.b, componentMinMax, componentMaxMin);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
 	 * Converts {@code color} to its sepia-representation.
 	 * <p>
 	 * Returns a new {@code Color3D} instance with the result of the operation.
@@ -1429,6 +1705,386 @@ public final class Color3D {
 		final double b = color.r * 0.272D + color.g * 0.534D + color.b * 0.131D;
 		
 		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Returns a {@code Color3D} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @return a {@code Color3D} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D sqrt(final Color3D color) {
+		final double r = Doubles.sqrt(color.r);
+		final double g = Doubles.sqrt(color.g);
+		final double b = Doubles.sqrt(color.b);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Subtracts the component values of {@code colorRHS} from the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the subtraction.
+	 * <p>
+	 * If either {@code colorLHS} or {@code colorRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param colorRHS the {@code Color3D} instance on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D subtract(final Color3D colorLHS, final Color3D colorRHS) {
+		final double r = colorLHS.r - colorRHS.r;
+		final double g = colorLHS.g - colorRHS.g;
+		final double b = colorLHS.b - colorRHS.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Subtracts the component values of {@code colorB} from the component values of {@code colorA} and the component values of {@code colorC} from the previous result.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the subtraction.
+	 * <p>
+	 * If either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @param colorC a {@code Color3D} instance
+	 * @return a new {@code Color3D} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D subtract(final Color3D colorA, final Color3D colorB, final Color3D colorC) {
+		final double r = colorA.r - colorB.r - colorC.r;
+		final double g = colorA.g - colorB.g - colorC.g;
+		final double b = colorA.b - colorB.b - colorC.b;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Subtracts the component values of {@code colorB} from the component values of {@code colorA} and {@code valueC} from the previous result.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the subtraction.
+	 * <p>
+	 * If either {@code colorA} or {@code colorB} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorA a {@code Color3D} instance
+	 * @param colorB a {@code Color3D} instance
+	 * @param valueC a {@code double} value
+	 * @return a new {@code Color3D} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D subtract(final Color3D colorA, final Color3D colorB, final double valueC) {
+		final double r = colorA.r - colorB.r - valueC;
+		final double g = colorA.g - colorB.g - valueC;
+		final double b = colorA.b - colorB.b - valueC;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Subtracts {@code scalarRHS} from the component values of {@code colorLHS}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the subtraction.
+	 * <p>
+	 * If {@code colorLHS} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param colorLHS the {@code Color3D} instance on the left-hand side
+	 * @param scalarRHS the scalar value on the right-hand side
+	 * @return a new {@code Color3D} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D subtract(final Color3D colorLHS, final double scalarRHS) {
+		final double r = colorLHS.r - scalarRHS;
+		final double g = colorLHS.g - scalarRHS;
+		final double b = colorLHS.b - scalarRHS;
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
+	 * Applies a filmic curve tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.toneMapFilmicCurve(color, exposure, a, b, c, d, e, 0.0D, -Double.MAX_VALUE);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @param a a {@code double} value for the filmic curve itself
+	 * @param b a {@code double} value for the filmic curve itself
+	 * @param c a {@code double} value for the filmic curve itself
+	 * @param d a {@code double} value for the filmic curve itself
+	 * @param e a {@code double} value for the filmic curve itself
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapFilmicCurve(final Color3D color, final double exposure, final double a, final double b, final double c, final double d, final double e) {
+		return toneMapFilmicCurve(color, exposure, a, b, c, d, e, 0.0D, -Double.MAX_VALUE);
+	}
+	
+	/**
+	 * Applies a filmic curve tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method is implemented in the following way for each component:
+	 * <pre>
+	 * {@code
+	 * double r1 = Doubles.max(color.r * exposure - subtract, minimum);
+	 * double r2 = Doubles.saturate((r1 * (a * r1 + b)) / (r1 * (c * r1 + d) + e));
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @param a a {@code double} value for the filmic curve itself
+	 * @param b a {@code double} value for the filmic curve itself
+	 * @param c a {@code double} value for the filmic curve itself
+	 * @param d a {@code double} value for the filmic curve itself
+	 * @param e a {@code double} value for the filmic curve itself
+	 * @param subtract a value to subtract from the component values when they have been multiplied by {@code exposure}
+	 * @param minimum the minimum component value allowed
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapFilmicCurve(final Color3D color, final double exposure, final double a, final double b, final double c, final double d, final double e, final double subtract, final double minimum) {
+		final double r1 = Doubles.max(color.r * exposure - subtract, minimum);
+		final double g1 = Doubles.max(color.g * exposure - subtract, minimum);
+		final double b1 = Doubles.max(color.b * exposure - subtract, minimum);
+		
+		final double r2 = Doubles.saturate((r1 * (a * r1 + b)) / (r1 * (c * r1 + d) + e));
+		final double g2 = Doubles.saturate((g1 * (a * g1 + b)) / (g1 * (c * g1 + d) + e));
+		final double b2 = Doubles.saturate((b1 * (a * b1 + b)) / (b1 * (c * b1 + d) + e));
+		
+		return new Color3D(r2, g2, b2);
+	}
+	
+	/**
+	 * Applies a modified ACES filmic curve tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.toneMapFilmicCurve(color, exposure, 2.51D, 0.03D, 2.43D, 0.59D, 0.14D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapFilmicCurveACESModifiedVersion1(final Color3D color, final double exposure) {
+//		Source: https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
+		return toneMapFilmicCurve(color, exposure, 2.51D, 0.03D, 2.43D, 0.59D, 0.14D);
+	}
+	
+	/**
+	 * Applies a filmic curve tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This tone map operator also performs gamma correction with a gamma of 2.2.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.toneMapFilmicCurve(color, exposure, 6.2D, 0.5D, 6.2D, 1.7D, 0.06D, 0.004D, 0.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapFilmicCurveGammaCorrection22(final Color3D color, final double exposure) {
+//		Source: http://filmicworlds.com/blog/why-a-filmic-curve-saturates-your-blacks/
+		return toneMapFilmicCurve(color, exposure, 6.2D, 0.5D, 6.2D, 1.7D, 0.06D, 0.004D, 0.0D);
+	}
+	
+	/**
+	 * Applies a Reinhard tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapReinhard(final Color3D color, final double exposure) {
+//		Source: https://www.shadertoy.com/view/WdjSW3
+		
+		final double r1 = color.r * exposure;
+		final double g1 = color.g * exposure;
+		final double b1 = color.b * exposure;
+		
+		final double r2 = r1 / (1.0D + r1);
+		final double g2 = g1 / (1.0D + g1);
+		final double b2 = b1 / (1.0D + b1);
+		
+		return new Color3D(r2, g2, b2);
+	}
+	
+	/**
+	 * Applies a modified Reinhard tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapReinhardModifiedVersion1(final Color3D color, final double exposure) {
+//		Source: https://www.shadertoy.com/view/WdjSW3
+		
+		final double lWhite = 4.0D;
+		
+		final double r1 = color.r * exposure;
+		final double g1 = color.g * exposure;
+		final double b1 = color.b * exposure;
+		
+		final double r2 = r1 * (1.0D + r1 / (lWhite * lWhite)) / (1.0D + r1);
+		final double g2 = g1 * (1.0D + g1 / (lWhite * lWhite)) / (1.0D + g1);
+		final double b2 = b1 * (1.0D + b1 / (lWhite * lWhite)) / (1.0D + b1);
+		
+		return new Color3D(r2, g2, b2);
+	}
+	
+	/**
+	 * Applies a modified Reinhard tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapReinhardModifiedVersion2(final Color3D color, final double exposure) {
+		final double r1 = color.r * exposure;
+		final double g1 = color.g * exposure;
+		final double b1 = color.b * exposure;
+		
+		final double r2 = 1.0F - Doubles.exp(-r1 * exposure);
+		final double g2 = 1.0F - Doubles.exp(-g1 * exposure);
+		final double b2 = 1.0F - Doubles.exp(-b1 * exposure);
+		
+		return new Color3D(r2, g2, b2);
+	}
+	
+	/**
+	 * Applies an Unreal 3 tone map operator to {@code color}.
+	 * <p>
+	 * Returns a new {@code Color3D} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color3D} instance
+	 * @param exposure the exposure to use
+	 * @return a new {@code Color3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D toneMapUnreal3(final Color3D color, final double exposure) {
+//		Source: https://www.shadertoy.com/view/WdjSW3
+		
+		final double r1 = color.r * exposure;
+		final double g1 = color.g * exposure;
+		final double b1 = color.b * exposure;
+		
+		final double r2 = r1 / (r1 + 0.155D) * 1.019D;
+		final double g2 = g1 / (g1 + 0.155D) * 1.019D;
+		final double b2 = b1 / (b1 + 0.155D) * 1.019D;
+		
+		return new Color3D(r2, g2, b2);
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D.BLACK}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.array(length, index -> Color3D.BLACK);
+	 * }
+	 * </pre>
+	 * 
+	 * @param length the length of the array
+	 * @return a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D.BLACK}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D[] array(final int length) {
+		return array(length, index -> BLACK);
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D} instances produced by {@code function}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code function} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param length the length of the array
+	 * @param function an {@code IntFunction}
+	 * @return a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D} instances produced by {@code function}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color3D[] array(final int length, final IntFunction<Color3D> function) {
+		final Color3D[] colors = new Color3D[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
+		
+		Objects.requireNonNull(function, "function == null");
+		
+		for(int i = 0; i < colors.length; i++) {
+			colors[i] = Objects.requireNonNull(function.apply(i));
+		}
+		
+		return colors;
 	}
 	
 	/**

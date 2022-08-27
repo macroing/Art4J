@@ -18,9 +18,14 @@
  */
 package org.macroing.art4j.color;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.IntFunction;
 
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
@@ -687,6 +692,29 @@ public final class Color4F {
 		return toIntRGB(this.r, this.g, this.b);
 	}
 	
+	/**
+	 * Writes this {@code Color4F} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeFloat(this.r);
+			dataOutput.writeFloat(this.g);
+			dataOutput.writeFloat(this.b);
+			dataOutput.writeFloat(this.a);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
@@ -1259,6 +1287,78 @@ public final class Color4F {
 	}
 	
 	/**
+	 * Returns a new {@code Color4F} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a new {@code Color4F} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F read(final DataInput dataInput) {
+		try {
+			final float r = dataInput.readFloat();
+			final float g = dataInput.readFloat();
+			final float b = dataInput.readFloat();
+			final float a = dataInput.readFloat();
+			
+			return new Color4F(r, g, b, a);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [0.0F, 1.0F]}.
+	 * <p>
+	 * Returns a new {@code Color4F} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4F.saturate(color, 0.0F, 1.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color a {@code Color4F} instance
+	 * @return a new {@code Color4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F saturate(final Color4F color) {
+		return saturate(color, 0.0F, 1.0F);
+	}
+	
+	/**
+	 * Saturates or clamps {@code color} to the range {@code [Floats.min(componentMinMax, componentMaxMin), Floats.max(componentMinMax, componentMaxMin)]}.
+	 * <p>
+	 * Returns a new {@code Color4F} instance with the result of the operation.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4F} instance
+	 * @param componentMinMax the minimum or maximum component value
+	 * @param componentMaxMin the maximum or minimum component value
+	 * @return a new {@code Color4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F saturate(final Color4F color, final float componentMinMax, final float componentMaxMin) {
+		final float r = Floats.saturate(color.r, componentMinMax, componentMaxMin);
+		final float g = Floats.saturate(color.g, componentMinMax, componentMaxMin);
+		final float b = Floats.saturate(color.b, componentMinMax, componentMaxMin);
+		final float a = Floats.saturate(color.a, componentMinMax, componentMaxMin);
+		
+		return new Color4F(r, g, b, a);
+	}
+	
+	/**
 	 * Converts {@code color} to its sepia-representation.
 	 * <p>
 	 * Returns a new {@code Color4F} instance with the result of the operation.
@@ -1276,6 +1376,72 @@ public final class Color4F {
 		final float a = color.a;
 		
 		return new Color4F(r, g, b, a);
+	}
+	
+	/**
+	 * Returns a {@code Color4F} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}.
+	 * <p>
+	 * If {@code color} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color a {@code Color4F} instance
+	 * @return a {@code Color4F} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
+	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F sqrt(final Color4F color) {
+		final float r = Floats.sqrt(color.r);
+		final float g = Floats.sqrt(color.g);
+		final float b = Floats.sqrt(color.b);
+		final float a = Floats.sqrt(color.a);
+		
+		return new Color4F(r, g, b, a);
+	}
+	
+	/**
+	 * Returns a {@code Color4F[]} with a length of {@code length} and contains {@code Color4F.TRANSPARENT}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4F.array(length, index -> Color4F.TRANSPARENT);
+	 * }
+	 * </pre>
+	 * 
+	 * @param length the length of the array
+	 * @return a {@code Color4F[]} with a length of {@code length} and contains {@code Color4F.TRANSPARENT}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F[] array(final int length) {
+		return array(length, index -> TRANSPARENT);
+	}
+	
+	/**
+	 * Returns a {@code Color4F[]} with a length of {@code length} and contains {@code Color4F} instances produced by {@code function}.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * If {@code function} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param length the length of the array
+	 * @param function an {@code IntFunction}
+	 * @return a {@code Color4F[]} with a length of {@code length} and contains {@code Color4F} instances produced by {@code function}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4F[] array(final int length, final IntFunction<Color4F> function) {
+		final Color4F[] colors = new Color4F[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
+		
+		Objects.requireNonNull(function, "function == null");
+		
+		for(int i = 0; i < colors.length; i++) {
+			colors[i] = Objects.requireNonNull(function.apply(i));
+		}
+		
+		return colors;
 	}
 	
 	/**
