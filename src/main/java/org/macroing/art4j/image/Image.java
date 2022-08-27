@@ -1436,7 +1436,7 @@ public final class Image {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
-		final int[] indices = doFilter(pixelFilter);
+		final int[] indices = doFilterD(pixelFilter);
 		
 		this.data.convolve(convolutionKernel, indices);
 		
@@ -1481,7 +1481,7 @@ public final class Image {
 		Objects.requireNonNull(convolutionKernel, "convolutionKernel == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
-		final int[] indices = doFilter(pixelFilter);
+		final int[] indices = doFilterF(pixelFilter);
 		
 		this.data.convolve(convolutionKernel, indices);
 		
@@ -1609,7 +1609,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShape(shape, (Color4D currentColor, int x, int y) -> color);
+	 * image.drawShapeD(shape, (currentColor, x, y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -1618,11 +1618,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image drawShape(final Shape2I shape, final Color4D color) {
+	public Image drawShapeD(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
+		return drawShapeD(shape, (currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -1637,7 +1637,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image drawShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
+	public Image drawShapeD(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -1660,7 +1660,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.drawShape(shape, (Color4F currentColor, int x, int y) -> color);
+	 * image.drawShapeF(shape, (currentColor, x, y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -1669,11 +1669,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image drawShape(final Shape2I shape, final Color4F color) {
+	public Image drawShapeF(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return drawShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
+		return drawShapeF(shape, (currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -1688,7 +1688,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image drawShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+	public Image drawShapeF(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -1712,10 +1712,10 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public Image fill(final Color4D color) {
+	public Image fillD(final Color4D color) {
 		Objects.requireNonNull(color, "color == null");
 		
-		return fill((final Color4D currentColor, final int x, final int y) -> color);
+		return fillD((currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -1728,7 +1728,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fill(pixelOperator, (Color4D color, int x, int y) -> true);
+	 * image.fillD(pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -1736,8 +1736,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
-	public Image fill(final Color4DPixelOperator pixelOperator) {
-		return fill(pixelOperator, (final Color4D color, final int x, final int y) -> true);
+	public Image fillD(final Color4DPixelOperator pixelOperator) {
+		return fillD(pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -1752,7 +1752,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fill(final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
+	public Image fillD(final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -1789,10 +1789,10 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-	public Image fill(final Color4F color) {
+	public Image fillF(final Color4F color) {
 		Objects.requireNonNull(color, "color == null");
 		
-		return fill((final Color4F currentColor, final int x, final int y) -> color);
+		return fillF((currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -1805,7 +1805,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fill(operator, (Color4F color, int x, int y) -> true);
+	 * image.fillF(operator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -1813,8 +1813,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
 	 */
-	public Image fill(final Color4FPixelOperator pixelOperator) {
-		return fill(pixelOperator, (final Color4F color, final int x, final int y) -> true);
+	public Image fillF(final Color4FPixelOperator pixelOperator) {
+		return fillF(pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -1829,7 +1829,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fill(final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
+	public Image fillF(final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -1865,7 +1865,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fill(operator, (color, x, y) -> true);
+	 * image.fillI(operator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -1873,8 +1873,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
-	public Image fill(final PackedIntARGBPixelOperator pixelOperator) {
-		return fill(pixelOperator, (color, x, y) -> true);
+	public Image fillI(final PackedIntARGBPixelOperator pixelOperator) {
+		return fillI(pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -1889,7 +1889,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-	public Image fill(final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
+	public Image fillI(final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
@@ -1923,8 +1923,8 @@ public final class Image {
 	 * @param color the color to fill with
 	 * @return this {@code Image} instance
 	 */
-	public Image fill(final int color) {
-		return fill((final int currentColor, final int x, final int y) -> color);
+	public Image fillI(final int color) {
+		return fillI((currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -1937,7 +1937,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
+	 * image.fillImageD(pixelOperator, sourceImage, sourceImage.getBounds());
 	 * }
 	 * </pre>
 	 * 
@@ -1946,8 +1946,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code sourceImage} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage) {
-		return fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
+	public Image fillImageD(final Color4DBiPixelOperator pixelOperator, final Image sourceImage) {
+		return fillImageD(pixelOperator, sourceImage, sourceImage.getBounds());
 	}
 	
 	/**
@@ -1963,7 +1963,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code targetPosition} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
+	public Image fillImageD(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
 		final Rectangle2I sourceBounds = sourceImage.getBounds();
 		
 		final Point2I sourceMinimum = sourceBounds.min();
@@ -1971,7 +1971,7 @@ public final class Image {
 		
 		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceMaximum.x - sourceMinimum.x), targetPosition.y + (sourceMaximum.y - sourceMinimum.y)));
 		
-		return fillImage(pixelOperator, sourceImage, sourceBounds, targetBounds);
+		return fillImageD(pixelOperator, sourceImage, sourceBounds, targetBounds);
 	}
 	
 	/**
@@ -1984,7 +1984,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillImage(pixelOperator, sourceImage, sourceBounds, image.getBounds());
+	 * image.fillImageD(pixelOperator, sourceImage, sourceBounds, image.getBounds());
 	 * }
 	 * </pre>
 	 * 
@@ -1994,8 +1994,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code sourceBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
-		return fillImage(pixelOperator, sourceImage, sourceBounds, getBounds());
+	public Image fillImageD(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
+		return fillImageD(pixelOperator, sourceImage, sourceBounds, getBounds());
 	}
 	
 	/**
@@ -2012,7 +2012,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
+	public Image fillImageD(final Color4DBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(sourceImage, "sourceImage == null");
 		Objects.requireNonNull(sourceBounds, "sourceBounds == null");
@@ -2067,7 +2067,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
+	 * image.fillImageF(pixelOperator, sourceImage, sourceImage.getBounds());
 	 * }
 	 * </pre>
 	 * 
@@ -2076,8 +2076,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code sourceImage} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage) {
-		return fillImage(pixelOperator, sourceImage, sourceImage.getBounds());
+	public Image fillImageF(final Color4FBiPixelOperator pixelOperator, final Image sourceImage) {
+		return fillImageF(pixelOperator, sourceImage, sourceImage.getBounds());
 	}
 	
 	/**
@@ -2093,7 +2093,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code targetPosition} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
+	public Image fillImageF(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Point2I targetPosition) {
 		final Rectangle2I sourceBounds = sourceImage.getBounds();
 		
 		final Point2I sourceMinimum = sourceBounds.min();
@@ -2101,7 +2101,7 @@ public final class Image {
 		
 		final Rectangle2I targetBounds = new Rectangle2I(targetPosition, new Point2I(targetPosition.x + (sourceMaximum.x - sourceMinimum.x), targetPosition.y + (sourceMaximum.y - sourceMinimum.y)));
 		
-		return fillImage(pixelOperator, sourceImage, sourceBounds, targetBounds);
+		return fillImageF(pixelOperator, sourceImage, sourceBounds, targetBounds);
 	}
 	
 	/**
@@ -2114,7 +2114,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillImage(pixelOperator, sourceImage, sourceBounds, image.getBounds());
+	 * image.fillImageF(pixelOperator, sourceImage, sourceBounds, image.getBounds());
 	 * }
 	 * </pre>
 	 * 
@@ -2124,8 +2124,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage} or {@code sourceBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
-		return fillImage(pixelOperator, sourceImage, sourceBounds, getBounds());
+	public Image fillImageF(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds) {
+		return fillImageF(pixelOperator, sourceImage, sourceBounds, getBounds());
 	}
 	
 	/**
@@ -2142,7 +2142,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator}, {@code sourceImage}, {@code sourceBounds} or {@code targetBounds} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillImage(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
+	public Image fillImageF(final Color4FBiPixelOperator pixelOperator, final Image sourceImage, final Rectangle2I sourceBounds, final Rectangle2I targetBounds) {
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		Objects.requireNonNull(sourceImage, "sourceImage == null");
 		Objects.requireNonNull(sourceBounds, "sourceBounds == null");
@@ -2199,7 +2199,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point, pixelOperator, (color, x, y) -> true);
+	 * image.fillRegionD(point, pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -2208,8 +2208,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator) {
-		return fillRegion(point, pixelOperator, (color, x, y) -> true);
+	public Image fillRegionD(final Point2I point, final Color4DPixelOperator pixelOperator) {
+		return fillRegionD(point, pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -2224,7 +2224,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	 * image.fillRegionD(point.x, point.y, pixelOperator, pixelFilter);
 	 * }
 	 * </pre>
 	 * 
@@ -2234,8 +2234,60 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
-		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	public Image fillRegionD(final Point2I point, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
+		return fillRegionD(point.x, point.y, pixelOperator, pixelFilter);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegionD(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
+	 */
+	public Image fillRegionD(final int x, final int y, final Color4DPixelOperator pixelOperator) {
+		return fillRegionD(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+	public Image fillRegionD(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
+		this.data.changeBegin();
+		
+		doFillRegionD(x, y, pixelOperator, pixelFilter, getColor4D(x, y));
+		
+		this.data.changeEnd();
+		
+		return this;
 	}
 	
 	/**
@@ -2250,7 +2302,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point, pixelOperator, (color, x, y) -> true);
+	 * image.fillRegionF(point, pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -2259,8 +2311,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator) {
-		return fillRegion(point, pixelOperator, (color, x, y) -> true);
+	public Image fillRegionF(final Point2I point, final Color4FPixelOperator pixelOperator) {
+		return fillRegionF(point, pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -2275,7 +2327,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	 * image.fillRegionF(point.x, point.y, pixelOperator, pixelFilter);
 	 * }
 	 * </pre>
 	 * 
@@ -2285,8 +2337,60 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
-		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	public Image fillRegionF(final Point2I point, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
+		return fillRegionF(point.x, point.y, pixelOperator, pixelFilter);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * image.fillRegionF(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
+	 */
+	public Image fillRegionF(final int x, final int y, final Color4FPixelOperator pixelOperator) {
+		return fillRegionF(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	}
+	
+	/**
+	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
+	 * <p>
+	 * Returns this {@code Image} instance.
+	 * <p>
+	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
+	 * 
+	 * @param x the X-component of the pixel to start at
+	 * @param y the Y-component of the pixel to start at
+	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
+	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
+	 * @return this {@code Image} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
+	 */
+	public Image fillRegionF(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
+		this.data.changeBegin();
+		
+		doFillRegionF(x, y, pixelOperator, pixelFilter, getColor4F(x, y));
+		
+		this.data.changeEnd();
+		
+		return this;
 	}
 	
 	/**
@@ -2301,7 +2405,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point, pixelOperator, (color, x, y) -> true);
+	 * image.fillRegionI(point, pixelOperator, (color, x, y) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -2310,8 +2414,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code pixelOperator} are {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator) {
-		return fillRegion(point, pixelOperator, (color, x, y) -> true);
+	public Image fillRegionI(final Point2I point, final PackedIntARGBPixelOperator pixelOperator) {
+		return fillRegionI(point, pixelOperator, (color, x, y) -> true);
 	}
 	
 	/**
@@ -2326,7 +2430,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(point.x, point.y, pixelOperator, pixelFilter);
+	 * image.fillRegionI(point.x, point.y, pixelOperator, pixelFilter);
 	 * }
 	 * </pre>
 	 * 
@@ -2336,112 +2440,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-	public Image fillRegion(final Point2I point, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
-		return fillRegion(point.x, point.y, pixelOperator, pixelFilter);
-	}
-	
-	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
-	 * }
-	 * </pre>
-	 * 
-	 * @param x the X-component of the pixel to start at
-	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
-	 */
-	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator) {
-		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
-	}
-	
-	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
-	 * 
-	 * @param x the X-component of the pixel to start at
-	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link Color4DPixelOperator} instance that returns a {@code Color4D} instance for each pixel affected
-	 * @param pixelFilter a {@link Color4DPixelFilter} instance that accepts or rejects pixels
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
-	 */
-	public Image fillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter) {
-		this.data.changeBegin();
-		
-		doFillRegion(x, y, pixelOperator, pixelFilter, getColor4D(x, y));
-		
-		this.data.changeEnd();
-		
-		return this;
-	}
-	
-	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} in the colors provided by {@code pixelOperator}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If {@code pixelOperator} is {@code null} or returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
-	 * <p>
-	 * Calling this method is equivalent to the following:
-	 * <pre>
-	 * {@code
-	 * image.fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
-	 * }
-	 * </pre>
-	 * 
-	 * @param x the X-component of the pixel to start at
-	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null} or returns {@code null}
-	 */
-	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator) {
-		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
-	}
-	
-	/**
-	 * Fills the region of pixels that are color-connected to the pixel at {@code x} and {@code y} and accepted by {@code pixelFilter} in the colors provided by {@code pixelOperator}.
-	 * <p>
-	 * Returns this {@code Image} instance.
-	 * <p>
-	 * If either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * This operation works in a similar way to the Bucket Fill tool in Microsoft Paint.
-	 * 
-	 * @param x the X-component of the pixel to start at
-	 * @param y the Y-component of the pixel to start at
-	 * @param pixelOperator a {@link Color4FPixelOperator} instance that returns a {@code Color4F} instance for each pixel affected
-	 * @param pixelFilter a {@link Color4FPixelFilter} instance that accepts or rejects pixels
-	 * @return this {@code Image} instance
-	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null} or {@code pixelOperator} returns {@code null}
-	 */
-	public Image fillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter) {
-		this.data.changeBegin();
-		
-		doFillRegion(x, y, pixelOperator, pixelFilter, getColor4F(x, y));
-		
-		this.data.changeEnd();
-		
-		return this;
+	public Image fillRegionI(final Point2I point, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
+		return fillRegionI(point.x, point.y, pixelOperator, pixelFilter);
 	}
 	
 	/**
@@ -2456,7 +2456,7 @@ public final class Image {
 	 * Calling this method is equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	 * image.fillRegionI(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	 * }
 	 * </pre>
 	 * 
@@ -2466,8 +2466,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelOperator} is {@code null}
 	 */
-	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator) {
-		return fillRegion(x, y, pixelOperator, (color, currentX, currentY) -> true);
+	public Image fillRegionI(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator) {
+		return fillRegionI(x, y, pixelOperator, (color, currentX, currentY) -> true);
 	}
 	
 	/**
@@ -2486,10 +2486,10 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code pixelOperator} or {@code pixelFilter} are {@code null}
 	 */
-	public Image fillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
+	public Image fillRegionI(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter) {
 		this.data.changeBegin();
 		
-		doFillRegion(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
+		doFillRegionI(x, y, pixelOperator, pixelFilter, getColorARGB(x, y));
 		
 		this.data.changeEnd();
 		
@@ -2506,7 +2506,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShape(shape, (Color4D currentColor, int x, int y) -> color);
+	 * image.fillShapeD(shape, (currentColor, x, y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -2515,11 +2515,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShape(final Shape2I shape, final Color4D color) {
+	public Image fillShapeD(final Shape2I shape, final Color4D color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShape(shape, (final Color4D currentColor, final int x, final int y) -> color);
+		return fillShapeD(shape, (currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -2534,7 +2534,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShape(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
+	public Image fillShapeD(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -2557,7 +2557,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShape(shape, (Color4F currentColor, int x, int y) -> color);
+	 * image.fillShapeF(shape, (currentColor, x, y) -> color);
 	 * }
 	 * </pre>
 	 * 
@@ -2566,11 +2566,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShape(final Shape2I shape, final Color4F color) {
+	public Image fillShapeF(final Shape2I shape, final Color4F color) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShape(shape, (final Color4F currentColor, final int x, final int y) -> color);
+		return fillShapeF(shape, (currentColor, x, y) -> color);
 	}
 	
 	/**
@@ -2585,7 +2585,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShape(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+	public Image fillShapeF(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -2608,7 +2608,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, color, false);
+	 * image.fillShapeComplementD(shape, color, false);
 	 * }
 	 * </pre>
 	 * 
@@ -2617,8 +2617,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4D color) {
-		return fillShapeComplement(shape, color, false);
+	public Image fillShapeComplementD(final Shape2I shape, final Color4D color) {
+		return fillShapeComplementD(shape, color, false);
 	}
 	
 	/**
@@ -2631,7 +2631,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, (Color4D currentColor, int x, int y) -> color, isExcludingBorderOnly);
+	 * image.fillShapeComplementD(shape, (currentColor, x, y) -> color, isExcludingBorderOnly);
 	 * }
 	 * </pre>
 	 * 
@@ -2641,11 +2641,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4D color, final boolean isExcludingBorderOnly) {
+	public Image fillShapeComplementD(final Shape2I shape, final Color4D color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplement(shape, (final Color4D currentColor, final int x, final int y) -> color, isExcludingBorderOnly);
+		return fillShapeComplementD(shape, (currentColor, x, y) -> color, isExcludingBorderOnly);
 	}
 	
 	/**
@@ -2658,7 +2658,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, pixelOperator, false);
+	 * image.fillShapeComplementD(shape, pixelOperator, false);
 	 * }
 	 * </pre>
 	 * 
@@ -2667,8 +2667,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
-		return fillShapeComplement(shape, pixelOperator, false);
+	public Image fillShapeComplementD(final Shape2I shape, final Color4DPixelOperator pixelOperator) {
+		return fillShapeComplementD(shape, pixelOperator, false);
 	}
 	
 	/**
@@ -2684,7 +2684,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4DPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
+	public Image fillShapeComplementD(final Shape2I shape, final Color4DPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -2707,7 +2707,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, color, false);
+	 * image.fillShapeComplementF(shape, color, false);
 	 * }
 	 * </pre>
 	 * 
@@ -2716,8 +2716,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4F color) {
-		return fillShapeComplement(shape, color, false);
+	public Image fillShapeComplementF(final Shape2I shape, final Color4F color) {
+		return fillShapeComplementF(shape, color, false);
 	}
 	
 	/**
@@ -2730,7 +2730,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, (Color4F currentColor, int x, int y) -> color, isExcludingBorderOnly);
+	 * image.fillShapeComplementF(shape, (currentColor, x, y) -> color, isExcludingBorderOnly);
 	 * }
 	 * </pre>
 	 * 
@@ -2740,11 +2740,11 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code color} are {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4F color, final boolean isExcludingBorderOnly) {
+	public Image fillShapeComplementF(final Shape2I shape, final Color4F color, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(color, "color == null");
 		
-		return fillShapeComplement(shape, (final Color4F currentColor, final int x, final int y) -> color, isExcludingBorderOnly);
+		return fillShapeComplementF(shape, (currentColor, x, y) -> color, isExcludingBorderOnly);
 	}
 	
 	/**
@@ -2757,7 +2757,7 @@ public final class Image {
 	 * Calling this method is essentially equivalent to the following:
 	 * <pre>
 	 * {@code
-	 * image.fillShapeComplement(shape, pixelOperator, false);
+	 * image.fillShapeComplementF(shape, pixelOperator, false);
 	 * }
 	 * </pre>
 	 * 
@@ -2766,8 +2766,8 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
-		return fillShapeComplement(shape, pixelOperator, false);
+	public Image fillShapeComplementF(final Shape2I shape, final Color4FPixelOperator pixelOperator) {
+		return fillShapeComplementF(shape, pixelOperator, false);
 	}
 	
 	/**
@@ -2783,7 +2783,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code shape} or {@code pixelOperator} are {@code null} or {@code pixelOperator} returns {@code null}
 	 */
-	public Image fillShapeComplement(final Shape2I shape, final Color4FPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
+	public Image fillShapeComplementF(final Shape2I shape, final Color4FPixelOperator pixelOperator, final boolean isExcludingBorderOnly) {
 		Objects.requireNonNull(shape, "shape == null");
 		Objects.requireNonNull(pixelOperator, "pixelOperator == null");
 		
@@ -2807,7 +2807,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
 	 */
-	public Image fillSobel(final Color4DPixelFilter pixelFilter) {
+	public Image fillSobelD(final Color4DPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
 		this.data.changeBegin();
@@ -2871,7 +2871,7 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, {@code pixelFilter} is {@code null}
 	 */
-	public Image fillSobel(final Color4FPixelFilter pixelFilter) {
+	public Image fillSobelF(final Color4FPixelFilter pixelFilter) {
 		Objects.requireNonNull(pixelFilter, "pixelFilter == null");
 		
 		this.data.changeBegin();
@@ -4700,7 +4700,7 @@ public final class Image {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private int[] doFilter(final Color4DPixelFilter pixelFilter) {
+	private int[] doFilterD(final Color4DPixelFilter pixelFilter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
@@ -4729,7 +4729,7 @@ public final class Image {
 		return java.util.Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-	private int[] doFilter(final Color4FPixelFilter pixelFilter) {
+	private int[] doFilterF(final Color4FPixelFilter pixelFilter) {
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
 		
@@ -4758,7 +4758,7 @@ public final class Image {
 		return java.util.Arrays.stream(indices).filter(index -> index != -1).toArray();
 	}
 	
-	private void doFillRegion(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter, final Color4D oldColor) {
+	private void doFillRegionD(final int x, final int y, final Color4DPixelOperator pixelOperator, final Color4DPixelFilter pixelFilter, final Color4D oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -4824,7 +4824,7 @@ public final class Image {
 		}
 	}
 	
-	private void doFillRegion(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter, final Color4F oldColor) {
+	private void doFillRegionF(final int x, final int y, final Color4FPixelOperator pixelOperator, final Color4FPixelFilter pixelFilter, final Color4F oldColor) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();
@@ -4890,7 +4890,7 @@ public final class Image {
 		}
 	}
 	
-	private void doFillRegion(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter, final int oldColorARGB) {
+	private void doFillRegionI(final int x, final int y, final PackedIntARGBPixelOperator pixelOperator, final PackedIntARGBPixelFilter pixelFilter, final int oldColorARGB) {
 		final int resolution = getResolution();
 		final int resolutionX = getResolutionX();
 		final int resolutionY = getResolutionY();

@@ -90,8 +90,8 @@ public final class Examples {
 	private static void doBlendOver() {
 		final
 		Image image = IMAGE.copy();
-		image.fill((final Color4D color, final int x, final int y) -> new Color4D(color.r, color.g, color.b, 0.5D));
-		image.fillImage(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fill(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE, image.getBounds())), image.getBounds(), image.getBounds());
+		image.fillD((color, x, y) -> new Color4D(color.r, color.g, color.b, 0.5D));
+		image.fillImageD(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fillD(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE, image.getBounds())), image.getBounds(), image.getBounds());
 		image.save("./generated/example/BlendOver.png");
 	}
 	
@@ -118,140 +118,140 @@ public final class Examples {
 	private static void doFillBlend() {
 		final
 		Image image = IMAGE.copy();
-		image.fill((final Color4D color, final int x, final int y) -> Color4D.blend(color, new Color4D(0.5D, 0.0D, 0.0D, 1.0D)));
+		image.fillD((color, x, y) -> Color4D.blend(color, new Color4D(0.5D, 0.0D, 0.0D, 1.0D)));
 		image.save("./generated/example/FillBlend.png");
 	}
 	
 	private static void doFillGradient() {
 		final
 		Image image = new Image(800, 800);
-		image.fill(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.YELLOW, new Rectangle2I(new Point2I(0, 0), new Point2I(799, 799))));
+		image.fillD(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.YELLOW, new Rectangle2I(new Point2I(0, 0), new Point2I(799, 799))));
 		image.save("./generated/example/FillGradient.png");
 	}
 	
 	private static void doFillGrayscaleA() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleA());
+		image.fillD(Color4DPixelOperator.grayscaleA());
 		image.save("./generated/example/FillGrayscaleA.png");
 	}
 	
 	private static void doFillGrayscaleAverage() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleAverage());
+		image.fillD(Color4DPixelOperator.grayscaleAverage());
 		image.save("./generated/example/FillGrayscaleAverage.png");
 	}
 	
 	private static void doFillGrayscaleB() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleB());
+		image.fillD(Color4DPixelOperator.grayscaleB());
 		image.save("./generated/example/FillGrayscaleB.png");
 	}
 	
 	private static void doFillGrayscaleG() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleG());
+		image.fillD(Color4DPixelOperator.grayscaleG());
 		image.save("./generated/example/FillGrayscaleG.png");
 	}
 	
 	private static void doFillGrayscaleLightness() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleLightness());
+		image.fillD(Color4DPixelOperator.grayscaleLightness());
 		image.save("./generated/example/FillGrayscaleLightness.png");
 	}
 	
 	private static void doFillGrayscaleMax() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleMax());
+		image.fillD(Color4DPixelOperator.grayscaleMax());
 		image.save("./generated/example/FillGrayscaleMax.png");
 	}
 	
 	private static void doFillGrayscaleMin() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleMin());
+		image.fillD(Color4DPixelOperator.grayscaleMin());
 		image.save("./generated/example/FillGrayscaleMin.png");
 	}
 	
 	private static void doFillGrayscaleR() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleR());
+		image.fillD(Color4DPixelOperator.grayscaleR());
 		image.save("./generated/example/FillGrayscaleR.png");
 	}
 	
 	private static void doFillGrayscaleRelativeLuminance() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.grayscaleRelativeLuminance());
+		image.fillD(Color4DPixelOperator.grayscaleRelativeLuminance());
 		image.save("./generated/example/FillGrayscaleRelativeLuminance.png");
 	}
 	
 	private static void doFillInvert() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.invert());
+		image.fillD(Color4DPixelOperator.invert());
 		image.save("./generated/example/FillInvert.png");
 	}
 	
 	private static void doFillRedoGammaCorrection() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.redoGammaCorrection());
+		image.fillD(Color4DPixelOperator.redoGammaCorrection());
 		image.save("./generated/example/FillRedoGammaCorrection.png");
 	}
 	
 	private static void doFillSepia() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.sepia());
+		image.fillD(Color4DPixelOperator.sepia());
 		image.save("./generated/example/FillSepia.png");
 	}
 	
 	private static void doFillShape() {
 		final
 		Image image = IMAGE.copy();
-		image.fillShape(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4DPixelOperator.invert());
+		image.fillShapeD(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4DPixelOperator.invert());
 		image.save("./generated/example/FillShape.png");
 	}
 	
 	private static void doFillShapeComplement() {
 		final
 		Image image = new Image(1024, 768);
-		image.fillShapeComplement(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
+		image.fillShapeComplementD(new Rectangle2I(new Point2I(100, 100), new Point2I(300, 300)), Color4D.RED, true);
 		image.save("./generated/example/FillShapeComplement.png");
 	}
 	
 	private static void doFillSimplexFractionalBrownianMotion() {
 		final
 		Image image = new Image(1024, 768);
-		image.fill(Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.75D, 0.5D, 0.75D), new Rectangle2I(new Point2I(0, 0), new Point2I(1023, 767))));
+		image.fillD(Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.75D, 0.5D, 0.75D), new Rectangle2I(new Point2I(0, 0), new Point2I(1023, 767))));
 		image.save("./generated/example/FillSimplexFractionalBrownianMotion.png");
 	}
 	
 	private static void doFillSobel() {
 		final
 		Image image = IMAGE.copy();
-		image.fillSobel((final Color4D color, final int x, final int y) -> true);
+		image.fillSobelD((color, x, y) -> true);
 		image.save("./generated/example/FillSobel.png");
 	}
 	
 	private static void doFillToneMap() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.toneMap(0.75D));
+		image.fillD(Color4DPixelOperator.toneMap(0.75D));
 		image.save("./generated/example/FillToneMap.png");
 	}
 	
 	private static void doFillUndoGammaCorrection() {
 		final
 		Image image = IMAGE.copy();
-		image.fill(Color4DPixelOperator.undoGammaCorrection());
+		image.fillD(Color4DPixelOperator.undoGammaCorrection());
 		image.save("./generated/example/FillUndoGammaCorrection.png");
 	}
 	

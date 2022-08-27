@@ -221,15 +221,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
+			imageA.fillD((color, x, y) -> Color4D.sepia(color));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
+			imageB.fillD((color, x, y) -> Color4D.sepia(color));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fill((final Color4D color, final int x, final int y) -> Color4D.sepia(color));
+			imageC.fillD((color, x, y) -> Color4D.sepia(color));
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -264,15 +264,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
+			imageA.fillF((color, x, y) -> Color4F.sepia(color));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
+			imageB.fillF((color, x, y) -> Color4F.sepia(color));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fill((final Color4F color, final int x, final int y) -> Color4F.sepia(color));
+			imageC.fillF((color, x, y) -> Color4F.sepia(color));
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -307,15 +307,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fill((final int color, final int x, final int y) -> Color4I.sepiaARGB(color));
+			imageA.fillI((color, x, y) -> Color4I.sepiaARGB(color));
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fill((final int color, final int x, final int y) -> Color4I.sepiaARGB(color));
+			imageB.fillI((color, x, y) -> Color4I.sepiaARGB(color));
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fill((final int color, final int x, final int y) -> Color4I.sepiaARGB(color));
+			imageC.fillI((color, x, y) -> Color4I.sepiaARGB(color));
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -350,15 +350,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillRegion(100, 100, (final Color4D color, final int x, final int y) -> Color4D.RED);
+			imageA.fillRegionD(100, 100, (color, x, y) -> Color4D.RED);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillRegion(100, 100, (final Color4D color, final int x, final int y) -> Color4D.RED);
+			imageB.fillRegionD(100, 100, (color, x, y) -> Color4D.RED);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillRegion(100, 100, (final Color4D color, final int x, final int y) -> Color4D.RED);
+			imageC.fillRegionD(100, 100, (color, x, y) -> Color4D.RED);
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -393,15 +393,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillRegion(100, 100, (final Color4F color, final int x, final int y) -> Color4F.RED);
+			imageA.fillRegionF(100, 100, (color, x, y) -> Color4F.RED);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillRegion(100, 100, (final Color4F color, final int x, final int y) -> Color4F.RED);
+			imageB.fillRegionF(100, 100, (color, x, y) -> Color4F.RED);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillRegion(100, 100, (final Color4F color, final int x, final int y) -> Color4F.RED);
+			imageC.fillRegionF(100, 100, (color, x, y) -> Color4F.RED);
 			
 			final long timeD = System.currentTimeMillis();
 			
@@ -436,15 +436,15 @@ public final class PerformanceTest {
 		for(int i = 0; i < iterations; i++) {
 			final long timeA = System.currentTimeMillis();
 			
-			imageA.fillRegion(100, 100, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B);
+			imageA.fillRegionI(100, 100, (color, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeB = System.currentTimeMillis();
 			
-			imageB.fillRegion(100, 100, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B);
+			imageB.fillRegionI(100, 100, (color, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeC = System.currentTimeMillis();
 			
-			imageC.fillRegion(100, 100, (final int color, final int x, final int y) -> Color4I.RED_A_R_G_B);
+			imageC.fillRegionI(100, 100, (color, x, y) -> Color4I.RED_A_R_G_B);
 			
 			final long timeD = System.currentTimeMillis();
 			
