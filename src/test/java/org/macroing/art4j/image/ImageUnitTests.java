@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -45,6 +46,10 @@ import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.color.PackedIntComponentOrder;
 import org.macroing.art4j.data.Data;
 import org.macroing.art4j.data.DataFactory;
+import org.macroing.art4j.filter.BoxFilter2D;
+import org.macroing.art4j.filter.BoxFilter2F;
+import org.macroing.art4j.filter.Filter2D;
+import org.macroing.art4j.filter.Filter2F;
 import org.macroing.art4j.geometry.Point2I;
 import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
@@ -615,6 +620,31 @@ public final class ImageUnitTests {
 		assertThrows(NullPointerException.class, () -> image.copyTo(null, ArrayComponentOrder.RGBA));
 		
 		assertThrows(IllegalArgumentException.class, () -> image.copyTo(new byte[0], ArrayComponentOrder.RGBA));
+	}
+	
+	@Test
+	public void testCreateScreenCaptureRectangle2I() {
+		final Image image = Image.createScreenCapture(new Rectangle2I(new Point2I(0, 0), new Point2I(0, 0)));
+		
+		assertNotNull(image);
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> Image.createScreenCapture(null));
+	}
+	
+	@Test
+	public void testCreateScreenCaptureRectangle2IDataFactory() {
+		final Image image = Image.createScreenCapture(new Rectangle2I(new Point2I(0, 0), new Point2I(0, 0)), DataFactory.forPackedIntARGB());
+		
+		assertNotNull(image);
+		
+		assertEquals(1, image.getResolutionX());
+		assertEquals(1, image.getResolutionY());
+		
+		assertThrows(NullPointerException.class, () -> Image.createScreenCapture(new Rectangle2I(new Point2I(0, 0), new Point2I(0, 0)), null));
+		assertThrows(NullPointerException.class, () -> Image.createScreenCapture(null, DataFactory.forPackedIntARGB()));
 	}
 	
 	@Test
@@ -3660,6 +3690,210 @@ public final class ImageUnitTests {
 		
 		assertEquals(7, image.getResolutionX());
 		assertEquals(7, image.getResolutionY());
+	}
+	
+	@Test
+	public void testSampleColorXYZColor3DDoubleDoubleFilter2D() {
+		final Filter2D filter = new BoxFilter2D();
+		
+		final
+		Image image = new Image(3, 3, Color4D.TRANSPARENT);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				image.sampleColorXYZ(Color3D.WHITE, x + 0.5D, y + 0.5D, filter);
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertTrue(image.undo());
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		image.sampleColorXYZ(Color3D.WHITE, 3.5D, 0.0D, filter);
+		image.sampleColorXYZ(Color3D.WHITE, 0.0D, 3.5D, filter);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(Color3D.WHITE, 0.5D, 0.5D, null));
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(null, 0.5D, 0.5D, filter));
+	}
+	
+	@Test
+	public void testSampleColorXYZColor3DDoubleDoubleFilter2DDouble() {
+		final Filter2D filter = new BoxFilter2D();
+		
+		final
+		Image image = new Image(3, 3, Color4D.TRANSPARENT);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				image.sampleColorXYZ(Color3D.WHITE, x + 0.5D, y + 0.5D, filter, 1.0D);
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.WHITE, image.getColor4D(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertTrue(image.undo());
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		image.sampleColorXYZ(Color3D.WHITE, 3.5D, 0.0D, filter, 1.0D);
+		image.sampleColorXYZ(Color3D.WHITE, 0.0D, 3.5D, filter, 1.0D);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4D.TRANSPARENT, image.getColor4D(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(Color3D.WHITE, 0.5D, 0.5D, null, 1.0D));
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(null, 0.5D, 0.5D, filter, 1.0D));
+	}
+	
+	@Test
+	public void testSampleColorXYZColor3FFloatFloatFilter2F() {
+		final Filter2F filter = new BoxFilter2F();
+		
+		final
+		Image image = new Image(3, 3, Color4F.TRANSPARENT);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				image.sampleColorXYZ(Color3F.WHITE, x + 0.5F, y + 0.5F, filter);
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertTrue(image.undo());
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		image.sampleColorXYZ(Color3F.WHITE, 3.5F, 0.0F, filter);
+		image.sampleColorXYZ(Color3F.WHITE, 0.0F, 3.5F, filter);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(Color3F.WHITE, 0.5F, 0.5F, null));
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(null, 0.5F, 0.5F, filter));
+	}
+	
+	@Test
+	public void testSampleColorXYZColor3FFloatFloatFilter2FFloat() {
+		final Filter2F filter = new BoxFilter2F();
+		
+		final
+		Image image = new Image(3, 3, Color4F.TRANSPARENT);
+		image.setChangeHistoryEnabled(true);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				image.sampleColorXYZ(Color3F.WHITE, x + 0.5F, y + 0.5F, filter, 1.0F);
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.WHITE, image.getColor4F(x, y));
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertTrue(image.undo());
+			}
+		}
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		image.sampleColorXYZ(Color3F.WHITE, 3.5F, 0.0F, filter, 1.0F);
+		image.sampleColorXYZ(Color3F.WHITE, 0.0F, 3.5F, filter, 1.0F);
+		
+		for(int y = 0; y < image.getResolutionY(); y++) {
+			for(int x = 0; x < image.getResolutionX(); x++) {
+				assertEquals(Color4F.TRANSPARENT, image.getColor4F(x, y));
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(Color3F.WHITE, 0.5F, 0.5F, null, 1.0F));
+		assertThrows(NullPointerException.class, () -> image.sampleColorXYZ(null, 0.5F, 0.5F, filter, 1.0F));
 	}
 	
 	@Test

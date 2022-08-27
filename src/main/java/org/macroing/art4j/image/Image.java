@@ -22,7 +22,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +56,7 @@ import org.macroing.art4j.pixel.Color4FPixelOperator;
 import org.macroing.art4j.pixel.PackedIntARGBPixelFilter;
 import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
 import org.macroing.art4j.pixel.PixelTransformer;
+import org.macroing.java.awt.image.BufferedImages;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
@@ -3101,7 +3101,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleColorXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter) {
 		return sampleColorXYZ(colorXYZ, x, y, filter, 1.0D);
 	}
@@ -3121,7 +3120,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleColorXYZ(final Color3D colorXYZ, final double x, final double y, final Filter2D filter, final double sampleWeight) {
 		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -3203,7 +3201,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleColorXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter) {
 		return sampleColorXYZ(colorXYZ, x, y, filter, 1.0F);
 	}
@@ -3223,7 +3220,6 @@ public final class Image {
 	 * @return this {@code Image} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code colorXYZ} or {@code filter} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Image sampleColorXYZ(final Color3F colorXYZ, final float x, final float y, final Filter2F filter, final float sampleWeight) {
 		Objects.requireNonNull(colorXYZ, "colorXYZ == null");
 		Objects.requireNonNull(filter, "filter == null");
@@ -4640,6 +4636,66 @@ public final class Image {
 	 */
 	public int[] toIntArrayPackedForm(final PackedIntComponentOrder packedIntComponentOrder) {
 		return packedIntComponentOrder.pack(ArrayComponentOrder.RGBA, toIntArray());
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Creates an {@code Image} instance by capturing the contents of the screen, without the mouse cursor.
+	 * <p>
+	 * Returns a new {@code Image} instance.
+	 * <p>
+	 * If {@code rectangle} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the permission {@code readDisplayPixels} is not granted, a {@code SecurityException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Image.createScreenCapture(rectangle, DataFactory.forPackedIntARGB());
+	 * }
+	 * </pre>
+	 * 
+	 * @param rectangle a {@link Rectangle2I} that contains the bounds
+	 * @return a new {@code PixelImageD} instance
+	 * @throws NullPointerException thrown if, and only if, {@code rectangle} is {@code null}
+	 * @throws SecurityException thrown if, and only if, the permission {@code readDisplayPixels} is not granted
+	 */
+	public static Image createScreenCapture(final Rectangle2I rectangle) {
+		return createScreenCapture(rectangle, DataFactory.forPackedIntARGB());
+	}
+	
+	/**
+	 * Creates an {@code Image} instance by capturing the contents of the screen, without the mouse cursor.
+	 * <p>
+	 * Returns a new {@code Image} instance.
+	 * <p>
+	 * If either {@code rectangle} or {@code dataFactory} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If the permission {@code readDisplayPixels} is not granted, a {@code SecurityException} will be thrown.
+	 * 
+	 * @param rectangle a {@link Rectangle2I} that contains the bounds
+	 * @param dataFactory a {@link DataFactory} instance
+	 * @return a new {@code PixelImageD} instance
+	 * @throws NullPointerException thrown if, and only if, either {@code rectangle} or {@code dataFactory} are {@code null}
+	 * @throws SecurityException thrown if, and only if, the permission {@code readDisplayPixels} is not granted
+	 */
+	public static Image createScreenCapture(final Rectangle2I rectangle, final DataFactory dataFactory) {
+		Objects.requireNonNull(rectangle, "rectangle == null");
+		Objects.requireNonNull(dataFactory, "dataFactory == null");
+		
+		final Point2I min = rectangle.min();
+		final Point2I max = rectangle.max();
+		
+		final int x = min.x;
+		final int y = min.y;
+		
+		final int width = max.x - min.x + 1;
+		final int height = max.y - min.y + 1;
+		
+		final BufferedImage bufferedImage = BufferedImages.createScreenCapture(x, y, width, height);
+		
+		return new Image(bufferedImage, dataFactory);
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
