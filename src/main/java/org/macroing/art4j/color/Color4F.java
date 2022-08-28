@@ -703,7 +703,6 @@ public final class Color4F {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public void write(final DataOutput dataOutput) {
 		try {
 			dataOutput.writeFloat(this.r);
@@ -1298,7 +1297,6 @@ public final class Color4F {
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F read(final DataInput dataInput) {
 		try {
 			final float r = dataInput.readFloat();

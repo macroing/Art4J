@@ -24,7 +24,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
 import org.junit.jupiter.api.Test;
+import org.macroing.art4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class Color4IUnitTests {
@@ -1187,6 +1196,29 @@ public final class Color4IUnitTests {
 	}
 	
 	@Test
+	public void testRead() throws IOException {
+		final Color4I a = new Color4I(255, 128, 0);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeInt(a.r);
+		dataOutput.writeInt(a.g);
+		dataOutput.writeInt(a.b);
+		dataOutput.writeInt(a.a);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Color4I b = Color4I.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Color4I.read(null));
+		assertThrows(UncheckedIOException.class, () -> Color4I.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
+	}
+	
+	@Test
 	public void testRelativeLuminance() {
 		final Color4I color = new Color4I((int)(255.0D / 0.212671D), (int)(255.0D / 0.715160D), (int)(255.0D / 0.072169D));
 		
@@ -1292,5 +1324,25 @@ public final class Color4IUnitTests {
 		final Color4I color = new Color4I(0, 127, 128, 255);
 		
 		assertEquals("new Color4I(0, 127, 128, 255)", color.toString());
+	}
+	
+	@Test
+	public void testWrite() {
+		final Color4I a = new Color4I(255, 128, 0);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Color4I b = Color4I.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }

@@ -24,7 +24,16 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
 import org.junit.jupiter.api.Test;
+import org.macroing.art4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class Color3FUnitTests {
@@ -1156,6 +1165,28 @@ public final class Color3FUnitTests {
 	}
 	
 	@Test
+	public void testRead() throws IOException {
+		final Color3F a = new Color3F(1.0F, 0.5F, 0.0F);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeFloat(a.r);
+		dataOutput.writeFloat(a.g);
+		dataOutput.writeFloat(a.b);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Color3F b = Color3F.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.read(null));
+		assertThrows(UncheckedIOException.class, () -> Color3F.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
+	}
+	
+	@Test
 	public void testRelativeLuminance() {
 		final Color3F color = new Color3F(1.0F / 0.212671F, 1.0F / 0.715160F, 1.0F / 0.072169F);
 		
@@ -1236,5 +1267,25 @@ public final class Color3FUnitTests {
 		final Color3F color = new Color3F(0.0F, 0.5F, 1.0F);
 		
 		assertEquals("new Color3F(0.0F, 0.5F, 1.0F)", color.toString());
+	}
+	
+	@Test
+	public void testWrite() {
+		final Color3F a = new Color3F(1.0F, 0.5F, 0.0F);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Color3F b = Color3F.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }
