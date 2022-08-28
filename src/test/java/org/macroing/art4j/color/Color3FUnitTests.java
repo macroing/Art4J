@@ -948,6 +948,85 @@ public final class Color3FUnitTests {
 	}
 	
 	@Test
+	public void testMultiplyAndSaturateNegative() {
+		final Color3F a = new Color3F(1.0F, 1.0F, 1.0F);
+		final Color3F b = Color3F.multiplyAndSaturateNegative(a, -2.0F);
+		final Color3F c = Color3F.multiplyAndSaturateNegative(a, +2.0F);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(2.0F, c.r);
+		assertEquals(2.0F, c.g);
+		assertEquals(2.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.multiplyAndSaturateNegative(null, 2.0F));
+	}
+	
+	@Test
+	public void testMultiplyColor3FColor3F() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 2.0F, 2.0F);
+		final Color3F c = Color3F.multiply(a, b);
+		
+		assertEquals(2.0F, c.r);
+		assertEquals(4.0F, c.g);
+		assertEquals(6.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, null));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(null, b));
+	}
+	
+	@Test
+	public void testMultiplyColor3FColor3FColor3F() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 2.0F, 2.0F);
+		final Color3F c = new Color3F(5.0F, 5.0F, 5.0F);
+		final Color3F d = Color3F.multiply(a, b, c);
+		
+		assertEquals(10.0F, d.r);
+		assertEquals(20.0F, d.g);
+		assertEquals(30.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, b, null));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, null, c));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(null, b, c));
+	}
+	
+	@Test
+	public void testMultiplyColor3FColor3FColor3FColor3F() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 2.0F, 2.0F);
+		final Color3F c = new Color3F(5.0F, 5.0F, 5.0F);
+		final Color3F d = new Color3F(2.0F, 2.0F, 2.0F);
+		final Color3F e = Color3F.multiply(a, b, c, d);
+		
+		assertEquals(20.0F, e.r);
+		assertEquals(40.0F, e.g);
+		assertEquals(60.0F, e.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, b, c, null));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, b, null, d));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, null, c, d));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(null, b, c, d));
+	}
+	
+	@Test
+	public void testMultiplyColor3FColor3FFloat() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = new Color3F(2.0F, 2.0F, 2.0F);
+		final Color3F c = Color3F.multiply(a, b, 5.0F);
+		
+		assertEquals(10.0F, c.r);
+		assertEquals(20.0F, c.g);
+		assertEquals(30.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(a, null, 5.0F));
+		assertThrows(NullPointerException.class, () -> Color3F.multiply(null, b, 5.0F));
+	}
+	
+	@Test
 	public void testMultiplyColor3FFloat() {
 		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
 		final Color3F b = Color3F.multiply(a, 2.0F);
@@ -957,6 +1036,55 @@ public final class Color3FUnitTests {
 		assertEquals(6.0F, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3F.multiply(null, 2.0F));
+	}
+	
+	@Test
+	public void testNegate() {
+		final Color3F a = new Color3F(1.0F, 2.0F, 3.0F);
+		final Color3F b = Color3F.negate(a);
+		final Color3F c = Color3F.negate(b);
+		
+		assertEquals(-1.0F, b.r);
+		assertEquals(-2.0F, b.g);
+		assertEquals(-3.0F, b.b);
+		
+		assertEquals(+1.0F, c.r);
+		assertEquals(+2.0F, c.g);
+		assertEquals(+3.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.negate(null));
+	}
+	
+	@Test
+	public void testNormalize() {
+		final Color3F a = Color3F.normalize(new Color3F(0.0F, 0.0F, 0.0F));
+		final Color3F b = Color3F.normalize(new Color3F(1.0F, 1.0F, 1.0F));
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.3333333333333333F, b.r);
+		assertEquals(0.3333333333333333F, b.g);
+		assertEquals(0.3333333333333333F, b.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.normalize(null));
+	}
+	
+	@Test
+	public void testNormalizeRelativeLuminance() {
+		final Color3F a = Color3F.normalizeRelativeLuminance(new Color3F(0.0F, 0.0F, 0.0F));
+		final Color3F b = Color3F.normalizeRelativeLuminance(new Color3F(1.0F, 1.0F, 1.0F));
+		
+		assertEquals(1.0F, a.r);
+		assertEquals(1.0F, a.g);
+		assertEquals(1.0F, a.b);
+		
+		assertEquals(1.0F, b.r);
+		assertEquals(1.0F, b.g);
+		assertEquals(1.0F, b.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.normalizeRelativeLuminance(null));
 	}
 	
 	@Test
@@ -1191,6 +1319,63 @@ public final class Color3FUnitTests {
 		final Color3F color = new Color3F(1.0F / 0.212671F, 1.0F / 0.715160F, 1.0F / 0.072169F);
 		
 		assertEquals(3.0F, color.relativeLuminance());
+	}
+	
+	@Test
+	public void testSaturateColor3F() {
+		final Color3F a = Color3F.saturate(new Color3F(-1.0F, -1.0F, -1.0F));
+		final Color3F b = Color3F.saturate(new Color3F(0.5F, 0.5F, 0.5F));
+		final Color3F c = Color3F.saturate(new Color3F(2.0F, 2.0F, 2.0F));
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.5F, b.r);
+		assertEquals(0.5F, b.g);
+		assertEquals(0.5F, b.b);
+		
+		assertEquals(1.0F, c.r);
+		assertEquals(1.0F, c.g);
+		assertEquals(1.0F, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.saturate(null));
+	}
+	
+	@Test
+	public void testSaturateColor3FFloatFloat() {
+		final Color3F a = Color3F.saturate(new Color3F(-10.0F, -10.0F, -10.0F), -5.0F, +5.0F);
+		final Color3F b = Color3F.saturate(new Color3F(-10.0F, -10.0F, -10.0F), +5.0F, -5.0F);
+		final Color3F c = Color3F.saturate(new Color3F(2.0F, 2.0F, 2.0F), -5.0F, +5.0F);
+		final Color3F d = Color3F.saturate(new Color3F(2.0F, 2.0F, 2.0F), +5.0F, -5.0F);
+		final Color3F e = Color3F.saturate(new Color3F(10.0F, 10.0F, 10.0F), -5.0F, +5.0F);
+		final Color3F f = Color3F.saturate(new Color3F(10.0F, 10.0F, 10.0F), +5.0F, -5.0F);
+		
+		assertEquals(-5.0F, a.r);
+		assertEquals(-5.0F, a.g);
+		assertEquals(-5.0F, a.b);
+		
+		assertEquals(-5.0F, b.r);
+		assertEquals(-5.0F, b.g);
+		assertEquals(-5.0F, b.b);
+		
+		assertEquals(2.0F, c.r);
+		assertEquals(2.0F, c.g);
+		assertEquals(2.0F, c.b);
+		
+		assertEquals(2.0F, d.r);
+		assertEquals(2.0F, d.g);
+		assertEquals(2.0F, d.b);
+		
+		assertEquals(5.0F, e.r);
+		assertEquals(5.0F, e.g);
+		assertEquals(5.0F, e.b);
+		
+		assertEquals(5.0F, f.r);
+		assertEquals(5.0F, f.g);
+		assertEquals(5.0F, f.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.saturate(null, -5.0F, +5.0F));
 	}
 	
 	@Test

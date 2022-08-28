@@ -1222,7 +1222,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F multiply(final Color3F colorLHS, final Color3F colorRHS) {
 		final float r = colorLHS.r * colorRHS.r;
 		final float g = colorLHS.g * colorRHS.g;
@@ -1244,7 +1243,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F multiply(final Color3F colorA, final Color3F colorB, final Color3F colorC) {
 		final float r = colorA.r * colorB.r * colorC.r;
 		final float g = colorA.g * colorB.g * colorC.g;
@@ -1267,7 +1265,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB}, {@code colorC} or {@code colorD} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F multiply(final Color3F colorA, final Color3F colorB, final Color3F colorC, final Color3F colorD) {
 		final float r = colorA.r * colorB.r * colorC.r * colorD.r;
 		final float g = colorA.g * colorB.g * colorC.g * colorD.g;
@@ -1289,7 +1286,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F multiply(final Color3F colorA, final Color3F colorB, final float scalarC) {
 		final float r = colorA.r * colorB.r * scalarC;
 		final float g = colorA.g * colorB.g * scalarC;
@@ -1330,7 +1326,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F multiplyAndSaturateNegative(final Color3F colorLHS, final float scalarRHS) {
 		final float r = Floats.max(colorLHS.r * scalarRHS, 0.0F);
 		final float g = Floats.max(colorLHS.g * scalarRHS, 0.0F);
@@ -1350,7 +1345,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the negation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F negate(final Color3F color) {
 		final float r = -color.r;
 		final float g = -color.g;
@@ -1370,7 +1364,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the normalization
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F normalize(final Color3F color) {
 		final float sum = color.r + color.g + color.b;
 		
@@ -1398,7 +1391,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the normalization
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F normalizeRelativeLuminance(final Color3F color) {
 		final float relativeLuminance = color.relativeLuminance();
 		
@@ -1659,7 +1651,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F saturate(final Color3F color) {
 		return saturate(color, 0.0F, 1.0F);
 	}
@@ -1677,7 +1668,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F saturate(final Color3F color, final float componentMinMax, final float componentMaxMin) {
 		final float r = Floats.saturate(color.r, componentMinMax, componentMaxMin);
 		final float g = Floats.saturate(color.g, componentMinMax, componentMaxMin);

@@ -1222,7 +1222,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D multiply(final Color3D colorLHS, final Color3D colorRHS) {
 		final double r = colorLHS.r * colorRHS.r;
 		final double g = colorLHS.g * colorRHS.g;
@@ -1244,7 +1243,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final Color3D colorC) {
 		final double r = colorA.r * colorB.r * colorC.r;
 		final double g = colorA.g * colorB.g * colorC.g;
@@ -1267,7 +1265,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB}, {@code colorC} or {@code colorD} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final Color3D colorC, final Color3D colorD) {
 		final double r = colorA.r * colorB.r * colorC.r * colorD.r;
 		final double g = colorA.g * colorB.g * colorC.g * colorD.g;
@@ -1289,8 +1286,7 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
-	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final float scalarC) {
+	public static Color3D multiply(final Color3D colorA, final Color3D colorB, final double scalarC) {
 		final double r = colorA.r * colorB.r * scalarC;
 		final double g = colorA.g * colorB.g * scalarC;
 		final double b = colorA.b * colorB.b * scalarC;
@@ -1330,7 +1326,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D multiplyAndSaturateNegative(final Color3D colorLHS, final double scalarRHS) {
 		final double r = Doubles.max(colorLHS.r * scalarRHS, 0.0D);
 		final double g = Doubles.max(colorLHS.g * scalarRHS, 0.0D);
@@ -1350,7 +1345,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the negation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D negate(final Color3D color) {
 		final double r = -color.r;
 		final double g = -color.g;
@@ -1370,7 +1364,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the normalization
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D normalize(final Color3D color) {
 		final double sum = color.r + color.g + color.b;
 		
@@ -1398,7 +1391,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the normalization
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D normalizeRelativeLuminance(final Color3D color) {
 		final double relativeLuminance = color.relativeLuminance();
 		
@@ -1659,7 +1651,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D saturate(final Color3D color) {
 		return saturate(color, 0.0D, 1.0D);
 	}
@@ -1677,7 +1668,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D saturate(final Color3D color, final double componentMinMax, final double componentMaxMin) {
 		final double r = Doubles.saturate(color.r, componentMinMax, componentMaxMin);
 		final double g = Doubles.saturate(color.g, componentMinMax, componentMaxMin);
