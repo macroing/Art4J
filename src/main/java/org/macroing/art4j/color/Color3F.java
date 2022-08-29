@@ -1704,7 +1704,6 @@ public final class Color3F {
 	 * @return a {@code Color3F} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F sqrt(final Color3F color) {
 		final float r = Floats.sqrt(color.r);
 		final float g = Floats.sqrt(color.g);
@@ -1725,7 +1724,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F subtract(final Color3F colorLHS, final Color3F colorRHS) {
 		final float r = colorLHS.r - colorRHS.r;
 		final float g = colorLHS.g - colorRHS.g;
@@ -1747,7 +1745,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F subtract(final Color3F colorA, final Color3F colorB, final Color3F colorC) {
 		final float r = colorA.r - colorB.r - colorC.r;
 		final float g = colorA.g - colorB.g - colorC.g;
@@ -1769,7 +1766,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F subtract(final Color3F colorA, final Color3F colorB, final float valueC) {
 		final float r = colorA.r - colorB.r - valueC;
 		final float g = colorA.g - colorB.g - valueC;
@@ -1790,7 +1786,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F subtract(final Color3F colorLHS, final float scalarRHS) {
 		final float r = colorLHS.r - scalarRHS;
 		final float g = colorLHS.g - scalarRHS;
@@ -2044,7 +2039,6 @@ public final class Color3F {
 	 * @return a {@code Color3F[]} with a length of {@code length} and contains {@code Color3F.BLACK}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F[] array(final int length) {
 		return array(length, index -> BLACK);
 	}
@@ -2062,7 +2056,6 @@ public final class Color3F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F[] array(final int length, final IntFunction<Color3F> function) {
 		final Color3F[] colors = new Color3F[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		

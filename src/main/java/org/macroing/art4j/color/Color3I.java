@@ -1203,7 +1203,6 @@ public final class Color3I {
 	 * @return a new {@code Color3I} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3I saturate(final Color3I color) {
 		return saturate(color, 0, 255);
 	}
@@ -1221,7 +1220,6 @@ public final class Color3I {
 	 * @return a new {@code Color3I} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3I saturate(final Color3I color, final int componentMinMax, final int componentMaxMin) {
 		final int r = Ints.saturate(color.r, componentMinMax, componentMaxMin);
 		final int g = Ints.saturate(color.g, componentMinMax, componentMaxMin);
@@ -1265,7 +1263,6 @@ public final class Color3I {
 	 * @return a {@code Color3I[]} with a length of {@code length} and contains {@code Color3I.BLACK}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3I[] array(final int length) {
 		return array(length, index -> BLACK);
 	}
@@ -1283,7 +1280,6 @@ public final class Color3I {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3I[] array(final int length, final IntFunction<Color3I> function) {
 		final Color3I[] colors = new Color3I[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		

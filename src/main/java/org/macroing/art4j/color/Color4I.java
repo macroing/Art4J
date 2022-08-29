@@ -1466,7 +1466,6 @@ public final class Color4I {
 	 * @return a new {@code Color4I} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4I saturate(final Color4I color) {
 		return saturate(color, 0, 255);
 	}
@@ -1484,7 +1483,6 @@ public final class Color4I {
 	 * @return a new {@code Color4I} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4I saturate(final Color4I color, final int componentMinMax, final int componentMaxMin) {
 		final int r = Ints.saturate(color.r, componentMinMax, componentMaxMin);
 		final int g = Ints.saturate(color.g, componentMinMax, componentMaxMin);
@@ -1530,7 +1528,6 @@ public final class Color4I {
 	 * @return a {@code Color4I[]} with a length of {@code length} and contains {@code Color4I.TRANSPARENT}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4I[] array(final int length) {
 		return array(length, index -> TRANSPARENT);
 	}
@@ -1548,7 +1545,6 @@ public final class Color4I {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4I[] array(final int length, final IntFunction<Color4I> function) {
 		final Color4I[] colors = new Color4I[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		

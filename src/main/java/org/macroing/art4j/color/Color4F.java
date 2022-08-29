@@ -1328,7 +1328,6 @@ public final class Color4F {
 	 * @return a new {@code Color4F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F saturate(final Color4F color) {
 		return saturate(color, 0.0F, 1.0F);
 	}
@@ -1346,7 +1345,6 @@ public final class Color4F {
 	 * @return a new {@code Color4F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F saturate(final Color4F color, final float componentMinMax, final float componentMaxMin) {
 		final float r = Floats.saturate(color.r, componentMinMax, componentMaxMin);
 		final float g = Floats.saturate(color.g, componentMinMax, componentMaxMin);
@@ -1385,7 +1383,6 @@ public final class Color4F {
 	 * @return a {@code Color4F} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F sqrt(final Color4F color) {
 		final float r = Floats.sqrt(color.r);
 		final float g = Floats.sqrt(color.g);
@@ -1411,7 +1408,6 @@ public final class Color4F {
 	 * @return a {@code Color4F[]} with a length of {@code length} and contains {@code Color4F.TRANSPARENT}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] array(final int length) {
 		return array(length, index -> TRANSPARENT);
 	}
@@ -1429,7 +1425,6 @@ public final class Color4F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] array(final int length, final IntFunction<Color4F> function) {
 		final Color4F[] colors = new Color4F[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		

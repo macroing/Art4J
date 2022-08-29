@@ -21,6 +21,7 @@ package org.macroing.art4j.color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -69,6 +70,43 @@ public final class Color4FUnitTests {
 		assertEquals(4.0F, b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4F.add(null, 2.0F));
+	}
+	
+	@Test
+	public void testArrayInt() {
+		final Color4F[] colors = Color4F.array(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4F color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color4F.TRANSPARENT, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4F.array(-1));
+	}
+	
+	@Test
+	public void testArrayIntIntFunction() {
+		final Color4F[] colors = Color4F.array(10, index -> Color4F.RED);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4F color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color4F.RED, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4F.array(-1, index -> Color4F.RED));
+		
+		assertThrows(NullPointerException.class, () -> Color4F.array(10, index -> null));
+		assertThrows(NullPointerException.class, () -> Color4F.array(10, null));
 	}
 	
 	@Test
@@ -1114,6 +1152,72 @@ public final class Color4FUnitTests {
 	}
 	
 	@Test
+	public void testSaturateColor4F() {
+		final Color4F a = Color4F.saturate(new Color4F(-1.0F, -1.0F, -1.0F, -1.0F));
+		final Color4F b = Color4F.saturate(new Color4F(0.5F, 0.5F, 0.5F, 0.5F));
+		final Color4F c = Color4F.saturate(new Color4F(2.0F, 2.0F, 2.0F, 2.0F));
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		assertEquals(0.0F, a.a);
+		
+		assertEquals(0.5F, b.r);
+		assertEquals(0.5F, b.g);
+		assertEquals(0.5F, b.b);
+		assertEquals(0.5F, b.a);
+		
+		assertEquals(1.0F, c.r);
+		assertEquals(1.0F, c.g);
+		assertEquals(1.0F, c.b);
+		assertEquals(1.0F, c.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.saturate(null));
+	}
+	
+	@Test
+	public void testSaturateColor4FFloatFloat() {
+		final Color4F a = Color4F.saturate(new Color4F(-10.0F, -10.0F, -10.0F, -10.0F), -5.0F, +5.0F);
+		final Color4F b = Color4F.saturate(new Color4F(-10.0F, -10.0F, -10.0F, -10.0F), +5.0F, -5.0F);
+		final Color4F c = Color4F.saturate(new Color4F(2.0F, 2.0F, 2.0F, 2.0F), -5.0F, +5.0F);
+		final Color4F d = Color4F.saturate(new Color4F(2.0F, 2.0F, 2.0F, 2.0F), +5.0F, -5.0F);
+		final Color4F e = Color4F.saturate(new Color4F(10.0F, 10.0F, 10.0F, 10.0F), -5.0F, +5.0F);
+		final Color4F f = Color4F.saturate(new Color4F(10.0F, 10.0F, 10.0F, 10.0F), +5.0F, -5.0F);
+		
+		assertEquals(-5.0F, a.r);
+		assertEquals(-5.0F, a.g);
+		assertEquals(-5.0F, a.b);
+		assertEquals(-5.0F, a.a);
+		
+		assertEquals(-5.0F, b.r);
+		assertEquals(-5.0F, b.g);
+		assertEquals(-5.0F, b.b);
+		assertEquals(-5.0F, b.a);
+		
+		assertEquals(2.0F, c.r);
+		assertEquals(2.0F, c.g);
+		assertEquals(2.0F, c.b);
+		assertEquals(2.0F, c.a);
+		
+		assertEquals(2.0F, d.r);
+		assertEquals(2.0F, d.g);
+		assertEquals(2.0F, d.b);
+		assertEquals(2.0F, d.a);
+		
+		assertEquals(5.0F, e.r);
+		assertEquals(5.0F, e.g);
+		assertEquals(5.0F, e.b);
+		assertEquals(5.0F, e.a);
+		
+		assertEquals(5.0F, f.r);
+		assertEquals(5.0F, f.g);
+		assertEquals(5.0F, f.b);
+		assertEquals(5.0F, f.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.saturate(null, -5.0F, +5.0F));
+	}
+	
+	@Test
 	public void testSepia() {
 		final Color4F a = new Color4F(1.0F, 1.0F, 1.0F, 1.0F);
 		final Color4F b = Color4F.sepia(a);
@@ -1124,6 +1228,19 @@ public final class Color4FUnitTests {
 		assertEquals(1.000F, b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4F.sepia(null));
+	}
+	
+	@Test
+	public void testSqrt() {
+		final Color4F a = new Color4F(16.0F, 25.0F, 36.0F, 49.0F);
+		final Color4F b = Color4F.sqrt(a);
+		
+		assertEquals(4.0F, b.r);
+		assertEquals(5.0F, b.g);
+		assertEquals(6.0F, b.b);
+		assertEquals(7.0F, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.sqrt(null));
 	}
 	
 	@Test

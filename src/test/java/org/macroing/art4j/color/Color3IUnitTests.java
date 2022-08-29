@@ -21,6 +21,7 @@ package org.macroing.art4j.color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -67,6 +68,43 @@ public final class Color3IUnitTests {
 		assertEquals(5, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3I.add(null, 2));
+	}
+	
+	@Test
+	public void testArrayInt() {
+		final Color3I[] colors = Color3I.array(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color3I color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color3I.BLACK, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color3I.array(-1));
+	}
+	
+	@Test
+	public void testArrayIntIntFunction() {
+		final Color3I[] colors = Color3I.array(10, index -> Color3I.RED);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color3I color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color3I.RED, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color3I.array(-1, index -> Color3I.RED));
+		
+		assertThrows(NullPointerException.class, () -> Color3I.array(10, index -> null));
+		assertThrows(NullPointerException.class, () -> Color3I.array(10, null));
 	}
 	
 	@Test
@@ -954,6 +992,63 @@ public final class Color3IUnitTests {
 		final Color3I color = new Color3I((int)(255.0D / 0.212671D), (int)(255.0D / 0.715160D), (int)(255.0D / 0.072169D));
 		
 		assertEquals(255 * 3 - 1, color.relativeLuminance());
+	}
+	
+	@Test
+	public void testSaturateColor3I() {
+		final Color3I a = Color3I.saturate(new Color3I(-1, -1, -1));
+		final Color3I b = Color3I.saturate(new Color3I(128, 128, 128));
+		final Color3I c = Color3I.saturate(new Color3I(512, 512, 512));
+		
+		assertEquals(0, a.r);
+		assertEquals(0, a.g);
+		assertEquals(0, a.b);
+		
+		assertEquals(128, b.r);
+		assertEquals(128, b.g);
+		assertEquals(128, b.b);
+		
+		assertEquals(255, c.r);
+		assertEquals(255, c.g);
+		assertEquals(255, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3I.saturate(null));
+	}
+	
+	@Test
+	public void testSaturateColor3IIntInt() {
+		final Color3I a = Color3I.saturate(new Color3I(-10, -10, -10), -5, +5);
+		final Color3I b = Color3I.saturate(new Color3I(-10, -10, -10), +5, -5);
+		final Color3I c = Color3I.saturate(new Color3I(2, 2, 2), -5, +5);
+		final Color3I d = Color3I.saturate(new Color3I(2, 2, 2), +5, -5);
+		final Color3I e = Color3I.saturate(new Color3I(10, 10, 10), -5, +5);
+		final Color3I f = Color3I.saturate(new Color3I(10, 10, 10), +5, -5);
+		
+		assertEquals(-5, a.r);
+		assertEquals(-5, a.g);
+		assertEquals(-5, a.b);
+		
+		assertEquals(-5, b.r);
+		assertEquals(-5, b.g);
+		assertEquals(-5, b.b);
+		
+		assertEquals(2, c.r);
+		assertEquals(2, c.g);
+		assertEquals(2, c.b);
+		
+		assertEquals(2, d.r);
+		assertEquals(2, d.g);
+		assertEquals(2, d.b);
+		
+		assertEquals(5, e.r);
+		assertEquals(5, e.g);
+		assertEquals(5, e.b);
+		
+		assertEquals(5, f.r);
+		assertEquals(5, f.g);
+		assertEquals(5, f.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3I.saturate(null, -5, +5));
 	}
 	
 	@Test

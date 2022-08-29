@@ -21,6 +21,7 @@ package org.macroing.art4j.color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -69,6 +70,43 @@ public final class Color4DUnitTests {
 		assertEquals(4.0D, b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4D.add(null, 2.0D));
+	}
+	
+	@Test
+	public void testArrayInt() {
+		final Color4D[] colors = Color4D.array(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4D color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color4D.TRANSPARENT, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4D.array(-1));
+	}
+	
+	@Test
+	public void testArrayIntIntFunction() {
+		final Color4D[] colors = Color4D.array(10, index -> Color4D.RED);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4D color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color4D.RED, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4D.array(-1, index -> Color4D.RED));
+		
+		assertThrows(NullPointerException.class, () -> Color4D.array(10, index -> null));
+		assertThrows(NullPointerException.class, () -> Color4D.array(10, null));
 	}
 	
 	@Test
@@ -1114,6 +1152,72 @@ public final class Color4DUnitTests {
 	}
 	
 	@Test
+	public void testSaturateColor4D() {
+		final Color4D a = Color4D.saturate(new Color4D(-1.0D, -1.0D, -1.0D, -1.0D));
+		final Color4D b = Color4D.saturate(new Color4D(0.5D, 0.5D, 0.5D, 0.5D));
+		final Color4D c = Color4D.saturate(new Color4D(2.0D, 2.0D, 2.0D, 2.0D));
+		
+		assertEquals(0.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		assertEquals(0.0D, a.a);
+		
+		assertEquals(0.5D, b.r);
+		assertEquals(0.5D, b.g);
+		assertEquals(0.5D, b.b);
+		assertEquals(0.5D, b.a);
+		
+		assertEquals(1.0D, c.r);
+		assertEquals(1.0D, c.g);
+		assertEquals(1.0D, c.b);
+		assertEquals(1.0D, c.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.saturate(null));
+	}
+	
+	@Test
+	public void testSaturateColor4DDoubleDouble() {
+		final Color4D a = Color4D.saturate(new Color4D(-10.0D, -10.0D, -10.0D, -10.0D), -5.0D, +5.0D);
+		final Color4D b = Color4D.saturate(new Color4D(-10.0D, -10.0D, -10.0D, -10.0D), +5.0D, -5.0D);
+		final Color4D c = Color4D.saturate(new Color4D(2.0D, 2.0D, 2.0D, 2.0D), -5.0D, +5.0D);
+		final Color4D d = Color4D.saturate(new Color4D(2.0D, 2.0D, 2.0D, 2.0D), +5.0D, -5.0D);
+		final Color4D e = Color4D.saturate(new Color4D(10.0D, 10.0D, 10.0D, 10.0D), -5.0D, +5.0D);
+		final Color4D f = Color4D.saturate(new Color4D(10.0D, 10.0D, 10.0D, 10.0D), +5.0D, -5.0D);
+		
+		assertEquals(-5.0D, a.r);
+		assertEquals(-5.0D, a.g);
+		assertEquals(-5.0D, a.b);
+		assertEquals(-5.0D, a.a);
+		
+		assertEquals(-5.0D, b.r);
+		assertEquals(-5.0D, b.g);
+		assertEquals(-5.0D, b.b);
+		assertEquals(-5.0D, b.a);
+		
+		assertEquals(2.0D, c.r);
+		assertEquals(2.0D, c.g);
+		assertEquals(2.0D, c.b);
+		assertEquals(2.0D, c.a);
+		
+		assertEquals(2.0D, d.r);
+		assertEquals(2.0D, d.g);
+		assertEquals(2.0D, d.b);
+		assertEquals(2.0D, d.a);
+		
+		assertEquals(5.0D, e.r);
+		assertEquals(5.0D, e.g);
+		assertEquals(5.0D, e.b);
+		assertEquals(5.0D, e.a);
+		
+		assertEquals(5.0D, f.r);
+		assertEquals(5.0D, f.g);
+		assertEquals(5.0D, f.b);
+		assertEquals(5.0D, f.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.saturate(null, -5.0D, +5.0D));
+	}
+	
+	@Test
 	public void testSepia() {
 		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
 		final Color4D b = Color4D.sepia(a);
@@ -1124,6 +1228,19 @@ public final class Color4DUnitTests {
 		assertEquals(1.000D, b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4D.sepia(null));
+	}
+	
+	@Test
+	public void testSqrt() {
+		final Color4D a = new Color4D(16.0D, 25.0D, 36.0D, 49.0D);
+		final Color4D b = Color4D.sqrt(a);
+		
+		assertEquals(4.0D, b.r);
+		assertEquals(5.0D, b.g);
+		assertEquals(6.0D, b.b);
+		assertEquals(7.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.sqrt(null));
 	}
 	
 	@Test

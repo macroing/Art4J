@@ -1704,7 +1704,6 @@ public final class Color3D {
 	 * @return a {@code Color3D} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D sqrt(final Color3D color) {
 		final double r = Doubles.sqrt(color.r);
 		final double g = Doubles.sqrt(color.g);
@@ -1725,7 +1724,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorLHS} or {@code colorRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D subtract(final Color3D colorLHS, final Color3D colorRHS) {
 		final double r = colorLHS.r - colorRHS.r;
 		final double g = colorLHS.g - colorRHS.g;
@@ -1747,7 +1745,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA}, {@code colorB} or {@code colorC} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D subtract(final Color3D colorA, final Color3D colorB, final Color3D colorC) {
 		final double r = colorA.r - colorB.r - colorC.r;
 		final double g = colorA.g - colorB.g - colorC.g;
@@ -1769,7 +1766,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code colorA} or {@code colorB} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D subtract(final Color3D colorA, final Color3D colorB, final double valueC) {
 		final double r = colorA.r - colorB.r - valueC;
 		final double g = colorA.g - colorB.g - valueC;
@@ -1790,7 +1786,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, {@code colorLHS} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D subtract(final Color3D colorLHS, final double scalarRHS) {
 		final double r = colorLHS.r - scalarRHS;
 		final double g = colorLHS.g - scalarRHS;
@@ -2044,7 +2039,6 @@ public final class Color3D {
 	 * @return a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D.BLACK}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D[] array(final int length) {
 		return array(length, index -> BLACK);
 	}
@@ -2062,7 +2056,6 @@ public final class Color3D {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D[] array(final int length, final IntFunction<Color3D> function) {
 		final Color3D[] colors = new Color3D[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		

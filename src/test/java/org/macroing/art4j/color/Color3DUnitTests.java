@@ -21,6 +21,7 @@ package org.macroing.art4j.color;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -175,6 +176,43 @@ public final class Color3DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Color3D.addSample(a, null, 1));
 		assertThrows(NullPointerException.class, () -> Color3D.addSample(null, b, 1));
+	}
+	
+	@Test
+	public void testArrayInt() {
+		final Color3D[] colors = Color3D.array(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color3D color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color3D.BLACK, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color3D.array(-1));
+	}
+	
+	@Test
+	public void testArrayIntIntFunction() {
+		final Color3D[] colors = Color3D.array(10, index -> Color3D.RED);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color3D color : colors) {
+			assertNotNull(color);
+			
+			assertEquals(Color3D.RED, color);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color3D.array(-1, index -> Color3D.RED));
+		
+		assertThrows(NullPointerException.class, () -> Color3D.array(10, index -> null));
+		assertThrows(NullPointerException.class, () -> Color3D.array(10, null));
 	}
 	
 	@Test
@@ -1388,6 +1426,74 @@ public final class Color3DUnitTests {
 		assertEquals(0.937D, b.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3D.sepia(null));
+	}
+	
+	@Test
+	public void testSqrt() {
+		final Color3D a = new Color3D(16.0D, 25.0D, 36.0D);
+		final Color3D b = Color3D.sqrt(a);
+		
+		assertEquals(4.0D, b.r);
+		assertEquals(5.0D, b.g);
+		assertEquals(6.0D, b.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.sqrt(null));
+	}
+	
+	@Test
+	public void testSubtractColor3DColor3D() {
+		final Color3D a = new Color3D(5.0D, 6.0D, 7.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = Color3D.subtract(a, b);
+		
+		assertEquals(3.0D, c.r);
+		assertEquals(3.0D, c.g);
+		assertEquals(3.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(a, null));
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(null, b));
+	}
+	
+	@Test
+	public void testSubtractColor3DColor3DColor3D() {
+		final Color3D a = new Color3D(10.0D, 11.0D, 12.0D);
+		final Color3D b = new Color3D(5.0D, 6.0D, 7.0D);
+		final Color3D c = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D d = Color3D.subtract(a, b, c);
+		
+		assertEquals(3.0D, d.r);
+		assertEquals(2.0D, d.g);
+		assertEquals(1.0D, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(a, b, null));
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(a, null, c));
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(null, b, c));
+	}
+	
+	@Test
+	public void testSubtractColor3DColor3DDouble() {
+		final Color3D a = new Color3D(5.0D, 6.0D, 7.0D);
+		final Color3D b = new Color3D(2.0D, 3.0D, 4.0D);
+		final Color3D c = Color3D.subtract(a, b, 2.0D);
+		
+		assertEquals(1.0D, c.r);
+		assertEquals(1.0D, c.g);
+		assertEquals(1.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(a, null, 2.0D));
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(null, b, 2.0D));
+	}
+	
+	@Test
+	public void testSubtractColor3DDouble() {
+		final Color3D a = new Color3D(5.0D, 6.0D, 7.0D);
+		final Color3D b = Color3D.subtract(a, 2.0D);
+		
+		assertEquals(3.0D, b.r);
+		assertEquals(4.0D, b.g);
+		assertEquals(5.0D, b.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.subtract(null, 2.0D));
 	}
 	
 	@Test

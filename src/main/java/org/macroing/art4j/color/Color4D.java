@@ -1328,7 +1328,6 @@ public final class Color4D {
 	 * @return a new {@code Color4D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4D saturate(final Color4D color) {
 		return saturate(color, 0.0D, 1.0D);
 	}
@@ -1346,7 +1345,6 @@ public final class Color4D {
 	 * @return a new {@code Color4D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4D saturate(final Color4D color, final double componentMinMax, final double componentMaxMin) {
 		final double r = Doubles.saturate(color.r, componentMinMax, componentMaxMin);
 		final double g = Doubles.saturate(color.g, componentMinMax, componentMaxMin);
@@ -1385,7 +1383,6 @@ public final class Color4D {
 	 * @return a {@code Color4D} instance with its component values corresponding to the correctly rounded positive square root of the component values of {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4D sqrt(final Color4D color) {
 		final double r = Doubles.sqrt(color.r);
 		final double g = Doubles.sqrt(color.g);
@@ -1411,7 +1408,6 @@ public final class Color4D {
 	 * @return a {@code Color4D[]} with a length of {@code length} and contains {@code Color4D.TRANSPARENT}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4D[] array(final int length) {
 		return array(length, index -> TRANSPARENT);
 	}
@@ -1429,7 +1425,6 @@ public final class Color4D {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code function} is {@code null} or returns {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4D[] array(final int length, final IntFunction<Color4D> function) {
 		final Color4D[] colors = new Color4D[Ints.requireRange(length, 0, Integer.MAX_VALUE, "length")];
 		
