@@ -1818,7 +1818,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapFilmicCurve(final Color3D color, final double exposure, final double a, final double b, final double c, final double d, final double e) {
 		return toneMapFilmicCurve(color, exposure, a, b, c, d, e, 0.0D, -Double.MAX_VALUE);
 	}
@@ -1850,7 +1849,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapFilmicCurve(final Color3D color, final double exposure, final double a, final double b, final double c, final double d, final double e, final double subtract, final double minimum) {
 		final double r1 = Doubles.max(color.r * exposure - subtract, minimum);
 		final double g1 = Doubles.max(color.g * exposure - subtract, minimum);
@@ -1882,7 +1880,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapFilmicCurveACESModifiedVersion1(final Color3D color, final double exposure) {
 //		Source: https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
 		return toneMapFilmicCurve(color, exposure, 2.51D, 0.03D, 2.43D, 0.59D, 0.14D);
@@ -1909,7 +1906,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapFilmicCurveGammaCorrection22(final Color3D color, final double exposure) {
 //		Source: http://filmicworlds.com/blog/why-a-filmic-curve-saturates-your-blacks/
 		return toneMapFilmicCurve(color, exposure, 6.2D, 0.5D, 6.2D, 1.7D, 0.06D, 0.004D, 0.0D);
@@ -1927,7 +1923,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapReinhard(final Color3D color, final double exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		
@@ -1954,7 +1949,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapReinhardModifiedVersion1(final Color3D color, final double exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		
@@ -1983,7 +1977,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapReinhardModifiedVersion2(final Color3D color, final double exposure) {
 		final double r1 = color.r * exposure;
 		final double g1 = color.g * exposure;
@@ -2008,7 +2001,6 @@ public final class Color3D {
 	 * @return a new {@code Color3D} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3D toneMapUnreal3(final Color3D color, final double exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		

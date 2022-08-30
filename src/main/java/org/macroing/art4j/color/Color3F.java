@@ -1818,7 +1818,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapFilmicCurve(final Color3F color, final float exposure, final float a, final float b, final float c, final float d, final float e) {
 		return toneMapFilmicCurve(color, exposure, a, b, c, d, e, 0.0F, -Float.MAX_VALUE);
 	}
@@ -1850,7 +1849,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapFilmicCurve(final Color3F color, final float exposure, final float a, final float b, final float c, final float d, final float e, final float subtract, final float minimum) {
 		final float r1 = Floats.max(color.r * exposure - subtract, minimum);
 		final float g1 = Floats.max(color.g * exposure - subtract, minimum);
@@ -1882,7 +1880,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapFilmicCurveACESModifiedVersion1(final Color3F color, final float exposure) {
 //		Source: https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
 		return toneMapFilmicCurve(color, exposure, 2.51F, 0.03F, 2.43F, 0.59F, 0.14F);
@@ -1909,7 +1906,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapFilmicCurveGammaCorrection22(final Color3F color, final float exposure) {
 //		Source: http://filmicworlds.com/blog/why-a-filmic-curve-saturates-your-blacks/
 		return toneMapFilmicCurve(color, exposure, 6.2F, 0.5F, 6.2F, 1.7F, 0.06F, 0.004F, 0.0F);
@@ -1927,7 +1923,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapReinhard(final Color3F color, final float exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		
@@ -1954,7 +1949,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapReinhardModifiedVersion1(final Color3F color, final float exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		
@@ -1983,7 +1977,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapReinhardModifiedVersion2(final Color3F color, final float exposure) {
 		final float r1 = color.r * exposure;
 		final float g1 = color.g * exposure;
@@ -2008,7 +2001,6 @@ public final class Color3F {
 	 * @return a new {@code Color3F} instance with the result of the operation
 	 * @throws NullPointerException thrown if, and only if, {@code color} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color3F toneMapUnreal3(final Color3F color, final float exposure) {
 //		Source: https://www.shadertoy.com/view/WdjSW3
 		

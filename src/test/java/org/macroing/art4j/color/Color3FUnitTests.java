@@ -1561,6 +1561,214 @@ public final class Color3FUnitTests {
 	}
 	
 	@Test
+	public void testToneMapFilmicCurveACESModifiedVersion1() {
+		final Color3F a = Color3F.toneMapFilmicCurveACESModifiedVersion1(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapFilmicCurveACESModifiedVersion1(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapFilmicCurveACESModifiedVersion1(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapFilmicCurveACESModifiedVersion1(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(0.8037974F, d.r);
+		assertEquals(0.8037974F, d.g);
+		assertEquals(0.8037974F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapFilmicCurveACESModifiedVersion1(null, 1.0F));
+	}
+	
+	@Test
+	public void testToneMapFilmicCurveColor3FFloatFloatFloatFloatFloatFloat() {
+		final Color3F a = Color3F.toneMapFilmicCurve(new Color3F(0.0F, 0.0F, 0.0F), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F);
+		final Color3F b = Color3F.toneMapFilmicCurve(new Color3F(0.0F, 0.0F, 0.0F), 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F);
+		final Color3F c = Color3F.toneMapFilmicCurve(new Color3F(1.0F, 1.0F, 1.0F), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F);
+		final Color3F d = Color3F.toneMapFilmicCurve(new Color3F(1.0F, 1.0F, 1.0F), 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(1.0F, d.r);
+		assertEquals(1.0F, d.g);
+		assertEquals(1.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapFilmicCurve(null, 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F));
+	}
+	
+	@Test
+	public void testToneMapFilmicCurveColor3FFloatFloatFloatFloatFloatFloatFloatFloat() {
+		final Color3F a = Color3F.toneMapFilmicCurve(new Color3F(0.0F, 0.0F, 0.0F), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, -Float.MAX_VALUE);
+		final Color3F b = Color3F.toneMapFilmicCurve(new Color3F(0.0F, 0.0F, 0.0F), 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, -Float.MAX_VALUE);
+		final Color3F c = Color3F.toneMapFilmicCurve(new Color3F(1.0F, 1.0F, 1.0F), 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, -Float.MAX_VALUE);
+		final Color3F d = Color3F.toneMapFilmicCurve(new Color3F(1.0F, 1.0F, 1.0F), 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, -Float.MAX_VALUE);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(1.0F, d.r);
+		assertEquals(1.0F, d.g);
+		assertEquals(1.0F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapFilmicCurve(null, 1.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, -Float.MAX_VALUE));
+	}
+	
+	@Test
+	public void testToneMapFilmicCurveGammaCorrection22() {
+		final Color3F a = Color3F.toneMapFilmicCurveGammaCorrection22(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapFilmicCurveGammaCorrection22(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapFilmicCurveGammaCorrection22(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapFilmicCurveGammaCorrection22(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(0.84118825F, d.r);
+		assertEquals(0.84118825F, d.g);
+		assertEquals(0.84118825F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapFilmicCurveGammaCorrection22(null, 1.0F));
+	}
+	
+	@Test
+	public void testToneMapReinhard() {
+		final Color3F a = Color3F.toneMapReinhard(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapReinhard(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapReinhard(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapReinhard(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(0.5F, d.r);
+		assertEquals(0.5F, d.g);
+		assertEquals(0.5F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapReinhard(null, 1.0F));
+	}
+	
+	@Test
+	public void testToneMapReinhardModifiedVersion1() {
+		final Color3F a = Color3F.toneMapReinhardModifiedVersion1(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapReinhardModifiedVersion1(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapReinhardModifiedVersion1(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapReinhardModifiedVersion1(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(0.53125F, d.r);
+		assertEquals(0.53125F, d.g);
+		assertEquals(0.53125F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapReinhardModifiedVersion1(null, 1.0F));
+	}
+	
+	@Test
+	public void testToneMapReinhardModifiedVersion2() {
+		final Color3F a = Color3F.toneMapReinhardModifiedVersion2(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapReinhardModifiedVersion2(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapReinhardModifiedVersion2(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapReinhardModifiedVersion2(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(0.63212055F, d.r);
+		assertEquals(0.63212055F, d.g);
+		assertEquals(0.63212055F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapReinhardModifiedVersion2(null, 1.0F));
+	}
+	
+	@Test
+	public void testToneMapUnreal3() {
+		final Color3F a = Color3F.toneMapUnreal3(new Color3F(0.0F, 0.0F, 0.0F), 0.0F);
+		final Color3F b = Color3F.toneMapUnreal3(new Color3F(0.0F, 0.0F, 0.0F), 1.0F);
+		final Color3F c = Color3F.toneMapUnreal3(new Color3F(1.0F, 1.0F, 1.0F), 0.0F);
+		final Color3F d = Color3F.toneMapUnreal3(new Color3F(1.0F, 1.0F, 1.0F), 1.0F);
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(0.0F, c.b);
+		
+		assertEquals(1.0F / 1.155F * 1.019F, d.r);
+		assertEquals(1.0F / 1.155F * 1.019F, d.g);
+		assertEquals(1.0F / 1.155F * 1.019F, d.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3F.toneMapUnreal3(null, 1.0F));
+	}
+	
+	@Test
 	public void testWrite() {
 		final Color3F a = new Color3F(1.0F, 0.5F, 0.0F);
 		
