@@ -639,6 +639,39 @@ public final class Color4D {
 	}
 	
 	/**
+	 * Returns an {@code int} with the component values in a packed form.
+	 * <p>
+	 * This method assumes that the component values are within the range [0.0, 1.0]. Any component value outside of this range will be saturated or clamped.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * color4D.pack(PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @return an {@code int} with the component values in a packed form
+	 */
+	public int pack() {
+		return pack(PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns an {@code int} with the component values in a packed form.
+	 * <p>
+	 * This method assumes that the component values are within the range [0.0, 1.0]. Any component value outside of this range will be saturated or clamped.
+	 * <p>
+	 * If {@code packedIntComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param packedIntComponentOrder the {@link PackedIntComponentOrder} to pack the component values with
+	 * @return an {@code int} with the component values in a packed form
+	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
+	 */
+	public int pack(final PackedIntComponentOrder packedIntComponentOrder) {
+		return packedIntComponentOrder.pack(toIntR(), toIntG(), toIntB(), toIntA());
+	}
+	
+	/**
 	 * Returns the alpha component as an {@code int}.
 	 * 
 	 * @return the alpha component as an {@code int}
@@ -1393,6 +1426,42 @@ public final class Color4D {
 	}
 	
 	/**
+	 * Returns a {@code Color4D} instance by unpacking {@code color} using {@code PackedIntComponentOrder.ARGB}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.unpack(color, PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color an {@code int} with the color in packed form
+	 * @return a {@code Color4D} instance by unpacking {@code color} using {@code PackedIntComponentOrder.ARGB}
+	 */
+	public static Color4D unpack(final int color) {
+		return unpack(color, PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns a {@code Color4D} instance by unpacking {@code color} using {@code packedIntComponentOrder}.
+	 * <p>
+	 * If {@code packedIntComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color an {@code int} with the color in packed form
+	 * @param packedIntComponentOrder the {@link PackedIntComponentOrder} to unpack the component values with
+	 * @return a {@code Color4D} instance by unpacking {@code color} using {@code packedIntComponentOrder}
+	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
+	 */
+	public static Color4D unpack(final int color, final PackedIntComponentOrder packedIntComponentOrder) {
+		final int r = packedIntComponentOrder.unpackR(color);
+		final int g = packedIntComponentOrder.unpackG(color);
+		final int b = packedIntComponentOrder.unpackB(color);
+		final int a = packedIntComponentOrder.unpackA(color);
+		
+		return new Color4D(r, g, b, a);
+	}
+	
+	/**
 	 * Returns a {@code Color4D[]} with a length of {@code length} and contains {@code Color4D.TRANSPARENT}.
 	 * <p>
 	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
@@ -1432,6 +1501,192 @@ public final class Color4D {
 		
 		for(int i = 0; i < colors.length; i++) {
 			colors[i] = Objects.requireNonNull(function.apply(i));
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code length} and contains random {@code Color4D} instances.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.array(length, index -> Color4D.random());
+	 * }
+	 * </pre>
+	 * 
+	 * @param length the length of the array
+	 * @return a {@code Color4D[]} with a length of {@code length} and contains random {@code Color4D} instances
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayRandom(final int length) {
+		return array(length, index -> random());
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length / ArrayComponentOrder.RGBA.getComponentCount()} and contains {@code Color4D} instances read from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.arrayRead(array, ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to read from
+	 * @return a {@code Color4D[]} with a length of {@code array.length / ArrayComponentOrder.RGBA.getComponentCount()} and contains {@code Color4D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayRead(final byte[] array) {
+		return arrayRead(array, ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color4D} instances read from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code arrayComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param array the array to read from
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder} instance
+	 * @return a {@code Color4D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color4D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayRead(final byte[] array, final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		if(array.length % arrayComponentOrder.getComponentCount() != 0) {
+			throw new IllegalArgumentException("array.length % arrayComponentOrder.getComponentCount()");
+		}
+		
+		final Color4D[] colors = new Color4D[array.length / arrayComponentOrder.getComponentCount()];
+		
+		for(int i = 0; i < colors.length; i++) {
+			final int r = arrayComponentOrder.readRAsInt(array, i * arrayComponentOrder.getComponentCount());
+			final int g = arrayComponentOrder.readGAsInt(array, i * arrayComponentOrder.getComponentCount());
+			final int b = arrayComponentOrder.readBAsInt(array, i * arrayComponentOrder.getComponentCount());
+			final int a = arrayComponentOrder.readAAsInt(array, i * arrayComponentOrder.getComponentCount());
+			
+			colors[i] = new Color4D(r, g, b, a);
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length / ArrayComponentOrder.RGBA.getComponentCount()} and contains {@code Color4D} instances read from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.arrayRead(array, ArrayComponentOrder.RGBA);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to read from
+	 * @return a {@code Color4D[]} with a length of {@code array.length / ArrayComponentOrder.RGBA.getComponentCount()} and contains {@code Color4D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayRead(final int[] array) {
+		return arrayRead(array, ArrayComponentOrder.RGBA);
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color4D} instances read from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code arrayComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param array the array to read from
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder} instance
+	 * @return a {@code Color4D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color4D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayRead(final int[] array, final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		if(array.length % arrayComponentOrder.getComponentCount() != 0) {
+			throw new IllegalArgumentException("array.length % arrayComponentOrder.getComponentCount()");
+		}
+		
+		final Color4D[] colors = new Color4D[array.length / arrayComponentOrder.getComponentCount()];
+		
+		for(int i = 0; i < colors.length; i++) {
+			final int r = arrayComponentOrder.readR(array, i * arrayComponentOrder.getComponentCount());
+			final int g = arrayComponentOrder.readG(array, i * arrayComponentOrder.getComponentCount());
+			final int b = arrayComponentOrder.readB(array, i * arrayComponentOrder.getComponentCount());
+			final int a = arrayComponentOrder.readA(array, i * arrayComponentOrder.getComponentCount());
+			
+			colors[i] = new Color4D(r, g, b, a);
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length} and contains {@code Color4D} instances unpacked from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color4D.arrayUnpack(array, PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to unpack from
+	 * @return a {@code Color4D[]} with a length of {@code array.length} and contains {@code Color4D} instances unpacked from {@code array}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayUnpack(final int[] array) {
+		return arrayUnpack(array, PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns a {@code Color4D[]} with a length of {@code array.length} and contains {@code Color4D} instances unpacked from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code packedIntComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param array the array to unpack from
+	 * @param packedIntComponentOrder a {@link PackedIntComponentOrder} instance
+	 * @return a {@code Color4D[]} with a length of {@code array.length} and contains {@code Color4D} instances unpacked from {@code array}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code packedIntComponentOrder} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public static Color4D[] arrayUnpack(final int[] array, final PackedIntComponentOrder packedIntComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(packedIntComponentOrder, "packedIntComponentOrder == null");
+		
+		final Color4D[] colors = new Color4D[array.length];
+		
+		for(int i = 0; i < colors.length; i++) {
+			colors[i] = unpack(array[i], packedIntComponentOrder);
 		}
 		
 		return colors;

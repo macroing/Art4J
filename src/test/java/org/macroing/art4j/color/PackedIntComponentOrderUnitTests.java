@@ -204,10 +204,10 @@ public final class PackedIntComponentOrderUnitTests {
 		final int colorCComponentA = PackedIntComponentOrder.BGR.unpackA(colorC);
 		final int colorDComponentA = PackedIntComponentOrder.RGB.unpackA(colorD);
 		
-		assertEquals( 40, colorAComponentA);
-		assertEquals( 40, colorBComponentA);
-		assertEquals(255, colorCComponentA);
-		assertEquals(255, colorDComponentA);
+		assertEquals(40, colorAComponentA);
+		assertEquals(40, colorBComponentA);
+		assertEquals( 0, colorCComponentA);
+		assertEquals( 0, colorDComponentA);
 	}
 	
 	@Test

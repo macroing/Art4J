@@ -216,6 +216,274 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testArrayRandom() {
+		final Color3D[] colors = Color3D.arrayRandom(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color3D color : colors) {
+			assertNotNull(color);
+			
+			assertTrue(color.r >= 0.0D && color.r <= 1.0D);
+			assertTrue(color.g >= 0.0D && color.g <= 1.0D);
+			assertTrue(color.b >= 0.0D && color.b <= 1.0D);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color3D.arrayRandom(-1));
+	}
+	
+	@Test
+	public void testArrayReadByteArray() {
+		final byte[] array = {(byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(255)};
+		
+		final Color3D[] colors = Color3D.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(3, colors.length);
+		
+		final Color3D a = colors[0];
+		final Color3D b = colors[1];
+		final Color3D c = colors[2];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead((byte[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color3D.arrayRead(new byte[] {(byte)(255), (byte)(255)}));
+	}
+	
+	@Test
+	public void testArrayReadByteArrayArrayComponentOrder() {
+		final byte[][] arrays = {
+			{(byte)(128), (byte)(255), (byte)(  0), (byte)(  0), (byte)(128), (byte)(  0), (byte)(255), (byte)(  0), (byte)(128), (byte)(0), (byte)(  0), (byte)(255)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(255), (byte)(  0), (byte)(255), (byte)(  0), (byte)(  0)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(128), (byte)(  0), (byte)(255), (byte)(  0), (byte)(128), (byte)(255), (byte)(0), (byte)(  0), (byte)(128)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(  0), (byte)(  0), (byte)(255)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(128), (byte)(  0), (byte)(255), (byte)(  0), (byte)(128), (byte)(  0), (byte)(0), (byte)(255), (byte)(128)}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color3D[] colors = Color3D.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color3D a = colors[0];
+			final Color3D b = colors[1];
+			final Color3D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead((byte[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead(new byte[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color3D.arrayRead(new byte[] {(byte)(255), (byte)(255)}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayReadIntArray() {
+		final int[] array = {255, 0, 0, 0, 255, 0, 0, 0, 255};
+		
+		final Color3D[] colors = Color3D.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(3, colors.length);
+		
+		final Color3D a = colors[0];
+		final Color3D b = colors[1];
+		final Color3D c = colors[2];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead((int[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color3D.arrayRead(new int[] {255, 255}));
+	}
+	
+	@Test
+	public void testArrayReadIntArrayArrayComponentOrder() {
+		final int[][] arrays = {
+			{128, 255,   0,   0, 128,   0, 255,   0, 128, 0,   0, 255},
+			{  0,   0, 255,   0, 255,   0, 255,   0,   0},
+			{  0,   0, 255, 128,   0, 255,   0, 128, 255, 0,   0, 128},
+			{255,   0,   0,   0, 255,   0,   0,   0, 255},
+			{255,   0,   0, 128,   0, 255,   0, 128,   0, 0, 255, 128}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color3D[] colors = Color3D.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color3D a = colors[0];
+			final Color3D b = colors[1];
+			final Color3D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead((int[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color3D.arrayRead(new int[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color3D.arrayRead(new int[] {255, 255}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArray() {
+		final int[] array = {
+			PackedIntComponentOrder.ARGB.pack(255,   0,   0),
+			PackedIntComponentOrder.ARGB.pack(  0, 255,   0),
+			PackedIntComponentOrder.ARGB.pack(  0,   0, 255)
+		};
+		
+		final Color3D[] colors = Color3D.arrayUnpack(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(3, colors.length);
+		
+		final Color3D a = colors[0];
+		final Color3D b = colors[1];
+		final Color3D c = colors[2];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayUnpack(null));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArrayPackedIntComponentOrder() {
+		final PackedIntComponentOrder[] packedIntComponentOrders = PackedIntComponentOrder.values();
+		
+		for(final PackedIntComponentOrder packedIntComponentOrder : packedIntComponentOrders) {
+			final int[] array = {
+				packedIntComponentOrder.pack(255,   0,   0),
+				packedIntComponentOrder.pack(  0, 255,   0),
+				packedIntComponentOrder.pack(  0,   0, 255)
+			};
+			
+			final Color3D[] colors = Color3D.arrayUnpack(array, packedIntComponentOrder);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color3D a = colors[0];
+			final Color3D b = colors[1];
+			final Color3D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color3D.arrayUnpack(null, PackedIntComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color3D.arrayUnpack(new int[] {}, null));
+	}
+	
+	@Test
 	public void testAverage() {
 		final Color3D color = new Color3D(0.0D, 0.5D, 1.0D);
 		
@@ -1126,6 +1394,50 @@ public final class Color3DUnitTests {
 	}
 	
 	@Test
+	public void testPack() {
+		final Color3D a = new Color3D(1.0D, 0.0D, 0.0D);
+		final Color3D b = new Color3D(0.0D, 1.0D, 0.0D);
+		final Color3D c = new Color3D(0.0D, 0.0D, 1.0D);
+		
+		final int packedA = a.pack();
+		final int packedB = b.pack();
+		final int packedC = c.pack();
+		
+		final Color3D d = Color3D.unpack(packedA);
+		final Color3D e = Color3D.unpack(packedB);
+		final Color3D f = Color3D.unpack(packedC);
+		
+		assertEquals(a, d);
+		assertEquals(b, e);
+		assertEquals(c, f);
+	}
+	
+	@Test
+	public void testPackPackedIntComponentOrder() {
+		final Color3D a = new Color3D(1.0D, 0.0D, 0.0D);
+		final Color3D b = new Color3D(0.0D, 1.0D, 0.0D);
+		final Color3D c = new Color3D(0.0D, 0.0D, 1.0D);
+		
+		final PackedIntComponentOrder[] packedIntComponentOrders = PackedIntComponentOrder.values();
+		
+		for(final PackedIntComponentOrder packedIntComponentOrder : packedIntComponentOrders) {
+			final int packedA = a.pack(packedIntComponentOrder);
+			final int packedB = b.pack(packedIntComponentOrder);
+			final int packedC = c.pack(packedIntComponentOrder);
+			
+			final Color3D d = Color3D.unpack(packedA, packedIntComponentOrder);
+			final Color3D e = Color3D.unpack(packedB, packedIntComponentOrder);
+			final Color3D f = Color3D.unpack(packedC, packedIntComponentOrder);
+			
+			assertEquals(a, d);
+			assertEquals(b, e);
+			assertEquals(c, f);
+		}
+		
+		assertThrows(NullPointerException.class, () -> a.pack(null));
+	}
+	
+	@Test
 	public void testRandom() {
 		for(int i = 0; i < 1000; i++) {
 			final Color3D color = Color3D.random();
@@ -1766,6 +2078,68 @@ public final class Color3DUnitTests {
 		assertEquals(1.0D / 1.155D * 1.019D, d.b);
 		
 		assertThrows(NullPointerException.class, () -> Color3D.toneMapUnreal3(null, 1.0D));
+	}
+	
+	@Test
+	public void testUnpackInt() {
+		final Color3D a = Color3D.unpack(PackedIntComponentOrder.ARGB.pack(  0,   0,   0));
+		final Color3D b = Color3D.unpack(PackedIntComponentOrder.ARGB.pack(255,   0,   0));
+		final Color3D c = Color3D.unpack(PackedIntComponentOrder.ARGB.pack(  0, 255,   0));
+		final Color3D d = Color3D.unpack(PackedIntComponentOrder.ARGB.pack(  0,   0, 255));
+		final Color3D e = Color3D.unpack(PackedIntComponentOrder.ARGB.pack(255, 255, 255));
+		
+		assertEquals(0.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(0.0D, b.g);
+		assertEquals(0.0D, b.b);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(1.0D, c.g);
+		assertEquals(0.0D, c.b);
+		
+		assertEquals(0.0D, d.r);
+		assertEquals(0.0D, d.g);
+		assertEquals(1.0D, d.b);
+		
+		assertEquals(1.0D, e.r);
+		assertEquals(1.0D, e.g);
+		assertEquals(1.0D, e.b);
+	}
+	
+	@Test
+	public void testUnpackIntPackedIntComponentOrder() {
+		for(final PackedIntComponentOrder packedIntComponentOrder : PackedIntComponentOrder.values()) {
+			final Color3D a = Color3D.unpack(packedIntComponentOrder.pack(  0,   0,   0), packedIntComponentOrder);
+			final Color3D b = Color3D.unpack(packedIntComponentOrder.pack(255,   0,   0), packedIntComponentOrder);
+			final Color3D c = Color3D.unpack(packedIntComponentOrder.pack(  0, 255,   0), packedIntComponentOrder);
+			final Color3D d = Color3D.unpack(packedIntComponentOrder.pack(  0,   0, 255), packedIntComponentOrder);
+			final Color3D e = Color3D.unpack(packedIntComponentOrder.pack(255, 255, 255), packedIntComponentOrder);
+			
+			assertEquals(0.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			
+			assertEquals(1.0D, b.r);
+			assertEquals(0.0D, b.g);
+			assertEquals(0.0D, b.b);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(1.0D, c.g);
+			assertEquals(0.0D, c.b);
+			
+			assertEquals(0.0D, d.r);
+			assertEquals(0.0D, d.g);
+			assertEquals(1.0D, d.b);
+			
+			assertEquals(1.0D, e.r);
+			assertEquals(1.0D, e.g);
+			assertEquals(1.0D, e.b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color3D.unpack(PackedIntComponentOrder.ARGB.pack(0, 0, 0), null));
 	}
 	
 	@Test

@@ -889,6 +889,63 @@ public final class Color4FUnitTests {
 	}
 	
 	@Test
+	public void testPack() {
+		final Color4F a = new Color4F(1.0F, 0.0F, 0.0F, 0.0F);
+		final Color4F b = new Color4F(0.0F, 1.0F, 0.0F, 0.0F);
+		final Color4F c = new Color4F(0.0F, 0.0F, 1.0F, 0.0F);
+		final Color4F d = new Color4F(0.0F, 0.0F, 0.0F, 1.0F);
+		
+		final int packedA = a.pack();
+		final int packedB = b.pack();
+		final int packedC = c.pack();
+		final int packedD = d.pack();
+		
+		final Color4F e = Color4F.unpack(packedA);
+		final Color4F f = Color4F.unpack(packedB);
+		final Color4F g = Color4F.unpack(packedC);
+		final Color4F h = Color4F.unpack(packedD);
+		
+		assertEquals(a, e);
+		assertEquals(b, f);
+		assertEquals(c, g);
+		assertEquals(d, h);
+	}
+	
+	@Test
+	public void testPackPackedIntComponentOrder() {
+		final Color4F a = new Color4F(1.0F, 0.0F, 0.0F, 0.0F);
+		final Color4F b = new Color4F(0.0F, 1.0F, 0.0F, 0.0F);
+		final Color4F c = new Color4F(0.0F, 0.0F, 1.0F, 0.0F);
+		final Color4F d = new Color4F(0.0F, 0.0F, 0.0F, 1.0F);
+		
+		final PackedIntComponentOrder[] packedIntComponentOrders = PackedIntComponentOrder.values();
+		
+		for(final PackedIntComponentOrder packedIntComponentOrder : packedIntComponentOrders) {
+			final int packedA = a.pack(packedIntComponentOrder);
+			final int packedB = b.pack(packedIntComponentOrder);
+			final int packedC = c.pack(packedIntComponentOrder);
+			final int packedD = d.pack(packedIntComponentOrder);
+			
+			final Color4F e = Color4F.unpack(packedA, packedIntComponentOrder);
+			final Color4F f = Color4F.unpack(packedB, packedIntComponentOrder);
+			final Color4F g = Color4F.unpack(packedC, packedIntComponentOrder);
+			final Color4F h = Color4F.unpack(packedD, packedIntComponentOrder);
+			
+			assertEquals(a, e);
+			assertEquals(b, f);
+			assertEquals(c, g);
+			
+			if(packedIntComponentOrder.getComponentCount() == 4) {
+				assertEquals(d, h);
+			} else {
+				assertEquals(Color4F.TRANSPARENT, h);
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> a.pack(null));
+	}
+	
+	@Test
 	public void testRandom() {
 		for(int i = 0; i < 1000; i++) {
 			final Color4F color = Color4F.random();
@@ -1318,6 +1375,100 @@ public final class Color4FUnitTests {
 		final Color4F color = new Color4F(0.0F, 0.25F, 0.75F, 1.0F);
 		
 		assertEquals("new Color4F(0.0F, 0.25F, 0.75F, 1.0F)", color.toString());
+	}
+	
+	@Test
+	public void testUnpackInt() {
+		final Color4F a = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(  0,   0,   0,   0));
+		final Color4F b = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(255,   0,   0,   0));
+		final Color4F c = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(  0, 255,   0,   0));
+		final Color4F d = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(  0,   0, 255,   0));
+		final Color4F e = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(  0,   0,   0, 255));
+		final Color4F f = Color4F.unpack(PackedIntComponentOrder.ARGB.pack(255, 255, 255, 255));
+		
+		assertEquals(0.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		assertEquals(0.0F, a.a);
+		
+		assertEquals(1.0F, b.r);
+		assertEquals(0.0F, b.g);
+		assertEquals(0.0F, b.b);
+		assertEquals(0.0F, b.a);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(1.0F, c.g);
+		assertEquals(0.0F, c.b);
+		assertEquals(0.0F, c.a);
+		
+		assertEquals(0.0F, d.r);
+		assertEquals(0.0F, d.g);
+		assertEquals(1.0F, d.b);
+		assertEquals(0.0F, d.a);
+		
+		assertEquals(0.0F, e.r);
+		assertEquals(0.0F, e.g);
+		assertEquals(0.0F, e.b);
+		assertEquals(1.0F, e.a);
+		
+		assertEquals(1.0F, f.r);
+		assertEquals(1.0F, f.g);
+		assertEquals(1.0F, f.b);
+		assertEquals(1.0F, f.a);
+	}
+	
+	@Test
+	public void testUnpackIntPackedIntComponentOrder() {
+		for(final PackedIntComponentOrder packedIntComponentOrder : PackedIntComponentOrder.values()) {
+			final Color4F a = Color4F.unpack(packedIntComponentOrder.pack(  0,   0,   0,   0), packedIntComponentOrder);
+			final Color4F b = Color4F.unpack(packedIntComponentOrder.pack(255,   0,   0,   0), packedIntComponentOrder);
+			final Color4F c = Color4F.unpack(packedIntComponentOrder.pack(  0, 255,   0,   0), packedIntComponentOrder);
+			final Color4F d = Color4F.unpack(packedIntComponentOrder.pack(  0,   0, 255,   0), packedIntComponentOrder);
+			final Color4F e = Color4F.unpack(packedIntComponentOrder.pack(  0,   0,   0, 255), packedIntComponentOrder);
+			final Color4F f = Color4F.unpack(packedIntComponentOrder.pack(255, 255, 255, 255), packedIntComponentOrder);
+			
+			assertEquals(0.0F, a.r);
+			assertEquals(0.0F, a.g);
+			assertEquals(0.0F, a.b);
+			assertEquals(0.0F, a.a);
+			
+			assertEquals(1.0F, b.r);
+			assertEquals(0.0F, b.g);
+			assertEquals(0.0F, b.b);
+			assertEquals(0.0F, b.a);
+			
+			assertEquals(0.0F, c.r);
+			assertEquals(1.0F, c.g);
+			assertEquals(0.0F, c.b);
+			assertEquals(0.0F, c.a);
+			
+			assertEquals(0.0F, d.r);
+			assertEquals(0.0F, d.g);
+			assertEquals(1.0F, d.b);
+			assertEquals(0.0F, d.a);
+			
+			assertEquals(0.0F, e.r);
+			assertEquals(0.0F, e.g);
+			assertEquals(0.0F, e.b);
+			
+			if(packedIntComponentOrder.getComponentCount() == 4) {
+				assertEquals(1.0F, e.a);
+			} else {
+				assertEquals(0.0F, e.a);
+			}
+			
+			assertEquals(1.0F, f.r);
+			assertEquals(1.0F, f.g);
+			assertEquals(1.0F, f.b);
+			
+			if(packedIntComponentOrder.getComponentCount() == 4) {
+				assertEquals(1.0F, f.a);
+			} else {
+				assertEquals(0.0F, f.a);
+			}
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4F.unpack(PackedIntComponentOrder.ARGB.pack(0, 0, 0, 0), null));
 	}
 	
 	@Test

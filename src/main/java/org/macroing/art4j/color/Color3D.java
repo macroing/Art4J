@@ -532,6 +532,39 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Returns an {@code int} with the component values in a packed form.
+	 * <p>
+	 * This method assumes that the component values are within the range [0.0, 1.0]. Any component value outside of this range will be saturated or clamped.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * color3D.pack(PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @return an {@code int} with the component values in a packed form
+	 */
+	public int pack() {
+		return pack(PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns an {@code int} with the component values in a packed form.
+	 * <p>
+	 * This method assumes that the component values are within the range [0.0, 1.0]. Any component value outside of this range will be saturated or clamped.
+	 * <p>
+	 * If {@code packedIntComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param packedIntComponentOrder the {@link PackedIntComponentOrder} to pack the component values with
+	 * @return an {@code int} with the component values in a packed form
+	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
+	 */
+	public int pack(final PackedIntComponentOrder packedIntComponentOrder) {
+		return packedIntComponentOrder.pack(toIntR(), toIntG(), toIntB(), 255);
+	}
+	
+	/**
 	 * Returns the alpha, red, green and blue components as an {@code int} in the format ARGB.
 	 * <p>
 	 * The alpha component is treated as if it was {@code 1.0D} or {@code 255}.
@@ -2016,6 +2049,41 @@ public final class Color3D {
 	}
 	
 	/**
+	 * Returns a {@code Color3D} instance by unpacking {@code color} using {@code PackedIntComponentOrder.ARGB}.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.unpack(color, PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param color an {@code int} with the color in packed form
+	 * @return a {@code Color3D} instance by unpacking {@code color} using {@code PackedIntComponentOrder.ARGB}
+	 */
+	public static Color3D unpack(final int color) {
+		return unpack(color, PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns a {@code Color3D} instance by unpacking {@code color} using {@code packedIntComponentOrder}.
+	 * <p>
+	 * If {@code packedIntComponentOrder} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param color an {@code int} with the color in packed form
+	 * @param packedIntComponentOrder the {@link PackedIntComponentOrder} to unpack the component values with
+	 * @return a {@code Color3D} instance by unpacking {@code color} using {@code packedIntComponentOrder}
+	 * @throws NullPointerException thrown if, and only if, {@code packedIntComponentOrder} is {@code null}
+	 */
+	public static Color3D unpack(final int color, final PackedIntComponentOrder packedIntComponentOrder) {
+		final int r = packedIntComponentOrder.unpackR(color);
+		final int g = packedIntComponentOrder.unpackG(color);
+		final int b = packedIntComponentOrder.unpackB(color);
+		
+		return new Color3D(r, g, b);
+	}
+	
+	/**
 	 * Returns a {@code Color3D[]} with a length of {@code length} and contains {@code Color3D.BLACK}.
 	 * <p>
 	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
@@ -2055,6 +2123,183 @@ public final class Color3D {
 		
 		for(int i = 0; i < colors.length; i++) {
 			colors[i] = Objects.requireNonNull(function.apply(i));
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code length} and contains random {@code Color3D} instances.
+	 * <p>
+	 * If {@code length} is less than {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.array(length, index -> Color3F.random());
+	 * }
+	 * </pre>
+	 * 
+	 * @param length the length of the array
+	 * @return a {@code Color3D[]} with a length of {@code length} and contains random {@code Color3D} instances
+	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
+	 */
+	public static Color3D[] arrayRandom(final int length) {
+		return array(length, index -> random());
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length / ArrayComponentOrder.RGB.getComponentCount()} and contains {@code Color3D} instances read from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % ArrayComponentOrder.RGB.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.arrayRead(array, ArrayComponentOrder.RGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to read from
+	 * @return a {@code Color3D[]} with a length of {@code array.length / ArrayComponentOrder.RGB.getComponentCount()} and contains {@code Color3D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGB.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+	public static Color3D[] arrayRead(final byte[] array) {
+		return arrayRead(array, ArrayComponentOrder.RGB);
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color3D} instances read from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code arrayComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param array the array to read from
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder} instance
+	 * @return a {@code Color3D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color3D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
+	 */
+	public static Color3D[] arrayRead(final byte[] array, final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		if(array.length % arrayComponentOrder.getComponentCount() != 0) {
+			throw new IllegalArgumentException("array.length % arrayComponentOrder.getComponentCount()");
+		}
+		
+		final Color3D[] colors = new Color3D[array.length / arrayComponentOrder.getComponentCount()];
+		
+		for(int i = 0; i < colors.length; i++) {
+			final int r = arrayComponentOrder.readRAsInt(array, i * arrayComponentOrder.getComponentCount());
+			final int g = arrayComponentOrder.readGAsInt(array, i * arrayComponentOrder.getComponentCount());
+			final int b = arrayComponentOrder.readBAsInt(array, i * arrayComponentOrder.getComponentCount());
+			
+			colors[i] = new Color3D(r, g, b);
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length / ArrayComponentOrder.RGB.getComponentCount()} and contains {@code Color3D} instances read from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % ArrayComponentOrder.RGB.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.arrayRead(array, ArrayComponentOrder.RGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to read from
+	 * @return a {@code Color3D[]} with a length of {@code array.length / ArrayComponentOrder.RGB.getComponentCount()} and contains {@code Color3D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGB.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+	public static Color3D[] arrayRead(final int[] array) {
+		return arrayRead(array, ArrayComponentOrder.RGB);
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color3D} instances read from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code arrayComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param array the array to read from
+	 * @param arrayComponentOrder an {@link ArrayComponentOrder} instance
+	 * @return a {@code Color3D[]} with a length of {@code array.length / arrayComponentOrder.getComponentCount()} and contains {@code Color3D} instances read from {@code array}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
+	 */
+	public static Color3D[] arrayRead(final int[] array, final ArrayComponentOrder arrayComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
+		
+		if(array.length % arrayComponentOrder.getComponentCount() != 0) {
+			throw new IllegalArgumentException("array.length % arrayComponentOrder.getComponentCount()");
+		}
+		
+		final Color3D[] colors = new Color3D[array.length / arrayComponentOrder.getComponentCount()];
+		
+		for(int i = 0; i < colors.length; i++) {
+			final int r = arrayComponentOrder.readR(array, i * arrayComponentOrder.getComponentCount());
+			final int g = arrayComponentOrder.readG(array, i * arrayComponentOrder.getComponentCount());
+			final int b = arrayComponentOrder.readB(array, i * arrayComponentOrder.getComponentCount());
+			
+			colors[i] = new Color3D(r, g, b);
+		}
+		
+		return colors;
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length} and contains {@code Color3D} instances unpacked from {@code array}.
+	 * <p>
+	 * If {@code array} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Color3D.arrayUnpack(array, PackedIntComponentOrder.ARGB);
+	 * }
+	 * </pre>
+	 * 
+	 * @param array the array to unpack from
+	 * @return a {@code Color3D[]} with a length of {@code array.length} and contains {@code Color3D} instances unpacked from {@code array}
+	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
+	 */
+	public static Color3D[] arrayUnpack(final int[] array) {
+		return arrayUnpack(array, PackedIntComponentOrder.ARGB);
+	}
+	
+	/**
+	 * Returns a {@code Color3D[]} with a length of {@code array.length} and contains {@code Color3D} instances unpacked from {@code array}.
+	 * <p>
+	 * If either {@code array} or {@code packedIntComponentOrder} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param array the array to unpack from
+	 * @param packedIntComponentOrder a {@link PackedIntComponentOrder} instance
+	 * @return a {@code Color3D[]} with a length of {@code array.length} and contains {@code Color3D} instances unpacked from {@code array}
+	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code packedIntComponentOrder} are {@code null}
+	 */
+	public static Color3D[] arrayUnpack(final int[] array, final PackedIntComponentOrder packedIntComponentOrder) {
+		Objects.requireNonNull(array, "array == null");
+		Objects.requireNonNull(packedIntComponentOrder, "packedIntComponentOrder == null");
+		
+		final Color3D[] colors = new Color3D[array.length];
+		
+		for(int i = 0; i < colors.length; i++) {
+			colors[i] = unpack(array[i], packedIntComponentOrder);
 		}
 		
 		return colors;

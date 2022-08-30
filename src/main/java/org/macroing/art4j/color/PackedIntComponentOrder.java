@@ -227,13 +227,13 @@ public enum PackedIntComponentOrder {
 	}
 	
 	/**
-	 * Returns an {@code int} with the unpacked A-component, or {@code 255} if it could not unpack.
+	 * Returns an {@code int} with the unpacked A-component, or {@code 0} if it could not unpack.
 	 * 
 	 * @param color an {@code int} with the components in packed form
-	 * @return an {@code int} with the unpacked A-component, or {@code 255} if it could not unpack
+	 * @return an {@code int} with the unpacked A-component, or {@code 0} if it could not unpack
 	 */
 	public int unpackA(final int color) {
-		return hasShiftA() ? (color >> getShiftA()) & 0xFF : 255;
+		return hasShiftA() ? (color >> getShiftA()) & 0xFF : 0;
 	}
 	
 	/**
