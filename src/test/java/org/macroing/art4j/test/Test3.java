@@ -18,6 +18,8 @@
  */
 package org.macroing.art4j.test;
 
+import org.macroing.art4j.curve.IrregularSpectralCurveF;
+
 public final class Test3 {
 	private Test3() {
 		
@@ -26,6 +28,7 @@ public final class Test3 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static void main(final String[] args) {
-		
+		System.out.println(IrregularSpectralCurveF.AU_ETA.toColorRGB());
+		System.out.println(IrregularSpectralCurveF.AU_K.toColorRGB());
 	}
 }
