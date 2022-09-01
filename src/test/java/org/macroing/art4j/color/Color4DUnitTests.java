@@ -110,6 +110,319 @@ public final class Color4DUnitTests {
 	}
 	
 	@Test
+	public void testArrayRandom() {
+		final Color4D[] colors = Color4D.arrayRandom(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4D color : colors) {
+			assertNotNull(color);
+			
+			assertTrue(color.r >= 0.0D && color.r <= 1.0D);
+			assertTrue(color.g >= 0.0D && color.g <= 1.0D);
+			assertTrue(color.b >= 0.0D && color.b <= 1.0D);
+			
+			assertEquals(1.0D, color.a);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4D.arrayRandom(-1));
+	}
+	
+	@Test
+	public void testArrayReadByteArray() {
+		final byte[] array = {(byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255)};
+		
+		final Color4D[] colors = Color4D.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4D a = colors[0];
+		final Color4D b = colors[1];
+		final Color4D c = colors[2];
+		final Color4D d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		assertEquals(0.0D, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		assertEquals(0.0D, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		assertEquals(0.0D, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0D, d.r);
+		assertEquals(0.0D, d.g);
+		assertEquals(0.0D, d.b);
+		assertEquals(1.0D, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead((byte[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color4D.arrayRead(new byte[] {(byte)(255), (byte)(255)}));
+	}
+	
+	@Test
+	public void testArrayReadByteArrayArrayComponentOrder() {
+		final byte[][] arrays = {
+			{(byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0), (byte)(0), (byte)(  0), (byte)(255)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(255), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(255), (byte)(0), (byte)(  0), (byte)(  0)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(255)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(  0), (byte)(0), (byte)(255), (byte)(  0)}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color4D[] colors = Color4D.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4D a = colors[0];
+			final Color4D b = colors[1];
+			final Color4D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			assertEquals(0.0D, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			assertEquals(0.0D, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+			assertEquals(0.0D, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead((byte[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead(new byte[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color4D.arrayRead(new byte[] {(byte)(255), (byte)(255)}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayReadIntArray() {
+		final int[] array = {255, 0, 0, 0, 0, 255, 0, 0, 0, 0, 255, 0, 0, 0, 0, 255};
+		
+		final Color4D[] colors = Color4D.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4D a = colors[0];
+		final Color4D b = colors[1];
+		final Color4D c = colors[2];
+		final Color4D d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		assertEquals(0.0D, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		assertEquals(0.0D, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		assertEquals(0.0D, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0D, d.r);
+		assertEquals(0.0D, d.g);
+		assertEquals(0.0D, d.b);
+		assertEquals(1.0D, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead((int[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color4D.arrayRead(new int[] {255, 255}));
+	}
+	
+	@Test
+	public void testArrayReadIntArrayArrayComponentOrder() {
+		final int[][] arrays = {
+			{  0, 255,   0, 0,   0,   0, 255, 0,   0, 0,   0, 255},
+			{  0,   0, 255, 0, 255,   0, 255, 0,   0},
+			{  0,   0, 255, 0,   0, 255,   0, 0, 255, 0,   0,   0},
+			{255,   0,   0, 0, 255,   0,   0, 0, 255},
+			{255,   0,   0, 0,   0, 255,   0, 0,   0, 0, 255,   0}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color4D[] colors = Color4D.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4D a = colors[0];
+			final Color4D b = colors[1];
+			final Color4D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			assertEquals(0.0D, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			assertEquals(0.0D, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+			assertEquals(0.0D, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead((int[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4D.arrayRead(new int[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color4D.arrayRead(new int[] {255, 255}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArray() {
+		final int[] array = {
+			PackedIntComponentOrder.ARGB.pack(255,   0,   0,   0),
+			PackedIntComponentOrder.ARGB.pack(  0, 255,   0,   0),
+			PackedIntComponentOrder.ARGB.pack(  0,   0, 255,   0),
+			PackedIntComponentOrder.ARGB.pack(  0,   0,   0, 255)
+		};
+		
+		final Color4D[] colors = Color4D.arrayUnpack(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4D a = colors[0];
+		final Color4D b = colors[1];
+		final Color4D c = colors[2];
+		final Color4D d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0D, a.r);
+		assertEquals(0.0D, a.g);
+		assertEquals(0.0D, a.b);
+		assertEquals(0.0D, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(0.0D, b.b);
+		assertEquals(0.0D, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0D, c.r);
+		assertEquals(0.0D, c.g);
+		assertEquals(1.0D, c.b);
+		assertEquals(0.0D, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0D, d.r);
+		assertEquals(0.0D, d.g);
+		assertEquals(0.0D, d.b);
+		assertEquals(1.0D, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayUnpack(null));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArrayPackedIntComponentOrder() {
+		final PackedIntComponentOrder[] packedIntComponentOrders = PackedIntComponentOrder.values();
+		
+		for(final PackedIntComponentOrder packedIntComponentOrder : packedIntComponentOrders) {
+			final int[] array = {
+				packedIntComponentOrder.pack(255,   0,   0),
+				packedIntComponentOrder.pack(  0, 255,   0),
+				packedIntComponentOrder.pack(  0,   0, 255)
+			};
+			
+			final Color4D[] colors = Color4D.arrayUnpack(array, packedIntComponentOrder);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4D a = colors[0];
+			final Color4D b = colors[1];
+			final Color4D c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0D, a.r);
+			assertEquals(0.0D, a.g);
+			assertEquals(0.0D, a.b);
+			assertEquals(0.0D, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0D, b.r);
+			assertEquals(1.0D, b.g);
+			assertEquals(0.0D, b.b);
+			assertEquals(0.0D, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0D, c.r);
+			assertEquals(0.0D, c.g);
+			assertEquals(1.0D, c.b);
+			assertEquals(0.0D, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4D.arrayUnpack(null, PackedIntComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4D.arrayUnpack(new int[] {}, null));
+	}
+	
+	@Test
 	public void testAverage() {
 		final Color4D color = new Color4D(0.0D, 0.5D, 1.0D, 2.0D);
 		

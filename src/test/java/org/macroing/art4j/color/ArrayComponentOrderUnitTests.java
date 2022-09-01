@@ -39,10 +39,10 @@ public final class ArrayComponentOrderUnitTests {
 		final byte[] arrayB = ArrayComponentOrder.convert(ArrayComponentOrder.BGR, ArrayComponentOrder.ARGB, arrayA);
 		final byte[] arrayC = ArrayComponentOrder.convert(ArrayComponentOrder.ARGB, ArrayComponentOrder.BGR, arrayB);
 		
-		assertEquals((byte)(255), arrayB[0]);
-		assertEquals((byte)( 30), arrayB[1]);
-		assertEquals((byte)( 20), arrayB[2]);
-		assertEquals((byte)( 10), arrayB[3]);
+		assertEquals((byte)( 0), arrayB[0]);
+		assertEquals((byte)(30), arrayB[1]);
+		assertEquals((byte)(20), arrayB[2]);
+		assertEquals((byte)(10), arrayB[3]);
 		
 		assertEquals((byte)(10), arrayC[0]);
 		assertEquals((byte)(20), arrayC[1]);
@@ -209,14 +209,14 @@ public final class ArrayComponentOrderUnitTests {
 		assertEquals(255, ArrayComponentOrder.ARGB.readAAsInt(arrayARGB, 0));
 		assertEquals(255, ArrayComponentOrder.ARGB.readAAsInt(arrayARGB, 4));
 		
-		assertEquals(255, ArrayComponentOrder.BGR.readAAsInt(arrayBGR, 0));
-		assertEquals(255, ArrayComponentOrder.BGR.readAAsInt(arrayBGR, 3));
+		assertEquals(0, ArrayComponentOrder.BGR.readAAsInt(arrayBGR, 0));
+		assertEquals(0, ArrayComponentOrder.BGR.readAAsInt(arrayBGR, 3));
 		
 		assertEquals(255, ArrayComponentOrder.BGRA.readAAsInt(arrayBGRA, 0));
 		assertEquals(255, ArrayComponentOrder.BGRA.readAAsInt(arrayBGRA, 4));
 		
-		assertEquals(255, ArrayComponentOrder.RGB.readAAsInt(arrayRGB, 0));
-		assertEquals(255, ArrayComponentOrder.RGB.readAAsInt(arrayRGB, 3));
+		assertEquals(0, ArrayComponentOrder.RGB.readAAsInt(arrayRGB, 0));
+		assertEquals(0, ArrayComponentOrder.RGB.readAAsInt(arrayRGB, 3));
 		
 		assertEquals(255, ArrayComponentOrder.RGBA.readAAsInt(arrayRGBA, 0));
 		assertEquals(255, ArrayComponentOrder.RGBA.readAAsInt(arrayRGBA, 4));
@@ -237,14 +237,14 @@ public final class ArrayComponentOrderUnitTests {
 		assertEquals((byte)(255), ArrayComponentOrder.ARGB.readA(arrayARGB, 0));
 		assertEquals((byte)(255), ArrayComponentOrder.ARGB.readA(arrayARGB, 4));
 		
-		assertEquals((byte)(255), ArrayComponentOrder.BGR.readA(arrayBGR, 0));
-		assertEquals((byte)(255), ArrayComponentOrder.BGR.readA(arrayBGR, 3));
+		assertEquals((byte)(0), ArrayComponentOrder.BGR.readA(arrayBGR, 0));
+		assertEquals((byte)(0), ArrayComponentOrder.BGR.readA(arrayBGR, 3));
 		
 		assertEquals((byte)(255), ArrayComponentOrder.BGRA.readA(arrayBGRA, 0));
 		assertEquals((byte)(255), ArrayComponentOrder.BGRA.readA(arrayBGRA, 4));
 		
-		assertEquals((byte)(255), ArrayComponentOrder.RGB.readA(arrayRGB, 0));
-		assertEquals((byte)(255), ArrayComponentOrder.RGB.readA(arrayRGB, 3));
+		assertEquals((byte)(0), ArrayComponentOrder.RGB.readA(arrayRGB, 0));
+		assertEquals((byte)(0), ArrayComponentOrder.RGB.readA(arrayRGB, 3));
 		
 		assertEquals((byte)(255), ArrayComponentOrder.RGBA.readA(arrayRGBA, 0));
 		assertEquals((byte)(255), ArrayComponentOrder.RGBA.readA(arrayRGBA, 4));

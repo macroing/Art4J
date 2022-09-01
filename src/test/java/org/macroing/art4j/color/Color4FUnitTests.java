@@ -110,6 +110,319 @@ public final class Color4FUnitTests {
 	}
 	
 	@Test
+	public void testArrayRandom() {
+		final Color4F[] colors = Color4F.arrayRandom(10);
+		
+		assertNotNull(colors);
+		
+		assertEquals(10, colors.length);
+		
+		for(final Color4F color : colors) {
+			assertNotNull(color);
+			
+			assertTrue(color.r >= 0.0F && color.r <= 1.0F);
+			assertTrue(color.g >= 0.0F && color.g <= 1.0F);
+			assertTrue(color.b >= 0.0F && color.b <= 1.0F);
+			
+			assertEquals(1.0F, color.a);
+		}
+		
+		assertThrows(IllegalArgumentException.class, () -> Color4F.arrayRandom(-1));
+	}
+	
+	@Test
+	public void testArrayReadByteArray() {
+		final byte[] array = {(byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255), (byte)(0), (byte)(0), (byte)(0), (byte)(0), (byte)(255)};
+		
+		final Color4F[] colors = Color4F.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4F a = colors[0];
+		final Color4F b = colors[1];
+		final Color4F c = colors[2];
+		final Color4F d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		assertEquals(0.0F, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(1.0F, b.g);
+		assertEquals(0.0F, b.b);
+		assertEquals(0.0F, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(1.0F, c.b);
+		assertEquals(0.0F, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0F, d.r);
+		assertEquals(0.0F, d.g);
+		assertEquals(0.0F, d.b);
+		assertEquals(1.0F, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead((byte[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color4F.arrayRead(new byte[] {(byte)(255), (byte)(255)}));
+	}
+	
+	@Test
+	public void testArrayReadByteArrayArrayComponentOrder() {
+		final byte[][] arrays = {
+			{(byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0), (byte)(0), (byte)(  0), (byte)(255)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(255), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0)},
+			{(byte)(  0), (byte)(  0), (byte)(255), (byte)(0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(255), (byte)(0), (byte)(  0), (byte)(  0)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(255)},
+			{(byte)(255), (byte)(  0), (byte)(  0), (byte)(0), (byte)(  0), (byte)(255), (byte)(  0), (byte)(0), (byte)(  0), (byte)(0), (byte)(255), (byte)(  0)}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color4F[] colors = Color4F.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4F a = colors[0];
+			final Color4F b = colors[1];
+			final Color4F c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0F, a.r);
+			assertEquals(0.0F, a.g);
+			assertEquals(0.0F, a.b);
+			assertEquals(0.0F, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0F, b.r);
+			assertEquals(1.0F, b.g);
+			assertEquals(0.0F, b.b);
+			assertEquals(0.0F, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0F, c.r);
+			assertEquals(0.0F, c.g);
+			assertEquals(1.0F, c.b);
+			assertEquals(0.0F, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead((byte[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead(new byte[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color4F.arrayRead(new byte[] {(byte)(255), (byte)(255)}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayReadIntArray() {
+		final int[] array = {255, 0, 0, 0, 0, 255, 0, 0, 0, 0, 255, 0, 0, 0, 0, 255};
+		
+		final Color4F[] colors = Color4F.arrayRead(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4F a = colors[0];
+		final Color4F b = colors[1];
+		final Color4F c = colors[2];
+		final Color4F d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		assertEquals(0.0F, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(1.0F, b.g);
+		assertEquals(0.0F, b.b);
+		assertEquals(0.0F, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(1.0F, c.b);
+		assertEquals(0.0F, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0F, d.r);
+		assertEquals(0.0F, d.g);
+		assertEquals(0.0F, d.b);
+		assertEquals(1.0F, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead((int[])(null)));
+		assertThrows(IllegalArgumentException.class, () -> Color4F.arrayRead(new int[] {255, 255}));
+	}
+	
+	@Test
+	public void testArrayReadIntArrayArrayComponentOrder() {
+		final int[][] arrays = {
+			{  0, 255,   0, 0,   0,   0, 255, 0,   0, 0,   0, 255},
+			{  0,   0, 255, 0, 255,   0, 255, 0,   0},
+			{  0,   0, 255, 0,   0, 255,   0, 0, 255, 0,   0,   0},
+			{255,   0,   0, 0, 255,   0,   0, 0, 255},
+			{255,   0,   0, 0,   0, 255,   0, 0,   0, 0, 255,   0}
+		};
+		
+		final ArrayComponentOrder[] arrayComponentOrders = ArrayComponentOrder.values();
+		
+		for(int i = 0; i < arrays.length; i++) {
+			final Color4F[] colors = Color4F.arrayRead(arrays[i], arrayComponentOrders[i]);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4F a = colors[0];
+			final Color4F b = colors[1];
+			final Color4F c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0F, a.r);
+			assertEquals(0.0F, a.g);
+			assertEquals(0.0F, a.b);
+			assertEquals(0.0F, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0F, b.r);
+			assertEquals(1.0F, b.g);
+			assertEquals(0.0F, b.b);
+			assertEquals(0.0F, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0F, c.r);
+			assertEquals(0.0F, c.g);
+			assertEquals(1.0F, c.b);
+			assertEquals(0.0F, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead((int[])(null), ArrayComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4F.arrayRead(new int[] {}, null));
+		assertThrows(IllegalArgumentException.class, () -> Color4F.arrayRead(new int[] {255, 255}, ArrayComponentOrder.ARGB));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArray() {
+		final int[] array = {
+			PackedIntComponentOrder.ARGB.pack(255,   0,   0,   0),
+			PackedIntComponentOrder.ARGB.pack(  0, 255,   0,   0),
+			PackedIntComponentOrder.ARGB.pack(  0,   0, 255,   0),
+			PackedIntComponentOrder.ARGB.pack(  0,   0,   0, 255)
+		};
+		
+		final Color4F[] colors = Color4F.arrayUnpack(array);
+		
+		assertNotNull(colors);
+		
+		assertEquals(4, colors.length);
+		
+		final Color4F a = colors[0];
+		final Color4F b = colors[1];
+		final Color4F c = colors[2];
+		final Color4F d = colors[3];
+		
+		assertNotNull(a);
+		
+		assertEquals(1.0F, a.r);
+		assertEquals(0.0F, a.g);
+		assertEquals(0.0F, a.b);
+		assertEquals(0.0F, a.a);
+		
+		assertNotNull(b);
+		
+		assertEquals(0.0F, b.r);
+		assertEquals(1.0F, b.g);
+		assertEquals(0.0F, b.b);
+		assertEquals(0.0F, b.a);
+		
+		assertNotNull(c);
+		
+		assertEquals(0.0F, c.r);
+		assertEquals(0.0F, c.g);
+		assertEquals(1.0F, c.b);
+		assertEquals(0.0F, c.a);
+		
+		assertNotNull(d);
+		
+		assertEquals(0.0F, d.r);
+		assertEquals(0.0F, d.g);
+		assertEquals(0.0F, d.b);
+		assertEquals(1.0F, d.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayUnpack(null));
+	}
+	
+	@Test
+	public void testArrayUnpackIntArrayPackedIntComponentOrder() {
+		final PackedIntComponentOrder[] packedIntComponentOrders = PackedIntComponentOrder.values();
+		
+		for(final PackedIntComponentOrder packedIntComponentOrder : packedIntComponentOrders) {
+			final int[] array = {
+				packedIntComponentOrder.pack(255,   0,   0),
+				packedIntComponentOrder.pack(  0, 255,   0),
+				packedIntComponentOrder.pack(  0,   0, 255)
+			};
+			
+			final Color4F[] colors = Color4F.arrayUnpack(array, packedIntComponentOrder);
+			
+			assertNotNull(colors);
+			
+			assertEquals(3, colors.length);
+			
+			final Color4F a = colors[0];
+			final Color4F b = colors[1];
+			final Color4F c = colors[2];
+			
+			assertNotNull(a);
+			
+			assertEquals(1.0F, a.r);
+			assertEquals(0.0F, a.g);
+			assertEquals(0.0F, a.b);
+			assertEquals(0.0F, a.a);
+			
+			assertNotNull(b);
+			
+			assertEquals(0.0F, b.r);
+			assertEquals(1.0F, b.g);
+			assertEquals(0.0F, b.b);
+			assertEquals(0.0F, b.a);
+			
+			assertNotNull(c);
+			
+			assertEquals(0.0F, c.r);
+			assertEquals(0.0F, c.g);
+			assertEquals(1.0F, c.b);
+			assertEquals(0.0F, c.a);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Color4F.arrayUnpack(null, PackedIntComponentOrder.ARGB));
+		assertThrows(NullPointerException.class, () -> Color4F.arrayUnpack(new int[] {}, null));
+	}
+	
+	@Test
 	public void testAverage() {
 		final Color4F color = new Color4F(0.0F, 0.5F, 1.0F, 2.0F);
 		

@@ -1522,7 +1522,6 @@ public final class Color4F {
 	 * @return a {@code Color4F[]} with a length of {@code length} and contains random {@code Color4F} instances
 	 * @throws IllegalArgumentException thrown if, and only if, {@code length} is less than {@code 0}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayRandom(final int length) {
 		return array(length, index -> random());
 	}
@@ -1546,7 +1545,6 @@ public final class Color4F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayRead(final byte[] array) {
 		return arrayRead(array, ArrayComponentOrder.RGBA);
 	}
@@ -1564,7 +1562,6 @@ public final class Color4F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
 	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayRead(final byte[] array, final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(array, "array == null");
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
@@ -1606,7 +1603,6 @@ public final class Color4F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % ArrayComponentOrder.RGBA.getComponentCount()} is not {@code 0}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayRead(final int[] array) {
 		return arrayRead(array, ArrayComponentOrder.RGBA);
 	}
@@ -1624,7 +1620,6 @@ public final class Color4F {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code array.length % arrayComponentOrder.getComponentCount()} is not {@code 0}
 	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code arrayComponentOrder} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayRead(final int[] array, final ArrayComponentOrder arrayComponentOrder) {
 		Objects.requireNonNull(array, "array == null");
 		Objects.requireNonNull(arrayComponentOrder, "arrayComponentOrder == null");
@@ -1663,7 +1658,6 @@ public final class Color4F {
 	 * @return a {@code Color4F[]} with a length of {@code array.length} and contains {@code Color4F} instances unpacked from {@code array}
 	 * @throws NullPointerException thrown if, and only if, {@code array} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayUnpack(final int[] array) {
 		return arrayUnpack(array, PackedIntComponentOrder.ARGB);
 	}
@@ -1678,7 +1672,6 @@ public final class Color4F {
 	 * @return a {@code Color4F[]} with a length of {@code array.length} and contains {@code Color4F} instances unpacked from {@code array}
 	 * @throws NullPointerException thrown if, and only if, either {@code array} or {@code packedIntComponentOrder} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static Color4F[] arrayUnpack(final int[] array, final PackedIntComponentOrder packedIntComponentOrder) {
 		Objects.requireNonNull(array, "array == null");
 		Objects.requireNonNull(packedIntComponentOrder, "packedIntComponentOrder == null");
