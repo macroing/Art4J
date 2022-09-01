@@ -42,6 +42,56 @@ import org.macroing.java.util.Randoms;
  */
 public final class Color3D {
 	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for silver (Ag).
+	 */
+	public static final Color3D AG_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for silver (Ag).
+	 */
+	public static final Color3D AG_K;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for aluminum (Al).
+	 */
+	public static final Color3D AL_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for aluminum (Al).
+	 */
+	public static final Color3D AL_K;
+	
+	/**
+	 * A {@code Color3D} denoting the color Aztek gold (Au).
+	 */
+	public static final Color3D AU_AZTEK;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for gold (Au).
+	 */
+	public static final Color3D AU_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for gold (Au).
+	 */
+	public static final Color3D AU_K;
+	
+	/**
+	 * A {@code Color3D} denoting the color metallic gold (Au).
+	 */
+	public static final Color3D AU_METALLIC;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for beryllium (Be).
+	 */
+	public static final Color3D BE_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for beryllium (Be).
+	 */
+	public static final Color3D BE_K;
+	
+	/**
 	 * A {@code Color3D} instance that represents the color black.
 	 */
 	public static final Color3D BLACK;
@@ -50,6 +100,31 @@ public final class Color3D {
 	 * A {@code Color3D} instance that represents the color blue.
 	 */
 	public static final Color3D BLUE;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for chromium (Cr).
+	 */
+	public static final Color3D CR_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for chromium (Cr).
+	 */
+	public static final Color3D CR_K;
+	
+	/**
+	 * A {@code Color3D} denoting the color copper (Cu).
+	 */
+	public static final Color3D CU;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for copper (Cu).
+	 */
+	public static final Color3D CU_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for copper (Cu).
+	 */
+	public static final Color3D CU_K;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color cyan.
@@ -65,6 +140,16 @@ public final class Color3D {
 	 * A {@code Color3D} instance that represents the color green.
 	 */
 	public static final Color3D GREEN;
+	
+	/**
+	 * A {@code Color3D} that contains the eta, also called the index of refraction (IOR), for mercury (Hg).
+	 */
+	public static final Color3D HG_ETA;
+	
+	/**
+	 * A {@code Color3D} that contains the absorption coefficient for mercury (Hg).
+	 */
+	public static final Color3D HG_K;
 	
 	/**
 	 * A {@code Color3D} instance that represents the color magenta.
@@ -95,11 +180,28 @@ public final class Color3D {
 	static {
 		CACHE = new HashMap<>();
 		
+		AG_ETA = getCached(new Color3D(0.15496000609474664D, 0.11647174926802867D, 0.13806632158349902D));
+		AG_K = getCached(new Color3D(4.8188730622739175D, 3.115517176753568D, 2.1420735301196467D));
+		AL_ETA = getCached(new Color3D(1.6542074904327757D, 0.8784699245201935D, 0.5200436909954684D));
+		AL_K = getCached(new Color3D(9.205783890522829D, 6.256010137000009D, 4.826012510420723D));
+		AU_AZTEK = getCached(new Color3D(0.76D, 0.6D, 0.33D));
+		AU_ETA = getCached(new Color3D(0.14284310835842717D, 0.3741312033192202D, 1.4392239236981954D));
+		AU_K = getCached(new Color3D(3.975360769687202D, 2.380584839029059D, 1.5995662411380493D));
+		AU_METALLIC = getCached(new Color3D(0.83D, 0.69D, 0.22D));
+		BE_ETA = getCached(new Color3D(4.17685492348954D, 3.178196056715122D, 2.777767905501223D));
+		BE_K = getCached(new Color3D(3.8279172522105473D, 3.0036378212398547D, 2.8624926111158966D));
 		BLACK = getCached(new Color3D(0.0D, 0.0D, 0.0D));
 		BLUE = getCached(new Color3D(0.0D, 0.0D, 1.0D));
+		CR_ETA = getCached(new Color3D(4.361113549925775D, 2.910427696793282D, 1.6509344663124783D));
+		CR_K = getCached(new Color3D(5.196218158260541D, 4.222247331143831D, 3.746427104520829D));
+		CU = getCached(new Color3D(0.72D, 0.45D, 0.2D));
+		CU_ETA = getCached(new Color3D(0.20002143877100975D, 0.922055401869726D, 1.0997080930365142D));
+		CU_K = getCached(new Color3D(3.905268765023564D, 2.4475532558370405D, 2.1373247532273054D));
 		CYAN = getCached(new Color3D(0.0D, 1.0D, 1.0D));
 		GRAY = getCached(new Color3D(0.5D, 0.5D, 0.5D));
 		GREEN = getCached(new Color3D(0.0D, 1.0D, 0.0D));
+		HG_ETA = getCached(new Color3D(2.394226334560135D, 1.4369220731460042D, 0.9074837682505891D));
+		HG_K = getCached(new Color3D(6.315220111971925D, 4.362519054861604D, 3.4140169529925513D));
 		MAGENTA = getCached(new Color3D(1.0D, 0.0D, 1.0D));
 		RED = getCached(new Color3D(1.0D, 0.0D, 0.0D));
 		WHITE = getCached(new Color3D(1.0D, 1.0D, 1.0D));

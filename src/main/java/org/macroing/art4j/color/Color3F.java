@@ -42,6 +42,56 @@ import org.macroing.java.util.Randoms;
  */
 public final class Color3F {
 	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for silver (Ag).
+	 */
+	public static final Color3F AG_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for silver (Ag).
+	 */
+	public static final Color3F AG_K;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for aluminum (Al).
+	 */
+	public static final Color3F AL_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for aluminum (Al).
+	 */
+	public static final Color3F AL_K;
+	
+	/**
+	 * A {@code Color3F} denoting the color Aztek gold (Au).
+	 */
+	public static final Color3F AU_AZTEK;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for gold (Au).
+	 */
+	public static final Color3F AU_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for gold (Au).
+	 */
+	public static final Color3F AU_K;
+	
+	/**
+	 * A {@code Color3F} denoting the color metallic gold (Au).
+	 */
+	public static final Color3F AU_METALLIC;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for beryllium (Be).
+	 */
+	public static final Color3F BE_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for beryllium (Be).
+	 */
+	public static final Color3F BE_K;
+	
+	/**
 	 * A {@code Color3F} instance that represents the color black.
 	 */
 	public static final Color3F BLACK;
@@ -50,6 +100,31 @@ public final class Color3F {
 	 * A {@code Color3F} instance that represents the color blue.
 	 */
 	public static final Color3F BLUE;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for chromium (Cr).
+	 */
+	public static final Color3F CR_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for chromium (Cr).
+	 */
+	public static final Color3F CR_K;
+	
+	/**
+	 * A {@code Color3F} denoting the color copper (Cu).
+	 */
+	public static final Color3F CU;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for copper (Cu).
+	 */
+	public static final Color3F CU_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for copper (Cu).
+	 */
+	public static final Color3F CU_K;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color cyan.
@@ -65,6 +140,16 @@ public final class Color3F {
 	 * A {@code Color3F} instance that represents the color green.
 	 */
 	public static final Color3F GREEN;
+	
+	/**
+	 * A {@code Color3F} that contains the eta, also called the index of refraction (IOR), for mercury (Hg).
+	 */
+	public static final Color3F HG_ETA;
+	
+	/**
+	 * A {@code Color3F} that contains the absorption coefficient for mercury (Hg).
+	 */
+	public static final Color3F HG_K;
 	
 	/**
 	 * A {@code Color3F} instance that represents the color magenta.
@@ -95,11 +180,28 @@ public final class Color3F {
 	static {
 		CACHE = new HashMap<>();
 		
+		AG_ETA = getCached(new Color3F(0.15496026F, 0.116471656F, 0.13806625F));
+		AG_K = getCached(new Color3F(4.818879F, 3.115515F, 2.1420743F));
+		AL_ETA = getCached(new Color3F(1.6542087F, 0.8784699F, 0.52004325F));
+		AL_K = getCached(new Color3F(9.205794F, 6.2560005F, 4.826011F));
+		AU_AZTEK = getCached(new Color3F(0.76F, 0.6F, 0.33F));
+		AU_ETA = getCached(new Color3F(0.14284283F, 0.37413108F, 1.4392234F));
+		AU_K = getCached(new Color3F(3.9753616F, 2.3805823F, 1.599566F));
+		AU_METALLIC = getCached(new Color3F(0.83F, 0.69F, 0.22F));
+		BE_ETA = getCached(new Color3F(4.17685F, 3.178197F, 2.777768F));
+		BE_K = getCached(new Color3F(3.827915F, 3.0036383F, 2.8624895F));
 		BLACK = getCached(new Color3F(0.0F, 0.0F, 0.0F));
 		BLUE = getCached(new Color3F(0.0F, 0.0F, 1.0F));
+		CR_ETA = getCached(new Color3F(4.361113F, 2.910425F, 1.6509345F));
+		CR_K = getCached(new Color3F(5.1962233F, 4.222245F, 3.746424F));
+		CU = getCached(new Color3F(0.72F, 0.45F, 0.2F));
+		CU_ETA = getCached(new Color3F(0.20002282F, 0.92205405F, 1.0997076F));
+		CU_K = getCached(new Color3F(3.905267F, 2.4475532F, 2.1373255F));
 		CYAN = getCached(new Color3F(0.0F, 1.0F, 1.0F));
 		GRAY = getCached(new Color3F(0.5F, 0.5F, 0.5F));
 		GREEN = getCached(new Color3F(0.0F, 1.0F, 0.0F));
+		HG_ETA = getCached(new Color3F(2.3942256F, 1.4369211F, 0.90748405F));
+		HG_K = getCached(new Color3F(6.315217F, 4.362519F, 3.414016F));
 		MAGENTA = getCached(new Color3F(1.0F, 0.0F, 1.0F));
 		RED = getCached(new Color3F(1.0F, 0.0F, 0.0F));
 		WHITE = getCached(new Color3F(1.0F, 1.0F, 1.0F));
