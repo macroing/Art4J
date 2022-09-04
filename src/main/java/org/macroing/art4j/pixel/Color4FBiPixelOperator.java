@@ -53,7 +53,6 @@ public interface Color4FBiPixelOperator {
 	 * 
 	 * @return a {@code Color4FBiPixelOperator} instance that blends the component values of {@code colorA} over the component values of {@code colorB}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4FBiPixelOperator blendOver() {
 		return (colorA, colorB, x, y) -> Color4F.blendOver(colorA, colorB);
 	}

@@ -50,7 +50,7 @@ The following table describes the different APIs and their current status in the
 | Image API          | 100.0%  | 100.0%    | org.macroing.art4j.image          |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.art4j.kernel         |
 | Noise API          | 100.0%  | 100.0%    | org.macroing.art4j.noise          |
-| Pixel API          | 100.0%  |  23.5%    | org.macroing.art4j.pixel          |
+| Pixel API          | 100.0%  |  25.4%    | org.macroing.art4j.pixel          |
 
 Dependencies
 ------------
