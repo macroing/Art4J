@@ -157,6 +157,11 @@ public final class Color3D {
 	public static final Color3D MAGENTA;
 	
 	/**
+	 * A {@code Color3D} instance that represents the color orange.
+	 */
+	public static final Color3D ORANGE;
+	
+	/**
 	 * A {@code Color3D} instance that represents the color red.
 	 */
 	public static final Color3D RED;
@@ -203,6 +208,7 @@ public final class Color3D {
 		HG_ETA = getCached(new Color3D(2.394226334560135D, 1.4369220731460042D, 0.9074837682505891D));
 		HG_K = getCached(new Color3D(6.315220111971925D, 4.362519054861604D, 3.4140169529925513D));
 		MAGENTA = getCached(new Color3D(1.0D, 0.0D, 1.0D));
+		ORANGE = getCached(new Color3D(1.0D, 0.5D, 0.0D));
 		RED = getCached(new Color3D(1.0D, 0.0D, 0.0D));
 		WHITE = getCached(new Color3D(1.0D, 1.0D, 1.0D));
 		YELLOW = getCached(new Color3D(1.0D, 1.0D, 0.0D));

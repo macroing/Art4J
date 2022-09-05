@@ -157,6 +157,11 @@ public final class Color3F {
 	public static final Color3F MAGENTA;
 	
 	/**
+	 * A {@code Color3F} instance that represents the color orange.
+	 */
+	public static final Color3F ORANGE;
+	
+	/**
 	 * A {@code Color3F} instance that represents the color red.
 	 */
 	public static final Color3F RED;
@@ -203,6 +208,7 @@ public final class Color3F {
 		HG_ETA = getCached(new Color3F(2.3942256F, 1.4369211F, 0.90748405F));
 		HG_K = getCached(new Color3F(6.315217F, 4.362519F, 3.414016F));
 		MAGENTA = getCached(new Color3F(1.0F, 0.0F, 1.0F));
+		ORANGE = getCached(new Color3F(1.0F, 0.5F, 0.0F));
 		RED = getCached(new Color3F(1.0F, 0.0F, 0.0F));
 		WHITE = getCached(new Color3F(1.0F, 1.0F, 1.0F));
 		YELLOW = getCached(new Color3F(1.0F, 1.0F, 0.0F));
