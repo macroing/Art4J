@@ -20,10 +20,14 @@ package org.macroing.art4j.pixel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
+import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color4D;
+import org.macroing.art4j.color.ColorSpaceD;
+import org.macroing.art4j.geometry.Point2I;
+import org.macroing.art4j.geometry.shape.Rectangle2I;
 
 @SuppressWarnings("static-method")
 public final class Color4DPixelOperatorUnitTests {
@@ -32,6 +36,24 @@ public final class Color4DPixelOperatorUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testGradient() {
+		final Color4D a = new Color4D(0.5D, 0.5D, 0.5D, 1.0D);
+		final Color4D b = Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))).apply(a, 1, 1);
+		
+		assertEquals(0.5D, b.r);
+		assertEquals(0.5D, b.g);
+		assertEquals(0.5D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))).apply(null, 1, 1));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), null));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Color3D(0.0D, 0.0D, 0.0D), null, new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), null, new Color3D(1.0D, 1.0D, 1.0D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(new Color3D(0.0D, 0.0D, 0.0D), null, new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.gradient(null, new Color3D(1.0D, 1.0D, 1.0D), new Color3D(0.0D, 0.0D, 0.0D), new Color3D(1.0D, 1.0D, 1.0D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))));
+	}
 	
 	@Test
 	public void testGrayscaleA() {
@@ -164,6 +186,33 @@ public final class Color4DPixelOperatorUnitTests {
 	}
 	
 	@Test
+	public void testRedoGammaCorrection() {
+		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
+		final Color4D b = Color4DPixelOperator.redoGammaCorrection().apply(a, 0, 0);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(1.0D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.redoGammaCorrection().apply(null, 0, 0));
+	}
+	
+	@Test
+	public void testRedoGammaCorrectionColorSpaceD() {
+		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
+		final Color4D b = Color4DPixelOperator.redoGammaCorrection(ColorSpaceD.getDefault()).apply(a, 0, 0);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(1.0D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.redoGammaCorrection(ColorSpaceD.getDefault()).apply(null, 0, 0));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.redoGammaCorrection(null));
+	}
+	
+	@Test
 	public void testSepia() {
 		final Color4D a = new Color4D(1.0D, 2.0D, 3.0D, 4.0D);
 		final Color4D b = Color4DPixelOperator.sepia().apply(a, 0, 0);
@@ -174,5 +223,81 @@ public final class Color4DPixelOperatorUnitTests {
 		assertEquals(4.0D, b.a);
 		
 		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.sepia().apply(null, 0, 0));
+	}
+	
+	@Test
+	public void testSimplexFractionalBrownianMotionColor3DRectangle2I() {
+		final Color4D a = new Color4D(0.5D, 0.5D, 0.5D, 0.5D);
+		final Color4D b = Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))).apply(a, 1, 1);
+		
+		assertTrue(b.isGrayscale());
+		
+		assertTrue(b.r >= 0.0D && b.r <= 1.0D);
+		assertTrue(b.g >= 0.0D && b.g <= 1.0D);
+		assertTrue(b.b >= 0.0D && b.b <= 1.0D);
+		
+		assertEquals(0.5D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))).apply(null, 1, 1));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), null));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(null, new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2))));
+	}
+	
+	@Test
+	public void testSimplexFractionalBrownianMotionColor3DRectangle2IDoubleDoubleInt() {
+		final Color4D a = new Color4D(0.5D, 0.5D, 0.5D, 0.5D);
+		final Color4D b = Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2)), 5.0D, 0.5D, 16).apply(a, 1, 1);
+		
+		assertTrue(b.isGrayscale());
+		
+		assertTrue(b.r >= 0.0D && b.r <= 1.0D);
+		assertTrue(b.g >= 0.0D && b.g <= 1.0D);
+		assertTrue(b.b >= 0.0D && b.b <= 1.0D);
+		
+		assertEquals(0.5D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2)), 5.0D, 0.5D, 16).apply(null, 1, 1));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(new Color3D(0.5D, 0.5D, 0.5D), null, 5.0D, 0.5D, 16));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.simplexFractionalBrownianMotion(null, new Rectangle2I(new Point2I(0, 0), new Point2I(2, 2)), 5.0D, 0.5D, 16));
+	}
+	
+	@Test
+	public void testToneMap() {
+		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
+		final Color4D b = Color4DPixelOperator.toneMap(1.0D).apply(a, 0, 0);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(1.0D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.toneMap(1.0D).apply(null, 0, 0));
+	}
+	
+	@Test
+	public void testUndoGammaCorrection() {
+		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
+		final Color4D b = Color4DPixelOperator.undoGammaCorrection().apply(a, 0, 0);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(1.0D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.undoGammaCorrection().apply(null, 0, 0));
+	}
+	
+	@Test
+	public void testUndoGammaCorrectionColorSpaceD() {
+		final Color4D a = new Color4D(1.0D, 1.0D, 1.0D, 1.0D);
+		final Color4D b = Color4DPixelOperator.undoGammaCorrection(ColorSpaceD.getDefault()).apply(a, 0, 0);
+		
+		assertEquals(1.0D, b.r);
+		assertEquals(1.0D, b.g);
+		assertEquals(1.0D, b.b);
+		assertEquals(1.0D, b.a);
+		
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.undoGammaCorrection(ColorSpaceD.getDefault()).apply(null, 0, 0));
+		assertThrows(NullPointerException.class, () -> Color4DPixelOperator.undoGammaCorrection(null));
 	}
 }

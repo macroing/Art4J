@@ -67,7 +67,6 @@ public interface Color4DPixelOperator {
 	 * @return a {@code Color4DPixelOperator} that generates a {@link Color4D} instance using a gradient algorithm
 	 * @throws NullPointerException thrown if, and only if, either {@code color11}, {@code color12}, {@code color21}, {@code color22} or {@code bounds} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator gradient(final Color3D color11, final Color3D color12, final Color3D color21, final Color3D color22, final Rectangle2I bounds) {
 		Objects.requireNonNull(color11, "color11 == null");
 		Objects.requireNonNull(color12, "color12 == null");
@@ -87,8 +86,8 @@ public interface Color4DPixelOperator {
 		return (color, currentX, currentY) -> {
 			Objects.requireNonNull(color, "color == null");
 			
-			final double tX = (currentX - minX) / (maxX - minX + 1.0D);
-			final double tY = (currentY - minY) / (maxY - minY + 1.0D);
+			final double tX = (currentX - minX) / (maxX - minX);
+			final double tY = (currentY - minY) / (maxY - minY);
 			
 			return new Color4D(Color3D.blend(color11, color12, color21, color22, tX, tY));
 		};
@@ -196,7 +195,6 @@ public interface Color4DPixelOperator {
 	 * 
 	 * @return a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator redoGammaCorrection() {
 		return redoGammaCorrection(ColorSpaceD.getDefault());
 	}
@@ -210,7 +208,6 @@ public interface Color4DPixelOperator {
 	 * @return a {@code Color4DPixelOperator} that performs a gamma correction redo operation on {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code colorSpace} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator redoGammaCorrection(final ColorSpaceD colorSpace) {
 		Objects.requireNonNull(colorSpace, "colorSpace == null");
 		
@@ -243,7 +240,6 @@ public interface Color4DPixelOperator {
 	 * @return a {@code Color4DPixelOperator} that generates a {@link Color4D} instance using a Simplex-based fractional Brownian motion (fBm) algorithm
 	 * @throws NullPointerException thrown if, and only if, either {@code baseColor} or {@code bounds} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator simplexFractionalBrownianMotion(final Color3D baseColor, final Rectangle2I bounds) {
 		return simplexFractionalBrownianMotion(baseColor, bounds, 5.0D, 0.5D, 16);
 	}
@@ -261,7 +257,6 @@ public interface Color4DPixelOperator {
 	 * @return a {@code Color4DPixelOperator} that generates a {@link Color4D} instance using a Simplex-based fractional Brownian motion (fBm) algorithm
 	 * @throws NullPointerException thrown if, and only if, either {@code baseColor} or {@code bounds} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator simplexFractionalBrownianMotion(final Color3D baseColor, final Rectangle2I bounds, final double frequency, final double gain, final int octaves) {
 		Objects.requireNonNull(baseColor, "baseColor == null");
 		Objects.requireNonNull(bounds, "bounds == null");
@@ -278,12 +273,12 @@ public interface Color4DPixelOperator {
 		return (color, currentX, currentY) -> {
 			Objects.requireNonNull(color, "color == null");
 			
-			final double x = (currentX - minX) / (maxX - minX + 1.0D);
-			final double y = (currentY - minY) / (maxY - minY + 1.0D);
+			final double x = (currentX - minX) / (maxX - minX);
+			final double y = (currentY - minY) / (maxY - minY);
 			
 			final double noise = SimplexNoiseD.fractionalBrownianMotionXY(x, y, frequency, gain, 0.0D, 1.0D, octaves);
 			
-			return new Color4D(Color3D.multiply(baseColor, noise));
+			return new Color4D(Color3D.multiply(baseColor, noise), color.a);
 		};
 	}
 	
@@ -293,7 +288,6 @@ public interface Color4DPixelOperator {
 	 * @param relativeLuminanceMax the maximum relative luminance
 	 * @return a {@code Color4DPixelOperator} that applies a tone map operator to {@code color}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator toneMap(final double relativeLuminanceMax) {
 		return (color, x, y) -> {
 			final double relativeLuminance = color.relativeLuminance();
@@ -315,7 +309,6 @@ public interface Color4DPixelOperator {
 	 * 
 	 * @return a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator undoGammaCorrection() {
 		return undoGammaCorrection(ColorSpaceD.getDefault());
 	}
@@ -329,7 +322,6 @@ public interface Color4DPixelOperator {
 	 * @return a {@code Color4DPixelOperator} that performs a gamma correction undo operation on {@code color}
 	 * @throws NullPointerException thrown if, and only if, {@code colorSpace} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	static Color4DPixelOperator undoGammaCorrection(final ColorSpaceD colorSpace) {
 		Objects.requireNonNull(colorSpace, "colorSpace == null");
 		
