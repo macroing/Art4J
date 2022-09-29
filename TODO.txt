@@ -1,5 +1,3 @@
-Add unit tests for the Color4DPixelOperator interface.
-Add unit tests for the Color4FPixelOperator interface.
 Add the DoubleRGBAData and DoubleRGBADataFactory classes as well as unit tests.
 Add the FloatRGBAData and FloatRGBADataFactory classes as well as unit tests.
 Add the IntRGBAData and IntRGBADataFactory classes as well as unit tests.
