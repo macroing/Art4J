@@ -201,6 +201,7 @@ public final class PackedIntARGBDataFactoryUnitTests {
 		directory.delete();
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testCreateURL() {
 		try {
@@ -232,7 +233,7 @@ public final class PackedIntARGBDataFactoryUnitTests {
 			
 			directory.delete();
 		} catch(final MalformedURLException e) {
-			
+//			Do nothing.
 		}
 	}
 	

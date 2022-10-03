@@ -201,6 +201,7 @@ public final class Color4DDataFactoryUnitTests {
 		directory.delete();
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testCreateURL() {
 		try {
@@ -232,7 +233,7 @@ public final class Color4DDataFactoryUnitTests {
 			
 			directory.delete();
 		} catch(final MalformedURLException e) {
-			
+//			Do nothing.
 		}
 	}
 	

@@ -2,7 +2,8 @@
  * Provides the Filter API.
  * <p>
  * The Filter API provides data types that represents filters.
- * <h3>Overview</h3>
+ * <p>
+ * <strong>Overview</strong>
  * <p>
  * The following list contains information about the core classes and interfaces in this API.
  * <ul>
@@ -45,7 +46,8 @@
  * <li>{@link org.macroing.art4j.filter.TriangleFilter2D TriangleFilter2D} is an implementation of {@code Filter2D} that represents a triangle filter.</li>
  * <li>{@link org.macroing.art4j.filter.TriangleFilter2F TriangleFilter2F} is an implementation of {@code Filter2F} that represents a triangle filter.</li>
  * </ul>
- * <h3>Dependencies</h3>
+ * <p>
+ * <strong>Dependencies</strong>
  * <p>
  * The following list shows all dependencies for this API.
  * <ul>

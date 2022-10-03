@@ -387,6 +387,7 @@ public final class ImageUnitTests {
 		directory.delete();
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testConstructorURL() {
 		try {
@@ -416,10 +417,11 @@ public final class ImageUnitTests {
 			
 			directory.delete();
 		} catch(final MalformedURLException e) {
-			
+//			Do nothing.
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testConstructorURLDataFactory() {
 		try {
@@ -450,7 +452,7 @@ public final class ImageUnitTests {
 			
 			directory.delete();
 		} catch(final MalformedURLException e) {
-			
+//			Do nothing.
 		}
 	}
 	
