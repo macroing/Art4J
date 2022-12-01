@@ -20,9 +20,9 @@ package org.macroing.art4j.test;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.macroing.art4j.geometry.Point2I;
-import org.macroing.art4j.geometry.shape.LineSegment2I;
-import org.macroing.art4j.geometry.shape.Rectangle2I;
+import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.shape.ls.LineSegment2I;
+import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

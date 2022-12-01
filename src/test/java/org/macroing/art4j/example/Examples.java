@@ -25,13 +25,13 @@ import java.net.URL;
 import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.data.DataFactory;
-import org.macroing.art4j.geometry.Point2I;
-import org.macroing.art4j.geometry.shape.Circle2I;
-import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.image.Image;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
+import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.shape.circle.Circle2I;
+import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
 public final class Examples {
 	private static final Image IMAGE = doCreateImage();
@@ -82,7 +82,7 @@ public final class Examples {
 	private static Image doCreateImage() {
 		try {
 			return new Image(new URL("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"), DataFactory.forColor4D());
-		} catch(final MalformedURLException | UncheckedIOException e) {
+		} catch(@SuppressWarnings("unused") final MalformedURLException | UncheckedIOException e) {
 			return new Image(1, 1);
 		}
 	}

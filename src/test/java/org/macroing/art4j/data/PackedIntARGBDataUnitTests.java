@@ -39,11 +39,11 @@ import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
 import org.macroing.art4j.data.PackedIntARGBData.PixelChange;
 import org.macroing.art4j.data.PackedIntARGBData.StateChange;
-import org.macroing.art4j.geometry.Point2I;
-import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.PixelTransformer;
+import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
 @SuppressWarnings("static-method")
 public final class PackedIntARGBDataUnitTests {

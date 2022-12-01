@@ -26,8 +26,8 @@ import org.junit.jupiter.api.Test;
 import org.macroing.art4j.color.Color3F;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.ColorSpaceF;
-import org.macroing.art4j.geometry.Point2I;
-import org.macroing.art4j.geometry.shape.Rectangle2I;
+import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
 @SuppressWarnings("static-method")
 public final class Color4FPixelOperatorUnitTests {

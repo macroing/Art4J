@@ -32,10 +32,10 @@ import org.macroing.art4j.color.Color3I;
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.color.Color4F;
 import org.macroing.art4j.color.Color4I;
-import org.macroing.art4j.geometry.Shape2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.PixelTransformer;
+import org.macroing.geo4j.shape.Shape2I;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
 
@@ -1118,7 +1118,7 @@ public abstract class Data {
 			}
 			
 			return ImageIO.write(toBufferedImage(doIsJPEG(formatName)), formatName, file);
-		} catch(final Exception e) {
+		} catch(@SuppressWarnings("unused") final Exception e) {
 			return false;
 		}
 	}

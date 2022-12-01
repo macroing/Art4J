@@ -20,8 +20,6 @@ Supported Features
  - `org.macroing.art4j.curve` provides the Curve API.
  - `org.macroing.art4j.data` provides the Data API.
  - `org.macroing.art4j.filter` provides the Filter API.
- - `org.macroing.art4j.geometry` provides the Geometry API.
- - `org.macroing.art4j.geometry.shape` provides the Geometry Shape API.
  - `org.macroing.art4j.image` provides the Image API.
  - `org.macroing.art4j.kernel` provides the Kernel API.
  - `org.macroing.art4j.noise` provides the Noise API.
@@ -39,23 +37,22 @@ Library
 -------
 The following table describes the different APIs and their current status in the library.
 
-| Name               | Javadoc | Unit Test | Package                           |
-| ------------------ | ------- | --------- | --------------------------------- |
-| Color API          | 100.0%  | 100.0%    | org.macroing.art4j.color          |
-| Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve          |
-| Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data           |
-| Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter         |
-| Geometry API       | 100.0%  | 100.0%    | org.macroing.art4j.geometry       |
-| Geometry Shape API | 100.0%  | 100.0%    | org.macroing.art4j.geometry.shape |
-| Image API          | 100.0%  | 100.0%    | org.macroing.art4j.image          |
-| Kernel API         | 100.0%  | 100.0%    | org.macroing.art4j.kernel         |
-| Noise API          | 100.0%  | 100.0%    | org.macroing.art4j.noise          |
-| Pixel API          | 100.0%  | 100.0%    | org.macroing.art4j.pixel          |
+| Name               | Javadoc | Unit Test | Package                   |
+| ------------------ | ------- | --------- | ------------------------- |
+| Color API          | 100.0%  | 100.0%    | org.macroing.art4j.color  |
+| Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve  |
+| Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data   |
+| Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter |
+| Image API          | 100.0%  | 100.0%    | org.macroing.art4j.image  |
+| Kernel API         | 100.0%  | 100.0%    | org.macroing.art4j.kernel |
+| Noise API          | 100.0%  | 100.0%    | org.macroing.art4j.noise  |
+| Pixel API          | 100.0%  | 100.0%    | org.macroing.art4j.pixel  |
 
 Dependencies
 ------------
  - [Java 8 - 17](http://www.java.com)
  - [Macroing / Java](https://github.com/macroing/Java)
+ - [Macroing / Geo4J](https://github.com/macroing/Geo4J)
 
 Note
 ----

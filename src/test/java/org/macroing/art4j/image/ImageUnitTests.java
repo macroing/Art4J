@@ -50,8 +50,6 @@ import org.macroing.art4j.filter.BoxFilter2D;
 import org.macroing.art4j.filter.BoxFilter2F;
 import org.macroing.art4j.filter.Filter2D;
 import org.macroing.art4j.filter.Filter2F;
-import org.macroing.art4j.geometry.Point2I;
-import org.macroing.art4j.geometry.shape.Rectangle2I;
 import org.macroing.art4j.kernel.ConvolutionKernelND;
 import org.macroing.art4j.kernel.ConvolutionKernelNF;
 import org.macroing.art4j.pixel.Color4DBiPixelOperator;
@@ -60,6 +58,8 @@ import org.macroing.art4j.pixel.Color4FBiPixelOperator;
 import org.macroing.art4j.pixel.Color4FPixelOperator;
 import org.macroing.art4j.pixel.PackedIntARGBPixelOperator;
 import org.macroing.art4j.pixel.PixelTransformer;
+import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
 @SuppressWarnings("static-method")
 public final class ImageUnitTests {
