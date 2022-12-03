@@ -10,6 +10,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="lib/org.macroing.java.jar"/>
 	<classpathentry kind="lib" path="lib/org.macroing.geo4j.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX17"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
