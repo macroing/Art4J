@@ -3599,6 +3599,15 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testGetData() {
+		final Image image = new Image(1, 1);
+		
+		final Data data = image.getData();
+		
+		assertNotNull(data);
+	}
+	
+	@Test
 	public void testGetResolution() {
 		final Image image = new Image(2, 3);
 		

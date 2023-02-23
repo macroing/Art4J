@@ -1399,6 +1399,15 @@ public final class Image {
 	}
 	
 	/**
+	 * Returns the {@link Data} instance associated with this {@code Image} instance.
+	 * 
+	 * @return the {@code Data} instance associated with this {@code Image} instance
+	 */
+	public Data getData() {
+		return this.data;
+	}
+	
+	/**
 	 * Applies {@code convolutionKernel} to all pixels in this {@code Image} instance.
 	 * <p>
 	 * Returns this {@code Image} instance.

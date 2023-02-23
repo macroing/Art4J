@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -648,6 +649,21 @@ public final class Color4FDataUnitTests {
 		assertNotEquals(f, a);
 		assertNotEquals(a, g);
 		assertNotEquals(g, a);
+	}
+	
+	@Test
+	public void testGetChangeHistory() {
+		final Color4FData color4FData = new Color4FData(1, 1);
+		
+		final Optional<ChangeHistory> optionalChangeHistoryA = color4FData.getChangeHistory();
+		
+		color4FData.setChangeHistoryEnabled(true);
+		
+		final Optional<ChangeHistory> optionalChangeHistoryB = color4FData.getChangeHistory();
+		
+		assertFalse(optionalChangeHistoryA.isPresent());
+		
+		assertTrue(optionalChangeHistoryB.isPresent());
 	}
 	
 	@Test

@@ -21,13 +21,17 @@ package org.macroing.art4j.data;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import org.macroing.art4j.color.Color4D;
 import org.macroing.art4j.data.Color4DData.PixelChange;
+import org.macroing.art4j.mock.ChangeHistoryObserverMock;
 
 @SuppressWarnings("static-method")
 public final class ChangeHistoryUnitTests {
@@ -48,6 +52,28 @@ public final class ChangeHistoryUnitTests {
 		assertTrue(changeHistory.add(new PixelChange(Color4D.BLACK, Color4D.WHITE, 0)));
 		
 		assertThrows(NullPointerException.class, () -> changeHistory.add(null));
+	}
+	
+	@Test
+	public void testAddChangeHistoryObserverGetChangeHistoryObserversAndRemoveChangeHistoryObserver() {
+		final ChangeHistoryObserver changeHistoryObserver = new ChangeHistoryObserverMock();
+		
+		final ChangeHistory changeHistory = new ChangeHistory();
+		
+		assertTrue(changeHistory.addChangeHistoryObserver(changeHistoryObserver));
+		
+		final List<ChangeHistoryObserver> changeHistoryObservers = changeHistory.getChangeHistoryObservers();
+		
+		assertNotNull(changeHistoryObservers);
+		
+		assertTrue(changeHistoryObservers.size() == 1);
+		
+		assertEquals(changeHistoryObserver, changeHistoryObservers.get(0));
+		
+		assertTrue(changeHistory.removeChangeHistoryObserver(changeHistoryObserver));
+		
+		assertThrows(NullPointerException.class, () -> changeHistory.addChangeHistoryObserver(null));
+		assertThrows(NullPointerException.class, () -> changeHistory.removeChangeHistoryObserver(null));
 	}
 	
 	@Test
@@ -199,7 +225,9 @@ public final class ChangeHistoryUnitTests {
 	
 	@Test
 	public void testRedoAndUndo() {
-		final ChangeHistory changeHistory = new ChangeHistory();
+		final
+		ChangeHistory changeHistory = new ChangeHistory();
+		changeHistory.addChangeHistoryObserver(new ChangeHistoryObserverMock());
 		
 		final Color4DData color4DData = new Color4DData(1, 1);
 		

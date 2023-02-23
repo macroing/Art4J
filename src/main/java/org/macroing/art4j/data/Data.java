@@ -22,6 +22,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
@@ -926,6 +927,15 @@ public abstract class Data {
 	 * @return a {@code DataFactory} instance that is associated with this {@code Data} instance
 	 */
 	public abstract DataFactory getDataFactory();
+	
+	/**
+	 * Returns the optional {@link ChangeHistory} instance associated with this {@code Data} instance.
+	 * 
+	 * @return the optional {@code ChangeHistory} instance associated with this {@code Data} instance
+	 */
+	public final Optional<ChangeHistory> getChangeHistory() {
+		return Optional.ofNullable(this.changeHistory);
+	}
 	
 	/**
 	 * Performs a change add operation.

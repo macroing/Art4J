@@ -1,3 +1,6 @@
 2023-02-23  Jörgen Lundgren  <joergen.lundgren@macroing.org>
 
-	* ADD:		Add the methods changeBegin() and changeEnd() to the Image class.
+	* ADD:		Add the methods changeBegin(), changeEnd() and getData() to the Image class.
+	* ADD:		Add the method getChangeHistory() to the Data class.
+	* ADD:		Add the ChangeHistoryObserver interface.
+	* CHANGE:	The class ChangeHistory is now part of the public API.
