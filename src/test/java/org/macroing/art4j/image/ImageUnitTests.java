@@ -77,6 +77,44 @@ public final class ImageUnitTests {
 	}
 	
 	@Test
+	public void testChangeBegin() {
+		final Image image = new Image(1, 1);
+		
+		assertFalse(image.changeBegin());
+		
+		image.setChangeHistoryEnabled(true);
+		
+		assertTrue(image.changeBegin());
+		
+		assertFalse(image.changeBegin());
+		
+		image.changeEnd();
+		
+		assertTrue(image.changeBegin());
+	}
+	
+	@Test
+	public void testChangeEnd() {
+		final Image image = new Image(1, 1);
+		
+		assertFalse(image.changeEnd());
+		
+		image.setChangeHistoryEnabled(true);
+		
+		assertFalse(image.changeEnd());
+		
+		image.changeBegin();
+		
+		assertTrue(image.changeEnd());
+		
+		assertFalse(image.changeEnd());
+		
+		image.changeBegin();
+		
+		assertTrue(image.changeEnd());
+	}
+	
+	@Test
 	public void testConstructor() {
 		final Image image = new Image();
 		

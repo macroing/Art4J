@@ -4053,6 +4053,32 @@ public final class Image {
 	}
 	
 	/**
+	 * Performs a change begin operation.
+	 * <p>
+	 * Returns {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise.
+	 * <p>
+	 * If {@code changeBegin()} has already been called and {@code changeEnd()} has not, {@code false} will be returned.
+	 * 
+	 * @return {@code true} if, and only if, the change history is enabled and begins, {@code false} otherwise
+	 */
+	public boolean changeBegin() {
+		return this.data.changeBegin();
+	}
+	
+	/**
+	 * Performs a change end operation.
+	 * <p>
+	 * Returns {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise.
+	 * <p>
+	 * If {@code changeBegin()} has not been called, {@code false} will be returned.
+	 * 
+	 * @return {@code true} if, and only if, the change history is enabled and ends, {@code false} otherwise
+	 */
+	public boolean changeEnd() {
+		return this.data.changeEnd();
+	}
+	
+	/**
 	 * Returns {@code true} if, and only if, the change history is enabled, {@code false} otherwise.
 	 * 
 	 * @return {@code true} if, and only if, the change history is enabled, {@code false} otherwise

@@ -1,0 +1,3 @@
+2023-02-23  Jörgen Lundgren  <joergen.lundgren@macroing.org>
+
+	* ADD:		Add the methods changeBegin() and changeEnd() to the Image class.
