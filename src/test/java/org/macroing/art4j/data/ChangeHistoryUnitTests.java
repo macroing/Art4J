@@ -111,7 +111,9 @@ public final class ChangeHistoryUnitTests {
 	
 	@Test
 	public void testEnd() {
-		final ChangeHistory changeHistory = new ChangeHistory();
+		final
+		ChangeHistory changeHistory = new ChangeHistory();
+		changeHistory.addChangeHistoryObserver(new ChangeHistoryObserverMock());
 		
 		assertFalse(changeHistory.end());
 		
@@ -224,12 +226,15 @@ public final class ChangeHistoryUnitTests {
 	}
 	
 	@Test
-	public void testRedoAndUndo() {
+	public void testRedoUndoCanRedoAndCanUndo() {
 		final
 		ChangeHistory changeHistory = new ChangeHistory();
 		changeHistory.addChangeHistoryObserver(new ChangeHistoryObserverMock());
 		
 		final Color4DData color4DData = new Color4DData(1, 1);
+		
+		assertFalse(changeHistory.canRedo());
+		assertFalse(changeHistory.canUndo());
 		
 		assertFalse(changeHistory.redo(color4DData));
 		assertFalse(changeHistory.undo(color4DData));
@@ -242,24 +247,31 @@ public final class ChangeHistoryUnitTests {
 		
 		color4DData.setColor4D(Color4D.BLACK, 0);
 		
+		assertFalse(changeHistory.canRedo());
 		assertFalse(changeHistory.redo(color4DData));
 		
 		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
 		
+		assertTrue(changeHistory.canUndo());
 		assertTrue(changeHistory.undo(color4DData));
 		
+		assertFalse(changeHistory.canUndo());
 		assertFalse(changeHistory.undo(color4DData));
 		
 		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));
 		
+		assertTrue(changeHistory.canRedo());
 		assertTrue(changeHistory.redo(color4DData));
 		
+		assertFalse(changeHistory.canRedo());
 		assertFalse(changeHistory.redo(color4DData));
 		
 		assertEquals(Color4D.BLACK, color4DData.getColor4D(0));
 		
+		assertTrue(changeHistory.canUndo());
 		assertTrue(changeHistory.undo(color4DData));
 		
+		assertFalse(changeHistory.canUndo());
 		assertFalse(changeHistory.undo(color4DData));
 		
 		assertEquals(Color4D.WHITE, color4DData.getColor4D(0));

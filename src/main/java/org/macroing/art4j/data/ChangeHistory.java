@@ -138,6 +138,24 @@ public final class ChangeHistory {
 	}
 	
 	/**
+	 * Returns {@code true} if, and only if, a redo operation can be performed, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, a redo operation can be performed, {@code false} otherwise
+	 */
+	public boolean canRedo() {
+		return !this.changesToRedo.isEmpty();
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, an undo operation can be performed, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, an undo operation can be performed, {@code false} otherwise
+	 */
+	public boolean canUndo() {
+		return !this.changesToUndo.isEmpty();
+	}
+	
+	/**
 	 * Performs an end operation.
 	 * <p>
 	 * Returns {@code true} if, and only if, a change has already begun, {@code false} otherwise.
@@ -154,6 +172,10 @@ public final class ChangeHistory {
 				this.changesToRedo.clear();
 				this.changesToUndo.add(change);
 				this.changes.clear();
+				
+				for(final ChangeHistoryObserver changeHistoryObserver : this.changeHistoryObservers) {
+					changeHistoryObserver.onDo(this);
+				}
 			}
 			
 			return true;

@@ -26,6 +26,13 @@ package org.macroing.art4j.data;
  */
 public interface ChangeHistoryObserver {
 	/**
+	 * Called by {@code changeHistory} when a do operation is performed.
+	 * 
+	 * @param changeHistory a {@link ChangeHistory} instance
+	 */
+	void onDo(final ChangeHistory changeHistory);
+	
+	/**
 	 * Called by {@code changeHistory} when a redo operation is performed on {@code data}.
 	 * 
 	 * @param changeHistory a {@link ChangeHistory} instance

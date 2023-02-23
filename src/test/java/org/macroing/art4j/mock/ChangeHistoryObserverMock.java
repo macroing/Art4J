@@ -30,6 +30,11 @@ public final class ChangeHistoryObserverMock implements ChangeHistoryObserver {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Override
+	public void onDo(final ChangeHistory changeHistory) {
+//		Do nothing.
+	}
+	
+	@Override
 	public void onRedo(final ChangeHistory changeHistory, final Data data) {
 //		Do nothing.
 	}
