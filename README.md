@@ -54,7 +54,31 @@ public class BlendOverExample {
         image.fillImageD(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fillD(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE, image.getBounds())));
         
         //Save the Image:
-        image.save("./generated/example/BlendOver.png");
+        image.save("./BlendOver.png");
+    }
+}
+```
+
+#### Convolution Example
+The following example loads an image from a URL, performs a convolution operation on it and saves the result to your hard drive.
+```java
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.macroing.art4j.data.DataFactory;
+import org.macroing.art4j.image.Image;
+import org.macroing.art4j.kernel.ConvolutionKernelND;
+
+public class ConvolutionExample {
+    public static void main(String[] args) throws MalformedURLException {
+        //Load the Image by URL:
+        Image image = new Image(new URL("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"), DataFactory.forColor4D());
+        
+        //Perform a convolution operation to the Image:
+        image.convolve(ConvolutionKernelND.GAUSSIAN_BLUR_5);
+        
+        //Save the Image:
+        image.save("./Convolution.png");
     }
 }
 ```
