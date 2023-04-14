@@ -27,7 +27,37 @@ Supported Features
 
 Examples
 --------
-Coming soon...
+Below follows a few examples that demonstrates various features in Art4J.
+
+#### Blend Over Example
+The following example loads one image from a URL and generates one, blends them together and saves the result to your hard drive.
+```java
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.macroing.art4j.color.Color3D;
+import org.macroing.art4j.color.Color4D;
+import org.macroing.art4j.data.DataFactory;
+import org.macroing.art4j.image.Image;
+import org.macroing.art4j.pixel.Color4DBiPixelOperator;
+import org.macroing.art4j.pixel.Color4DPixelOperator;
+
+public class BlendOverExample {
+    public static void main(String[] args) throws MalformedURLException {
+        //Load the Image by URL:
+        Image image = new Image(new URL("https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png"), DataFactory.forColor4D());
+        
+        //Fill the Image with an alpha component of 0.5D:
+        image.fillD((color, x, y) -> new Color4D(color.r, color.g, color.b, 0.5D));
+        
+        //Fill the Image by blending it together with another Image that contains a gradient:
+        image.fillImageD(Color4DBiPixelOperator.blendOver(), new Image(image.getResolutionX(), image.getResolutionY()).fillD(Color4DPixelOperator.gradient(Color3D.BLACK, Color3D.RED, Color3D.GREEN, Color3D.BLUE, image.getBounds())));
+        
+        //Save the Image:
+        image.save("./generated/example/BlendOver.png");
+    }
+}
+```
 
 Documentation
 -------------
