@@ -46,12 +46,5 @@
  * <li>{@link org.macroing.art4j.filter.TriangleFilter2D TriangleFilter2D} is an implementation of {@code Filter2D} that represents a triangle filter.</li>
  * <li>{@link org.macroing.art4j.filter.TriangleFilter2F TriangleFilter2F} is an implementation of {@code Filter2F} that represents a triangle filter.</li>
  * </ul>
- * <p>
- * <strong>Dependencies</strong>
- * <p>
- * The following list shows all dependencies for this API.
- * <ul>
- * <li>The Utility API</li>
- * </ul>
  */
 package org.macroing.art4j.filter;

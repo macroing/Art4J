@@ -1,3 +1,7 @@
+2023-04-15  Jörgen Lundgren  <joergen.lundgren@macroing.org>
+
+	* CHANGE:	Fix a Javadoc bug in the file package-info.java in the Filter API.
+
 2023-02-23  Jörgen Lundgren  <joergen.lundgren@macroing.org>
 
 	* ADD:		Add the methods changeBegin(), changeEnd() and getData() to the Image class.
