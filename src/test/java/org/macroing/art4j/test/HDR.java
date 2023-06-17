@@ -27,39 +27,8 @@ import org.macroing.art4j.color.Color3D;
 import org.macroing.art4j.data.DataFactory;
 import org.macroing.art4j.image.Image;
 import org.macroing.art4j.pixel.Color4DPixelOperator;
-import org.macroing.java.lang.Doubles;
 
 public final class HDR {
-	private static final double[] EXPONENT;
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	static {
-		EXPONENT = new double[256];
-		
-		EXPONENT[0] = 0.0D;
-		
-		for(int i = 1; i < 256; i++) {
-			double d = 1.0D;
-			
-			int e = i - (128 + 8);
-			
-			if(e > 0) {
-				for(int j = 0; j < e; j++) {
-					d *= 2.0D;
-				}
-			} else {
-				for(int j = 0; j < -e; j++) {
-					d *= 0.5D;
-				}
-			}
-			
-			EXPONENT[i] = d;
-		}
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	private HDR() {
 		
 	}
@@ -68,8 +37,8 @@ public final class HDR {
 	
 	public static void main(final String[] args) {
 		final Color3D a = new Color3D(1.0D, 1.0D, 1.0D);
-		final Color3D b = doFromRGBE(doToRGBE(a));
-		final Color3D c = doFromRGBE(doToRGBE(b));
+		final Color3D b = Color3D.fromIntRGBE(a.toIntRGBE());
+		final Color3D c = Color3D.fromIntRGBE(b.toIntRGBE());
 		
 		System.out.println(a);
 		System.out.println(b);
@@ -83,16 +52,6 @@ public final class HDR {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private static Color3D doFromRGBE(final int colorRGBE) {
-		final double d = EXPONENT[colorRGBE & 0xFF];
-		
-		final double r = d * ((colorRGBE >>> 24) + 0.5F);
-		final double g = d * (((colorRGBE >> 16) & 0xFF) + 0.5F);
-		final double b = d * (((colorRGBE >>  8) & 0xFF) + 0.5F);
-		
-		return new Color3D(r, g, b);
-	}
 	
 	private static Image doLoadHDR(final File file) {
 		try(final FileInputStream fileInputStream = new FileInputStream(file)) {
@@ -158,7 +117,7 @@ public final class HDR {
 				final Image image = new Image(resolutionX, resolutionY, DataFactory.forColor4D());
 				
 				for(int i = 0; i < pixels.length; i++) {
-					image.setColor3D(doFromRGBE(pixels[i]), i);
+					image.setColor3D(Color3D.fromIntRGBE(pixels[i]), i);
 				}
 				
 				return image;
@@ -183,7 +142,7 @@ public final class HDR {
 					final Image image = new Image(resolutionX, resolutionY, DataFactory.forColor4D());
 					
 					for(int i = 0; i < pixels.length; i++) {
-						image.setColor3D(doFromRGBE(pixels[i]), i);
+						image.setColor3D(Color3D.fromIntRGBE(pixels[i]), i);
 					}
 					
 					return image;
@@ -253,53 +212,13 @@ public final class HDR {
 			final Image image = new Image(resolutionX, resolutionY, DataFactory.forColor4D());
 			
 			for(int i = 0; i < pixels.length; i++) {
-				image.setColor3D(doFromRGBE(pixels[i]), i);
+				image.setColor3D(Color3D.fromIntRGBE(pixels[i]), i);
 			}
 			
 			return image;
 		} catch(final IOException e) {
 			throw new UncheckedIOException(e);
 		}
-	}
-	
-	private static int doToRGBE(final Color3D color) {
-		final double r = color.r;
-		final double g = color.g;
-		final double b = color.b;
-		
-		double v = Doubles.max(r, g, b);
-		
-		if(v < 1.0e-32D) {
-			return 0;
-		}
-		
-		double m = v;
-		
-		int e = 0;
-		
-		if(v > 1.0D) {
-			while(m > 1.0D) {
-				m *= 0.5D;
-				
-				e++;
-			}
-		} else if(v <= 0.5D) {
-			while(m <= 0.5D) {
-				m *= 2.0D;
-				
-				e--;
-			}
-		}
-		
-		v = (m * 255.0D) / v;
-		
-		int c = (e + 128);
-		
-		c |= ((int)(r * v) << 24);
-		c |= ((int)(g * v) << 16);
-		c |= ((int)(b * v) <<  8);
-		
-		return c;
 	}
 	
 	private static void doReadFlatRGBE(final FileInputStream fileInputStream, final int rasterPos, final int numPixels, final int[] pixels) throws IOException {
