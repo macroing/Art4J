@@ -97,7 +97,7 @@ The following table describes the different APIs and their current status in the
 | Curve API          | 100.0%  | 100.0%    | org.macroing.art4j.curve  |
 | Data API           | 100.0%  | 100.0%    | org.macroing.art4j.data   |
 | Filter API         | 100.0%  | 100.0%    | org.macroing.art4j.filter |
-| Image API          | 100.0%  | 100.0%    | org.macroing.art4j.image  |
+| Image API          | 100.0%  |  91.1%    | org.macroing.art4j.image  |
 | Kernel API         | 100.0%  | 100.0%    | org.macroing.art4j.kernel |
 | Noise API          | 100.0%  | 100.0%    | org.macroing.art4j.noise  |
 | Pixel API          | 100.0%  | 100.0%    | org.macroing.art4j.pixel  |
