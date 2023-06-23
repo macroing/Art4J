@@ -1321,8 +1321,8 @@ public final class Color3D {
 	 * Color3D a = new Color3D(0.0D, 1.0D, 2.0D);
 	 * Color3D b = Color3D.maxTo1(a);
 	 * 
-	 * //a.getComponent1() = 0.0D, a.getComponent2() = 1.0D, a.getComponent3() = 2.0D
-	 * //b.getComponent1() = 0.0D, b.getComponent2() = 0.5D, b.getComponent3() = 1.0D
+	 * //a.r = 0.0D, a.g = 1.0D, a.b = 2.0D
+	 * //b.r = 0.0D, b.g = 0.5D, b.b = 1.0D
 	 * }
 	 * </pre>
 	 * 
@@ -1379,8 +1379,8 @@ public final class Color3D {
 	 * Color3D a = new Color3D(-2.0D, 0.0D, 1.0D);
 	 * Color3D b = Color3D.minTo0(a);
 	 * 
-	 * //a.getComponent1() = -2.0D, a.getComponent2() = 0.0D, a.getComponent3() = 1.0D
-	 * //b.getComponent1() =  0.0D, b.getComponent2() = 2.0D, b.getComponent3() = 3.0D
+	 * //a.r = -2.0D, a.g = 0.0D, a.b = 1.0D
+	 * //b.r =  0.0D, b.g = 2.0D, b.b = 3.0D
 	 * }
 	 * </pre>
 	 * 

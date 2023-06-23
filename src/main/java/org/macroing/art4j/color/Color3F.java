@@ -1321,8 +1321,8 @@ public final class Color3F {
 	 * Color3F a = new Color3F(0.0F, 1.0F, 2.0F);
 	 * Color3F b = Color3F.maxTo1(a);
 	 * 
-	 * //a.getComponent1() = 0.0F, a.getComponent2() = 1.0F, a.getComponent3() = 2.0F
-	 * //b.getComponent1() = 0.0F, b.getComponent2() = 0.5F, b.getComponent3() = 1.0F
+	 * //a.r = 0.0F, a.g = 1.0F, a.b = 2.0F
+	 * //b.r = 0.0F, b.g = 0.5F, b.b = 1.0F
 	 * }
 	 * </pre>
 	 * 
@@ -1379,8 +1379,8 @@ public final class Color3F {
 	 * Color3F a = new Color3F(-2.0F, 0.0F, 1.0F);
 	 * Color3F b = Color3F.minTo0(a);
 	 * 
-	 * //a.getComponent1() = -2.0F, a.getComponent2() = 0.0F, a.getComponent3() = 1.0F
-	 * //b.getComponent1() =  0.0F, b.getComponent2() = 2.0F, b.getComponent3() = 3.0F
+	 * //a.r = -2.0F, a.g = 0.0F, a.b = 1.0F
+	 * //b.r =  0.0F, b.g = 2.0F, b.b = 3.0F
 	 * }
 	 * </pre>
 	 * 
