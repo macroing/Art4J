@@ -1,3 +1,9 @@
+2024-03-24  Jörgen Lundgren  <joergen.lundgren@macroing.org>
+
+	* REMOVE:	Remove the method createHDR(File) from the Image class.
+	* REMOVE:	Remove the methods fromIntRGBE(int), toIntRGBE() and toIntRGBE(double, double, double) from the Color3D class.
+	* REMOVE:	Remove the methods fromIntRGBE(int), toIntRGBE() and toIntRGBE(float, float, float) from the Color3F class.
+
 2023-12-31  Jörgen Lundgren  <joergen.lundgren@macroing.org>
 
 	* CHANGE:	Update the copyright notice.

@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -180,7 +179,6 @@ public final class Color3F {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static final Map<Color3F, Color3F> CACHE;
-	private static final float[] EXPONENTS;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -214,28 +212,6 @@ public final class Color3F {
 		RED = getCached(new Color3F(1.0F, 0.0F, 0.0F));
 		WHITE = getCached(new Color3F(1.0F, 1.0F, 1.0F));
 		YELLOW = getCached(new Color3F(1.0F, 1.0F, 0.0F));
-		
-		EXPONENTS = new float[256];
-		
-		EXPONENTS[0] = 0.0F;
-		
-		for(int i = 1; i < 256; i++) {
-			float f = 1.0F;
-			
-			int e = i - (128 + 8);
-			
-			if(e > 0) {
-				for(int j = 0; j < e; j++) {
-					f *= 2.0F;
-				}
-			} else {
-				for(int j = 0; j < -e; j++) {
-					f *= 0.5F;
-				}
-			}
-			
-			EXPONENTS[i] = f;
-		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -744,16 +720,6 @@ public final class Color3F {
 	}
 	
 	/**
-	 * Returns the red, green and blue components as an {@code int} in the format RGBE.
-	 * 
-	 * @return the red, green and blue components as an {@code int} in the format RGBE
-	 */
-//	TODO: Add Unit Tests!
-	public int toIntRGBE() {
-		return toIntRGBE(this.r, this.g, this.b);
-	}
-	
-	/**
 	 * Writes this {@code Color3F} instance to {@code dataOutput}.
 	 * <p>
 	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
@@ -1133,23 +1099,6 @@ public final class Color3F {
 		final int r = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_R) & 0xFF;
 		final int g = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_G) & 0xFF;
 		final int b = (colorRGB >> Utilities.COLOR_R_G_B_SHIFT_B) & 0xFF;
-		
-		return new Color3F(r, g, b);
-	}
-	
-	/**
-	 * Returns a {@code Color3F} instance from the {@code int} {@code colorRGBE}.
-	 * 
-	 * @param colorRGBE an {@code int} that contains the red, green and blue components as well as the exponent
-	 * @return a {@code Color3F} instance from the {@code int} {@code colorRGBE}
-	 */
-//	TODO: Add Unit Tests!
-	public static Color3F fromIntRGBE(final int colorRGBE) {
-		final float d = EXPONENTS[colorRGBE & 0xFF];
-		
-		final float r = d * ((colorRGBE >>> 24) + 0.5F);
-		final float g = d * (((colorRGBE >> 16) & 0xFF) + 0.5F);
-		final float b = d * (((colorRGBE >>  8) & 0xFF) + 0.5F);
 		
 		return new Color3F(r, g, b);
 	}
@@ -2656,51 +2605,6 @@ public final class Color3F {
 		final int colorB = ((toIntB(b) & 0xFF) << Utilities.COLOR_R_G_B_SHIFT_B);
 		
 		return colorR | colorG | colorB;
-	}
-	
-	/**
-	 * Returns the red, green and blue components as an {@code int} in the format RGBE.
-	 * 
-	 * @param r the value of the red component
-	 * @param g the value of the green component
-	 * @param b the value of the blue component
-	 * @return the red, green and blue components as an {@code int} in the format RGBE
-	 */
-//	TODO: Add Unit Tests!
-	public static int toIntRGBE(final float r, final float g, final float b) {
-		float v = Floats.max(r, g, b);
-		
-		if(v < 1.0e-32F) {
-			return 0;
-		}
-		
-		float m = v;
-		
-		int e = 0;
-		
-		if(v > 1.0F) {
-			while(m > 1.0F) {
-				m *= 0.5F;
-				
-				e++;
-			}
-		} else if(v <= 0.5F) {
-			while(m <= 0.5F) {
-				m *= 2.0F;
-				
-				e--;
-			}
-		}
-		
-		v = m * 255.0F / v;
-		
-		int c = e + 128;
-		
-		c |= ((int)(r * v) << 24);
-		c |= ((int)(g * v) << 16);
-		c |= ((int)(b * v) <<  8);
-		
-		return c;
 	}
 	
 	/**
